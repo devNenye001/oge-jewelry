@@ -1,2 +1,8 @@
-# Large media files (exceed Shopify theme asset limit of 20MB)
+# Local non-theme files
+preview/
+scratch/
+*.html
+*.zip
+*.py
+*.md
 assets/*.mp4
