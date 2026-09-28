@@ -1017,11 +1017,15 @@ body:not(.template-index) .site-header .site-logo__image--black {
   flex-direction: column;
   position: relative;
   background-color: transparent;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 .product-card__media {
   position: relative;
   aspect-ratio: 1 / 1.18;
+  max-height: 330px;
   background-color: #F6F6F6;
   overflow: hidden;
   margin-bottom: 10px;
@@ -7352,6 +7356,7 @@ body.template-customers-reset-password {
 .horizontal-scroll-track .product-card {
   flex: 0 0 calc(25% - 15px);
   min-width: 240px;
+  max-width: 280px;
   margin-bottom: 0;
 }
 

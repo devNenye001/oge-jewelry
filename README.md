@@ -141,5 +141,5 @@ To adhere to Shopify's 50 MB theme limit and ensure maximum streaming performanc
 ## 📄 License & Credits
 
 - **Designed & Developed for**: OGÉ Jewelry
-- **Author**: Antigravity
+- **Author**: Ndubuisi Chinenye
 - **Version**: 1.0.0

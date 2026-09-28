@@ -62,7 +62,7 @@
 
   <!-- Search Products Catalog Grid (4 Columns) -->
   <div class="search-page-products-wrap search-page-container">
-    {% paginate search.results by section.settings.products_per_page | default: 24 %}
+    {% paginate search.results by 24 %}
       {% if search.performed and search.results.size > 0 %}
         <div class="collection-products-grid grid--4-col" id="search-products-grid">
           {% for item in search.results %}

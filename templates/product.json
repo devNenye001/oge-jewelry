@@ -16,6 +16,7 @@
     }
   },
   "order": [
-    "main"
+    "main",
+    "recommendations"
   ]
 }

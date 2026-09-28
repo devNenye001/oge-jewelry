@@ -70,7 +70,7 @@
 
 <!-- Product Catalog -->
 <main class="collection-catalog-wrap">
-  {% paginate collection.products by section.settings.products_per_page | default: 16 %}
+  {% paginate collection.products by 16 %}
     <div class="collection-products-grid grid--4-col" id="collection-products-grid">
       {% if collection.products.size > 0 %}
         {% for product in collection.products %}

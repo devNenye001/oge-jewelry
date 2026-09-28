@@ -32,7 +32,8 @@
     <div class="horizontal-scroll-container" data-horizontal-scroll>
       <div class="journal-grid horizontal-scroll-track" data-scroll-track data-journal-grid>
       {% if journal_blog != blank and journal_blog.articles.size > 0 %}
-        {% for article in journal_blog.articles limit: section.settings.post_limit | default: 3 %}
+        {% assign post_limit = section.settings.post_limit | default: 3 %}
+        {% for article in journal_blog.articles limit: post_limit %}
           {% render 'article-card', article: article, show_date: true %}
         {% endfor %}
       {% else %}

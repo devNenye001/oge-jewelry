@@ -4,17 +4,22 @@
       <h2 class="section-header__title">{{ section.settings.heading | default: 'NEW ARRIVALS' }}</h2>
       {% if section.settings.show_navigation %}
         <div class="carousel-nav-btns">
-          <button type="button" class="carousel-nav-btn" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <button type="button" class="carousel-nav-btn" data-header-scroll-prev aria-label="Previous Products">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <button type="button" class="carousel-nav-btn" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <button type="button" class="carousel-nav-btn" data-header-scroll-next aria-label="Next Products">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
         </div>
       {% endif %}
     </div>
 
-    <div class="products-grid">
+    <div class="horizontal-scroll-container" data-horizontal-scroll>
+      <button type="button" class="scroll-edge-arrow scroll-edge-arrow--prev is-hidden" data-scroll-prev aria-label="Previous Products">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="horizontal-scroll-track" data-scroll-track>
       {% assign featured_collection = section.settings.collection %}
       {% if featured_collection == blank %}
         {% if section.settings.preset_type == 'new_arrivals' and collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
@@ -106,6 +111,11 @@
           %}
         {% endif %}
       {% endif %}
+      </div>
+
+      <button type="button" class="scroll-edge-arrow scroll-edge-arrow--next" data-scroll-next aria-label="Next Products">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
     </div>
   </div>
 </section>
