@@ -1,0 +1,90 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Login Section (Split Screen)
+  Left: Form / Right: Victorious Collection Image
+{% endcomment %}
+
+<div class="auth-page-wrapper">
+  <div class="auth-split-grid">
+    
+    <!-- Left Column: Login Form -->
+    <div class="auth-form-column">
+      <!-- Top Back Link -->
+      <a href="{{ routes.root_url | default: '/' }}" class="auth-back-link" aria-label="Go Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Back</span>
+      </a>
+
+      <!-- Form Inner Container -->
+      <div class="auth-form-inner">
+        <a href="{{ routes.root_url | default: '/' }}" class="auth-logo-center" aria-label="OGÉ Home">
+          <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name }}" class="auth-logo-img" width="90" height="28">
+        </a>
+
+        <p class="auth-subtitle">Log in to access your order history and account preferences.</p>
+
+        {% form 'customer_login', id: 'form-auth-login' %}
+          {{ form.errors | default_errors }}
+
+          <!-- Email Address Field -->
+          <div class="form-group-line">
+            <label for="login-email" class="form-label-line">Email address</label>
+            <div class="form-input-line-wrap">
+              <input type="email" name="customer[email]" id="login-email" class="form-input-line" placeholder="name@email.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group-line">
+            <label for="login-password" class="form-label-line">Password</label>
+            <div class="form-input-line-wrap">
+              <input type="password" name="customer[password]" id="login-password" class="form-input-line" placeholder="Enter password" required autocomplete="current-password">
+              <button type="button" class="password-eye-btn" data-toggle-password="login-password" aria-label="Show password" title="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                      <line x1="2" y1="2" x2="22" y2="22"></line>
+                    </svg>
+                  </button>
+            </div>
+          </div>
+
+          <!-- Forgot Password Link -->
+          <div class="auth-forgot-row">
+            <a href="{{ routes.account_recover_url | default: '/account/login#recover' }}" class="auth-forgot-link" id="btn-forgot-password">I've forgotten my password</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="auth-btn-primary" id="btn-login-submit">Login</button>
+
+          <!-- Footer Prompt -->
+          <p class="auth-footer-prompt">
+            Dont have an account? <a href="{{ routes.account_register_url | default: '/account/register' }}">Create an account here</a>
+          </p>
+        {% endform %}
+      </div>
+
+      <!-- Bottom Accessibility Icon -->
+      <div class="auth-bottom-bar">
+        <div class="auth-badge-icon" title="Accessibility & Privacy Verified" aria-label="Accessibility">
+          <span>◒</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Editorial Campaign Image (Victorious Collection) -->
+    <div class="auth-media-column">
+      <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="Victorious Collection — OGÉ Fine Jewelry" class="auth-media-img" loading="eager" width="1000" height="1200">
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "settings": []
+}
+{% endschema %}

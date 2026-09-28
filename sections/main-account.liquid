@@ -1,0 +1,223 @@
+<section class="account-hero-banner" aria-label="Account Overview Banner">
+  {% if section.settings.banner_image != blank %}
+    {{ section.settings.banner_image | image_url: width: 1920 | image_tag: class: 'account-hero-banner__img', loading: 'eager' }}
+  {% else %}
+    <img src="{{ 'account-overview-banner.jpg' | asset_url }}" alt="OGÉ Account Overview" class="account-hero-banner__img" loading="eager" width="1920" height="600">
+  {% endif %}
+  <div class="account-hero-banner__overlay">
+    <h1 class="account-hero-banner__title">{{ section.settings.title | default: 'ACCOUNT OVERVIEW' }}</h1>
+  </div>
+</section>
+
+<main id="MainContent" role="main">
+  <section class="account-dashboard-section">
+    <div class="account-dashboard-container">
+
+      <!-- Left Column: User Welcome & Navigation Sidebar -->
+      <aside class="account-sidebar" aria-label="Account Navigation">
+        <div class="account-sidebar__welcome">
+          <h2 class="account-sidebar__name">Welcome {{ customer.first_name | default: 'Ndubuisi' }}</h2>
+          <p class="account-sidebar__subtitle">Your account details, all in one place.</p>
+        </div>
+
+        <!-- Desktop Sidebar Navigation -->
+        <nav class="account-sidebar__nav account-sidebar__nav--desktop" aria-label="Account Menu Desktop">
+          <a href="{{ routes.account_url }}" class="account-sidebar__link is-active">
+            <span>Orders</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="/pages/wishlist" class="account-sidebar__link">
+            <span>Wishlist</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="{{ routes.account_addresses_url }}" class="account-sidebar__link">
+            <span>Profile</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="{{ routes.account_logout_url }}" class="account-sidebar__link account-sidebar__link--signout">
+            <span>Sign out</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Right Column: Account Overview Cards + Mobile Nav + Recommendations -->
+      <div class="account-main">
+        
+        <!-- Top Row: Orders & Returns Overview Cards -->
+        <div class="account-overview-grid">
+          <!-- Card 1: Orders -->
+          <div class="account-card">
+            <h3 class="account-card__title">Orders</h3>
+            <div class="account-card__body">
+              {% if customer.orders_count > 0 %}
+                <p class="account-card__empty-text">You have {{ customer.orders_count }} past order(s).</p>
+                <a href="{{ routes.account_url }}#orders-list" class="account-card__action-link">View Orders</a>
+              {% else %}
+                <p class="account-card__empty-text">No orders have been made yet!</p>
+                <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-card__action-link">Start Shopping</a>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Card 2: Make a Return -->
+          <div class="account-card">
+            <h3 class="account-card__title">Make a Return</h3>
+            <div class="account-card__body">
+              <p class="account-card__empty-text">Want to send something back?</p>
+              <a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}" class="account-card__action-link">Make a return</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile-Only Sidebar Navigation (Appears directly after Overview Cards on Responsive View) -->
+        <nav class="account-sidebar__nav account-sidebar__nav--mobile" aria-label="Account Menu Mobile">
+          <a href="{{ routes.account_url }}" class="account-sidebar__link is-active">
+            <span>Orders</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="/pages/wishlist" class="account-sidebar__link">
+            <span>Wishlist</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="{{ routes.account_addresses_url }}" class="account-sidebar__link">
+            <span>Profile</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+          <a href="{{ routes.account_logout_url }}" class="account-sidebar__link account-sidebar__link--signout">
+            <span>Sign out</span>
+            {% render 'icon-chevron', direction: 'right' %}
+          </a>
+        </nav>
+
+        <!-- Bottom Section: YOU MAY ALSO LIKE -->
+        <section class="account-recommendations" aria-label="Recommended Products">
+          <div class="account-recommendations__header">
+            <h2 class="account-recommendations__title">{{ section.settings.recommendations_title | default: 'YOU MAY ALSO LIKE' }}</h2>
+            <div class="account-recommendations__controls">
+              <button type="button" class="account-nav-arrow-btn" aria-label="Previous recommended piece">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button type="button" class="account-nav-arrow-btn" aria-label="Next recommended piece">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="account-product-grid">
+            {% assign rec_col = collections['all'] %}
+            {% if rec_col != blank and rec_col.products.size > 0 %}
+              {% for rec_product in rec_col.products limit: 3 %}
+                <article class="account-product-card">
+                  <div class="account-product-card__image-wrap">
+                    <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="{{ rec_product.handle }}" aria-label="Add {{ rec_product.title | escape }} to WishList">
+                      {% render 'icon-heart' %}
+                    </button>
+                    {% if rec_product.featured_image %}
+                      <img src="{{ rec_product.featured_image | image_url: width: 400, height: 460 }}" alt="{{ rec_product.featured_image.alt | default: rec_product.title | escape }}" class="account-product-card__image" loading="lazy" width="400" height="460">
+                    {% else %}
+                      <img src="{{ 'product5.png' | asset_url }}" alt="{{ rec_product.title | escape }}" class="account-product-card__image" loading="lazy" width="400" height="460">
+                    {% endif %}
+                    <button type="button" class="account-product-card__add-btn" data-quick-add data-product-id="{{ rec_product.selected_or_first_available_variant.id }}" data-product-title="{{ rec_product.title | escape }}" data-product-price="{{ rec_product.price | money }}" data-product-img="{{ rec_product.featured_image | image_url: width: 400 }}" aria-label="Quick Add {{ rec_product.title | escape }} to Bag">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                  </div>
+                  <div class="account-product-card__info">
+                    <h3 class="account-product-card__title"><a href="{{ rec_product.url }}" class="account-product-card__title">{{ rec_product.title }}</a></h3>
+                    <p class="account-product-card__variant">{{ rec_product.metafields.custom.metal | default: rec_product.vendor | default: 'Gold' }}</p>
+                    <p class="account-product-card__price">
+                      <span>{{ rec_product.price | money }}</span>
+                      {% if rec_product.compare_at_price > rec_product.price %}
+                        <span class="account-product-card__price-compare">{{ rec_product.compare_at_price | money }}</span>
+                      {% endif %}
+                    </p>
+                  </div>
+                </article>
+              {% endfor %}
+            {% else %}
+              <!-- Product 1 Fallback -->
+              <article class="account-product-card">
+                <div class="account-product-card__image-wrap">
+                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet" aria-label="Add Valor V Onyx Bracelet to WishList">
+                    {% render 'icon-heart' %}
+                  </button>
+                  <img src="{{ 'product5.png' | asset_url }}" alt="Valor V Onyx Bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
+                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet" data-product-price="$92" data-product-img="{{ 'product5.png' | asset_url }}" aria-label="Quick Add Valor V Onyx Bracelet to Bag">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+                <div class="account-product-card__info">
+                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Valor V Onyx Bracelet</a></h3>
+                  <p class="account-product-card__variant">Gold</p>
+                  <p class="account-product-card__price">$92</p>
+                </div>
+              </article>
+
+              <!-- Product 2 Fallback -->
+              <article class="account-product-card">
+                <div class="account-product-card__image-wrap">
+                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="onyx-bracelet" aria-label="Add Onyx bracelet to WishList">
+                    {% render 'icon-heart' %}
+                  </button>
+                  <img src="{{ 'product6.png' | asset_url }}" alt="Onyx bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
+                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Onyx bracelet" data-product-price="$80" data-product-img="{{ 'product6.png' | asset_url }}" aria-label="Quick Add Onyx bracelet to Bag">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+                <div class="account-product-card__info">
+                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Onyx bracelet</a></h3>
+                  <p class="account-product-card__variant">Gold</p>
+                  <p class="account-product-card__price"><span>$80</span><span class="account-product-card__price-compare">$110</span></p>
+                </div>
+              </article>
+
+              <!-- Product 3 Fallback -->
+              <article class="account-product-card">
+                <div class="account-product-card__image-wrap">
+                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet-silver" aria-label="Add Valor V Onyx Bracelet Silver to WishList">
+                    {% render 'icon-heart' %}
+                  </button>
+                  <img src="{{ 'product8.png' | asset_url }}" alt="Valor V Onyx Bracelet Silver" class="account-product-card__image" loading="lazy" width="400" height="460">
+                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet Silver" data-product-price="$120" data-product-img="{{ 'product8.png' | asset_url }}" aria-label="Quick Add Valor V Onyx Bracelet Silver to Bag">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+                <div class="account-product-card__info">
+                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Valor V Onyx Bracelet</a></h3>
+                  <p class="account-product-card__variant">Silver</p>
+                  <p class="account-product-card__price">$120</p>
+                </div>
+              </article>
+            {% endif %}
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+{% schema %}
+{
+  "name": "Customer Account",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "ACCOUNT OVERVIEW"
+    },
+    {
+      "type": "text",
+      "id": "recommendations_title",
+      "label": "Recommendations Heading",
+      "default": "YOU MAY ALSO LIKE"
+    }
+  ]
+}
+{% endschema %}

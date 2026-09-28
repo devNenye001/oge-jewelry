@@ -1,0 +1,121 @@
+<section class="collection-list-section" style="padding: 80px 0;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      {% if section.settings.subheading != blank %}
+        <p class="heading-sub" style="margin-bottom: 8px;">{{ section.settings.subheading }}</p>
+      {% endif %}
+      <h2 class="heading-section">{{ section.settings.heading | default: 'EXPLORE COLLECTIONS' }}</h2>
+    </div>
+
+    <div class="collection-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% assign collection = block.settings.collection %}
+          <a href="{{ collection.url | default: block.settings.custom_url | default: '#' }}" class="collection-tile" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {% elsif collection.featured_image != blank %}
+              {{ collection.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: collection.title }}
+            {% else %}
+              <img src="{{ 'sidebar-necklaces.jpg' | asset_url }}" alt="Jewelry Collection" loading="lazy" width="600" height="800">
+            {% endif %}
+
+            <div class="collection-tile__overlay">
+              <h3 class="collection-tile__title">{{ block.settings.title | default: collection.title | default: 'Collection' }}</h3>
+              <span class="collection-tile__link-text">{{ 'general.view_all' | t }}</span>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <!-- Default 4 Tiles Matching Navigation -->
+        <a href="/collections/necklaces" class="collection-tile">
+          <img src="{{ 'sidebar-necklaces.jpg' | asset_url }}" alt="Necklaces" loading="lazy" width="600" height="800">
+          <div class="collection-tile__overlay">
+            <h3 class="collection-tile__title">Necklaces</h3>
+            <span class="collection-tile__link-text">Shop Collection</span>
+          </div>
+        </a>
+        <a href="/collections/rings" class="collection-tile">
+          <img src="{{ 'product-ring-1.jpg' | asset_url }}" alt="Rings" loading="lazy" width="600" height="800">
+          <div class="collection-tile__overlay">
+            <h3 class="collection-tile__title">Rings</h3>
+            <span class="collection-tile__link-text">Shop Collection</span>
+          </div>
+        </a>
+        <a href="/collections/earrings" class="collection-tile">
+          <img src="{{ 'product-earrings-1.jpg' | asset_url }}" alt="Earrings" loading="lazy" width="600" height="800">
+          <div class="collection-tile__overlay">
+            <h3 class="collection-tile__title">Earrings</h3>
+            <span class="collection-tile__link-text">Shop Collection</span>
+          </div>
+        </a>
+        <a href="/collections/bracelets" class="collection-tile">
+          <img src="{{ 'product-bracelet-1.jpg' | asset_url }}" alt="Bracelets" loading="lazy" width="600" height="800">
+          <div class="collection-tile__overlay">
+            <h3 class="collection-tile__title">Bracelets</h3>
+            <span class="collection-tile__link-text">Shop Collection</span>
+          </div>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "CURATED ESSENTIALS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "EXPLORE BY CATEGORY"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

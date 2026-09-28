@@ -1,0 +1,116 @@
+{
+  "sections": {
+    "hero_banner": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "THE NEW COLLECTION",
+        "title": "Timeless Elegance, Handcrafted in Solid Gold",
+        "text": "Discover fine jewelry pieces designed to empower and endure for generations.",
+        "btn_1_text": "Shop New In",
+        "btn_1_url": "/collections/new-in",
+        "btn_2_text": "Our Story",
+        "btn_2_url": "/pages/our-story"
+      }
+    },
+    "new_arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "NEW ARRIVALS",
+        "preset_type": "new_arrivals",
+        "products_to_show": 4,
+        "show_navigation": true
+      }
+    },
+    "category_bento": {
+      "type": "category-bento",
+      "settings": {
+        "heading": "SHOP BY CATEGORY",
+        "title_1": "NECKLACE",
+        "cta_1": "Shop now",
+        "title_2": "RINGS",
+        "cta_2": "Shop now",
+        "title_3": "EARRING",
+        "cta_3": "Shop now"
+      }
+    },
+    "signature_collections": {
+      "type": "collection-signature",
+      "settings": {
+        "heading": "FIND YOUR SIGNATURE",
+        "title_alignment": "ALIGNMENT COLLECTION",
+        "title_1": "REBIRTH COLLECTION",
+        "title_2": "BOUNDARIES COLLECTION",
+        "title_3": "VICTORIOUS COLLECTION",
+        "title_4": "SELF ROMANCE COLLECTION"
+      }
+    },
+    "pieces_worth_keeping": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "PIECES WORTH KEEPING",
+        "preset_type": "best_sellers",
+        "products_to_show": 4,
+        "show_navigation": true
+      }
+    },
+    "promotional_sales": {
+      "type": "promo-sales",
+      "settings": {
+        "eyebrow_1": "Exclusive Release",
+        "headline_1": "GOLD STATEMENT<br>EARRINGS",
+        "cta_1": "Shop now",
+        "eyebrow_2": "Artisan Masterpiece",
+        "headline_2": "HANDCRAFTED GOLD<br>NECKLACES",
+        "cta_2": "Shop now"
+      }
+    },
+    "brand_story": {
+      "type": "brand-story",
+      "settings": {
+        "eyebrow": "OUR PHILOSOPHY",
+        "title": "MORE THAN JEWELRY.<br>IT’S A FEELING.",
+        "btn_text": "Discover our story",
+        "btn_url": "/collections/all"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "WHAT OUR CLIENTS SAY"
+      }
+    },
+    "video_reels": {
+      "type": "video-reels",
+      "settings": {
+        "heading": "WATCH ON INSTA",
+        "btn_text": "Follow us on Instagram",
+        "btn_url": "https://instagram.com"
+      }
+    },
+    "journal_blog": {
+      "type": "journal-blog",
+      "settings": {
+        "heading": "OGÉ JOURNAL"
+      }
+    },
+    "faq_accordion": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "FREQUENTLY ASKED QUESTIONS"
+      }
+    }
+  },
+  "order": [
+    "hero_banner",
+    "new_arrivals",
+    "category_bento",
+    "signature_collections",
+    "pieces_worth_keeping",
+    "promotional_sales",
+    "brand_story",
+    "testimonials",
+    "video_reels",
+    "journal_blog",
+    "faq_accordion"
+  ]
+}

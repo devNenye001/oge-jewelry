@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-orders",
+      "settings": {
+        "back_text": "Back to Overview",
+        "empty_title": "No orders have been made yet!"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

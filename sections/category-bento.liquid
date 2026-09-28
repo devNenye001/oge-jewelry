@@ -1,0 +1,173 @@
+{% assign coll_1 = section.settings.collection_1 %}
+{% assign coll_2 = section.settings.collection_2 %}
+{% assign coll_3 = section.settings.collection_3 %}
+
+{% assign url_1 = coll_1.url | default: section.settings.link_1 | default: '/collections/necklaces' %}
+{% assign url_2 = coll_2.url | default: section.settings.link_2 | default: '/collections/rings' %}
+{% assign url_3 = coll_3.url | default: section.settings.link_3 | default: '/collections/earrings' %}
+
+{% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}
+{% assign img_2 = section.settings.image_2 | default: coll_2.image | default: coll_2.featured_image %}
+{% assign img_3 = section.settings.image_3 | default: coll_3.image | default: coll_3.featured_image %}
+
+<section class="category-bento-section" style="padding: 40px 0 80px; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="section-header">
+      <h2 class="section-header__title">{{ section.settings.heading | default: 'SHOP BY CATEGORY' }}</h2>
+    </div>
+
+    <div class="category-bento-grid">
+      <!-- Left Large Card -->
+      <a href="{{ url_1 }}" class="category-bento-left">
+        {% if img_1 != blank %}
+          {{ img_1 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_1 }}
+        {% else %}
+          <img src="{{ 'necklace-category.jpg' | asset_url }}" alt="Necklaces Fine Jewelry" loading="lazy" width="800" height="960">
+        {% endif %}
+        <div class="category-bento__overlay">
+          <h3 class="category-bento__title">{{ section.settings.title_1 | default: coll_1.title | default: 'NECKLACE' }}</h3>
+          <span class="category-bento__link">{{ section.settings.cta_1 | default: 'Shop now' }}</span>
+        </div>
+      </a>
+
+      <!-- Right Stacked Cards -->
+      <div class="category-bento-right">
+        <a href="{{ url_2 }}" class="category-bento-card">
+          {% if img_2 != blank %}
+            {{ img_2 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_2 }}
+          {% else %}
+            <img src="{{ 'rings-category.jpg' | asset_url }}" alt="Rings Fine Jewelry" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="category-bento__overlay">
+            <h3 class="category-bento__title">{{ section.settings.title_2 | default: coll_2.title | default: 'RINGS' }}</h3>
+            <span class="category-bento__link">{{ section.settings.cta_2 | default: 'Shop now' }}</span>
+          </div>
+        </a>
+
+        <a href="{{ url_3 }}" class="category-bento-card">
+          {% if img_3 != blank %}
+            {{ img_3 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_3 }}
+          {% else %}
+            <img src="{{ 'earring-category.jpg' | asset_url }}" alt="Earrings Fine Jewelry" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="category-bento__overlay">
+            <h3 class="category-bento__title">{{ section.settings.title_3 | default: coll_3.title | default: 'EARRING' }}</h3>
+            <span class="category-bento__link">{{ section.settings.cta_3 | default: 'Shop now' }}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by Category (Bento)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP BY CATEGORY"
+    },
+    {
+      "type": "header",
+      "content": "Card 1 (Left Large - Necklaces)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "NECKLACE"
+    },
+    {
+      "type": "text",
+      "id": "cta_1",
+      "label": "CTA 1",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link 1"
+    },
+    {
+      "type": "header",
+      "content": "Card 2 (Top Right - Rings)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "RINGS"
+    },
+    {
+      "type": "text",
+      "id": "cta_2",
+      "label": "CTA 2",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link 2"
+    },
+    {
+      "type": "header",
+      "content": "Card 3 (Bottom Right - Earrings)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "EARRING"
+    },
+    {
+      "type": "text",
+      "id": "cta_3",
+      "label": "CTA 3",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category (Bento)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-wishlist",
+      "settings": {
+        "back_text": "Back to Overview",
+        "empty_title": "Nothing has been saved to your Wishlist",
+        "empty_subtitle": "It looks like you haven't saved any items yet, why not check out our best sellers?",
+        "empty_btn_label": "Shop",
+        "rec_heading": "YOU MAY ALSO LIKE"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

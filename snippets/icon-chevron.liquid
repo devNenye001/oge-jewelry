@@ -1,0 +1,21 @@
+{% doc %}
+@param {string} [direction] - 'right', 'left', 'down', 'up'
+{% enddoc %}
+{% assign dir = direction | default: 'right' %}
+{% if dir == 'left' %}
+  <svg class="icon icon-chevron icon-chevron--left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+{% elsif dir == 'down' %}
+  <svg class="icon icon-chevron icon-chevron--down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="12" height="12">
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+{% elsif dir == 'up' %}
+  <svg class="icon icon-chevron icon-chevron--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="12" height="12">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+{% else %}
+  <svg class="icon icon-chevron icon-chevron--right" viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+    <polyline points="9 18 15 12 9 6"></polyline>
+  </svg>
+{% endif %}

@@ -1,0 +1,254 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Profile Section
+  Personal Information & Change Password with Edit Details Modal
+{% endcomment %}
+
+<section class="profile-page-section" data-section-id="{{ section.id }}" data-section-type="profile">
+  <div class="profile-container">
+
+    <!-- Top Navigation Link: Back to Overview -->
+    <a href="{{ routes.account_url | default: '/account' }}" class="profile-back-link" aria-label="Back to Account Overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>{{ section.settings.back_text | default: 'Back to Overview' }}</span>
+    </a>
+
+    <!-- Page Heading -->
+    <h1 class="profile-page-title">{{ page.title | default: 'PROFILE' }}</h1>
+    <hr class="profile-title-divider">
+
+    <!-- Main 2-Column Profile Grid -->
+    <div class="profile-grid">
+
+      <!-- Left Column: Personal Information -->
+      <div class="profile-col">
+        <div class="profile-col-header">
+          <h2 class="profile-col-title">Personal Information</h2>
+          <button type="button" class="profile-action-link" data-modal-open="modal-edit-profile" id="btn-edit-personal">Edit details</button>
+        </div>
+
+        <div class="profile-card">
+          <!-- Row 1: First name & Last name -->
+          <div class="profile-field-row">
+            <div class="profile-field">
+              <span class="profile-field-label">First name*</span>
+              <span class="profile-field-value" id="display-first-name">{{ customer.first_name | default: 'Ndubuisi' }}</span>
+            </div>
+            <div class="profile-field">
+              <span class="profile-field-label">Last name</span>
+              <span class="profile-field-value" id="display-last-name">{{ customer.last_name | default: 'Chinenye' }}</span>
+            </div>
+          </div>
+
+          <!-- Row 2: Email address -->
+          <div class="profile-field-row profile-field-row--single">
+            <div class="profile-field">
+              <span class="profile-field-label">Email address*</span>
+              <span class="profile-field-value" id="display-email">{{ customer.email | default: 'johnrosey4@gmail.com' }}</span>
+            </div>
+          </div>
+
+          <!-- Row 3: Phone number -->
+          <div class="profile-field-row profile-field-row--single">
+            <div class="profile-field">
+              <span class="profile-field-label">Phone number</span>
+              <span class="profile-field-value" id="display-phone">{{ customer.phone | default: '—' }}</span>
+            </div>
+          </div>
+
+          <!-- Row 4: Date of birth & Gender -->
+          <div class="profile-field-row">
+            <div class="profile-field">
+              <span class="profile-field-label">Date of birth</span>
+              <span class="profile-field-value" id="display-dob">—</span>
+            </div>
+            <div class="profile-field">
+              <span class="profile-field-label">Gender</span>
+              <span class="profile-field-value" id="display-gender">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Change Password Form (Fills space replacing preferences) -->
+      <div class="profile-col">
+        <div class="profile-col-header">
+          <h2 class="profile-col-title">Change password</h2>
+        </div>
+
+        <div class="profile-card profile-card--password">
+          <form id="form-profile-change-password" novalidate onsubmit="event.preventDefault();">
+            <!-- Field 1: Create new password -->
+            <div class="form-group-line">
+              <label for="profile-new-password" class="form-label-line">Create new password</label>
+              <div class="form-input-line-wrap">
+                <input type="password" id="profile-new-password" class="form-input-line" placeholder="•••••••••" autocomplete="new-password">
+                <button type="button" class="password-eye-btn" data-toggle-password="profile-new-password" aria-label="Show password" title="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                      <line x1="2" y1="2" x2="22" y2="22"></line>
+                    </svg>
+                  </button>
+              </div>
+            </div>
+
+            <!-- Field 2: Re-type password -->
+            <div class="form-group-line">
+              <label for="profile-confirm-password" class="form-label-line">Re-type password</label>
+              <div class="form-input-line-wrap">
+                <input type="password" id="profile-confirm-password" class="form-input-line" placeholder="•••••••••" autocomplete="new-password">
+                <button type="button" class="password-eye-btn" data-toggle-password="profile-confirm-password" aria-label="Show password" title="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                      <line x1="2" y1="2" x2="22" y2="22"></line>
+                    </svg>
+                  </button>
+              </div>
+            </div>
+
+            <!-- Password strength display -->
+            <p class="password-strength-text">Password strength: <span id="pwd-strength-val" class="password-strength-val password-strength-val--weak">Weak</span></p>
+
+            <!-- Requirements list -->
+            <div class="password-req-list">
+              <div class="password-req-item" id="req-length">
+                <span class="password-req-icon">✕</span>
+                <span>Must contain at least 8 characters</span>
+              </div>
+              <div class="password-req-item" id="req-case">
+                <span class="password-req-icon">✕</span>
+                <span>Uppercase and lowercase characters</span>
+              </div>
+              <div class="password-req-item" id="req-special">
+                <span class="password-req-icon">✕</span>
+                <span>One special character</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions-row">
+              <button type="button" class="btn-profile-cancel" id="btn-cancel-password">CANCEL</button>
+              <button type="submit" class="btn-profile-submit" id="btn-submit-password" disabled>SAVE AND UPDATE</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Modal: Edit Personal Information -->
+  <div class="profile-modal" id="modal-edit-profile" role="dialog" aria-modal="true" aria-labelledby="modal-edit-title">
+    <div class="profile-modal__backdrop" data-modal-close></div>
+    <div class="profile-modal__dialog">
+      <button type="button" class="profile-modal__close" data-modal-close aria-label="Close modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" width="20" height="20">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <h2 class="profile-modal__title" id="modal-edit-title">Edit Personal Information</h2>
+      <p class="profile-modal__subtitle">Update your details here.</p>
+
+      <form id="form-edit-personal" novalidate onsubmit="event.preventDefault();">
+        <!-- Row 1: First name & Last name -->
+        <div class="profile-modal-grid-2">
+          <div class="form-group-line">
+            <label for="modal-input-first-name" class="form-label-line">First name</label>
+            <div class="form-input-line-wrap">
+              <input type="text" id="modal-input-first-name" class="form-input-line" value="{{ customer.first_name | default: 'Ndubuisi' }}" required autocomplete="given-name">
+            </div>
+          </div>
+          <div class="form-group-line">
+            <label for="modal-input-last-name" class="form-label-line">Last name</label>
+            <div class="form-input-line-wrap">
+              <input type="text" id="modal-input-last-name" class="form-input-line" value="{{ customer.last_name | default: 'Chinenye' }}" required autocomplete="family-name">
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Email address -->
+        <div class="form-group-line">
+          <label for="modal-input-email" class="form-label-line">Email address*</label>
+          <div class="form-input-line-wrap">
+            <input type="email" id="modal-input-email" class="form-input-line" value="{{ customer.email | default: 'johnrosey4@gmail.com' }}" required autocomplete="email">
+          </div>
+        </div>
+
+        <!-- Row 3: Phone number with Country code selector -->
+        <div class="form-group-line">
+          <label for="modal-input-phone" class="form-label-line">Phone number</label>
+          <div class="form-input-line-wrap">
+            <button type="button" class="phone-prefix-btn" aria-label="Country Code">
+              <span>🇺🇸</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <span>(+1)</span>
+            </button>
+            <input type="tel" id="modal-input-phone" class="form-input-line" value="{{ customer.phone }}" placeholder="Enter phone number" autocomplete="tel">
+          </div>
+        </div>
+
+        <!-- Row 4: Date of birth & Gender -->
+        <div class="profile-modal-grid-2">
+          <div class="form-group-line">
+            <label for="modal-input-dob" class="form-label-line">Date of birth</label>
+            <div class="form-input-line-wrap">
+              <input type="text" id="modal-input-dob" class="form-input-line" placeholder="mm/dd/yyyy">
+              <span class="input-icon-right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" width="16" height="16">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group-line">
+            <label for="modal-input-gender" class="form-label-line">Gender</label>
+            <div class="form-input-line-wrap">
+              <select id="modal-input-gender" class="form-input-line form-select-line">
+                <option value="" selected>Gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Non-binary">Non-binary</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+              <span class="input-icon-right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Row -->
+        <div class="form-actions-row">
+          <button type="button" class="btn-profile-cancel" data-modal-close>CANCEL</button>
+          <button type="submit" class="btn-profile-submit is-active" id="btn-save-personal">SAVE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Profile Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "back_text",
+      "label": "Back Link Text",
+      "default": "Back to Overview"
+    }
+  ]
+}
+{% endschema %}

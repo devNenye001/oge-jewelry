@@ -1,0 +1,46 @@
+{% comment %}
+  OGÉ Fine Jewelry - Article Card
+  Features:
+  - 4:3 Aspect ratio media container with hover zoom
+  - DM Sans typography matching .journal-card specification
+  - Article title, excerpt, date, author, tags, and Read More link
+{% endcomment %}
+
+<article class="journal-card" data-article-id="{{ article.id }}">
+  <a href="{{ article.url }}" class="journal-card__media" aria-label="{{ article.title | escape }}">
+    {% if article.image %}
+      {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title, class: 'journal-card__image', width: 800, height: 600 }}
+    {% else %}
+      <img src="{{ 'blog1.jpg' | asset_url }}" alt="{{ article.title | escape }}" class="journal-card__image" loading="lazy" width="800" height="600">
+    {% endif %}
+  </a>
+
+  {% if show_tags and article.tags.size > 0 %}
+    <div class="journal-card__tags" style="display: flex; gap: 8px; margin-top: 6px;">
+      {% for tag in article.tags limit: 2 %}
+        <span class="journal-card__tag" style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8C4B3A; font-weight: 500;">{{ tag }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <h3 class="journal-card__title">
+    <a href="{{ article.url }}">{{ article.title }}</a>
+  </h3>
+
+  <p class="journal-card__excerpt">
+    {% if article.excerpt != blank %}
+      {{ article.excerpt | strip_html | truncatewords: 25 }}
+    {% else %}
+      {{ article.content | strip_html | truncatewords: 25 }}
+    {% endif %}
+  </p>
+
+  <div class="journal-card__footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+    <a href="{{ article.url }}" class="journal-card__link">Read More</a>
+    {% if show_date and article.published_at %}
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" class="journal-card__date" style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #888888;">
+        {{ article.published_at | date: "%b %d, %Y" }}
+      </time>
+    {% endif %}
+  </div>
+</article>

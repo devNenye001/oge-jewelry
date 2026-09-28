@@ -1,0 +1,112 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Collection Section
+  Online Store 2.0 Dynamic Collection Grid with Filtering, Sorting, and Pagination.
+{% endcomment %}
+
+<!-- Collection Hero Banner -->
+<section class="collection-hero">
+  {% if collection.image %}
+    <img src="{{ collection.image | image_url: width: 1920 }}" alt="{{ collection.title | escape }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% elsif collection.handle contains 'bound' %}
+    <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% elsif collection.handle contains 'victor' %}
+    <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% elsif collection.handle contains 'align' %}
+    <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% elsif collection.handle contains 'rebirth' %}
+    <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% else %}
+    <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="{{ collection.title | default: 'The Self Woman Collection' }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+  {% endif %}
+  <div class="collection-hero__overlay"></div>
+  <div class="collection-hero__content">
+    <h1 class="collection-hero__title">{{ collection.title | default: 'ALL JEWELRY' }}</h1>
+    {% if collection.description != blank %}
+      <p class="collection-hero__desc">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Subcategory Filter Tabs -->
+<section class="collection-nav-tabs" aria-label="Collection Categories">
+  <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="collection-tab-btn {% if collection.handle == 'all' or collection.handle == blank %}is-active{% endif %}">All</a>
+  <a href="{{ routes.collections_url }}/rings" class="collection-tab-btn {% if collection.handle contains 'ring' %}is-active{% endif %}">Rings</a>
+  <a href="{{ routes.collections_url }}/necklaces" class="collection-tab-btn {% if collection.handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
+  <a href="{{ routes.collections_url }}/earrings" class="collection-tab-btn {% if collection.handle contains 'earring' %}is-active{% endif %}">Earrings</a>
+  <a href="{{ routes.collections_url }}/bracelets" class="collection-tab-btn {% if collection.handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
+</section>
+
+<!-- Collection Toolbar: Sorting & Count -->
+<div class="collection-toolbar">
+  <div class="collection-toolbar__left">
+    <span class="collection-product-count">
+      {{ collection.products_count }} {{ collection.products_count | pluralize: 'Product', 'Products' }}
+    </span>
+  </div>
+
+  <div class="collection-toolbar__right">
+    <div class="collection-sort-wrap">
+      <label for="SortBy" class="visually-hidden">Sort By</label>
+      {% assign current_sort_by = collection.sort_by | default: collection.default_sort_by %}
+      <select name="sort_by" id="SortBy" class="collection-sort-select" onchange="location = this.value;">
+        <option value="{{ collection.url }}?sort_by=manual" {% if current_sort_by == 'manual' %}selected{% endif %}>Featured</option>
+        <option value="{{ collection.url }}?sort_by=best-selling" {% if current_sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+        <option value="{{ collection.url }}?sort_by=price-ascending" {% if current_sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+        <option value="{{ collection.url }}?sort_by=price-descending" {% if current_sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+        <option value="{{ collection.url }}?sort_by=created-descending" {% if current_sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+      </select>
+    </div>
+
+    <div class="collection-toolbar__view-switchers" aria-label="View Switchers">
+      <button type="button" class="grid-switch-btn" data-grid-view="2" aria-label="Two Columns View" title="2 Columns View">
+        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+      <button type="button" class="grid-switch-btn is-active" data-grid-view="4" aria-label="Four Columns View" title="4 Columns View">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Product Catalog -->
+<main class="collection-catalog-wrap">
+  {% paginate collection.products by section.settings.products_per_page | default: 16 %}
+    <div class="collection-products-grid grid--4-col" id="collection-products-grid">
+      {% if collection.products.size > 0 %}
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        <!-- Real OGÉ Collection Empty State -->
+        <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+          <h2 class="wishlist-empty-title">No products found</h2>
+          <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
+          <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="collection-pagination">
+        {{ paginate | default_pagination }}
+      </div>
+    {% endif %}
+  {% endpaginate %}
+</main>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 4,
+      "max": 36,
+      "step": 4,
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

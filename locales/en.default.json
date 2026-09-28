@@ -1,0 +1,101 @@
+{
+  "general": {
+    "search": "Search",
+    "search_placeholder": "Search our jewelry collections...",
+    "cart": "Cart",
+    "account": "Account",
+    "login": "Login",
+    "register": "Create account",
+    "wishlist": "WishList",
+    "close": "Close",
+    "back": "Back",
+    "view_all": "View all",
+    "loading": "Loading...",
+    "share": "Share",
+    "language": "Language",
+    "currency": "Currency"
+  },
+  "announcement": {
+    "text": "Enjoy 15% Off Your First Order",
+    "link_text": "Shop Now"
+  },
+  "header": {
+    "menu": "Menu",
+    "search": "Search",
+    "wishlist": "WishList",
+    "account": "Account",
+    "cart": "Shopping Bag",
+    "item_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    }
+  },
+  "sidebar": {
+    "shop_all": "Shop all {{ category }}",
+    "united_states": "United States",
+    "english": "English"
+  },
+  "popup": {
+    "signup_offer": "Signup Offer",
+    "heading": "GET 15% OFF YOUR FIRST ORDER",
+    "cta": "Sign up",
+    "email_placeholder": "Enter your email address",
+    "success": "Thank you for joining the OGE circle! Use code OGE15 at checkout."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "sale": "Sale",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "unit_price": "Unit price",
+      "quantity": "Quantity",
+      "view_details": "View details",
+      "quick_view": "Quick View",
+      "add_to_wishlist": "Add to Wishlist",
+      "remove_from_wishlist": "Remove from Wishlist"
+    }
+  },
+  "cart": {
+    "title": "Your Bag",
+    "empty": "Your bag is currently empty.",
+    "continue_shopping": "Continue Shopping",
+    "subtotal": "Subtotal",
+    "taxes_and_shipping_policy_at_checkout_html": "Taxes and shipping calculated at checkout",
+    "checkout": "Proceed to Checkout",
+    "view_cart": "View Bag",
+    "free_shipping_threshold": "Spend {{ amount }} more for complimentary worldwide shipping",
+    "free_shipping_eligible": "You qualify for complimentary worldwide shipping!"
+  },
+  "footer": {
+    "shop": "SHOP",
+    "discover": "DISCOVER",
+    "newsletter_title": "STAY IN THE OGE CIRCLE",
+    "newsletter_subtext": "Be the first to know about new collections, exclusive offers, and private launches.",
+    "email_placeholder": "Enter your email",
+    "newsletter_button": "Subscribe",
+    "rights_reserved": "All Rights Reserved.",
+    "privacy_policy": "Privacy Policy",
+    "terms_conditions": "Terms & Conditions",
+    "shipping_returns": "Shipping & Returns"
+  },
+  "customer": {
+    "recover_password": {
+      "success": "We've sent you an email with a link to update your password."
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "Page Not Found",
+      "subtext": "The piece or page you were looking for cannot be found.",
+      "button": "Return to Homepage"
+    },
+    "contact": {
+      "form": {
+        "post_success": "Thank you for reaching out to OGÉ Jewelry. Your message has been received, and our concierge team will respond shortly."
+      }
+    }
+  }
+}

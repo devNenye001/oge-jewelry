@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-orders",
+      "settings": {
+        "back_text": "Back to Overview",
+        "empty_title": "No orders have been made yet!",
+        "empty_subtitle": "When you place an order, its details, shipment tracking, and receipts will be displayed here.",
+        "shop_btn_label": "Start Shopping",
+        "rec_title": "YOU MAY ALSO LIKE"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

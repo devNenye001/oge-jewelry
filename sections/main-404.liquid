@@ -1,0 +1,129 @@
+<section class="not-found-section" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="not-found-content">
+      <h1 class="not-found-title">{{ section.settings.title | default: '404 page not found' }}</h1>
+      <p class="not-found-desc">
+        {{ section.settings.subtext | default: 'Unfortunately the page you’re looking for doesn’t seem<br>to exist.' }}
+      </p>
+      <a href="{{ section.settings.button_link | default: routes.root_url }}" class="not-found-btn">
+        {{ section.settings.button_text | default: 'Go Home' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Best Sellers Section on 404 -->
+<section class="featured-collection-section" style="padding: 20px 0 60px; background-color: #FFFFFF;" id="best-sellers">
+  <div class="page-container">
+    <div class="section-header">
+      <h2 class="section-header__title">{{ section.settings.bestsellers_heading | default: 'BEST SELLERS' }}</h2>
+      <div class="carousel-nav-btns">
+        <button type="button" class="carousel-nav-btn" aria-label="Previous Best Sellers">
+          {% render 'icon-chevron', direction: 'left' %}
+        </button>
+        <button type="button" class="carousel-nav-btn" aria-label="Next Best Sellers">
+          {% render 'icon-chevron', direction: 'right' %}
+        </button>
+      </div>
+    </div>
+
+    <div class="products-grid products-grid--mobile-scroll">
+      {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
+        {% for product in section.settings.collection.products limit: 4 %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
+        {% render 'product-card', 
+          card_title: 'Valor V Onyx Bracelet',
+          card_price: 9200,
+          card_material: 'Gold',
+          card_image: 'product5.png',
+          card_hover_image: 'product-bracelet-1.jpg',
+          card_handle: 'valor-v-onyx-bracelet',
+          card_out_of_stock: true
+        %}
+
+        <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
+        {% render 'product-card', 
+          card_title: 'Onyx bracelet',
+          card_price: 8000,
+          card_compare_price: 11000,
+          card_material: 'Gold',
+          card_image: 'product6.png',
+          card_hover_image: 'product-bracelet-1.jpg',
+          card_handle: 'onyx-bracelet',
+          card_is_new: true
+        %}
+
+        <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
+        {% render 'product-card', 
+          card_title: 'Valor V Onyx Necklace',
+          card_price: 12000,
+          card_material: 'Gold',
+          card_image: 'product7.jpg',
+          card_hover_image: 'product3.jpg',
+          card_handle: 'valor-v-onyx-necklace'
+        %}
+
+        <!-- Mock Product 4: Ring havoc ($92) -->
+        {% render 'product-card', 
+          card_title: 'Ring havoc',
+          card_price: 9200,
+          card_material: 'Gold',
+          card_image: 'product8.png',
+          card_hover_image: 'product-ring-1.jpg',
+          card_handle: 'ring-havoc'
+        %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
+
+{% schema %}
+{
+  "name": "404 Main & Best Sellers",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "404 Title",
+      "default": "404 page not found"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "404 Subtext",
+      "default": "<p>Unfortunately the page you’re looking for doesn’t seem<br>to exist.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "Go Home"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Best Sellers Section"
+    },
+    {
+      "type": "text",
+      "id": "bestsellers_heading",
+      "label": "Best Sellers Heading",
+      "default": "BEST SELLERS"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Best Sellers Collection"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,114 @@
+<section class="promo-sales-section" style="padding: 20px 0 40px; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="promo-sales-grid">
+      <!-- Sales Card 1: The Valor Earring -->
+      <a href="{{ section.settings.link_1 | default: '/collections/earrings' }}" class="promo-card">
+        {% if section.settings.image_1 != blank %}
+          {{ section.settings.image_1 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.headline_1 }}
+        {% else %}
+          <img src="{{ 'sales1.jpg' | asset_url }}" alt="The Valor Earring" loading="lazy" width="800" height="900">
+        {% endif %}
+        <div class="promo-card__overlay">
+          {% if section.settings.eyebrow_1 != blank %}
+            <div class="promo-card__eyebrow">{{ section.settings.eyebrow_1 }}</div>
+          {% endif %}
+          <h3 class="promo-card__headline">{{ section.settings.headline_1 | default: 'THE VALOR EARRING' }}</h3>
+          <span class="promo-card__link">{{ section.settings.cta_1 | default: 'Shop Now' }}</span>
+        </div>
+      </a>
+
+      <!-- Sales Card 2: Valor Earring + Necklace Set Offer -->
+      <a href="{{ section.settings.link_2 | default: '/collections/necklaces' }}" class="promo-card">
+        {% if section.settings.image_2 != blank %}
+          {{ section.settings.image_2 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.headline_2 }}
+        {% else %}
+          <img src="{{ 'sales2.jpg' | asset_url }}" alt="Valor Earring + Necklace Offer" loading="lazy" width="800" height="900">
+        {% endif %}
+        <div class="promo-card__overlay">
+          {% if section.settings.eyebrow_2 != blank %}
+            <div class="promo-card__eyebrow">{{ section.settings.eyebrow_2 }}</div>
+          {% endif %}
+          <h3 class="promo-card__headline">{{ section.settings.headline_2 | default: 'VALOR EARRING +<br>NECKLACE FOR $200' }}</h3>
+          <span class="promo-card__link">{{ section.settings.cta_2 | default: 'Shop Now' }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Promotional Sales (2 Cards)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_1",
+      "label": "Eyebrow 1",
+      "default": "New in"
+    },
+    {
+      "type": "text",
+      "id": "headline_1",
+      "label": "Headline 1",
+      "default": "THE VALOR EARRING"
+    },
+    {
+      "type": "text",
+      "id": "cta_1",
+      "label": "CTA 1",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link 1"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_2",
+      "label": "Eyebrow 2",
+      "default": "Jewelry Set Offer"
+    },
+    {
+      "type": "text",
+      "id": "headline_2",
+      "label": "Headline 2",
+      "default": "VALOR EARRING +<br>NECKLACE FOR $200"
+    },
+    {
+      "type": "text",
+      "id": "cta_2",
+      "label": "CTA 2",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link 2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promotional Sales (2 Cards)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,254 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main About / Our Story Section (Mockup Match)
+  Features:
+  - Hero banner with overlay text: "MORE THAN JEWELRY, IT'S A FEELING."
+  - Quote & Attribution statement
+  - Our Story section (Victorious-collection.jpg)
+  - Split Mission & Vision blocks (our-mission.jpg & our-vision.jpg)
+  - Jewelry With Intention section (sales2.jpg)
+{% endcomment %}
+
+<main class="about-page-wrapper">
+
+  <!-- 1. Top Hero Banner -->
+  <section class="about-hero" aria-label="More than jewelry, it's a feeling">
+    {% if section.settings.hero_image != blank %}
+      <img src="{{ section.settings.hero_image | image_url: width: 1920 }}" alt="{{ section.settings.hero_title | escape }}" class="about-hero__image" loading="eager" width="1920" height="600">
+    {% else %}
+      <img src="{{ 'sign-up-pic.jpg' | asset_url }}" alt="More than jewelry, it's a feeling — OGÉ Fine Jewelry" class="about-hero__image" loading="eager" width="1920" height="600">
+    {% endif %}
+    <div class="about-hero__overlay"></div>
+    <div class="about-hero__content">
+      <h1 class="about-hero__title">{{ section.settings.hero_title | default: "MORE THAN JEWELRY, IT'S A FEELING." }}</h1>
+    </div>
+  </section>
+
+  <!-- 2. Philosophy Quote & Attribution -->
+  <section class="about-quote-section" aria-label="Founder Statement">
+    <div class="about-quote-inner">
+      <blockquote class="about-quote-text">
+        {{ section.settings.quote_text | default: '"I design from a place of <strong>self-trust, discipline, and emotional intelligence</strong>, where beauty is not <strong>ornamental, but intentional</strong>. OGÉ reflects my belief that luxury should meet a woman <strong>where she stands, not where she is told to aspire</strong>. These pieces are created for women <strong>who move with discernment, who honor their inner authority, and who understand</strong> that true elegance is <strong>self-recognition.</strong>"' }}
+      </blockquote>
+      <p class="about-quote-author">{{ section.settings.quote_author | default: "-Oge Ikekwem" }}</p>
+    </div>
+  </section>
+
+  <!-- 3. Our Story Section (Text Left, Image Right) -->
+  <section class="about-story-section" aria-label="Our Story">
+    <div class="about-story-container">
+      <div class="about-story-grid">
+        <div class="about-story-content">
+          <h2 class="about-section-title">{{ section.settings.story_title | default: "OUR STORY" }}</h2>
+          {% if section.settings.story_text != blank %}
+            <div class="about-story-text">{{ section.settings.story_text }}</div>
+          {% else %}
+            <p class="about-story-text">
+              Ogé Jewelry began with a love for accessories and their power to <strong>transform</strong>. Ogé was always <strong>passionate</strong> about jewelry, after designing an upgrade to her wedding ring, <strong>she</strong> realized the profound impact of personal, <strong>meticulously crafted</strong> pieces. This sparked the <strong>creation</strong> of Ogé Jewelry, a <strong>brand</strong> dedicated to empowering women through unique designs that celebrate their self-worth <strong>and individuality</strong>.
+            </p>
+            <p class="about-story-text">
+              <strong>Though</strong> new to the jewelry business, Ogé's vision <strong>quickly</strong> set the brand <strong>apart</strong>. <strong>Today</strong>, Ogé continues to grow, creating high-quality, meaningful pieces that inspire <strong>confidence</strong> and inner strength. Each piece of Ogé Jewelry tells a story of <strong>empowerment</strong> and self-expression.
+            </p>
+          {% endif %}
+        </div>
+        <div class="about-story-media">
+          {% if section.settings.story_image != blank %}
+            {{ section.settings.story_image | image_url: width: 800 | image_tag: class: 'about-story-image', loading: 'lazy', alt: section.settings.story_title }}
+          {% else %}
+            <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="Ogé Fine Jewelry - Victorious Collection Portrait" class="about-story-image" loading="lazy" width="800" height="1000">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Split Mission & Vision Blocks -->
+  <section class="about-split-blocks" aria-label="Our Mission and Vision">
+    
+    <!-- Row A: OUR MISSION -->
+    <div class="about-split-row">
+      <div class="about-split-media">
+        {% if section.settings.mission_image != blank %}
+          {{ section.settings.mission_image | image_url: width: 800 | image_tag: class: 'about-split-image', loading: 'lazy', alt: section.settings.mission_title }}
+        {% else %}
+          <img src="{{ 'our-mission.jpg' | asset_url }}" alt="Our Mission - Empowering Women through OGÉ Fine Jewelry" class="about-split-image" loading="lazy" width="800" height="600">
+        {% endif %}
+      </div>
+      <div class="about-sage-box">
+        <h2 class="about-sage-title">{{ section.settings.mission_title | default: "OUR MISSION" }}</h2>
+        {% if section.settings.mission_text != blank %}
+          <div class="about-sage-text">{{ section.settings.mission_text }}</div>
+        {% else %}
+          <p class="about-sage-text">
+            At OGÉ Jewelry, <strong>our mission is to empower</strong> women to express <strong>their true selves and</strong> honor their unique journeys. <strong>Through</strong> our meticulously <strong>crafted</strong> jewelry, we aim to celebrate each woman's individuality, <strong>helping her recognize her inherent self-worth</strong> and project it confidently to the world. We believe that every piece of jewelry is not just an accessory, <strong>but</strong> a <strong>powerful symbol</strong> of <strong>self-actualization, personal growth, and inner strength</strong>.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Row B: OUR VISION -->
+    <div class="about-split-row about-split-row--reverse">
+      <div class="about-sage-box">
+        <h2 class="about-sage-title">{{ section.settings.vision_title | default: "OUR VISION" }}</h2>
+        {% if section.settings.vision_text != blank %}
+          <div class="about-sage-text">{{ section.settings.vision_text }}</div>
+        {% else %}
+          <p class="about-sage-text">
+            To become a global leader in the jewelry <strong>industry</strong> by <strong>fostering a community</strong> of <strong>empowered</strong> women who <strong>embrace and celebrate their uniqueness</strong>. We <strong>strive</strong> to inspire and support women <strong>on their path to</strong> self-actualization by <strong>creating timeless</strong>, meaningful pieces that reflect their inner <strong>beauty and strength</strong>. <strong>Through</strong> our commitment to quality, innovation, and <strong>authenticity, we aim</strong> to redefine jewelry as a medium of self-expression <strong>and</strong> self-worth for women everywhere.
+          </p>
+        {% endif %}
+      </div>
+      <div class="about-split-media">
+        {% if section.settings.vision_image != blank %}
+          {{ section.settings.vision_image | image_url: width: 800 | image_tag: class: 'about-split-image', loading: 'lazy', alt: section.settings.vision_title }}
+        {% else %}
+          <img src="{{ 'our-vision.JPG' | asset_url }}" alt="Our Vision - Timeless Luxury Fine Jewelry" class="about-split-image" loading="lazy" width="800" height="600">
+        {% endif %}
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 5. Last Section: Jewelry with Intention -->
+  <section class="about-intention-section" aria-label="Jewelry with Intention">
+    <div class="about-intention-header">
+      <h2 class="about-intention-title">{{ section.settings.intention_title | default: "JEWELRY WITH INTENTION" }}</h2>
+      {% if section.settings.intention_desc != blank %}
+        <div class="about-intention-desc">{{ section.settings.intention_desc }}</div>
+      {% else %}
+        <p class="about-intention-desc">
+          OGÉ was created from the <strong>belief</strong> that adornment can hold meaning, reflecting identity, evolution, and the stories that shape us. Each collection is designed with symbolism and intention, honoring the journey of becoming more fully oneself.
+        </p>
+      {% endif %}
+    </div>
+    <div class="about-intention-media">
+      {% if section.settings.intention_image != blank %}
+        {{ section.settings.intention_image | image_url: width: 1600 | image_tag: class: 'about-intention-image', loading: 'lazy', alt: section.settings.intention_title }}
+      {% else %}
+        <img src="{{ 'sales2.jpg' | asset_url }}" alt="Jewelry with Intention - OGÉ Luxury Fine Adornments" class="about-intention-image" loading="lazy" width="1600" height="900">
+      {% endif %}
+    </div>
+  </section>
+
+</main>
+
+<hr class="category-divider-line">
+
+{% schema %}
+{
+  "name": "About / Our Story Page",
+  "tag": "section",
+  "class": "section-about-page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Headline",
+      "default": "MORE THAN JEWELRY, IT'S A FEELING."
+    },
+    {
+      "type": "header",
+      "content": "Philosophy Statement"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Founder Statement Quote"
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "-Oge Ikekwem"
+    },
+    {
+      "type": "header",
+      "content": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "story_title",
+      "label": "Story Title",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story Image"
+    },
+    {
+      "type": "header",
+      "content": "Our Mission"
+    },
+    {
+      "type": "text",
+      "id": "mission_title",
+      "label": "Mission Title",
+      "default": "OUR MISSION"
+    },
+    {
+      "type": "richtext",
+      "id": "mission_text",
+      "label": "Mission Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "mission_image",
+      "label": "Mission Image"
+    },
+    {
+      "type": "header",
+      "content": "Our Vision"
+    },
+    {
+      "type": "text",
+      "id": "vision_title",
+      "label": "Vision Title",
+      "default": "OUR VISION"
+    },
+    {
+      "type": "richtext",
+      "id": "vision_text",
+      "label": "Vision Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "vision_image",
+      "label": "Vision Image"
+    },
+    {
+      "type": "header",
+      "content": "Jewelry with Intention"
+    },
+    {
+      "type": "text",
+      "id": "intention_title",
+      "label": "Intention Title",
+      "default": "JEWELRY WITH INTENTION"
+    },
+    {
+      "type": "richtext",
+      "id": "intention_desc",
+      "label": "Intention Description"
+    },
+    {
+      "type": "image_picker",
+      "id": "intention_image",
+      "label": "Intention Image"
+    }
+  ]
+}
+{% endschema %}

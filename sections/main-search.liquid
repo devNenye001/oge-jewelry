@@ -1,0 +1,111 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Search Results Section
+  Features:
+  - Full-width search bar with search icon & clear button
+  - Real dynamic results count: "[X] products found for [terms]"
+  - 4-column product grid reusing snippets/product-card.liquid
+  - Clean no-results empty state linking to All Jewelry
+{% endcomment %}
+
+<main class="search-page-section" data-search-page>
+  <!-- Top Full-Width Search Input Bar -->
+  <section class="search-page-bar-container">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-page-bar" data-search-page-form>
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <span class="search-page-bar__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="22" height="22">
+          <circle cx="11" cy="11" r="7.5"></circle>
+          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+        </svg>
+      </span>
+      <input 
+        type="text" 
+        name="q" 
+        class="search-page-bar__input" 
+        value="{{ search.terms | escape }}" 
+        placeholder="What are you looking for?" 
+        data-search-page-input 
+        aria-label="Search catalog"
+        autocomplete="off"
+      >
+      <button 
+        type="button" 
+        class="search-page-bar__clear" 
+        data-search-page-close 
+        data-search-page-clear 
+        id="search-clear-btn" 
+        aria-label="Close search" 
+        title="Close search" 
+        onclick="if(window.closeSearchPage){window.closeSearchPage();}else if(window.history.length>1){window.history.back();}else{window.location.href='{{ routes.root_url }}';}"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="20" height="20">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </form>
+  </section>
+
+  <!-- Search Results Counter Subtitle -->
+  <div class="search-page-meta search-results-meta">
+    {% if search.performed %}
+      <p class="search-page-count search-results-count">
+        <span data-search-results-count>{{ search.results_count }}</span> {{ search.results_count | pluralize: 'product', 'products' }} found for &ldquo;<span data-search-results-query>{{ search.terms | escape }}</span>&rdquo;
+      </p>
+    {% else %}
+      <p class="search-page-count search-results-count">
+        Please enter a search term above.
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- Search Products Catalog Grid (4 Columns) -->
+  <div class="search-page-products-wrap search-page-container">
+    {% paginate search.results by section.settings.products_per_page | default: 24 %}
+      {% if search.performed and search.results.size > 0 %}
+        <div class="collection-products-grid grid--4-col" id="search-products-grid">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              {% render 'product-card', product: item %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+          <div class="collection-pagination" style="text-align: center; margin-top: 40px;">
+            {{ paginate | default_pagination }}
+          </div>
+        {% endif %}
+      {% elsif search.performed and search.results_count == 0 %}
+        <!-- Real No-Results Empty State matching design system -->
+        <div class="wishlist-empty-box search-empty-state" data-search-empty>
+          <h2 class="wishlist-empty-title search-empty-title">No products found</h2>
+          <p class="wishlist-empty-desc search-empty-desc">We couldn't find any matches for &ldquo;{{ search.terms | escape }}&rdquo;. Please check your spelling or try different search terms.</p>
+          <a href="{{ routes.all_products_collection_url }}" class="wishlist-empty-btn search-empty-btn">View All Jewelry</a>
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</main>
+
+<hr class="category-divider-line">
+
+{% schema %}
+{
+  "name": "Search Results",
+  "tag": "section",
+  "class": "section-search-results",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}

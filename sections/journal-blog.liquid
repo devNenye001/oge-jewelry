@@ -1,0 +1,113 @@
+{% comment %}
+  OGÉ Fine Jewelry - The OGÉ Journal Section
+  Features:
+  - Header with title and horizontal carousel navigation arrows
+  - Real Shopify articles rendered via snippets/article-card.liquid
+  - Fallback to curated OGÉ editorial stories when no articles yet in store
+  - Mobile swipeable and arrow-navigable horizontal scroll
+{% endcomment %}
+
+{% assign journal_blog = section.settings.blog | default: blogs['news'] | default: blogs['journal'] | default: blogs.first %}
+
+<section class="journal-section" style="padding: 54px 0 48px; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="section-header">
+      <h2 class="section-header__title">
+        {% if journal_blog != blank %}
+          <a href="{{ journal_blog.url }}" style="color: inherit; text-decoration: none;">{{ section.settings.heading | default: 'THE OGÉ JOURNAL' }}</a>
+        {% else %}
+          {{ section.settings.heading | default: 'THE OGÉ JOURNAL' }}
+        {% endif %}
+      </h2>
+      <div class="carousel-nav-btns">
+        <button type="button" class="carousel-nav-btn" data-journal-scroll-prev aria-label="Previous Articles">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button type="button" class="carousel-nav-btn" data-journal-scroll-next aria-label="Next Articles">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="horizontal-scroll-container" data-horizontal-scroll>
+      <div class="journal-grid horizontal-scroll-track" data-scroll-track data-journal-grid>
+      {% if journal_blog != blank and journal_blog.articles.size > 0 %}
+        {% for article in journal_blog.articles limit: section.settings.post_limit | default: 3 %}
+          {% render 'article-card', article: article, show_date: true %}
+        {% endfor %}
+      {% else %}
+        <!-- Editorial Post 1 -->
+        <article class="journal-card">
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+            <img src="{{ 'blog1.jpg' | asset_url }}" alt="How to Style Your Jewelry for Every Occasion" loading="lazy" width="600" height="450">
+          </a>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">How to Style Your Jewelry for Every Occasion</a></h3>
+          <p class="journal-card__excerpt">
+            From everyday essentials to statement moments, discover how to make your jewelry work for you.
+          </p>
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+        </article>
+
+        <!-- Editorial Post 2 -->
+        <article class="journal-card">
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+            <img src="{{ 'blog2.jpg' | asset_url }}" alt="Jewelry Care: Keep Your Pieces Looking Their Best" loading="lazy" width="600" height="450">
+          </a>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">Jewelry Care: Keep Your Pieces Looking Their Best</a></h3>
+          <p class="journal-card__excerpt">
+            Simple ways to care for your favorite OGÉ pieces and keep them beautiful for years to come.
+          </p>
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+        </article>
+
+        <!-- Editorial Post 3 -->
+        <article class="journal-card">
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+            <img src="{{ 'blog3.jpg' | asset_url }}" alt="The Art of Layering: Creating a Cohesive Look" loading="lazy" width="600" height="450">
+          </a>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">The Art of Layering: Creating a Cohesive Look</a></h3>
+          <p class="journal-card__excerpt">
+            A guide to pairing necklaces and rings without losing the balance.
+          </p>
+          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+        </article>
+      {% endif %}
+    </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OGÉ Journal",
+  "tag": "section",
+  "class": "section-journal-blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE OGÉ JOURNAL"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 3,
+      "max": 9,
+      "step": 3,
+      "default": 3,
+      "label": "Posts to display"
+    }
+  ],
+  "presets": [
+    {
+      "name": "OGÉ Journal"
+    }
+  ]
+}
+{% endschema %}

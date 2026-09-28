@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "title": "CONTACT US",
+        "first_name_label": "First name *",
+        "first_name_placeholder": "Enter first name",
+        "last_name_label": "Last name *",
+        "last_name_placeholder": "Enter last name",
+        "email_label": "Email address",
+        "email_placeholder": "name@email.com",
+        "message_label": "Message",
+        "submit_label": "Submit"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

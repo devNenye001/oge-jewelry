@@ -1,0 +1,170 @@
+{% liquid
+  assign v1 = 'video.mp4' | asset_url
+  if section.settings.video_url_1 != blank
+    if section.settings.video_url_1 contains '/'
+      assign v1 = section.settings.video_url_1
+    else
+      assign v1 = section.settings.video_url_1 | asset_url
+    endif
+  endif
+
+  assign p1 = 'product3.jpg' | asset_url
+  if section.settings.poster_1 != blank
+    assign p1 = section.settings.poster_1 | image_url: width: 600
+  endif
+
+  assign v2 = 'video.mp4' | asset_url
+  if section.settings.video_url_2 != blank
+    if section.settings.video_url_2 contains '/'
+      assign v2 = section.settings.video_url_2
+    else
+      assign v2 = section.settings.video_url_2 | asset_url
+    endif
+  endif
+
+  assign p2 = 'hero.jpg' | asset_url
+  if section.settings.poster_2 != blank
+    assign p2 = section.settings.poster_2 | image_url: width: 600
+  endif
+
+  assign v3 = 'video.mp4' | asset_url
+  if section.settings.video_url_3 != blank
+    if section.settings.video_url_3 contains '/'
+      assign v3 = section.settings.video_url_3
+    else
+      assign v3 = section.settings.video_url_3 | asset_url
+    endif
+  endif
+
+  assign p3 = 'product7.jpg' | asset_url
+  if section.settings.poster_3 != blank
+    assign p3 = section.settings.poster_3 | image_url: width: 600
+  endif
+
+  assign v_large = 'large-home-video.mp4' | asset_url
+  if section.settings.large_video_url != blank
+    if section.settings.large_video_url contains '/'
+      assign v_large = section.settings.large_video_url
+    else
+      assign v_large = section.settings.large_video_url | asset_url
+    endif
+  endif
+%}
+
+<section class="video-section" style="padding: 40px 0 0; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div style="text-align: center; margin-bottom: 36px;">
+      <h2 class="heading-section" style="margin-bottom: 8px;">{{ section.settings.heading | default: 'STAY CONNECTED' }}</h2>
+    </div>
+
+    <!-- 3 Vertical Video Reels -->
+    <div class="video-reels-grid" style="margin-bottom: 36px;">
+      <!-- Video Reel 1 -->
+      <div class="video-reel-card" data-video-card>
+        <video src="{{ v1 }}" playsinline preload="metadata" poster="{{ p1 }}" loop></video>
+        <div class="video-play-overlay">
+          <div class="video-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Reel 2 -->
+      <div class="video-reel-card" data-video-card>
+        <video src="{{ v2 }}" playsinline preload="metadata" poster="{{ p2 }}" loop></video>
+        <div class="video-play-overlay">
+          <div class="video-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Reel 3 -->
+      <div class="video-reel-card" data-video-card>
+        <video src="{{ v3 }}" playsinline preload="metadata" poster="{{ p3 }}" loop></video>
+        <div class="video-play-overlay">
+          <div class="video-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brown CTA Button: #995544 (DM Sans 400, Sentence Case) -->
+    <div style="text-align: center; margin-bottom: 48px;">
+      <a href="{{ section.settings.btn_url | default: 'https://instagram.com' }}" target="_blank" rel="noopener noreferrer" class="btn btn-brown" style="padding: 14px 36px; border-radius: 2px;">
+        {{ section.settings.btn_text | default: 'Follow us on Instagram' }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Full-Width Cinematic Video: Autoplay, Muted, Loop, Controls -->
+  <div class="large-video-banner">
+    <video src="{{ v_large }}" autoplay muted loop playsinline controls class="large-video-player"></video>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Reels & Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "STAY CONNECTED"
+    },
+    {
+      "type": "text",
+      "id": "video_url_1",
+      "label": "Reel 1 Video URL or Asset Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_1",
+      "label": "Reel 1 Poster Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url_2",
+      "label": "Reel 2 Video URL or Asset Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_2",
+      "label": "Reel 2 Poster Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url_3",
+      "label": "Reel 3 Video URL or Asset Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_3",
+      "label": "Reel 3 Poster Image"
+    },
+    {
+      "type": "text",
+      "id": "large_video_url",
+      "label": "Large Banner Video URL or Asset Name"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "Follow us on Instagram"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Instagram URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Reels & Banner"
+    }
+  ]
+}
+{% endschema %}

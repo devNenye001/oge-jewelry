@@ -1,0 +1,88 @@
+{% assign show_bar = false %}
+{% if section.settings.display_option == 'all' %}
+  {% assign show_bar = true %}
+{% elsif section.settings.display_option == 'home_only' and template.name == 'index' %}
+  {% assign show_bar = true %}
+{% endif %}
+
+{% if show_bar %}
+  <aside class="announcement-bar" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};" {{ section.shopify_attributes }}>
+    <div class="page-container">
+      <div class="announcement-bar__inner">
+        <span class="announcement-bar__icon" aria-hidden="true">
+          {% render 'icon-gift' %}
+        </span>
+        <span class="announcement-bar__text">{{ section.settings.text }}</span>
+        {% if section.settings.link_text != blank and section.settings.link_url != blank %}
+          <span>—</span>
+          <a href="{{ section.settings.link_url }}" class="announcement-bar__link">
+            {{ section.settings.link_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "display_option",
+      "label": "Visibility Option",
+      "options": [
+        {
+          "value": "home_only",
+          "label": "Homepage Only"
+        },
+        {
+          "value": "all",
+          "label": "All Pages"
+        },
+        {
+          "value": "none",
+          "label": "Disabled"
+        }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "Enjoy 15% Off Your First Order"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

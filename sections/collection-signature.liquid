@@ -1,0 +1,246 @@
+{% assign coll_align = section.settings.collection_alignment %}
+{% assign coll_1 = section.settings.collection_1 %}
+{% assign coll_2 = section.settings.collection_2 %}
+{% assign coll_3 = section.settings.collection_3 %}
+{% assign coll_4 = section.settings.collection_4 %}
+
+{% assign url_align = coll_align.url | default: section.settings.link_alignment | default: '/collections/alignment' %}
+{% assign url_1 = coll_1.url | default: section.settings.link_1 | default: '/collections/rebirth' %}
+{% assign url_2 = coll_2.url | default: section.settings.link_2 | default: '/collections/boundaries' %}
+{% assign url_3 = coll_3.url | default: section.settings.link_3 | default: '/collections/victorious' %}
+{% assign url_4 = coll_4.url | default: section.settings.link_4 | default: '/collections/self-romance' %}
+
+{% assign img_align = section.settings.image_alignment | default: coll_align.image | default: coll_align.featured_image %}
+{% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}
+{% assign img_2 = section.settings.image_2 | default: coll_2.image | default: coll_2.featured_image %}
+{% assign img_3 = section.settings.image_3 | default: coll_3.image | default: coll_3.featured_image %}
+{% assign img_4 = section.settings.image_4 | default: coll_4.image | default: coll_4.featured_image %}
+
+<section class="signature-section" style="padding: 40px 0; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="section-header">
+      <h2 class="section-header__title">{{ section.settings.heading | default: 'FIND YOUR SIGNATURE' }}</h2>
+    </div>
+
+    <div class="signature-section-wrap" data-signature-carousel>
+      <button type="button" class="signature-arrow-btn signature-arrow-btn--prev is-hidden" data-signature-prev aria-label="Previous Collection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="signature-scroll-container" data-signature-scroll>
+        <!-- Collection 1: Alignment (First Card) -->
+        <a href="{{ url_align }}" class="signature-card">
+          {% if img_align != blank %}
+            {{ img_align | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_alignment }}
+          {% else %}
+            <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="Alignment Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_alignment | default: coll_align.title | default: 'ALIGNMENT COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+
+        <!-- Collection 2: Rebirth -->
+        <a href="{{ url_1 }}" class="signature-card">
+          {% if img_1 != blank %}
+            {{ img_1 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_1 }}
+          {% else %}
+            <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="Rebirth Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_1 | default: coll_1.title | default: 'REBIRTH COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+
+        <!-- Collection 3: Boundaries -->
+        <a href="{{ url_2 }}" class="signature-card">
+          {% if img_2 != blank %}
+            {{ img_2 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_2 }}
+          {% else %}
+            <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="Boundaries Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_2 | default: coll_2.title | default: 'BOUNDARIES COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+
+        <!-- Collection 4: Victorious -->
+        <a href="{{ url_3 }}" class="signature-card">
+          {% if img_3 != blank %}
+            {{ img_3 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_3 }}
+          {% else %}
+            <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="Victorious Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_3 | default: coll_3.title | default: 'VICTORIOUS COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+
+        <!-- Collection 5: Self Romance -->
+        <a href="{{ url_4 }}" class="signature-card">
+          {% if img_4 != blank %}
+            {{ img_4 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_4 }}
+          {% else %}
+            <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_4 | default: coll_4.title | default: 'SELF ROMANCE COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+      </div>
+
+      <button type="button" class="signature-arrow-btn signature-arrow-btn--next" data-signature-next aria-label="Next Collection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Find Your Signature",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FIND YOUR SIGNATURE"
+    },
+    {
+      "type": "header",
+      "content": "Collection 1 (Alignment)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_alignment",
+      "label": "Collection Alignment"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_alignment",
+      "label": "Image Alignment"
+    },
+    {
+      "type": "text",
+      "id": "title_alignment",
+      "label": "Title Alignment",
+      "default": "ALIGNMENT COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_alignment",
+      "label": "Link Alignment"
+    },
+    {
+      "type": "header",
+      "content": "Collection 2 (Rebirth)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "REBIRTH COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link 1"
+    },
+    {
+      "type": "header",
+      "content": "Collection 3 (Boundaries)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "BOUNDARIES COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link 2"
+    },
+    {
+      "type": "header",
+      "content": "Collection 4 (Victorious)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "VICTORIOUS COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link 3"
+    },
+    {
+      "type": "header",
+      "content": "Collection 5 (Self Romance)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_4",
+      "label": "Collection 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Title 4",
+      "default": "SELF ROMANCE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_4",
+      "label": "Link 4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Find Your Signature"
+    }
+  ]
+}
+{% endschema %}

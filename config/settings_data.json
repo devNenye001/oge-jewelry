@@ -1,0 +1,17 @@
+{
+  "current": {
+    "color_bg": "#FFFFFF",
+    "color_text": "#111111",
+    "color_accent": "#D4AF37",
+    "color_border": "#EFEFEF",
+    "color_drawer_bg": "#FFFFFF",
+    "brand_name": "06é",
+    "logo_width": 110,
+    "cart_type": "drawer",
+    "free_shipping_threshold": 150,
+    "social_facebook": "https://facebook.com",
+    "social_tiktok": "https://tiktok.com",
+    "social_instagram": "https://instagram.com",
+    "social_youtube": "https://youtube.com"
+  }
+}

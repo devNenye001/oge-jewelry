@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-account",
+      "settings": {
+        "title": "ACCOUNT OVERVIEW",
+        "recommendations_title": "YOU MAY ALSO LIKE"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

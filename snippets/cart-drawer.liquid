@@ -1,0 +1,99 @@
+{% doc %}
+  Renders the slide-out MY BAG drawer (bag1 empty and bag2 active items).
+{% enddoc %}
+
+<div class="cart-drawer" data-cart-drawer role="dialog" aria-modal="true" aria-label="My Bag">
+  <div class="cart-drawer__header">
+    <h2 class="cart-drawer__title">MY BAG</h2>
+    <button type="button" class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'general.close' | t | default: 'Close Bag' }}" id="btn-cart-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+
+  <!-- Dynamic AJAX Error Message Container -->
+  <div class="cart-drawer__error" data-cart-drawer-error style="display: none; padding: 12px 28px; background: #FFF5F5; color: #995544; font-size: 0.8125rem; border-bottom: 1px solid #FFE3E3; line-height: 1.4;"></div>
+
+  <div class="cart-drawer__body" data-cart-drawer-body>
+    {% if cart.item_count > 0 %}
+      <div class="cart-drawer__items" data-cart-drawer-items>
+        {% for item in cart.items %}
+          <div class="cart-item" data-item-key="{{ item.key }}" data-item-id="{{ item.variant_id }}" data-item-title="{{ item.title | escape }}">
+            <div class="cart-item__main">
+              <div class="cart-item__image-wrap">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 152 }}" alt="{{ item.title | escape }}" class="cart-item__image" width="76" height="92" loading="lazy">
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'cart-item__image' }}
+                {% endif %}
+              </div>
+              <div class="cart-item__info">
+                <span class="cart-item__tag">
+                  {%- if item.product.tags contains 'new' or item.product.tags contains 'New' or item.product.tags contains 'NEW' -%}
+                    New
+                  {%- else -%}
+                    {{ item.product.vendor | default: 'OGÉ' }}
+                  {%- endif -%}
+                </span>
+                <h3 class="cart-item__title">
+                  <a href="{{ item.url }}" style="color: inherit; text-decoration: none;">{{ item.product.title }}</a>
+                </h3>
+                {% unless item.product.has_only_default_variant %}
+                  <p class="cart-item__variant">{{ item.variant.title }}</p>
+                {% endunless %}
+                <p class="cart-item__price">{{ item.final_line_price | money }}</p>
+              </div>
+            </div>
+            <div class="cart-item__controls">
+              <div class="cart-item__qty-selector">
+                <button type="button" class="cart-item__qty-btn" data-qty-minus="{{ item.key }}" aria-label="Decrease quantity">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+                <span class="cart-item__qty-value">{{ item.quantity }}</span>
+                <button type="button" class="cart-item__qty-btn" data-qty-plus="{{ item.key }}" aria-label="Increase quantity">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+              </div>
+              <div class="cart-item__actions">
+                <button type="button" class="cart-item__action-btn" data-item-wishlist="{{ item.product.handle }}" aria-label="Toggle Wishlist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
+                <button type="button" class="cart-item__action-btn" data-item-remove="{{ item.key }}" aria-label="Remove item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cart-drawer__empty">
+        <p class="cart-drawer__empty-text">Your bag is empty</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="cart-drawer__footer" data-cart-drawer-footer>
+    {% if cart.item_count > 0 %}
+      <div class="cart-drawer__summary">
+        <div class="cart-drawer__summary-row">
+          <span class="cart-drawer__summary-label">Order Summary:</span>
+          <span class="cart-drawer__summary-value">{{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }}</span>
+        </div>
+        <div class="cart-drawer__summary-row cart-drawer__summary-row--total">
+          <span class="cart-drawer__summary-label">Total:</span>
+          <span class="cart-drawer__summary-value">{{ cart.total_price | money }}</span>
+        </div>
+      </div>
+      <a href="{{ routes.root_url | append: 'checkout' | replace: '//', '/' }}" class="cart-drawer__btn-checkout" id="btn-cart-checkout">
+        <span>Securely Check Out | {{ cart.total_price | money }}</span>
+      </a>
+    {% else %}
+      <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="cart-drawer__btn-shop-all" data-cart-drawer-close>Shop All</a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — OGÉ Fine Jewelry</title>
+  <meta name="description" content="Contact OGÉ Fine Jewelry concierge for assistance with orders, custom inquiries, sizing, and private appointments.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- Google Fonts: DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <!-- Design Tokens, Typography & Theme Stylesheets -->
+  <link rel="stylesheet" href="assets/base.css?v=5.0">
+  <link rel="stylesheet" href="assets/theme.css?v=5.0">
+
+  <script src="assets/catalog-data.js"></script>
+  <script src="assets/theme.js?v=5.0" defer></script>
+</head>
+<body class="template-page template-contact">
+
+  <!-- =========================================================================
+       1. ANNOUNCEMENT BAR
+       ========================================================================= -->
+  <aside class="announcement-bar" role="region" aria-label="Announcement">
+    <div class="announcement-bar__inner">
+      <span class="announcement-bar__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14">
+          <rect x="3" y="8" width="18" height="14" rx="1"></rect><path d="M12 8v14"></path><path d="M3 12h18"></path><path d="M12 8H8.5a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8z"></path><path d="M12 8h3.5a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8z"></path>
+        </svg>
+      </span>
+      <span class="announcement-bar__text">
+        Enjoy 15% Off Your First Order — <a href="collection.html?collection=new-in" class="announcement-bar__link">Shop Now</a>
+      </span>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       2. SITE HEADER
+       ========================================================================= -->
+  <header class="site-header site-header--standard" data-site-header>
+    <div class="site-header__inner">
+      <div class="site-header__left">
+        <button type="button" class="hamburger-btn" data-sidebar-open aria-label="Open Navigation Menu" id="btn-hamburger">
+          <span></span><span></span><span></span>
+        </button>
+        <button type="button" class="header-icon-btn mobile-only" data-search-open aria-label="Search">
+          <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+            <circle cx="11" cy="11" r="7.5"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="site-header__center">
+        <a href="index.html" class="site-logo" aria-label="OGÉ Home">
+          <img src="assets/logo2.png" alt="OGÉ" class="site-logo__image site-logo__image--black" width="105" height="32">
+        </a>
+      </div>
+
+      <div class="site-header__right">
+        <button type="button" class="header-icon-btn desktop-only" data-search-open aria-label="Search" id="btn-search">
+          <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+            <circle cx="11" cy="11" r="7.5"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+          </svg>
+        </button>
+        <a href="wishlist.html" class="header-icon-btn" aria-label="WishList" id="btn-wishlist">
+          <svg class="icon icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="header-icon-btn__badge" data-wishlist-count style="display: none;">0</span>
+        </a>
+        <a href="account-overview.html" class="header-icon-btn desktop-only" aria-label="Account" id="btn-account">
+          <svg class="icon icon-account" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+        <button type="button" class="header-icon-btn" data-cart-drawer-open aria-label="Shopping Bag" id="btn-cart">
+          <svg class="icon icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="header-icon-btn__badge" data-cart-count style="display: none;"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       SEARCH MODAL (EXACT MATCH FOR UPLOADED MOCKUP)
+       ========================================================================= -->
+  <div class="search-modal-backdrop" data-search-backdrop></div>
+  <div class="search-modal" data-search-modal role="dialog" aria-modal="true" aria-label="Search Catalog">
+    <div class="search-modal__inner">
+      <div class="search-modal__bar">
+        <span class="search-modal__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="22" height="22"><circle cx="11" cy="11" r="7.5"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+        </span>
+        <input type="text" class="search-modal__input" placeholder="What are you looking for?" data-search-input aria-label="Search products">
+        <button type="button" class="search-modal__close" data-search-close aria-label="Close Search" id="btn-search-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+            <div class="search-modal__categories">
+        <a href="category.html?type=rings" class="search-category-card">
+          <div class="search-category-card__media">
+            <img src="assets/rings-category.jpg" alt="Rings" class="search-category-card__image" loading="lazy" width="400" height="400">
+          </div>
+          <span class="search-category-card__title">Rings</span>
+        </a>
+        <a href="category.html?type=earrings" class="search-category-card">
+          <div class="search-category-card__media">
+            <img src="assets/sales1.jpg" alt="Earrings" class="search-category-card__image" loading="lazy" width="400" height="400">
+          </div>
+          <span class="search-category-card__title">Earrings</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SIDEBAR NAVIGATION DRAWER (EXACT FIGMA MATCH WITH DROPDOWNS & IMAGES)
+       ========================================================================= -->
+  <div class="drawer-backdrop" data-drawer-backdrop></div>
+  <div class="sidebar-drawer" data-sidebar-drawer role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <div class="sidebar-panels" data-sidebar-panels>
+
+      <!-- Panel 1: Main Menu -->
+      <div class="sidebar-panel sidebar-panel--main">
+        <div class="sidebar-header-bar">
+          <button class="sidebar-close-btn" data-sidebar-close aria-label="Close Navigation" id="btn-sidebar-close">
+            <svg class="icon icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+          <a href="index.html" class="sidebar-logo-center" aria-label="OGÉ Home"><img src="assets/logo2.png" alt="OGÉ" class="site-logo__image"></a>
+          <div class="sidebar-header-actions">
+            <button type="button" class="header-icon-btn" data-search-open aria-label="Search"><svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20"><circle cx="11" cy="11" r="7.5"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></button>
+            <a href="account-overview.html" class="header-icon-btn" aria-label="Account"><svg class="icon icon-account" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Main Navigation">
+          <ul class="sidebar-nav__list">
+            <!-- 1. New In (straight to page) -->
+            <li class="sidebar-nav__item">
+              <a href="category.html?type=new" class="sidebar-nav__link">
+                <span>New In</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </a>
+            </li>
+
+            <!-- 2. Jewelry (dropdown) -->
+            <li class="sidebar-nav__item">
+              <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="Jewelry" id="btn-menu-jewelry">
+                <span>Jewelry</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </button>
+            </li>
+
+            <!-- 3. Men (straight to page) -->
+            <li class="sidebar-nav__item">
+              <a href="category.html?type=men" class="sidebar-nav__link">
+                <span>Men</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </a>
+            </li>
+
+            <!-- 4. Fine Jewelry (straight to page) -->
+            <li class="sidebar-nav__item">
+              <a href="category.html?type=fine-jewelry" class="sidebar-nav__link">
+                <span>Fine Jewelry</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </a>
+            </li>
+
+            <!-- 5. Collections (dropdown) -->
+            <li class="sidebar-nav__item">
+              <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-collections" data-submenu-title="Collections" id="btn-menu-collections">
+                <span>Collections</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </button>
+            </li>
+
+            <!-- 6. Our Story (straight to page) -->
+            <li class="sidebar-nav__item">
+              <a href="about.html" class="sidebar-nav__link">
+                <span>Our Story</span>
+                <span class="sidebar-nav__chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-footer">
+          <a href="login.html" class="sidebar-footer__link">Login</a>
+          <a href="wishlist.html" class="sidebar-footer__link">WishList</a>
+                    <div class="sidebar-localization" data-country-trigger role="button" tabindex="0" aria-label="Select Country and Language" style="cursor: pointer;">
+            <span class="sidebar-localization__flag-wrap" data-country-display-flag>
+              <svg class="sidebar-localization__flag" viewBox="0 0 20 14" width="18" height="12" fill="none">
+                <rect width="20" height="14" fill="#003399"/>
+                <circle cx="10" cy="7" r="4.2" fill="none" stroke="#FFCC00" stroke-width="1.2" stroke-dasharray="0.8 1.4"/>
+              </svg>
+            </span>
+            <span data-sidebar-location-text>Europe &nbsp;|&nbsp; English</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Submenus -->
+      <div class="sidebar-panel sidebar-panel--submenu">
+        <div class="submenu-header">
+          <button type="button" class="submenu-back-btn" data-submenu-back aria-label="Back" id="btn-submenu-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="16" height="16"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span data-submenu-title-display>Jewelry</span>
+          </button>
+          <button type="button" class="sidebar-close-btn" data-sidebar-close aria-label="Close Navigation">
+            <svg class="icon icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <!-- Submenu 1: Jewelry -->
+        <div class="submenu-content" data-submenu-content="submenu-jewelry">
+          <div class="submenu-grid">
+            <div class="submenu-links">
+              <a href="category.html?type=earrings" class="submenu-link">Earrings</a>
+              <a href="category.html?type=rings" class="submenu-link">Rings</a>
+              <a href="category.html?type=necklaces" class="submenu-link">Necklaces</a>
+              <a href="category.html?type=bracelets" class="submenu-link">Bracelets</a>
+              <a href="category.html?type=all" class="submenu-link submenu-link--all">Shop all Jewelres</a>
+            </div>
+            <a href="category.html?type=necklaces" class="submenu-featured-card">
+              <img src="assets/necklace-category.jpg" alt="Necklaces" loading="lazy" width="400" height="533">
+              <div class="submenu-featured-card__overlay">
+                <span class="submenu-featured-card__title">Necklaces</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Submenu 2: Collections -->
+        <div class="submenu-content" data-submenu-content="submenu-collections" style="display: none;">
+          <div class="submenu-grid">
+            <div class="submenu-links">
+              <a href="collection.html?collection=self-woman" class="submenu-link">Self Woman Collection</a>
+              <a href="collection.html?collection=alignment" class="submenu-link">The Alignment Collection</a>
+              <a href="collection.html?collection=boundaries" class="submenu-link">Boundaries Collection</a>
+              <a href="collection.html?collection=victorious" class="submenu-link">Victorious Collection</a>
+              <a href="collection.html?collection=all" class="submenu-link submenu-link--all">Shop all Collections</a>
+            </div>
+            <a href="collection.html?collection=self-woman" class="submenu-featured-card">
+              <img src="assets/SelfRomance-collection.jpg" alt="Self Woman Collection" loading="lazy" width="400" height="533">
+              <div class="submenu-featured-card__overlay">
+                <span class="submenu-featured-card__title">Self Woman Collection</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       CART DRAWER (EXACT FIGMA MATCH: BAG1 EMPTY & BAG2 ACTIVE)
+       ========================================================================= -->
+    <!-- =========================================================================
+       CART DRAWER (EXACT FIGMA MATCH: BAG1 EMPTY & BAG2 ACTIVE)
+       ========================================================================= -->
+  <div class="cart-drawer-backdrop" data-cart-drawer-backdrop></div>
+  <aside class="cart-drawer" data-cart-drawer role="dialog" aria-modal="true" aria-label="My Bag">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">MY BAG</h2>
+      <button type="button" class="cart-drawer__close" data-cart-drawer-close aria-label="Close Bag" id="btn-cart-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="cart-drawer__body" data-cart-drawer-body>
+      <div class="cart-drawer__empty">
+        <p class="cart-drawer__empty-text">Your bag is empty</p>
+      </div>
+    </div>
+    <div class="cart-drawer__footer" data-cart-drawer-footer>
+      <a href="shop.html" class="cart-drawer__btn-shop-all" data-cart-drawer-close>Shop All</a>
+    </div>
+  </aside>
+
+<main class="contact-page-wrapper" id="MainContent" role="main">
+    <div class="contact-page-container">
+      <h1 class="contact-page-title">CONTACT US</h1>
+
+      <div id="contact-alert-container"></div>
+
+      <form id="contact-form" class="contact-form" novalidate>
+        <!-- Row 1: First Name & Last Name -->
+        <div class="contact-form__row-grid">
+          <div class="contact-form__field">
+            <label for="ContactFormFirstName" class="contact-form__label">First name *</label>
+            <input type="text" id="ContactFormFirstName" class="contact-form__input-underline" placeholder="Enter first name" required autocomplete="given-name">
+          </div>
+          <div class="contact-form__field">
+            <label for="ContactFormLastName" class="contact-form__label">Last name *</label>
+            <input type="text" id="ContactFormLastName" class="contact-form__input-underline" placeholder="Enter last name" required autocomplete="family-name">
+          </div>
+        </div>
+
+        <!-- Row 2: Email Address -->
+        <div class="contact-form__field">
+          <label for="ContactFormEmail" class="contact-form__label">Email address *</label>
+          <input type="email" id="ContactFormEmail" class="contact-form__input-underline" placeholder="name@email.com" required autocomplete="email">
+        </div>
+
+        <!-- Row 3: Message Textarea -->
+        <div class="contact-form__field">
+          <label for="ContactFormMessage" class="contact-form__label">Message *</label>
+          <textarea id="ContactFormMessage" class="contact-form__textarea" rows="6" placeholder="How can our concierge assist you?" required></textarea>
+        </div>
+
+        <!-- Row 4: Submit Button -->
+        <button type="submit" class="contact-form__submit-btn" id="ContactFormSubmit">Submit</button>
+      </form>
+    </div>
+  </main>
+
+    <!-- =========================================================================
+       16. UNIVERSAL SITE FOOTER (EXACT FIGMA 1:1 MATCH)
+       ========================================================================= -->
+    <!-- =========================================================================
+       16. UNIVERSAL SITE FOOTER (EXACT FIGMA 1:1 MATCH)
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="page-container">
+      <div class="site-footer__main">
+        <!-- Col 1: SHOP -->
+        <div class="footer-col">
+          <h4 class="footer-col__title">SHOP</h4>
+          <nav class="footer-col__nav" aria-label="Shop Navigation">
+            <a href="category.html?type=new" class="footer-col__link">New Arrivals</a>
+            <a href="shop.html" class="footer-col__link">Best Sellers</a>
+            <a href="collection.html?collection=victorious" class="footer-col__link">Victoria’s Collection</a>
+            <a href="collection.html?collection=self-woman" class="footer-col__link">Self Woman’s Collection</a>
+            <a href="collection.html?collection=boundaries" class="footer-col__link">Bondry Collection</a>
+            <a href="collection.html?collection=rebirth" class="footer-col__link">Rebirth Collection</a>
+            <a href="bundle-deals.html" class="footer-col__link">Bundle Deals</a>
+          </nav>
+        </div>
+
+        <!-- Col 2: DISCOVER -->
+        <div class="footer-col">
+          <h4 class="footer-col__title">DISCOVER</h4>
+          <nav class="footer-col__nav" aria-label="Discover Navigation">
+            <a href="about.html" class="footer-col__link">Our Story</a>
+            <a href="contact.html" class="footer-col__link">Contact Us</a>
+            <a href="index.html#faqs" class="footer-col__link">FAQs</a>
+          </nav>
+        </div>
+
+        <!-- Col 3: STAY IN THE OGE CIRCLE -->
+        <div class="footer-col footer-col--newsletter">
+          <h4 class="footer-col__title">STAY IN THE OGE CIRCLE</h4>
+          <p class="footer-newsletter__text">
+            Be the first to know about new collections, exclusive offers, and private launches.
+          </p>
+          <form class="footer-newsletter__form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to the OGÉ Circle.');">
+            <input type="email" class="footer-newsletter__input" placeholder="Enter your email" required aria-label="Email address for newsletter">
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer Middle Bar: Payment Badges + Social Icons -->
+      <div class="site-footer__middle">
+        <div class="footer-payments" aria-label="Accepted Payment Methods">
+          <!-- 1. Visa Debit / V -->
+          <span class="payment-badge" title="Visa Debit">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="14" y="16" font-family="'DM Sans',sans-serif" font-weight="700" font-size="12" fill="#1A1F71">V</text></svg>
+          </span>
+          <!-- 2. Visa -->
+          <span class="payment-badge" title="Visa">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="5" y="16" font-family="'DM Sans',sans-serif" font-weight="700" font-size="10" fill="#1A1F71">VISA</text></svg>
+          </span>
+          <!-- 3. Apple Pay -->
+          <span class="payment-badge" title="Apple Pay">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="6" y="15" font-family="'DM Sans',sans-serif" font-weight="600" font-size="8.5" fill="#000000">Pay</text></svg>
+          </span>
+          <!-- 4. Diners -->
+          <span class="payment-badge" title="Diners Club">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><circle cx="15" cy="12" r="5" stroke="#333333" stroke-width="1.2" fill="none"/><circle cx="23" cy="12" r="5" stroke="#333333" stroke-width="1.2" fill="none"/></svg>
+          </span>
+          <!-- 5. Discover -->
+          <span class="payment-badge" title="Discover">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="4" y="15" font-family="'DM Sans',sans-serif" font-weight="700" font-size="7" fill="#FF6000">DISCOVER</text></svg>
+          </span>
+          <!-- 6. Google Pay -->
+          <span class="payment-badge" title="Google Pay">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="5" y="15" font-family="'DM Sans',sans-serif" font-weight="600" font-size="8.5" fill="#5F6368">G Pay</text></svg>
+          </span>
+          <!-- 7. Mastercard -->
+          <span class="payment-badge" title="Mastercard">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><circle cx="15" cy="12" r="6" fill="#EB001B"/><circle cx="23" cy="12" r="6" fill="#F79E1B" fill-opacity="0.85"/></svg>
+          </span>
+          <!-- 8. PayPal -->
+          <span class="payment-badge" title="PayPal">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#F4F4F4"/><text x="5" y="16" font-family="'DM Sans',sans-serif" font-weight="700" font-size="9" fill="#003087">PayPal</text></svg>
+          </span>
+          <!-- 9. Shop Pay -->
+          <span class="payment-badge" title="Shop Pay">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#5A31F4"/><text x="4" y="15" font-family="'DM Sans',sans-serif" font-weight="700" font-size="7.5" fill="#FFFFFF">shop Pay</text></svg>
+          </span>
+          <!-- 10. Interac -->
+          <span class="payment-badge" title="Interac">
+            <svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="2" fill="#E8B024"/><text x="4" y="15" font-family="'DM Sans',sans-serif" font-weight="700" font-size="7.5" fill="#000000">Interac</text></svg>
+          </span>
+        </div>
+
+        <div class="footer-socials" aria-label="Social Media Links">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="social-circle-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-circle-btn" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743 2.895 2.895 0 0 1 2.312-4.643c.294 0 .579.04.85.116V9.352a6.347 6.347 0 0 0-.85-.058 6.34 6.34 0 0 0-6.335 6.34 6.34 6.34 0 0 0 10.82 4.49 6.273 6.273 0 0 0 1.96-4.49V8.71a8.28 8.28 0 0 0 4.81 1.48v-3.504Z"/></svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-circle-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="social-circle-btn" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Bar: Interactive Country/Currency Selector + Copyright + Legal Links -->
+      <div class="site-footer__bottom">
+        <div class="footer-bottom__left">
+          <button type="button" class="footer-region-trigger" data-country-trigger aria-label="Select Country and Language">
+            <span class="region-flag" data-country-display-flag>
+              <svg viewBox="0 0 20 14" width="18" height="13" style="display:inline-block;vertical-align:middle;border-radius:2px;"><rect width="20" height="14" fill="#003399"/><circle cx="10" cy="7" r="4.2" fill="none" stroke="#FFCC00" stroke-width="1.2" stroke-dasharray="0.8 1.4"/></svg>
+            </span>
+            <span data-country-display-code>eu</span>
+            <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <span class="footer-sep">•</span>
+          <span class="footer-copyright">© 2026 Oge Jewlery. All Rights Reserved.</span>
+        </div>
+
+        <nav class="footer-legal" aria-label="Legal Links">
+          <a href="privacy-policy.html" class="footer-legal__link">Privacy Policy</a>
+          <span class="footer-legal__sep">·</span>
+          <a href="terms-conditions.html" class="footer-legal__link">Terms &amp; Conditions</a>
+          <span class="footer-legal__sep">·</span>
+          <a href="shipping-returns.html" class="footer-legal__link">Shipping &amp; Returns</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const contactForm = document.getElementById('contact-form');
+      const alertContainer = document.getElementById('contact-alert-container');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const firstName = document.getElementById('ContactFormFirstName').value.trim();
+          const lastName = document.getElementById('ContactFormLastName').value.trim();
+          const email = document.getElementById('ContactFormEmail').value.trim();
+          const message = document.getElementById('ContactFormMessage').value.trim();
+
+          if (!firstName || !lastName || !email || !message) {
+            alertContainer.innerHTML = '<div class="contact-form__alert contact-form__alert--error" style="background: #FDF2F2; color: #9B1C1C; padding: 14px 18px; margin-bottom: 20px; font-size: 14px;">Please complete all required fields.</div>';
+            return;
+          }
+
+          const submitBtn = document.getElementById('ContactFormSubmit');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+
+          setTimeout(function() {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
+            alertContainer.innerHTML = '<div class="contact-form__alert contact-form__alert--success" style="background: #F0FDF4; color: #166534; padding: 14px 18px; margin-bottom: 20px; font-size: 14px;">Thank you for reaching out to OGÉ Jewelry. Your message has been received, and our concierge team will respond shortly.</div>';
+            contactForm.reset();
+            alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 800);
+        });
+      }
+    });
+  </script>
+
+  <!-- =========================================================================
+       LOCATION SELECTOR MODAL (EXACT FIGMA MATCH)
+       ========================================================================= -->
+  <div class="location-modal-backdrop" data-location-modal-backdrop style="display: none;"></div>
+  <div class="location-modal" data-location-modal style="display: none;" role="dialog" aria-modal="true" aria-label="Select your location">
+    <div class="location-modal__header">
+      <h3 class="location-modal__title">Select your location</h3>
+      <button type="button" class="location-modal__close" data-location-modal-close aria-label="Close location modal">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="location-modal__grid">
+      <!-- 1. Europe -->
+      <button type="button" class="location-item is-selected" data-location-item data-location-code="eu">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#003399"/><circle cx="16" cy="16" r="9" fill="none" stroke="#FFCC00" stroke-width="2.5" stroke-dasharray="1.8 2.8"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Europe</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 2. Australia & NZ -->
+      <button type="button" class="location-item" data-location-item data-location-code="au">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#00008B"/><rect width="14" height="10" fill="#00247D"/><path d="M0 0 L14 10 M14 0 L0 10" stroke="#FFF" stroke-width="2"/><path d="M0 0 L14 10 M14 0 L0 10" stroke="#CF142B" stroke-width="1"/><path d="M7 0 V10 M0 5 H14" stroke="#FFF" stroke-width="3"/><path d="M7 0 V10 M0 5 H14" stroke="#CF142B" stroke-width="1.8"/><circle cx="23" cy="8" r="1.2" fill="#FFF"/><circle cx="26" cy="14" r="1.2" fill="#FFF"/><circle cx="24" cy="22" r="1.2" fill="#FFF"/><circle cx="19" cy="24" r="1.2" fill="#FFF"/><circle cx="10" cy="22" r="1.8" fill="#FFF"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Australia &amp; NZ</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 3. Canada -->
+      <button type="button" class="location-item" data-location-item data-location-code="ca">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#FF0000"/><rect x="8" width="16" height="32" fill="#FFFFFF"/><path d="M16 9 L17.5 13.5 L21 12.5 L19.5 16 L22.5 18 L18.5 19 L19 22 L16 20.5 L13 22 L13.5 19 L9.5 18 L12.5 16 L11 12.5 L14.5 13.5 Z M15.5 20.5 L15.5 24 L16.5 24 L16.5 20.5 Z" fill="#FF0000"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Canada</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 4. Danmark -->
+      <button type="button" class="location-item" data-location-item data-location-code="dk">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#C8102E"/><rect x="10" y="0" width="4" height="32" fill="#FFFFFF"/><rect x="0" y="14" width="32" height="4" fill="#FFFFFF"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Danmark</span>
+          <span class="location-item__language">Dansk</span>
+        </span>
+      </button>
+
+      <!-- 5. Deutschland & Österreich -->
+      <button type="button" class="location-item" data-location-item data-location-code="de">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><clipPath id="de-clip"><circle cx="16" cy="16" r="16"/></clipPath><g clip-path="url(#de-clip)"><rect width="32" height="10.67" fill="#000000"/><rect y="10.67" width="32" height="10.67" fill="#DD0000"/><rect y="21.33" width="32" height="10.67" fill="#FFCE00"/></g></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Deutschland &amp; Österreich</span>
+          <span class="location-item__language">Deutsch</span>
+        </span>
+      </button>
+
+      <!-- 6. France -->
+      <button type="button" class="location-item" data-location-item data-location-code="fr">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><clipPath id="fr-clip"><circle cx="16" cy="16" r="16"/></clipPath><g clip-path="url(#fr-clip)"><rect width="10.67" height="32" fill="#002395"/><rect x="10.67" width="10.67" height="32" fill="#FFFFFF"/><rect x="21.33" width="10.67" height="32" fill="#ED2939"/></g></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">France</span>
+          <span class="location-item__language">Français</span>
+        </span>
+      </button>
+
+      <!-- 7. Nederland -->
+      <button type="button" class="location-item" data-location-item data-location-code="nl">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><clipPath id="nl-clip"><circle cx="16" cy="16" r="16"/></clipPath><g clip-path="url(#nl-clip)"><rect width="32" height="10.67" fill="#AE1C28"/><rect y="10.67" width="32" height="10.67" fill="#FFFFFF"/><rect y="21.33" width="32" height="10.67" fill="#21468B"/></g></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Nederland</span>
+          <span class="location-item__language">Nederlands</span>
+        </span>
+      </button>
+
+      <!-- 8. Norway -->
+      <button type="button" class="location-item" data-location-item data-location-code="no">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#BA0C2F"/><rect x="9" y="0" width="6" height="32" fill="#FFFFFF"/><rect x="0" y="13" width="32" height="6" fill="#FFFFFF"/><rect x="10.5" y="0" width="3" height="32" fill="#00205B"/><rect x="0" y="14.5" width="32" height="3" fill="#00205B"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Norway</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 9. Schweiz -->
+      <button type="button" class="location-item" data-location-item data-location-code="ch">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#D52B1E"/><rect x="13.5" y="7" width="5" height="18" fill="#FFFFFF"/><rect x="7" y="13.5" width="18" height="5" fill="#FFFFFF"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Schweiz</span>
+          <span class="location-item__language">Deutsch</span>
+        </span>
+      </button>
+
+      <!-- 10. Sverige -->
+      <button type="button" class="location-item" data-location-item data-location-code="se">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#006AA7"/><rect x="10" y="0" width="4.5" height="32" fill="#FECC00"/><rect x="0" y="13.75" width="32" height="4.5" fill="#FECC00"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Sverige</span>
+          <span class="location-item__language">Svenska</span>
+        </span>
+      </button>
+
+      <!-- 11. United Kingdom -->
+      <button type="button" class="location-item" data-location-item data-location-code="gb">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#012169"/><path d="M0 0 L32 32 M32 0 L0 32" stroke="#FFFFFF" stroke-width="4.5"/><path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" stroke-width="2"/><path d="M16 0 V32 M0 16 H32" stroke="#FFFFFF" stroke-width="7"/><path d="M16 0 V32 M0 16 H32" stroke="#C8102E" stroke-width="4.2"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">United Kingdom</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 12. United States -->
+      <button type="button" class="location-item" data-location-item data-location-code="us">
+        <span class="location-item__flag">
+          <svg viewBox="0 0 32 32" width="32" height="32"><clipPath id="us-clip"><circle cx="16" cy="16" r="16"/></clipPath><g clip-path="url(#us-clip)"><rect width="32" height="32" fill="#B22234"/><line x1="0" y1="3.5" x2="32" y2="3.5" stroke="#FFF" stroke-width="2.5"/><line x1="0" y1="8.5" x2="32" y2="8.5" stroke="#FFF" stroke-width="2.5"/><line x1="0" y1="13.5" x2="32" y2="13.5" stroke="#FFF" stroke-width="2.5"/><line x1="0" y1="18.5" x2="32" y2="18.5" stroke="#FFF" stroke-width="2.5"/><line x1="0" y1="23.5" x2="32" y2="23.5" stroke="#FFF" stroke-width="2.5"/><line x1="0" y1="28.5" x2="32" y2="28.5" stroke="#FFF" stroke-width="2.5"/><rect width="15" height="15" fill="#3C3B6E"/><circle cx="4" cy="4" r="0.9" fill="#FFF"/><circle cx="8" cy="4" r="0.9" fill="#FFF"/><circle cx="12" cy="4" r="0.9" fill="#FFF"/><circle cx="6" cy="7.5" r="0.9" fill="#FFF"/><circle cx="10" cy="7.5" r="0.9" fill="#FFF"/><circle cx="4" cy="11" r="0.9" fill="#FFF"/><circle cx="8" cy="11" r="1" fill="#FFF"/><circle cx="12" cy="11" r="0.9" fill="#FFF"/></g></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">United States</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+
+      <!-- 13. Rest of World -->
+      <button type="button" class="location-item" data-location-item data-location-code="row">
+        <span class="location-item__flag" style="background:#000;color:#FFF;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </span>
+        <span class="location-item__text">
+          <span class="location-item__country">Rest of World</span>
+          <span class="location-item__language">English</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>

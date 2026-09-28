@@ -1,0 +1,137 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Article Template Section
+  Features:
+  - Hero banner with Perandory serif heading
+  - Full article content rendered dynamically via {{ article.content }}
+  - Article metadata (date, author, tags) in DM Sans
+  - Back to Journal link
+  - "More from the Journal" related articles section
+{% endcomment %}
+
+<main class="article-page-section" data-article-page>
+  <!-- Article Hero Banner matching Figma design -->
+  <section class="blog-hero">
+    {% if article.image %}
+      {{ article.image | image_url: width: 1600 | image_tag: class: 'blog-hero__img', loading: 'eager', alt: article.title, width: 1600, height: 400 }}
+    {% else %}
+      <img src="{{ 'blog2.jpg' | asset_url }}" alt="{{ article.title | escape }}" class="blog-hero__img" loading="eager" width="1600" height="400">
+    {% endif %}
+    <div class="blog-hero__overlay">
+      <h1 class="blog-hero__title">{{ article.title }}</h1>
+    </div>
+  </section>
+
+  <!-- Article Body Content -->
+  <article class="blog-article-container">
+    <!-- Article Meta Header -->
+    <div class="blog-article-meta" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid #ECECEC; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        {% if article.published_at and section.settings.show_date %}
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" style="font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #888888; text-transform: uppercase; letter-spacing: 0.05em;">
+            {{ article.published_at | date: "%B %d, %Y" }}
+          </time>
+        {% endif %}
+        {% if article.author != blank and section.settings.show_author %}
+          <span style="font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #555555;">
+            By {{ article.author }}
+          </span>
+        {% endif %}
+      </div>
+
+      {% if article.tags.size > 0 and section.settings.show_tags %}
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          {% for tag in article.tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #8C4B3A; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">#{{ tag }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Main Article Body -->
+    <div class="blog-article-content">
+      {{ article.content }}
+    </div>
+
+    <!-- Back to Journal Navigation Link -->
+    {% if section.settings.show_back_link and blog %}
+      <div class="blog-article-back" style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #ECECEC;">
+        <a href="{{ blog.url }}" style="font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; color: #111111; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s ease;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Back to {{ blog.title | default: 'The Journal' }}
+        </a>
+      </div>
+    {% endif %}
+  </article>
+
+  <!-- Related Articles / More from the Journal Section -->
+  {% if section.settings.show_related and blog.articles_count > 1 %}
+    <section class="related-articles-section" style="padding: 54px 0 64px; background-color: #FAFAFA; border-top: 1px solid #ECECEC;">
+      <div class="page-container">
+        <div class="section-header" style="text-align: center; margin-bottom: 36px;">
+          <h2 class="section-header__title" style="font-family: 'Perandory', 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em;">
+            {{ section.settings.related_title | default: 'MORE FROM THE JOURNAL' }}
+          </h2>
+        </div>
+        <div class="journal-grid">
+          {% assign related_count = 0 %}
+          {% for related_article in blog.articles %}
+            {% unless related_article.id == article.id %}
+              {% if related_count < 3 %}
+                {% render 'article-card', article: related_article, show_date: true %}
+                {% assign related_count = related_count | plus: 1 %}
+              {% endif %}
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+</main>
+
+<hr class="legal-page-divider" style="margin-top: 0;">
+
+{% schema %}
+{
+  "name": "Blog Article",
+  "tag": "section",
+  "class": "section-main-article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show Publication Date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show Author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show Tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_link",
+      "label": "Show Back to Journal Link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related",
+      "label": "Show Related Articles",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_title",
+      "label": "Related Articles Heading",
+      "default": "MORE FROM THE JOURNAL"
+    }
+  ]
+}
+{% endschema %}

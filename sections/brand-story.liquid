@@ -1,0 +1,83 @@
+<section class="brand-story-section" style="padding: 44px 0; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="brand-story-grid">
+      <div class="brand-story__media">
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title }}
+        {% else %}
+          <img src="{{ 'more-than-jewelry.jpg' | asset_url }}" alt="OGÉ Fine Jewelry Editorial Model" loading="lazy" width="800" height="1000">
+        {% endif %}
+      </div>
+      <div class="brand-story__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="brand-story__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+        <h2 class="brand-story__title">{{ section.settings.title | default: 'MORE THAN JEWELRY.<br>IT’S A FEELING.' }}</h2>
+        <div class="brand-story__text">
+          {{ section.settings.text_1 | default: '<p>At OGÉ, jewelry is not merely an accessory — it is an intimate expression of individuality, power, and enduring grace. Each design is intentionally sculpted from certified 18k solid gold, hand-set with conflict-free gemstones that reflect light with unmistakable radiance.</p>' }}
+        </div>
+        <div class="brand-story__text">
+          {{ section.settings.text_2 | default: '<p>Born from a devotion to timeless craftsmanship and contemporary silhouette, our creations transcend fleeting trends. Whether worn as a personal armor or passed on as a family heirloom, OGÉ is made to be treasured forever.</p>' }}
+        </div>
+        {% if section.settings.btn_text != blank %}
+          <a href="{{ section.settings.btn_url | default: '/pages/our-story' }}" class="btn btn-brown brand-story__cta">
+            {{ section.settings.btn_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "OUR PHILOSOPHY"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "MORE THAN JEWELRY.<br>IT’S A FEELING."
+    },
+    {
+      "type": "richtext",
+      "id": "text_1",
+      "label": "Paragraph 1",
+      "default": "<p>At OGÉ, jewelry is not merely an accessory — it is an intimate expression of individuality, power, and enduring grace. Each design is intentionally sculpted from certified 18k solid gold, hand-set with conflict-free gemstones that reflect light with unmistakable radiance.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_2",
+      "label": "Paragraph 2",
+      "default": "<p>Born from a devotion to timeless craftsmanship and contemporary silhouette, our creations transcend fleeting trends. Whether worn as a personal armor or passed on as a family heirloom, OGÉ is made to be treasured forever.</p>"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "Discover our story"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story"
+    }
+  ]
+}
+{% endschema %}

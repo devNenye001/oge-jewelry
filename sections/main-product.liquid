@@ -1,0 +1,365 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Product Section
+  Dynamic Shopify product object rendering with variant selectors, galleries, accordions, and quick checkout.
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant | default: product.variants.first %}
+{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+{% assign product_metal = product.metafields.custom.metal | default: product.metafields.custom.material | default: product.type | default: "18K Gold Vermeil" %}
+{% assign product_stone = product.metafields.custom.stone | default: "Natural Gemstone" %}
+
+<main class="product-page-main" data-product-page {{ section.shopify_attributes }}>
+  <div class="product-details-container">
+    <div class="product-details-grid">
+      
+      <!-- Left Thumbnail Column (Product Images Rail) -->
+      <div class="product-gallery-thumbs" data-product-thumbs>
+        {% if product.media.size > 0 %}
+          {% for media in product.media %}
+            <button 
+              type="button" 
+              class="product-thumb-item {% if forloop.first %}is-active{% endif %}" 
+              data-thumb-src="{{ media | image_url: width: 1000 }}" 
+              data-media-id="{{ media.id }}"
+              aria-label="View product thumbnail {{ forloop.index }}"
+            >
+              <img src="{{ media | image_url: width: 176, height: 176, crop: 'center' }}" alt="{{ media.alt | default: product.title | escape }}" loading="eager" width="88" height="88">
+            </button>
+          {% endfor %}
+        {% elsif product.images.size > 0 %}
+          {% for image in product.images %}
+            <button 
+              type="button" 
+              class="product-thumb-item {% if forloop.first %}is-active{% endif %}" 
+              data-thumb-src="{{ image | image_url: width: 1000 }}" 
+              data-media-id="{{ image.id }}"
+              aria-label="View product thumbnail {{ forloop.index }}"
+            >
+              <img src="{{ image | image_url: width: 176, height: 176, crop: 'center' }}" alt="{{ image.alt | default: product.title | escape }}" loading="eager" width="88" height="88">
+            </button>
+          {% endfor %}
+        {% elsif product == blank %}
+          <button type="button" class="product-thumb-item is-active" data-thumb-src="{{ 'product-ring-1.jpg' | asset_url }}" aria-label="View product thumbnail 1">
+            <img src="{{ 'product-ring-1.jpg' | asset_url }}" alt="Valor Ring" loading="eager" width="88" height="88">
+          </button>
+          <button type="button" class="product-thumb-item" data-thumb-src="{{ 'product4.png' | asset_url }}" aria-label="View product thumbnail 2">
+            <img src="{{ 'product4.png' | asset_url }}" alt="Valor Ring - Detail" loading="eager" width="88" height="88">
+          </button>
+          <button type="button" class="product-thumb-item" data-thumb-src="{{ 'product8.png' | asset_url }}" aria-label="View product thumbnail 3">
+            <img src="{{ 'product8.png' | asset_url }}" alt="Valor Ring - Model View" loading="eager" width="88" height="88">
+          </button>
+          <button type="button" class="product-thumb-item" data-thumb-src="{{ 'product3.jpg' | asset_url }}" aria-label="View product thumbnail 4">
+            <img src="{{ 'product3.jpg' | asset_url }}" alt="Valor Ring - Alternate View" loading="eager" width="88" height="88">
+          </button>
+        {% endif %}
+      </div>
+
+      <!-- Center Main Image Container -->
+      <div class="product-gallery-main">
+        <div class="product-main-image-wrap" data-product-main-wrap>
+          {% if featured_image %}
+            <img 
+              src="{{ featured_image | image_url: width: 1000 }}" 
+              alt="{{ featured_image.alt | default: product.title | escape }}" 
+              class="product-main-image" 
+              data-product-main-image 
+              loading="eager" 
+              width="800" 
+              height="800"
+            >
+          {% elsif product == blank %}
+            <img 
+              src="{{ 'product-ring-1.jpg' | asset_url }}" 
+              alt="VALOR V ONYX RING" 
+              class="product-main-image" 
+              data-product-main-image 
+              loading="eager" 
+              width="800" 
+              height="800"
+            >
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'product-main-image' }}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Right Product Info & Purchase Panel -->
+      <div class="product-info-panel">
+        <h1 class="product-info__title">{% if product != blank %}{{ product.title }}{% else %}Saraswati Ring (The Hindu Goddess of Wisdom){% endif %}</h1>
+        <p class="product-info__metal">{{ product_metal }}</p>
+        
+        <div class="product-info__price-wrap">
+          <span class="product-info__price" data-product-price>
+            {% if product != blank %}
+              {{ current_variant.price | money }}
+            {% else %}
+              {{ 14000 | money }}
+            {% endif %}
+          </span>
+          <span class="product-info__price-compare" data-product-compare-price {% unless current_variant.compare_at_price > current_variant.price %}style="display: none;"{% endunless %}>
+            {% if current_variant.compare_at_price > current_variant.price %}
+              {{ current_variant.compare_at_price | money }}
+            {% endif %}
+          </span>
+        </div>
+
+        {% form 'product', product, id: 'product-form-main', class: 'product-form-main' %}
+          <!-- Hidden Variant Input for Shopify Form -->
+          <input type="hidden" name="id" value="{{ current_variant.id | default: 'default' }}" data-selected-variant-id>
+
+          <!-- Variant Option Selectors (Sizes / Finish) -->
+          {% if product != blank and product.has_only_default_variant == false %}
+            <div class="product-variants-container" data-product-variants>
+              {% for option in product.options_with_values %}
+                <div class="product-option-group" data-option-index="{{ forloop.index0 }}">
+                  <label class="product-option-label">
+                    <span>{{ option.name }}</span>: 
+                    <strong data-option-selected-val>{{ option.selected_value }}</strong>
+                  </label>
+                  <div class="product-option-values">
+                    {% for value in option.values %}
+                      <button 
+                        type="button" 
+                        class="product-option-pill {% if option.selected_value == value %}is-selected{% endif %}"
+                        data-option-pill
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-value="{{ value | escape }}"
+                        data-option-name="{{ option.name | escape }}"
+                      >
+                        {{ value }}
+                      </button>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% elsif product == blank %}
+            <!-- Default Rings Size Selector Fallback only when previewing without product -->
+            <div class="product-option-group">
+              <label class="product-option-label">
+                <span>Ring Size</span>: <strong id="selected-size-label">7</strong>
+              </label>
+              <div class="product-option-values">
+                <button type="button" class="product-option-pill" data-size="5">5</button>
+                <button type="button" class="product-option-pill" data-size="6">6</button>
+                <button type="button" class="product-option-pill is-selected" data-size="7">7</button>
+                <button type="button" class="product-option-pill" data-size="8">8</button>
+                <button type="button" class="product-option-pill" data-size="9">9</button>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Quantity Picker -->
+          <div class="product-quantity-wrap">
+            <label class="product-quantity-label" for="Quantity-{{ section.id }}">Quantity</label>
+            <div class="quantity-picker">
+              <button type="button" class="quantity-btn quantity-btn--minus" data-quantity-minus aria-label="Decrease quantity">&minus;</button>
+              <input type="number" name="quantity" id="Quantity-{{ section.id }}" class="quantity-input" value="1" min="1" max="99" data-quantity-input>
+              <button type="button" class="quantity-btn quantity-btn--plus" data-quantity-plus aria-label="Increase quantity">&plus;</button>
+            </div>
+          </div>
+
+          <!-- Add to Bag & Wishlist Action Row -->
+          <div class="product-info__actions">
+            <button 
+              type="submit" 
+              name="add" 
+              class="product-add-to-bag-btn" 
+              data-add-to-cart-btn
+              id="btn-add-to-bag"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              <span data-add-to-cart-text>
+                {% if current_variant == blank %}
+                  Unavailable
+                {% elsif current_variant.available %}
+                  Add to Bag
+                {% else %}
+                  Sold Out
+                {% endif %}
+              </span>
+            </button>
+
+            <button 
+              type="button" 
+              class="product-wishlist-btn" 
+              data-wishlist-btn 
+              data-product-handle="{{ product.handle | default: 'saraswati-ring' }}" 
+              aria-label="Add to Wishlist"
+              title="Add to Wishlist"
+            >
+              <svg class="icon icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="20" height="20">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dynamic Checkout Button (Buy Now) -->
+          {% if current_variant.available %}
+            <div class="product-buy-now-wrap" data-buy-now-wrap>
+              {{ form | payment_button }}
+            </div>
+          {% endif %}
+        {% endform %}
+
+        {% if product != blank %}
+          <script type="application/json" data-product-json>
+            {{ product | json }}
+          </script>
+        {% endif %}
+
+        <p class="product-info__delivery-note">*Complimentary insured shipping on all orders over $100*</p>
+
+        <!-- 4 Interactive Product Accordions -->
+        <div class="product-accordions" data-product-accordions>
+          
+          <!-- Accordion 1: Details & Dimension -->
+          <div class="product-accordion-item is-open">
+            <button type="button" class="product-accordion-header" aria-expanded="true">
+              <span class="product-accordion-title">Details &amp; Dimension</span>
+              <span class="product-accordion-icon">&minus;</span>
+            </button>
+            <div class="product-accordion-body" style="max-height: 400px;">
+              <div class="product-accordion-content">
+                {% if product.description != blank %}
+                  <div class="product-description-rte rte">
+                    {{ product.description }}
+                  </div>
+                {% elsif product == blank %}
+                  <p>18k Gold Vermeil, Mother of Pearl & Black Enamel. At the center of this ring lies luminous white mother of pearl - your radiant inner essence. Framed by sleek black enamel and parted by two fine gold lines, it symbolizes the sacred boundaries we set to protect what is most precious within.</p>
+                {% endif %}
+                {% if product.metafields.custom.details != blank %}
+                  <p>{{ product.metafields.custom.details }}</p>
+                {% endif %}
+                {% if product.vendor != blank %}
+                  <p><strong>Vendor:</strong> {{ product.vendor }}</p>
+                {% endif %}
+                {% if product.type != blank %}
+                  <p><strong>Category:</strong> {{ product.type }}</p>
+                {% endif %}
+                {% if product.tags.size > 0 %}
+                  <p><strong>Tags:</strong> {{ product.tags | join: ', ' }}</p>
+                {% endif %}
+                <p><strong>Craftsmanship:</strong> Hypoallergenic, nickel-free, lead-free comfort fit design.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion 2: About the materials -->
+          <div class="product-accordion-item">
+            <button type="button" class="product-accordion-header" aria-expanded="false">
+              <span class="product-accordion-title">About the materials</span>
+              <span class="product-accordion-icon">&plus;</span>
+            </button>
+            <div class="product-accordion-body">
+              <div class="product-accordion-content">
+                {% if product.metafields.custom.materials != blank %}
+                  <p>{{ product.metafields.custom.materials }}</p>
+                {% elsif product.metafields.custom.metal != blank %}
+                  <p><strong>{{ product.metafields.custom.metal }}</strong></p>
+                  <p>Beyond ordinary gold plating. Rich 18K gold layered over sterling silver creates a luminous, enduring finish designed for elevated everyday wear.</p>
+                  <p>A quiet kind of luxury. Made to shine. Made to endure.</p>
+                {% else %}
+                  <p><strong>18K Gold Vermeil</strong></p>
+                  <p>Beyond ordinary gold plating. Rich 18K gold layered over sterling silver creates a luminous, enduring finish designed for elevated everyday wear.</p>
+                  <p>A quiet kind of luxury. Made to shine. Made to endure.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion 3: Emotional Breakdown -->
+          <div class="product-accordion-item">
+            <button type="button" class="product-accordion-header" aria-expanded="false">
+              <span class="product-accordion-title">Emotional Breakdown</span>
+              <span class="product-accordion-icon">&plus;</span>
+            </button>
+            <div class="product-accordion-body">
+              <div class="product-accordion-content">
+                {% if product.metafields.custom.emotional_breakdown != blank %}
+                  <p>{{ product.metafields.custom.emotional_breakdown }}</p>
+                {% else %}
+                  <p><strong>Setting Boundaries</strong> &mdash; You are not difficult; you are discerning. Protecting your peace is not selfish; it’s sacred. Every “no” you express is a “yes” to your growth.</p>
+                  <p>Natural gemstones and pearls promote emotional balance, enhance intuition, and nurture inner authority.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion 4: Precautions & Care -->
+          <div class="product-accordion-item">
+            <button type="button" class="product-accordion-header" aria-expanded="false">
+              <span class="product-accordion-title">Precautions &amp; Care</span>
+              <span class="product-accordion-icon">&plus;</span>
+            </button>
+            <div class="product-accordion-body">
+              <div class="product-accordion-content">
+                {% if product.metafields.custom.care != blank %}
+                  <p>{{ product.metafields.custom.care }}</p>
+                {% else %}
+                  <p>To preserve lasting luster, avoid prolonged exposure to harsh household chemicals, chlorinated pools, or perfume. Gently clean with the provided OGÉ microfiber polishing cloth and store in your protective pouch.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- YOU MAY ALSO LIKE SECTION -->
+  <section class="related-products-section" aria-label="You May Also Like" data-product-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4">
+    <div class="page-container">
+      <div class="related-products__header">
+        <h2 class="related-products__title">{{ section.settings.related_heading | default: 'YOU MAY ALSO LIKE' }}</h2>
+        <div class="related-products__nav-btns">
+          <button type="button" class="related-nav-btn related-nav-btn--prev" aria-label="Previous Products" data-related-prev>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="related-nav-btn related-nav-btn--next" aria-label="Next Products" data-related-next>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="related-products__grid" data-related-track>
+        {% assign related_collection = section.settings.related_collection | default: collection | default: product.collections.first | default: collections.all %}
+        {% assign shown_count = 0 %}
+        {% if related_collection != blank and related_collection.products_count > 0 %}
+          {% for rel_prod in related_collection.products limit: 12 %}
+            {% if rel_prod.id != product.id and shown_count < 4 %}
+              {% render 'product-card', product: rel_prod %}
+              {% assign shown_count = shown_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</main>
+
+{% schema %}
+{
+  "name": "Product Details",
+  "settings": [
+    {
+      "type": "text",
+      "id": "related_heading",
+      "label": "Related Products Heading",
+      "default": "YOU MAY ALSO LIKE"
+    },
+    {
+      "type": "collection",
+      "id": "related_collection",
+      "label": "Related Products Collection"
+    }
+  ]
+}
+{% endschema %}

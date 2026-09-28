@@ -1,0 +1,136 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Blog Listing Template Section
+  Features:
+  - Full-width hero banner with Perandory serif title
+  - Dynamic category / tag filter navigation
+  - 3-column responsive articles grid reusing snippets/article-card.liquid
+  - Shopify native pagination controls
+{% endcomment %}
+
+<main class="blog-listing-section" data-blog-section>
+  {% if section.settings.show_hero %}
+    <section class="blog-hero">
+      {% if section.settings.hero_image != blank %}
+        {{ section.settings.hero_image | image_url: width: 1600 | image_tag: class: 'blog-hero__img', loading: 'eager', alt: blog.title, width: 1600, height: 400 }}
+      {% else %}
+        <img src="{{ 'blog2.jpg' | asset_url }}" alt="{{ blog.title | default: 'THE OGÉ JOURNAL' | escape }}" class="blog-hero__img" loading="eager" width="1600" height="400">
+      {% endif %}
+      <div class="blog-hero__overlay">
+        <h1 class="blog-hero__title">{{ blog.title | default: 'THE OGÉ JOURNAL' }}</h1>
+      </div>
+    </section>
+  {% else %}
+    <div class="page-header" style="text-align: center; padding: 48px 20px 24px;">
+      <h1 class="page-title" style="font-family: 'Perandory', 'Cormorant Garamond', Georgia, serif; font-size: 2.25rem; text-transform: uppercase;">
+        {{ blog.title | default: 'THE OGÉ JOURNAL' }}
+      </h1>
+    </div>
+  {% endif %}
+
+  <!-- Category / Tag Filter Navigation -->
+  {% if blog.all_tags.size > 0 and section.settings.show_tag_filter %}
+    <nav class="blog-tags-nav" aria-label="Journal categories">
+      <div class="page-container">
+        <ul class="blog-tags-list">
+          <li>
+            <a href="{{ blog.url }}" class="blog-tag-link{% unless current_tags %} is-active{% endunless %}">
+              All
+            </a>
+          </li>
+          {% for tag in blog.all_tags %}
+            {% assign tag_handle = tag | handle %}
+            <li>
+              <a href="{{ blog.url }}/tagged/{{ tag_handle }}" class="blog-tag-link{% if current_tags contains tag %} is-active{% endif %}">
+                {{ tag }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  {% endif %}
+
+  <!-- Articles Listing Grid -->
+  <div class="blog-listing-wrap">
+    <div class="page-container">
+      {% paginate blog.articles by section.settings.articles_per_page | default: 9 %}
+        {% if blog.articles.size > 0 %}
+          <div class="journal-grid">
+            {% for article in blog.articles %}
+              {% render 'article-card', 
+                article: article, 
+                show_date: section.settings.show_date, 
+                show_author: section.settings.show_author, 
+                show_tags: section.settings.show_tags 
+              %}
+            {% endfor %}
+          </div>
+
+          {% if paginate.pages > 1 %}
+            <div class="collection-pagination" style="text-align: center; margin-top: 48px;">
+              {{ paginate | default_pagination }}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="blog-empty">
+            <p class="blog-empty-text">No articles found in this journal.</p>
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
+  </div>
+</main>
+
+{% schema %}
+{
+  "name": "Blog Posts",
+  "tag": "section",
+  "class": "section-main-blog",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_hero",
+      "label": "Show Hero Banner",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Custom Hero Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag_filter",
+      "label": "Show Category/Tag Filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show Publication Date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show Author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show Tags",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 9,
+      "label": "Articles per page"
+    }
+  ]
+}
+{% endschema %}

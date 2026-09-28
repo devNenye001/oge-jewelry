@@ -1,0 +1,177 @@
+<section class="featured-collection-section" style="padding: 40px 0; background-color: {{ section.settings.bg_color | default: '#FFFFFF' }};" {{ section.shopify_attributes }}>
+  <div class="page-container">
+    <div class="section-header">
+      <h2 class="section-header__title">{{ section.settings.heading | default: 'NEW ARRIVALS' }}</h2>
+      {% if section.settings.show_navigation %}
+        <div class="carousel-nav-btns">
+          <button type="button" class="carousel-nav-btn" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="carousel-nav-btn" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="products-grid">
+      {% assign featured_collection = section.settings.collection %}
+      {% if featured_collection == blank %}
+        {% if section.settings.preset_type == 'new_arrivals' and collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
+          {% assign featured_collection = collections['new-in'] %}
+        {% elsif section.settings.preset_type == 'best_sellers' and collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
+          {% assign featured_collection = collections['best-sellers'] %}
+        {% endif %}
+      {% endif %}
+
+      {% if featured_collection != blank and featured_collection.products_count > 0 %}
+        {% for product in featured_collection.products limit: section.settings.products_to_show %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        {% if section.settings.preset_type == 'best_sellers' %}
+          <!-- Official Best Sellers from Victorious & Self Romance Collections -->
+          {% render 'product-card', 
+            title: 'Valor Necklace - Black Onyx 18k Gold Vermeil', 
+            material: '18K Gold Vermeil & Onyx', 
+            price: 18500, 
+            image_url: 'product3.jpg', 
+            hover_image_url: 'product-necklace-1.jpg', 
+            handle: 'valor-necklace-gold' 
+          %}
+          {% render 'product-card', 
+            title: 'Valor Stud Earrings - Black Onyx 18k Gold Vermeil', 
+            material: '18K Gold Vermeil & Onyx', 
+            price: 12500, 
+            image_url: 'product2.png', 
+            hover_image_url: 'product-earrings-1.jpg', 
+            handle: 'valor-stud-earrings-gold' 
+          %}
+          {% render 'product-card', 
+            title: 'Valor Bracelet - Black Onyx 18k Gold Vermeil', 
+            material: '18K Gold Vermeil & Onyx', 
+            price: 15500, 
+            image_url: 'product5.png', 
+            hover_image_url: 'product-bracelet-1.jpg', 
+            handle: 'valor-bracelet-gold' 
+          %}
+          {% render 'product-card', 
+            title: 'Devotion Necklace - Cupid, Roses & Pearls', 
+            material: 'Silver Rhodium & Freshwater Pearls', 
+            price: 16500, 
+            compare_at_price: 19500, 
+            image_url: 'product7.jpg', 
+            hover_image_url: 'product-necklace-1.jpg', 
+            handle: 'devotion-necklace' 
+          %}
+        {% else %}
+          <!-- Official New Arrivals from Boundaries & Self Romance Collections -->
+          {% render 'product-card', 
+            title: 'Saraswati Ring - White Mother of Pearl', 
+            material: '18K Gold Vermeil & Mother of Pearl', 
+            price: 14000, 
+            compare_at_price: 16500, 
+            image_url: 'product-ring-1.jpg', 
+            hover_image_url: 'product4.png', 
+            is_new: true, 
+            handle: 'saraswati-ring' 
+          %}
+          {% render 'product-card', 
+            title: 'Ala Ring - Peridot & Black Enamel', 
+            material: '18K Gold Vermeil & Peridot', 
+            price: 14000, 
+            image_url: 'product4.png', 
+            hover_image_url: 'product-ring-1.jpg', 
+            is_new: true, 
+            handle: 'ala-ring' 
+          %}
+          {% render 'product-card', 
+            title: 'Ascend Earrings - Cupid & Pearl Studs', 
+            material: 'Silver Rhodium & Shell Pearls', 
+            price: 11500, 
+            compare_at_price: 13500, 
+            image_url: 'product1.png', 
+            hover_image_url: 'product-earrings-1.jpg', 
+            is_new: true, 
+            handle: 'ascend-earrings' 
+          %}
+          {% render 'product-card', 
+            title: 'Harmonia Ring - Rose Quartz', 
+            material: '18K Gold Vermeil & Rose Quartz', 
+            price: 14500, 
+            image_url: 'product3.jpg', 
+            hover_image_url: 'product8.png', 
+            is_new: true, 
+            handle: 'harmonia-ring' 
+          %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "NEW ARRIVALS"
+    },
+    {
+      "type": "select",
+      "id": "preset_type",
+      "label": "Preset Fallback Type",
+      "options": [
+        { "value": "new_arrivals", "label": "New Arrivals (product1 - product4)" },
+        { "value": "best_sellers", "label": "Pieces Worth Keeping (product5 - product8)" }
+      ],
+      "default": "new_arrivals"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show Navigation Arrows",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Arrivals",
+      "settings": {
+        "heading": "NEW ARRIVALS",
+        "preset_type": "new_arrivals"
+      }
+    },
+    {
+      "name": "Pieces Worth Keeping",
+      "settings": {
+        "heading": "PIECES WORTH KEEPING",
+        "preset_type": "best_sellers"
+      }
+    }
+  ]
+}
+{% endschema %}

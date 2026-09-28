@@ -1,0 +1,177 @@
+{% doc %}
+  Renders a luxury product card matching the Figma design specifications.
+  @param {product} [product] - Shopify product object
+  @param {string} [title] - Product title
+  @param {string} [material] - Product material/color (e.g., 'Gold')
+  @param {number} [price] - Current price in cents or formatted string
+  @param {number} [compare_at_price] - Compare at / original price
+  @param {string} [image_url] - Primary product image
+  @param {string} [hover_image_url] - Secondary hover image (model or product)
+  @param {boolean} [is_new] - Show 'New' badge
+  @param {boolean} [is_out_of_stock] - Show 'OUT OF STOCK' bar
+  @param {string} [handle] - Product handle
+{% enddoc %}
+
+{% assign card_product = product %}
+{% assign card_title = title | default: card_product.title | default: 'Valor Necklace' %}
+
+{% assign card_material = material %}
+{% if card_material == blank and card_product != blank %}
+  {% assign card_material = card_product.metafields.custom.metal | default: card_product.metafields.custom.material | default: card_product.type | default: card_product.vendor %}
+  {% if card_material == blank and card_product.variants.size > 0 and card_product.has_only_default_variant == false %}
+    {% assign card_material = card_product.variants.first.title %}
+  {% endif %}
+{% endif %}
+{% assign card_material = card_material | default: '18K Gold Vermeil' %}
+
+{% assign card_handle = handle | default: card_product.handle | default: card_title | handleize %}
+{% if card_product != blank and card_product.url != blank %}
+  {% assign card_url = card_product.url %}
+{% else %}
+  {% assign card_url = '/products/' | append: card_handle %}
+{% endif %}
+
+{% if card_product != blank %}
+  {% assign card_price = card_product.price %}
+  {% assign card_compare_price = card_product.compare_at_price %}
+{% else %}
+  {% assign card_price = price | default: 14000 %}
+  {% assign card_compare_price = compare_at_price %}
+{% endif %}
+
+{% if card_product != blank and card_product.featured_media != blank %}
+  {% assign card_img_src = card_product.featured_media | image_url: width: 600 %}
+{% elsif card_product != blank and card_product.featured_image != blank %}
+  {% assign card_img_src = card_product.featured_image | image_url: width: 600 %}
+{% elsif image_url contains '/' or image_url contains 'http' %}
+  {% assign card_img_src = image_url %}
+{% elsif image_url != blank %}
+  {% assign card_img_src = image_url | asset_url %}
+{% else %}
+  {% assign card_img_src = 'product-ring-1.jpg' | asset_url %}
+{% endif %}
+
+{% if card_product != blank and card_product.media.size > 1 %}
+  {% assign card_hover_img_src = card_product.media[1] | image_url: width: 600 %}
+{% elsif card_product != blank and card_product.images.size > 1 %}
+  {% assign card_hover_img_src = card_product.images[1] | image_url: width: 600 %}
+{% elsif hover_image_url contains '/' or hover_image_url contains 'http' %}
+  {% assign card_hover_img_src = hover_image_url %}
+{% elsif hover_image_url != blank %}
+  {% assign card_hover_img_src = hover_image_url | asset_url %}
+{% else %}
+  {% assign card_hover_img_src = blank %}
+{% endif %}
+
+{% assign card_new = is_new %}
+{% if card_new == blank and card_product != blank %}
+  {% if card_product.tags contains 'new' or card_product.tags contains 'New' or card_product.tags contains 'NEW' %}
+    {% assign card_new = true %}
+  {% endif %}
+{% endif %}
+
+{% assign card_sold_out = is_out_of_stock %}
+{% if card_product != blank and card_product.available == false %}
+  {% assign card_sold_out = true %}
+{% endif %}
+{% assign card_variant_id = card_product.selected_or_first_available_variant.id | default: card_product.variants.first.id | default: card_handle %}
+
+<div class="product-card" data-product-card data-product-handle="{{ card_handle }}">
+  <div class="product-card__media">
+    <!-- 1. Top Badges (New / Sale) -->
+    {% if card_new %}
+      <span class="product-card__badge-new">New</span>
+    {% elsif card_compare_price and card_compare_price > card_price %}
+      <span class="product-card__badge-sale">Sale</span>
+    {% endif %}
+
+    <!-- 2. Wishlist Heart Button (Top Right) -->
+    <button 
+      type="button" 
+      class="product-card__wishlist-btn" 
+      data-wishlist-btn 
+      data-product-handle="{{ card_handle }}" 
+      aria-label="Add {{ card_title }} to WishList"
+      title="Add to WishList"
+    >
+      <svg class="icon icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    </button>
+
+    <!-- 3. Dual Images (Primary & Model/Product Hover) -->
+    <a href="{{ card_url }}" class="product-card__image-link">
+      <img 
+        src="{{ card_img_src }}" 
+        alt="{{ card_title | escape }}" 
+        class="product-card__img-primary" 
+        loading="lazy" 
+        width="600" 
+        height="720"
+      >
+      {% if card_hover_img_src != blank %}
+        <img 
+          src="{{ card_hover_img_src }}" 
+          alt="{{ card_title | escape }} - Alternate View" 
+          class="product-card__img-secondary" 
+          loading="lazy" 
+          width="600" 
+          height="720"
+        >
+      {% endif %}
+    </a>
+
+    <!-- 4. Quick Add To Cart '+' Button (Bottom Center) -->
+    {% unless card_sold_out %}
+      <button 
+        type="button" 
+        class="product-card__add-btn" 
+        data-quick-add 
+        data-product-id="{{ card_variant_id }}"
+        data-product-handle="{{ card_handle }}"
+        data-product-title="{{ card_title | escape }}" 
+        data-product-price="{{ card_price }}" 
+        data-product-img="{{ card_img_src }}" 
+        aria-label="Add {{ card_title | escape }} to Bag"
+        title="Quick Add to Bag"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    {% endunless %}
+
+    <!-- 5. Out Of Stock Badge Bar -->
+    {% if card_sold_out %}
+      <div class="product-card__out-of-stock-bar">OUT OF STOCK</div>
+    {% endif %}
+  </div>
+
+  <!-- 6. Product Details -->
+  <div class="product-card__info">
+    <h3 class="product-card__title">
+      <a href="{{ card_url }}">{{ card_title }}</a>
+    </h3>
+    <p class="product-card__material">{{ card_material }}</p>
+    <div class="product-card__price">
+      <span class="product-card__current-price">
+        {% if card_price contains '$' %}
+          {{ card_price }}
+        {% else %}
+          {{ card_price | money }}
+        {% endif %}
+      </span>
+      {% if card_compare_price and card_compare_price > card_price %}
+        <span class="product-card__compare-price">
+          {% if card_compare_price contains '$' %}
+            {{ card_compare_price }}
+          {% else %}
+            {{ card_compare_price | money }}
+          {% endif %}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
