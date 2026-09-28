@@ -1,5 +1,5 @@
 {% liquid
-  assign v1 = 'video.mp4' | asset_url
+  assign v1 = ''
   if section.settings.video_url_1 != blank
     if section.settings.video_url_1 contains '/'
       assign v1 = section.settings.video_url_1
@@ -13,7 +13,7 @@
     assign p1 = section.settings.poster_1 | image_url: width: 600
   endif
 
-  assign v2 = 'video.mp4' | asset_url
+  assign v2 = ''
   if section.settings.video_url_2 != blank
     if section.settings.video_url_2 contains '/'
       assign v2 = section.settings.video_url_2
@@ -27,7 +27,7 @@
     assign p2 = section.settings.poster_2 | image_url: width: 600
   endif
 
-  assign v3 = 'video.mp4' | asset_url
+  assign v3 = ''
   if section.settings.video_url_3 != blank
     if section.settings.video_url_3 contains '/'
       assign v3 = section.settings.video_url_3
@@ -41,7 +41,7 @@
     assign p3 = section.settings.poster_3 | image_url: width: 600
   endif
 
-  assign v_large = 'large-home-video.mp4' | asset_url
+  assign v_large = ''
   if section.settings.large_video_url != blank
     if section.settings.large_video_url contains '/'
       assign v_large = section.settings.large_video_url
@@ -61,7 +61,7 @@
     <div class="video-reels-grid" style="margin-bottom: 36px;">
       <!-- Video Reel 1 -->
       <div class="video-reel-card" data-video-card>
-        <video src="{{ v1 }}" playsinline preload="metadata" poster="{{ p1 }}" loop></video>
+        <video {% if v1 != blank %}src="{{ v1 }}"{% endif %} playsinline preload="metadata" poster="{{ p1 }}" loop></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
             <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
@@ -71,7 +71,7 @@
 
       <!-- Video Reel 2 -->
       <div class="video-reel-card" data-video-card>
-        <video src="{{ v2 }}" playsinline preload="metadata" poster="{{ p2 }}" loop></video>
+        <video {% if v2 != blank %}src="{{ v2 }}"{% endif %} playsinline preload="metadata" poster="{{ p2 }}" loop></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
             <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
@@ -81,7 +81,7 @@
 
       <!-- Video Reel 3 -->
       <div class="video-reel-card" data-video-card>
-        <video src="{{ v3 }}" playsinline preload="metadata" poster="{{ p3 }}" loop></video>
+        <video {% if v3 != blank %}src="{{ v3 }}"{% endif %} playsinline preload="metadata" poster="{{ p3 }}" loop></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
             <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
@@ -100,7 +100,11 @@
 
   <!-- Full-Width Cinematic Video: Autoplay, Muted, Loop, Controls -->
   <div class="large-video-banner">
-    <video src="{{ v_large }}" autoplay muted loop playsinline controls class="large-video-player"></video>
+    {% if v_large != blank %}
+      <video src="{{ v_large }}" autoplay muted loop playsinline controls class="large-video-player"></video>
+    {% else %}
+      <video autoplay muted loop playsinline controls class="large-video-player" poster="{{ 'hero.jpg' | asset_url }}"></video>
+    {% endif %}
   </div>
 </section>
 

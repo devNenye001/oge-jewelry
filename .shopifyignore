@@ -1,0 +1,8 @@
+# Files and directories ignored by Shopify
+*.html
+*.zip
+*.py
+*.md
+preview/
+scratch/
+assets/*.mp4

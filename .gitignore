@@ -1,0 +1,2 @@
+# Large media files (exceed Shopify theme asset limit of 20MB)
+assets/*.mp4
