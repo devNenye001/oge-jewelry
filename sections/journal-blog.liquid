@@ -7,7 +7,7 @@
   - Mobile swipeable and arrow-navigable horizontal scroll
 {% endcomment %}
 
-{% assign journal_blog = section.settings.blog | default: blogs['news'] | default: blogs['journal'] | default: blogs.first %}
+{% assign journal_blog = section.settings.blog | default: blogs['journal'] | default: blogs['news'] | default: blogs.first %}
 
 <section class="journal-section" style="padding: 54px 0 48px; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
   <div class="page-container">
@@ -39,38 +39,38 @@
       {% else %}
         <!-- Editorial Post 1 -->
         <article class="journal-card">
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__media">
             <img src="{{ 'blog1.jpg' | asset_url }}" alt="How to Style Your Jewelry for Every Occasion" loading="lazy" width="600" height="450">
           </a>
-          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">How to Style Your Jewelry for Every Occasion</a></h3>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/journal' }}">How to Style Your Jewelry for Every Occasion</a></h3>
           <p class="journal-card__excerpt">
             From everyday essentials to statement moments, discover how to make your jewelry work for you.
           </p>
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__link">Read More</a>
         </article>
 
         <!-- Editorial Post 2 -->
         <article class="journal-card">
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__media">
             <img src="{{ 'blog2.jpg' | asset_url }}" alt="Jewelry Care: Keep Your Pieces Looking Their Best" loading="lazy" width="600" height="450">
           </a>
-          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">Jewelry Care: Keep Your Pieces Looking Their Best</a></h3>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/journal' }}">Jewelry Care: Keep Your Pieces Looking Their Best</a></h3>
           <p class="journal-card__excerpt">
             Simple ways to care for your favorite OGÉ pieces and keep them beautiful for years to come.
           </p>
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__link">Read More</a>
         </article>
 
         <!-- Editorial Post 3 -->
         <article class="journal-card">
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__media">
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__media">
             <img src="{{ 'blog3.jpg' | asset_url }}" alt="The Art of Layering: Creating a Cohesive Look" loading="lazy" width="600" height="450">
           </a>
-          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/news' }}">The Art of Layering: Creating a Cohesive Look</a></h3>
+          <h3 class="journal-card__title"><a href="{{ journal_blog.url | default: '/blogs/journal' }}">The Art of Layering: Creating a Cohesive Look</a></h3>
           <p class="journal-card__excerpt">
             A guide to pairing necklaces and rings without losing the balance.
           </p>
-          <a href="{{ journal_blog.url | default: '/blogs/news' }}" class="journal-card__link">Read More</a>
+          <a href="{{ journal_blog.url | default: '/blogs/journal' }}" class="journal-card__link">Read More</a>
         </article>
       {% endif %}
     </div>
