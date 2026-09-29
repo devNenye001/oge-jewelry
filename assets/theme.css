@@ -6502,6 +6502,8 @@ body.template-customers-reset-password {
   flex-direction: column;
   position: relative;
   width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
   background: transparent;
 }
 
@@ -6509,6 +6511,7 @@ body.template-customers-reset-password {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1.18;
+  max-height: 330px;
   background-color: #F8F8F8;
   overflow: hidden;
   display: flex;
