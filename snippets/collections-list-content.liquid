@@ -1,0 +1,43 @@
+{% doc %}
+  Renders the curated Collections List page content matching the approved OGÉ design.
+{% enddoc %}
+
+<section class="collection-list-section" style="padding: 60px 0;">
+  <div class="page-container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <p class="heading-sub" style="margin-bottom: 8px;">CURATED ESSENTIALS</p>
+      <h1 class="heading-section">OUR COLLECTIONS</h1>
+    </div>
+
+    <div class="collection-grid">
+      <a href="/collections/victorious" class="collection-tile">
+        <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="Victorious Collection" loading="lazy" width="600" height="800">
+        <div class="collection-tile__overlay">
+          <h3 class="collection-tile__title">Victorious Collection</h3>
+          <span class="collection-tile__link-text">Shop Collection</span>
+        </div>
+      </a>
+      <a href="/collections/self-romance" class="collection-tile">
+        <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="600" height="800">
+        <div class="collection-tile__overlay">
+          <h3 class="collection-tile__title">Self Romance Collection</h3>
+          <span class="collection-tile__link-text">Shop Collection</span>
+        </div>
+      </a>
+      <a href="/collections/boundaries" class="collection-tile">
+        <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="Boundaries Collection" loading="lazy" width="600" height="800">
+        <div class="collection-tile__overlay">
+          <h3 class="collection-tile__title">Boundaries Collection</h3>
+          <span class="collection-tile__link-text">Shop Collection</span>
+        </div>
+      </a>
+      <a href="/collections/rebirth" class="collection-tile">
+        <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="Rebirth Collection" loading="lazy" width="600" height="800">
+        <div class="collection-tile__overlay">
+          <h3 class="collection-tile__title">Rebirth Collection</h3>
+          <span class="collection-tile__link-text">Shop Collection</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

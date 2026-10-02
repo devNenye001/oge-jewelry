@@ -39,26 +39,28 @@
   {% assign card_compare_price = compare_at_price %}
 {% endif %}
 
+{% assign raw_img = card_image | default: image_url %}
 {% if card_product != blank and card_product.featured_media != blank %}
   {% assign card_img_src = card_product.featured_media | image_url: width: 600 %}
 {% elsif card_product != blank and card_product.featured_image != blank %}
   {% assign card_img_src = card_product.featured_image | image_url: width: 600 %}
-{% elsif image_url contains '/' or image_url contains 'http' %}
-  {% assign card_img_src = image_url %}
-{% elsif image_url != blank %}
-  {% assign card_img_src = image_url | asset_url %}
+{% elsif raw_img contains '/' or raw_img contains 'http' %}
+  {% assign card_img_src = raw_img %}
+{% elsif raw_img != blank %}
+  {% assign card_img_src = raw_img | asset_url %}
 {% else %}
   {% assign card_img_src = 'product-ring-1.jpg' | asset_url %}
 {% endif %}
 
+{% assign raw_hover_img = card_hover_image | default: hover_image_url %}
 {% if card_product != blank and card_product.media.size > 1 %}
   {% assign card_hover_img_src = card_product.media[1] | image_url: width: 600 %}
 {% elsif card_product != blank and card_product.images.size > 1 %}
   {% assign card_hover_img_src = card_product.images[1] | image_url: width: 600 %}
-{% elsif hover_image_url contains '/' or hover_image_url contains 'http' %}
-  {% assign card_hover_img_src = hover_image_url %}
-{% elsif hover_image_url != blank %}
-  {% assign card_hover_img_src = hover_image_url | asset_url %}
+{% elsif raw_hover_img contains '/' or raw_hover_img contains 'http' %}
+  {% assign card_hover_img_src = raw_hover_img %}
+{% elsif raw_hover_img != blank %}
+  {% assign card_hover_img_src = raw_hover_img | asset_url %}
 {% else %}
   {% assign card_hover_img_src = blank %}
 {% endif %}
@@ -76,7 +78,7 @@
 {% endif %}
 {% assign card_variant_id = card_product.selected_or_first_available_variant.id | default: card_product.variants.first.id | default: card_handle %}
 
-<div class="product-card" data-product-card data-product-handle="{{ card_handle }}">
+<div class="product-card{% if card_hover_img_src != blank %} has-hover-image{% endif %}" data-product-card data-product-handle="{{ card_handle }}">
   <div class="product-card__media">
     <!-- 1. Top Badges (New / Sale) -->
     {% if card_new %}

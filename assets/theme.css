@@ -1023,6 +1023,41 @@ body:not(.template-index) .site-header .site-logo__image--black {
   }
 }
 
+/* --------------------------------------------------------------------------
+   404 PAGE: BEST SELLERS STRICT 2-COLUMN GRID (NO MOBILE SCROLL / NO STRETCH)
+   -------------------------------------------------------------------------- */
+.not-found-bestsellers-grid,
+.template-404 #best-sellers .products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 28px 20px !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  flex-direction: unset !important;
+  flex-wrap: unset !important;
+}
+
+.not-found-bestsellers-grid .product-card,
+.template-404 #best-sellers .product-card {
+  max-width: 280px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  flex: none !important;
+}
+
+@media (max-width: 640px) {
+  .not-found-bestsellers-grid,
+  .template-404 #best-sellers .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px 12px !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
 .product-card {
   display: flex;
   flex-direction: column;
@@ -1060,7 +1095,7 @@ body:not(.template-index) .site-header .site-logo__image--black {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .product-card__img-primary {
@@ -1071,14 +1106,20 @@ body:not(.template-index) .site-header .site-logo__image--black {
 .product-card__img-secondary {
   opacity: 0;
   z-index: 2;
+  pointer-events: none;
 }
 
-.product-card:hover .product-card__img-primary {
-  opacity: 0;
-}
+/* Smooth replacement / crossfade on desktop hover only */
+@media (hover: hover) and (pointer: fine) {
+  .product-card.has-hover-image:hover .product-card__img-primary,
+  .product-card:hover .product-card__image-link:has(.product-card__img-secondary) .product-card__img-primary {
+    opacity: 0;
+  }
 
-.product-card:hover .product-card__img-secondary {
-  opacity: 1;
+  .product-card.has-hover-image:hover .product-card__img-secondary,
+  .product-card:hover .product-card__img-secondary {
+    opacity: 1;
+  }
 }
 
 .product-card__wishlist-btn {
@@ -8837,18 +8878,24 @@ p.wishlist-empty-desc {
 }
 
 /* --------------------------------------------------------------------------
-   LEGAL / POLICY PAGES TYPOGRAPHY (PRIVACY POLICY, TERMS & CONDITIONS, SHIPPING & RETURNS)
-   Only the main heading (.legal-page__title) uses Perandory Serif;
-   EVERYTHING ELSE (sections h2, subheadings h3, paragraphs, lists, links) uses DM Sans only.
+   LEGAL / POLICY PAGES (PRIVACY POLICY, TERMS & CONDITIONS, SHIPPING & RETURNS)
+   Add approximately 30px of vertical spacing between navbar and page title/content
+   across mobile, tablet, laptop, and desktop.
    -------------------------------------------------------------------------- */
+.template-policy .main-content,
+.template-policy .shopify-policy__container,
+.shopify-policy__container,
 .legal-page-wrap {
   width: 100%;
   max-width: 900px !important;
-  margin: 0 auto !important;
-  padding: 44px 32px 64px !important;
+  margin: 30px auto 0 !important;
+  padding: 0 32px 64px !important;
   background-color: #FFFFFF !important;
+  box-sizing: border-box;
 }
 
+.template-policy .shopify-policy__title,
+.shopify-policy__title,
 .legal-page__title {
   font-family: 'Perandory', 'Cormorant Garamond', Georgia, serif !important;
   font-size: 2.25rem !important;
@@ -8857,11 +8904,22 @@ p.wishlist-empty-desc {
   text-transform: uppercase !important;
   color: #111111 !important;
   margin: 0 0 24px !important;
+  padding-top: 0 !important;
   text-align: left !important;
   line-height: 1.2 !important;
 }
 
 @media (max-width: 768px) {
+  .template-policy .main-content,
+  .template-policy .shopify-policy__container,
+  .shopify-policy__container,
+  .legal-page-wrap {
+    margin: 30px auto 0 !important;
+    padding: 0 18px 48px !important;
+  }
+
+  .template-policy .shopify-policy__title,
+  .shopify-policy__title,
   .legal-page__title {
     font-size: 1.625rem !important;
     margin-bottom: 18px !important;

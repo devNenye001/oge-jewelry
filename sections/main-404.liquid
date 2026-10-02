@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="products-grid products-grid--mobile-scroll">
+      <div class="products-grid not-found-bestsellers-grid">
         {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
           {% for product in section.settings.collection.products limit: 4 %}
             {% render 'product-card', product: product %}
@@ -62,8 +62,8 @@
             card_title: 'Valor V Onyx Necklace',
             card_price: 12000,
             card_material: 'Gold',
-            card_image: 'product7.jpg',
-            card_hover_image: 'product3.jpg',
+            card_image: 'product3.jpg',
+            card_hover_image: 'product7.jpg',
             card_handle: 'valor-v-onyx-necklace'
           %}
 
@@ -93,6 +93,14 @@
   {% render 'about-content' %}
 </div>
 
+<div id="dynamic-faq-view" style="display: none;">
+  {% render 'faq-content' %}
+</div>
+
+<div id="dynamic-collections-list-view" style="display: none;">
+  {% render 'collections-list-content' %}
+</div>
+
 <div id="dynamic-category-view" style="display: none;">
   {% render 'category-content' %}
 </div>
@@ -104,6 +112,8 @@
       var standard = document.getElementById('not-found-standard-view');
       var wishlist = document.getElementById('dynamic-wishlist-view');
       var about = document.getElementById('dynamic-about-view');
+      var faq = document.getElementById('dynamic-faq-view');
+      var collectionsList = document.getElementById('dynamic-collections-list-view');
       var category = document.getElementById('dynamic-category-view');
 
       if (!standard) return;
@@ -117,13 +127,28 @@
             window.WishlistPage.init();
           }
         }
-      } else if (path.indexOf('/pages/our-story') !== -1 || path.indexOf('/our-story') !== -1 || path.indexOf('/pages/about') !== -1) {
+      } else if (path.indexOf('/pages/our-story') !== -1 || path.indexOf('/our-story') !== -1 || path.indexOf('/pages/about') !== -1 || path.indexOf('/about') !== -1) {
         standard.style.display = 'none';
         if (about) {
           about.style.display = 'block';
           document.title = "Our Story | " + {{ shop.name | json }};
         }
-      } else if (path.indexOf('/collections/') !== -1 && path !== '/collections' && path !== '/collections/') {
+      } else if (path.indexOf('/pages/faqs') !== -1 || path.indexOf('/pages/faq') !== -1 || path.indexOf('/faqs') !== -1 || path.indexOf('/faq') !== -1) {
+        standard.style.display = 'none';
+        if (faq) {
+          faq.style.display = 'block';
+          document.title = "FAQs | " + {{ shop.name | json }};
+          if (window.InteractiveElements && typeof window.InteractiveElements.init === 'function') {
+            window.InteractiveElements.init();
+          }
+        }
+      } else if (path === '/collections' || path === '/collections/') {
+        standard.style.display = 'none';
+        if (collectionsList) {
+          collectionsList.style.display = 'block';
+          document.title = "Collections | " + {{ shop.name | json }};
+        }
+      } else if (path.indexOf('/collections/') !== -1) {
         standard.style.display = 'none';
         if (category) {
           category.style.display = 'block';

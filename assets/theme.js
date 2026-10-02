@@ -153,10 +153,24 @@
 
       const isEnabled = this.modal.getAttribute('data-popup-enabled') !== 'false';
       const delay = parseInt(this.modal.getAttribute('data-popup-delay') || '1000', 10);
+      const storageKey = 'oge_sales_popup_seen';
 
-      // Show popup after short delay
+      // Check if user has already seen or dismissed the popup
+      try {
+        if (localStorage.getItem(storageKey)) {
+          return;
+        }
+      } catch (e) {}
+
+      // Show popup after short delay on first visit only
       if (isEnabled) {
-        setTimeout(() => this.show(), delay);
+        setTimeout(() => {
+          try {
+            if (localStorage.getItem(storageKey)) return;
+            localStorage.setItem(storageKey, 'true');
+          } catch (e) {}
+          this.show();
+        }, delay);
       }
 
       // Close buttons
@@ -203,12 +217,18 @@
 
     show() {
       if (!this.modal) return;
+      try {
+        localStorage.setItem('oge_sales_popup_seen', 'true');
+      } catch (e) {}
       this.modal.classList.add('is-open');
       document.body.classList.add('modal-open');
     },
 
     hide() {
       if (!this.modal) return;
+      try {
+        localStorage.setItem('oge_sales_popup_seen', 'true');
+      } catch (e) {}
       this.modal.classList.remove('is-open');
       document.body.classList.remove('modal-open');
     },
