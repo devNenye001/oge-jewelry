@@ -1574,6 +1574,21 @@ body:not(.template-index) .site-header .site-logo__image--black {
 .brand-story__cta {
   margin-top: 8px;
   align-self: flex-start;
+  background-color: #8C5341;
+  color: #FFFFFF;
+  padding: 12px 28px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 2px;
+  transition: background-color var(--transition-fast);
+}
+
+.brand-story__cta:hover {
+  background-color: #724233;
+  color: #FFFFFF;
 }
 
 @media (max-width: 900px) {
@@ -1584,81 +1599,100 @@ body:not(.template-index) .site-header .site-logo__image--black {
 }
 
 /* --------------------------------------------------------------------------
-   11. TESTIMONIALS (EXACT MATCH FOR IMAGE 4 UPLOAD: WORN. LOVED. REMEMBERED.)
+   11. TESTIMONIALS (EXACT MATCH FOR APPROVED DESIGN: WORN. LOVED. REMEMBERED.)
+   Horizontal Scroll (NO GRID) across all screen sizes
    -------------------------------------------------------------------------- */
+.testimonials-scroll-container {
+  position: relative;
+  width: 100%;
+}
+
+.testimonials-track,
 .testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  gap: 20px;
+  padding: 8px 0 24px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.testimonials-track::-webkit-scrollbar,
+.testimonials-grid::-webkit-scrollbar {
+  display: none !important;
 }
 
 .testimonial-card {
-  padding: 28px 20px;
-  background-color: #F8F8F8;
+  flex: 0 0 340px !important;
+  min-width: 300px !important;
+  max-width: 360px !important;
+  scroll-snap-align: start;
+  padding: 36px 26px;
+  background-color: #F6F6F6;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
+  min-height: 380px;
   border-radius: 2px;
+  box-sizing: border-box;
 }
 
 .testimonial-stars {
-  color: #FFD569;
-  letter-spacing: 2px;
+  color: #E5A93C;
+  letter-spacing: 3px;
   font-size: 1rem;
+  line-height: 1;
 }
 
 .testimonial-text {
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.65;
   color: #222222;
+  margin: 32px 0 auto 0;
 }
 
 .testimonial-author {
   font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 400;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: #333333;
+  margin-top: 32px;
 }
 
 @media (max-width: 1024px) {
-  .testimonials-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .testimonial-card {
+    flex: 0 0 310px !important;
+    min-width: 280px !important;
+    padding: 30px 22px;
+    min-height: 350px;
   }
 }
 
 @media (max-width: 768px) {
-  /* WORN. LOVED. REMEMBERED. / TESTIMONIALS: Responsive Horizontal Scroll */
+  .testimonials-track,
   .testimonials-grid {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    scroll-snap-type: x mandatory !important;
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-    gap: 16px !important;
-    padding: 6px 20px 24px 20px !important;
-    margin: 0 -20px !important;
-    scroll-padding: 0 20px !important;
-  }
-
-  .testimonials-grid::-webkit-scrollbar {
-    display: none !important;
+    gap: 16px;
+    padding: 6px 20px 24px 20px;
+    margin: 0 -20px;
+    scroll-padding: 0 20px;
   }
 
   .testimonial-card {
     flex: 0 0 82vw !important;
     min-width: 270px !important;
     max-width: 340px !important;
-    scroll-snap-align: start !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
+    padding: 28px 20px;
+    min-height: 330px;
   }
 }
 

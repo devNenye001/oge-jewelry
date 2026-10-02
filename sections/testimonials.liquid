@@ -3,61 +3,72 @@
     <div class="section-header">
       <h2 class="section-header__title">{{ section.settings.heading | default: 'WORN. LOVED. REMEMBERED.' }}</h2>
       <div class="carousel-nav-btns">
-        <button type="button" class="carousel-nav-btn" aria-label="Previous Reviews">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <button type="button" class="carousel-nav-btn" data-header-scroll-prev aria-label="Previous Reviews">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
-        <button type="button" class="carousel-nav-btn" aria-label="Next Reviews">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <button type="button" class="carousel-nav-btn" data-header-scroll-next aria-label="Next Reviews">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
       </div>
     </div>
 
-    <div class="testimonials-grid">
-      {% if section.blocks.size > 0 %}
-        {% for block in section.blocks %}
-          <div class="testimonial-card" {{ block.shopify_attributes }}>
+    <div class="horizontal-scroll-container testimonials-scroll-container" data-horizontal-scroll>
+      <div class="testimonials-track horizontal-scroll-track testimonials-grid" data-scroll-track>
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="testimonial-card" {{ block.shopify_attributes }}>
+              <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
+              <p class="testimonial-text">{{ block.settings.quote }}</p>
+              <div class="testimonial-author">— {{ block.settings.author }}</div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Review 1: Amara O. -->
+          <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
-            <p class="testimonial-text">{{ block.settings.quote }}</p>
-            <div class="testimonial-author">— {{ block.settings.author }}</div>
+            <p class="testimonial-text">
+              “Absolutely beautiful. The piece feels even more stunning in person. I love how effortlessly it elevates my look.”
+            </p>
+            <div class="testimonial-author">— Amara O.</div>
           </div>
-        {% endfor %}
-      {% else %}
-        <!-- Review 1: Amara O. -->
-        <div class="testimonial-card">
-          <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
-          <p class="testimonial-text">
-            “Absolutely beautiful. The piece feels even more stunning in person. I love how effortlessly it elevates my look.”
-          </p>
-          <div class="testimonial-author">— Amara O.</div>
-        </div>
 
-        <!-- Review 2: Ogechi A. -->
-        <div class="testimonial-card">
-          <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
-          <p class="testimonial-text">
-            “I wanted something elegant but still easy to wear every day, and this was exactly that. Absolutely love my piece.”
-          </p>
-          <div class="testimonial-author">— Ogechi A.</div>
-        </div>
+          <!-- Review 2: Ogechi A. -->
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
+            <p class="testimonial-text">
+              “I wanted something elegant but still easy to wear every day, and this was exactly that. Absolutely love my piece.”
+            </p>
+            <div class="testimonial-author">— Ogechi A.</div>
+          </div>
 
-        <!-- Review 3: Obinna N. -->
-        <div class="testimonial-card">
-          <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
-          <p class="testimonial-text">
-            “From the packaging to the jewelry itself, everything felt so thoughtful and premium. I'll definitely be ordering again.”
-          </p>
-          <div class="testimonial-author">— Obinna N.</div>
-        </div>
+          <!-- Review 3: Obinna N. -->
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
+            <p class="testimonial-text">
+              “From the packaging to the jewelry itself, everything felt so thoughtful and premium. I'll definitely be ordering again.”
+            </p>
+            <div class="testimonial-author">— Obinna N.</div>
+          </div>
 
-        <!-- Review 4: Stephanie E. -->
-        <div class="testimonial-card">
-          <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
-          <p class="testimonial-text">
-            “OGE has such a unique way of making fine jewelry feel modern. I've received so many compliments.”
-          </p>
-          <div class="testimonial-author">— Stephanie E.</div>
-        </div>
-      {% endif %}
+          <!-- Review 4: Stephanie E. -->
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
+            <p class="testimonial-text">
+              “OGE has such a unique way of making fine jewelry feel modern. I've received so many compliments.”
+            </p>
+            <div class="testimonial-author">— Stephanie E.</div>
+          </div>
+
+          <!-- Review 5: Chioma K. -->
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★</div>
+            <p class="testimonial-text">
+              “The craftsmanship is extraordinary. It feels so luxurious and personal, like it was made specifically for me.”
+            </p>
+            <div class="testimonial-author">— Chioma K.</div>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>

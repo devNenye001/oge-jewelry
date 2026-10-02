@@ -61,16 +61,17 @@
     "brand_story": {
       "type": "brand-story",
       "settings": {
-        "eyebrow": "OUR PHILOSOPHY",
-        "title": "MORE THAN JEWELRY.<br>IT’S A FEELING.",
-        "btn_text": "Discover our story",
-        "btn_url": "/collections/all"
+        "eyebrow": "",
+        "title": "MORE THAN JEWELRY, IT'S A FEELING.",
+        "text_1": "<p>OGE was created for the woman who knows that jewelry is more than an accessory — it is an expression of who she is.</p><p>Each piece is thoughtfully designed to celebrate individuality, confidence, and the moments that make her story uniquely hers.</p><p>From everyday elegance to unforgettable occasions, OGE creates pieces made to be worn, loved, and remembered.</p>",
+        "btn_text": "Learn More",
+        "btn_url": "/pages/our-story"
       }
     },
     "testimonials": {
       "type": "testimonials",
       "settings": {
-        "heading": "WHAT OUR CLIENTS SAY"
+        "heading": "WORN. LOVED. REMEMBERED."
       }
     },
     "video_reels": {
