@@ -1,49 +1,20 @@
 <section class="hero-banner" id="hero" {{ section.shopify_attributes }}>
-  <div class="hero-banner__image-wrap">
-    {% if section.settings.image != blank %}
-      {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title }}
-    {% else %}
-      <img 
-        src="{{ 'hero.jpg' | asset_url }}" 
-        alt="{{ section.settings.title }}" 
-        class="hero-banner__image" 
-        loading="eager"
-        width="2000"
-        height="1200"
-      >
-    {% endif %}
-    <div class="hero-banner__overlay"></div>
-  </div>
-
-  <div class="page-container" style="position: relative; z-index: 2; width: 100%;">
-    <div class="hero-banner__content">
-      {% if section.settings.eyebrow != blank %}
-        <div class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</div>
+  <a href="{{ section.settings.btn_1_url | default: '/collections/new-in' }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
+    <div class="hero-banner__image-wrap">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
+      {% else %}
+        <img 
+          src="{{ 'hero.jpg' | asset_url }}" 
+          alt="{{ section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}" 
+          class="hero-banner__image" 
+          loading="eager"
+          width="2000"
+          height="1200"
+        >
       {% endif %}
-
-      {% if section.settings.title != blank %}
-        <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
-      {% endif %}
-
-      {% if section.settings.text != blank %}
-        <p class="hero-banner__text">{{ section.settings.text }}</p>
-      {% endif %}
-
-      <div class="hero-banner__actions">
-        {% if section.settings.btn_1_text != blank %}
-          <a href="{{ section.settings.btn_1_url | default: '/collections/new-in' }}" class="btn btn-primary" style="background: #FFFFFF; color: #000000; border-color: #FFFFFF;">
-            {{ section.settings.btn_1_text }}
-          </a>
-        {% endif %}
-
-        {% if section.settings.btn_2_text != blank %}
-          <a href="{{ section.settings.btn_2_url | default: '/pages/our-story' }}" class="btn btn-secondary" style="color: #FFFFFF; border-color: #FFFFFF;">
-            {{ section.settings.btn_2_text }}
-          </a>
-        {% endif %}
-      </div>
     </div>
-  </div>
+  </a>
 </section>
 
 {% schema %}

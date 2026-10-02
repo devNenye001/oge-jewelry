@@ -574,6 +574,17 @@ body:not(.template-index) .site-header .site-logo__image--black {
   display: block !important;
 }
 
+.sidebar-localization svg.icon-chevron {
+  width: 10px !important;
+  height: 10px !important;
+  stroke: #767676 !important;
+  margin-left: 2px !important;
+}
+
+.sidebar-localization:hover svg.icon-chevron {
+  stroke: #111111 !important;
+}
+
 /* Submenu Panel */
 .submenu-header {
   display: flex;

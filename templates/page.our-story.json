@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-about",
+      "settings": {
+        "hero_title": "MORE THAN JEWELRY, IT'S A FEELING.",
+        "quote_author": "-Oge Ikekwem",
+        "story_title": "OUR STORY",
+        "mission_title": "OUR MISSION",
+        "vision_title": "OUR VISION",
+        "intention_title": "JEWELRY WITH INTENTION"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -32,9 +32,17 @@
           {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'site-logo__image', alt: shop.name }}
         {% else %}
           <img 
+            src="{{ 'logo1.png' | asset_url }}" 
+            alt="{{ shop.name | default: '06é' }}" 
+            class="site-logo__image site-logo__image--white"
+            width="{{ section.settings.logo_width | default: 105 }}"
+            height="auto"
+            style="width: 105px; max-height: 38px; height: auto; object-fit: contain;"
+          >
+          <img 
             src="{{ 'logo2.png' | asset_url }}" 
             alt="{{ shop.name | default: '06é' }}" 
-            class="site-logo__image"
+            class="site-logo__image site-logo__image--black"
             width="{{ section.settings.logo_width | default: 105 }}"
             height="auto"
             style="width: 105px; max-height: 38px; height: auto; object-fit: contain;"
@@ -58,10 +66,16 @@
         <span class="header-icon-btn__badge" data-wishlist-count style="display: none;">0</span>
       </a>
 
-      <!-- Customer Account Icon (Desktop Only) -->
-      <a href="{{ routes.account_url | default: '/account/login' }}" class="header-icon-btn desktop-only" aria-label="{{ 'header.account' | t }}">
-        {% render 'icon-account' %}
-      </a>
+      <!-- Customer Account Icon (Desktop Only): login if guest, account if authenticated -->
+      {% if customer %}
+        <a href="{{ routes.account_url }}" class="header-icon-btn desktop-only" aria-label="{{ 'header.account' | t | default: 'Account' }}">
+          {% render 'icon-account' %}
+        </a>
+      {% else %}
+        <a href="{{ routes.account_login_url }}" class="header-icon-btn desktop-only" aria-label="{{ 'header.account' | t | default: 'Account' }}">
+          {% render 'icon-account' %}
+        </a>
+      {% endif %}
 
       <!-- Shopping Bag Cart Icon (Desktop & Mobile) -->
       <button 

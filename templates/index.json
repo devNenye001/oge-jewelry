@@ -3,13 +3,7 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "eyebrow": "THE NEW COLLECTION",
-        "title": "Timeless Elegance, Handcrafted in Solid Gold",
-        "text": "Discover fine jewelry pieces designed to empower and endure for generations.",
-        "btn_1_text": "Shop New In",
-        "btn_1_url": "/collections/new-in",
-        "btn_2_text": "Our Story",
-        "btn_2_url": "/pages/our-story"
+        "btn_1_url": "/collections/new-in"
       }
     },
     "new_arrivals": {
