@@ -8,35 +8,48 @@
 </section>
 <hr class="category-divider-line">
 
-<!-- Category Toolbar -->
+<!-- Subcategory Filter Tabs (Mini Navigator) -->
+<nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
+  <a href="/collections/all" class="collection-tab-btn {% if collection.handle == 'all' or collection.handle == blank %}is-active{% endif %}">All</a>
+  <a href="/collections/necklaces" class="collection-tab-btn {% if collection.handle == 'necklaces' or collection.handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
+  <a href="/collections/bracelets" class="collection-tab-btn {% if collection.handle == 'bracelets' or collection.handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
+  <a href="/collections/rings" class="collection-tab-btn {% if collection.handle == 'rings' or collection.handle contains 'ring' %}is-active{% endif %}">Rings</a>
+  <a href="/collections/earrings" class="collection-tab-btn {% if collection.handle == 'earrings' or collection.handle contains 'earring' %}is-active{% endif %}">Earrings</a>
+</nav>
+
+<!-- Category Toolbar (Featured dropdown & count removed from visible interface) -->
 <div class="collection-toolbar">
-  <div style="position: relative;">
-    <button type="button" class="collection-toolbar__filter-btn" id="btn-filter-sort" aria-expanded="false" aria-controls="category-filter-dropdown">
+  <div class="collection-toolbar__left">
+    <button type="button" class="collection-toolbar__filter-btn" id="btn-filter-sort">
       Filter &amp; Sort
     </button>
-    <div class="filter-dropdown-menu" id="category-filter-dropdown" role="menu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; background: #FFFFFF; border: 1px solid #EAEAEA; box-shadow: 0 4px 16px rgba(0,0,0,0.08); z-index: 50; min-width: 180px; padding: 8px 0; border-radius: 2px;">
-      {% assign current_sort_by = collection.sort_by | default: collection.default_sort_by %}
-      <a href="{{ collection.url }}?sort_by=manual" class="filter-option-btn {% if current_sort_by == 'manual' %}is-active{% endif %}" style="display: block; padding: 8px 16px; font-size: 0.8125rem; color: #111111; text-decoration: none;">Featured</a>
-      <a href="{{ collection.url }}?sort_by=best-selling" class="filter-option-btn {% if current_sort_by == 'best-selling' %}is-active{% endif %}" style="display: block; padding: 8px 16px; font-size: 0.8125rem; color: #111111; text-decoration: none;">Best Selling</a>
-      <a href="{{ collection.url }}?sort_by=price-ascending" class="filter-option-btn {% if current_sort_by == 'price-ascending' %}is-active{% endif %}" style="display: block; padding: 8px 16px; font-size: 0.8125rem; color: #111111; text-decoration: none;">Price: Low to High</a>
-      <a href="{{ collection.url }}?sort_by=price-descending" class="filter-option-btn {% if current_sort_by == 'price-descending' %}is-active{% endif %}" style="display: block; padding: 8px 16px; font-size: 0.8125rem; color: #111111; text-decoration: none;">Price: High to Low</a>
-      <a href="{{ collection.url }}?sort_by=created-descending" class="filter-option-btn {% if current_sort_by == 'created-descending' %}is-active{% endif %}" style="display: block; padding: 8px 16px; font-size: 0.8125rem; color: #111111; text-decoration: none;">Newest</a>
+    <div class="collection-toolbar__sort-hidden" style="display: none;" aria-hidden="true">
+      <label for="SnippetCategorySortBy" class="visually-hidden">Sort by</label>
+      <select name="sort_by" id="SnippetCategorySortBy" class="collection-sort-select">
+        {% for option in collection.sort_options %}
+          <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected="selected"{% endif %}>
+            {{ option.name }}
+          </option>
+        {% endfor %}
+      </select>
     </div>
   </div>
 
-  <div class="collection-toolbar__view-switchers" aria-label="View Switchers">
-    <!-- 1 Column Switcher -->
-    <button type="button" class="grid-switch-btn" data-grid-view="1" aria-label="Single Column View" title="1 Column View">
-      <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-    </button>
-    <!-- 2 Column Switcher -->
-    <button type="button" class="grid-switch-btn" data-grid-view="2" aria-label="Two Columns View" title="2 Columns View">
-      <svg viewBox="0 0 24 24"><rect x="4" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-    </button>
-    <!-- 4 Column Switcher (Default Active) -->
-    <button type="button" class="grid-switch-btn is-active" data-grid-view="4" aria-label="Four Columns View" title="4 Columns View">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-    </button>
+  <div class="collection-toolbar__right">
+    <div class="collection-toolbar__view-switchers" aria-label="View Switchers">
+      <!-- 1 Column Switcher -->
+      <button type="button" class="grid-switch-btn" data-grid-view="1" aria-label="Single Column View" title="1 Column View">
+        <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+      <!-- 2 Column Switcher -->
+      <button type="button" class="grid-switch-btn" data-grid-view="2" aria-label="Two Columns View" title="2 Columns View">
+        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+      <!-- 4 Column Switcher (Default Active) -->
+      <button type="button" class="grid-switch-btn is-active" data-grid-view="4" aria-label="Four Columns View" title="4 Columns View">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -49,20 +62,82 @@
         {% for product in current_products %}
           {% render 'product-card', product: product %}
         {% endfor %}
+      {% elsif collections.all.products.size > 0 %}
+        {% assign displayed_count = 0 %}
+        {% for product in collections.all.products %}
+          {% assign product_type_lower = product.type | downcase %}
+          {% assign product_tags_lower = product.tags | join: ' ' | downcase %}
+          {% assign product_title_lower = product.title | downcase %}
+          {% assign match = false %}
+
+          {% if collection.handle contains 'ring' %}
+            {% if product_type_lower contains 'ring' or product_tags_lower contains 'ring' or product_title_lower contains 'ring' %}
+              {% assign match = true %}
+            {% endif %}
+          {% elsif collection.handle contains 'necklace' %}
+            {% if product_type_lower contains 'necklace' or product_tags_lower contains 'necklace' or product_title_lower contains 'necklace' %}
+              {% assign match = true %}
+            {% endif %}
+          {% elsif collection.handle contains 'earring' %}
+            {% if product_type_lower contains 'earring' or product_tags_lower contains 'earring' or product_title_lower contains 'earring' %}
+              {% assign match = true %}
+            {% endif %}
+          {% elsif collection.handle contains 'bracelet' %}
+            {% if product_type_lower contains 'bracelet' or product_tags_lower contains 'bracelet' or product_title_lower contains 'bracelet' or product_title_lower contains 'cuff' %}
+              {% assign match = true %}
+            {% endif %}
+          {% else %}
+            {% assign match = true %}
+          {% endif %}
+
+          {% if match %}
+            {% render 'product-card', product: product %}
+            {% assign displayed_count = displayed_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+
+        {% if displayed_count == 0 %}
+          <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+            <h2 class="wishlist-empty-title">No products found</h2>
+            <p class="wishlist-empty-desc">There are currently no products available in this category.</p>
+            <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+          </div>
+        {% endif %}
       {% else %}
-        <!-- Real OGÉ Category Empty State -->
-        <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
-          <h2 class="wishlist-empty-title">No products found</h2>
-          <p class="wishlist-empty-desc">There are currently no products available in this category.</p>
-          <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
-        </div>
+        <!-- Curated fallback matching approved OGÉ collection if store catalog is empty -->
+        {% if collection.handle contains 'ring' %}
+          {% render 'product-card', card_title: 'Boundaries Ring', card_price: 14000, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'boundaries-ring' %}
+          {% render 'product-card', card_title: 'Sculptural Wave Ring', card_price: 16500, card_material: '18K Solid Gold', card_image: 'product-ring-1.jpg', card_hover_image: 'product8.png', card_handle: 'sculptural-wave-ring' %}
+          {% render 'product-card', card_title: 'Eternal Band Ring', card_price: 12000, card_material: '18K Gold Vermeil', card_image: 'product4.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'eternal-band-ring' %}
+          {% render 'product-card', card_title: 'Ring Havoc', card_price: 9200, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'ring-havoc' %}
+        {% elsif collection.handle contains 'necklace' %}
+          {% render 'product-card', card_title: 'Valor V Onyx Necklace', card_price: 12000, card_material: '18K Gold & Onyx', card_image: 'product3.jpg', card_hover_image: 'product7.jpg', card_handle: 'valor-v-onyx-necklace' %}
+          {% render 'product-card', card_title: 'Pendant Gold Choker', card_price: 18500, card_material: '18K Solid Gold', card_image: 'product-necklace-1.jpg', card_hover_image: 'product7.jpg', card_handle: 'pendant-gold-choker' %}
+          {% render 'product-card', card_title: 'Alignment Solitaire Pendant', card_price: 21000, card_material: '18K Solid Gold', card_image: 'product3.jpg', card_hover_image: 'product-necklace-1.jpg', card_handle: 'alignment-solitaire-pendant' %}
+          {% render 'product-card', card_title: 'Victorious Chain Necklace', card_price: 16000, card_material: '18K Gold Vermeil', card_image: 'product-necklace-1.jpg', card_hover_image: 'product3.jpg', card_handle: 'victorious-chain-necklace' %}
+        {% elsif collection.handle contains 'earring' %}
+          {% render 'product-card', card_title: 'Red Floral Stud Earrings', card_price: 6000, card_material: '18K Solid Gold', card_image: 'product2.png', card_hover_image: 'product-earrings-1.jpg', card_handle: 'red-floral-stud-earrings', card_is_new: true %}
+          {% render 'product-card', card_title: 'Molten Drop Earrings', card_price: 9500, card_material: '18K Solid Gold', card_image: 'product-earrings-1.jpg', card_hover_image: 'product2.png', card_handle: 'molten-drop-earrings' %}
+          {% render 'product-card', card_title: 'Valor V Stud Earrings', card_price: 8500, card_material: '18K Gold & Onyx', card_image: 'product1.png', card_hover_image: 'product-earrings-1.jpg', card_handle: 'valor-v-stud-earrings' %}
+          {% render 'product-card', card_title: 'Baroque Pearl Earrings', card_price: 11000, card_material: '18K Gold & Pearl', card_image: 'product-earrings-1.jpg', card_hover_image: 'product1.png', card_handle: 'baroque-pearl-earrings' %}
+        {% elsif collection.handle contains 'bracelet' %}
+          {% render 'product-card', card_title: 'Valor V Onyx Bracelet', card_price: 9200, card_material: '18K Gold & Onyx', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'valor-v-onyx-bracelet', card_out_of_stock: true %}
+          {% render 'product-card', card_title: 'Onyx Bracelet', card_price: 8000, card_compare_price: 11000, card_material: '18K Gold Vermeil', card_image: 'product6.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'onyx-bracelet', card_is_new: true %}
+          {% render 'product-card', card_title: 'Stacked Solid Gold Cuff', card_price: 24500, card_material: '18K Solid Gold', card_image: 'product-bracelet-1.jpg', card_hover_image: 'product6.png', card_handle: 'stacked-solid-gold-cuff' %}
+          {% render 'product-card', card_title: 'Silver Clover Bracelet', card_price: 12000, card_material: 'Sterling Silver', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'silver-clover-bracelet' %}
+        {% else %}
+          {% render 'product-card', card_title: 'Valor V Onyx Bracelet', card_price: 9200, card_material: '18K Gold & Onyx', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'valor-v-onyx-bracelet' %}
+          {% render 'product-card', card_title: 'Onyx Bracelet', card_price: 8000, card_compare_price: 11000, card_material: '18K Gold Vermeil', card_image: 'product6.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'onyx-bracelet', card_is_new: true %}
+          {% render 'product-card', card_title: 'Valor V Onyx Necklace', card_price: 12000, card_material: '18K Gold & Onyx', card_image: 'product3.jpg', card_hover_image: 'product7.jpg', card_handle: 'valor-v-onyx-necklace' %}
+          {% render 'product-card', card_title: 'Ring Havoc', card_price: 9200, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'ring-havoc' %}
+        {% endif %}
       {% endif %}
     </div>
 
     {% if paginate.pages > 1 %}
-      <div class="collection-pagination">
-        {{ paginate | default_pagination }}
-      </div>
+      <nav class="collection-pagination" aria-label="Pagination">
+        {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
+      </nav>
     {% endif %}
   {% endpaginate %}
 </main>
