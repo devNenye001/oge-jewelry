@@ -1640,6 +1640,11 @@
       if (tabBtns.length > 0) {
         tabBtns.forEach((btn) => {
           btn.addEventListener('click', (e) => {
+            const href = btn.getAttribute('href');
+            if (href && href.startsWith('/collections')) {
+              // Real Shopify collection route navigation
+              return;
+            }
             e.preventDefault();
             const filterValue = btn.getAttribute('data-collection-tab');
 
