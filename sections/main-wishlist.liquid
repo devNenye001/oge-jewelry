@@ -20,9 +20,17 @@
 
     <!-- STATE A: ACTIVE WISHLIST (WHEN ITEMS ARE SAVED) -->
     <div class="wishlist-state-wrapper" id="wishlist-active-state">
-      <!-- Sub-header bar: Item Count -->
+      <!-- Sub-header bar: Item Count & Carousel Controls -->
       <div class="wishlist-header-bar">
         <span class="wishlist-count-text">Your saved items (<span data-wishlist-total>2</span>)</span>
+        <div class="carousel-nav-btns" id="wishlist-nav-btns">
+          <button type="button" class="carousel-nav-btn" id="btn-wishlist-prev" aria-label="Previous saved item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="carousel-nav-btn" id="btn-wishlist-next" aria-label="Next saved item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
       </div>
 
       <!-- Saved Items Grid Container -->

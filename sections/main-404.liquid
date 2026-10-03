@@ -13,162 +13,86 @@
     </div>
   </section>
 
-  <!-- Best Sellers Section on 404 -->
+  <!-- Best Sellers Section on 404 (Straight Horizontal Row) -->
   <section class="featured-collection-section" style="padding: 20px 0 60px; background-color: #FFFFFF;" id="best-sellers">
     <div class="page-container">
       <div class="section-header">
         <h2 class="section-header__title">{{ section.settings.bestsellers_heading | default: 'BEST SELLERS' }}</h2>
         <div class="carousel-nav-btns">
-          <button type="button" class="carousel-nav-btn" aria-label="Previous Best Sellers">
+          <button type="button" class="carousel-nav-btn" data-header-scroll-prev aria-label="Previous Best Sellers">
             {% render 'icon-chevron', direction: 'left' %}
           </button>
-          <button type="button" class="carousel-nav-btn" aria-label="Next Best Sellers">
+          <button type="button" class="carousel-nav-btn" data-header-scroll-next aria-label="Next Best Sellers">
             {% render 'icon-chevron', direction: 'right' %}
           </button>
         </div>
       </div>
 
-      <div class="products-grid not-found-bestsellers-grid">
-        {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
-          {% for product in section.settings.collection.products limit: 4 %}
-            {% render 'product-card', product: product %}
-          {% endfor %}
-        {% else %}
-          <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
-          {% render 'product-card', 
-            card_title: 'Valor V Onyx Bracelet',
-            card_price: 9200,
-            card_material: 'Gold',
-            card_image: 'product5.png',
-            card_hover_image: 'product-bracelet-1.jpg',
-            card_handle: 'valor-v-onyx-bracelet',
-            card_out_of_stock: true
-          %}
+      <div class="horizontal-scroll-container" data-horizontal-scroll>
+        <button type="button" class="scroll-edge-arrow scroll-edge-arrow--prev is-hidden" data-scroll-prev aria-label="Previous Products">
+          {% render 'icon-chevron', direction: 'left' %}
+        </button>
 
-          <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
-          {% render 'product-card', 
-            card_title: 'Onyx bracelet',
-            card_price: 8000,
-            card_compare_price: 11000,
-            card_material: 'Gold',
-            card_image: 'product6.png',
-            card_hover_image: 'product-bracelet-1.jpg',
-            card_handle: 'onyx-bracelet',
-            card_is_new: true
-          %}
+        <div class="horizontal-scroll-track not-found-bestsellers-grid" data-scroll-track>
+          {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
+            {% for product in section.settings.collection.products limit: 4 %}
+              {% render 'product-card', product: product %}
+            {% endfor %}
+          {% else %}
+            <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
+            {% render 'product-card', 
+              card_title: 'Valor V Onyx Bracelet',
+              card_price: 9200,
+              card_material: 'Gold',
+              card_image: 'product5.png',
+              card_hover_image: 'product-bracelet-1.jpg',
+              card_handle: 'valor-v-onyx-bracelet',
+              card_out_of_stock: true
+            %}
 
-          <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
-          {% render 'product-card', 
-            card_title: 'Valor V Onyx Necklace',
-            card_price: 12000,
-            card_material: 'Gold',
-            card_image: 'product3.jpg',
-            card_hover_image: 'product7.jpg',
-            card_handle: 'valor-v-onyx-necklace'
-          %}
+            <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
+            {% render 'product-card', 
+              card_title: 'Onyx bracelet',
+              card_price: 8000,
+              card_compare_price: 11000,
+              card_material: 'Gold',
+              card_image: 'product6.png',
+              card_hover_image: 'product-bracelet-1.jpg',
+              card_handle: 'onyx-bracelet',
+              card_is_new: true
+            %}
 
-          <!-- Mock Product 4: Ring havoc ($92) -->
-          {% render 'product-card', 
-            card_title: 'Ring havoc',
-            card_price: 9200,
-            card_material: 'Gold',
-            card_image: 'product8.png',
-            card_hover_image: 'product-ring-1.jpg',
-            card_handle: 'ring-havoc'
-          %}
-        {% endif %}
+            <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
+            {% render 'product-card', 
+              card_title: 'Valor V Onyx Necklace',
+              card_price: 12000,
+              card_material: 'Gold',
+              card_image: 'product3.jpg',
+              card_hover_image: 'product7.jpg',
+              card_handle: 'valor-v-onyx-necklace'
+            %}
+
+            <!-- Mock Product 4: Ring havoc ($92) -->
+            {% render 'product-card', 
+              card_title: 'Ring havoc',
+              card_price: 9200,
+              card_material: 'Gold',
+              card_image: 'product8.png',
+              card_hover_image: 'product-ring-1.jpg',
+              card_handle: 'ring-havoc'
+            %}
+          {% endif %}
+        </div>
+
+        <button type="button" class="scroll-edge-arrow scroll-edge-arrow--next" data-scroll-next aria-label="Next Products">
+          {% render 'icon-chevron', direction: 'right' %}
+        </button>
       </div>
     </div>
   </section>
 
   <hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
 </div>
-
-<!-- Dynamic Route Resolution for Destination Pages without Admin Database Records -->
-<div id="dynamic-wishlist-view" style="display: none;">
-  {% render 'wishlist-content' %}
-</div>
-
-<div id="dynamic-about-view" style="display: none;">
-  {% render 'about-content' %}
-</div>
-
-<div id="dynamic-faq-view" style="display: none;">
-  {% render 'faq-content' %}
-</div>
-
-<div id="dynamic-collections-list-view" style="display: none;">
-  {% render 'collections-list-content' %}
-</div>
-
-<div id="dynamic-category-view" style="display: none;">
-  {% render 'category-content' %}
-</div>
-
-<script>
-  (function() {
-    function resolveDynamicRoute() {
-      var path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
-      var standard = document.getElementById('not-found-standard-view');
-      var wishlist = document.getElementById('dynamic-wishlist-view');
-      var about = document.getElementById('dynamic-about-view');
-      var faq = document.getElementById('dynamic-faq-view');
-      var collectionsList = document.getElementById('dynamic-collections-list-view');
-      var category = document.getElementById('dynamic-category-view');
-
-      if (!standard) return;
-
-      if (path.indexOf('/pages/wishlist') !== -1 || path.indexOf('/wishlist') !== -1) {
-        standard.style.display = 'none';
-        if (wishlist) {
-          wishlist.style.display = 'block';
-          document.title = "Wishlist | " + {{ shop.name | json }};
-          if (window.WishlistPage && typeof window.WishlistPage.init === 'function') {
-            window.WishlistPage.init();
-          }
-        }
-      } else if (path.indexOf('/pages/our-story') !== -1 || path.indexOf('/our-story') !== -1 || path.indexOf('/pages/about') !== -1 || path.indexOf('/about') !== -1) {
-        standard.style.display = 'none';
-        if (about) {
-          about.style.display = 'block';
-          document.title = "Our Story | " + {{ shop.name | json }};
-        }
-      } else if (path.indexOf('/pages/faqs') !== -1 || path.indexOf('/pages/faq') !== -1 || path.indexOf('/faqs') !== -1 || path.indexOf('/faq') !== -1) {
-        standard.style.display = 'none';
-        if (faq) {
-          faq.style.display = 'block';
-          document.title = "FAQs | " + {{ shop.name | json }};
-          if (window.InteractiveElements && typeof window.InteractiveElements.init === 'function') {
-            window.InteractiveElements.init();
-          }
-        }
-      } else if (path === '/collections' || path === '/collections/') {
-        standard.style.display = 'none';
-        if (collectionsList) {
-          collectionsList.style.display = 'block';
-          document.title = "Collections | " + {{ shop.name | json }};
-        }
-      } else if (path.indexOf('/collections/') !== -1) {
-        standard.style.display = 'none';
-        if (category) {
-          category.style.display = 'block';
-          var parts = path.split('/').filter(Boolean);
-          var handle = parts[parts.length - 1] || 'all';
-          var title = handle.replace(/-/g, ' ').toUpperCase();
-          var titleEls = category.querySelectorAll('[data-category-page-title]');
-          titleEls.forEach(function(el) { el.textContent = title; });
-          document.title = title + " | " + {{ shop.name | json }};
-        }
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', resolveDynamicRoute);
-    } else {
-      resolveDynamicRoute();
-    }
-  })();
-</script>
 
 {% schema %}
 {

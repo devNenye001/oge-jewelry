@@ -13,9 +13,9 @@
           {% render 'icon-gift' %}
         </span>
         <span class="announcement-bar__text">{{ section.settings.text }}</span>
-        {% if section.settings.link_text != blank and section.settings.link_url != blank %}
+        {% if section.settings.link_text != blank %}
           <span>—</span>
-          <a href="{{ section.settings.link_url }}" class="announcement-bar__link">
+          <a href="{{ section.settings.link_url | default: routes.all_products_collection_url }}" class="announcement-bar__link">
             {{ section.settings.link_text }}
           </a>
         {% endif %}

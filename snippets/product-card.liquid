@@ -1,4 +1,4 @@
-{% doc %}
+{% comment %}
   Renders a luxury product card matching the Figma design specifications.
   @param {product} [product] - Shopify product object
   @param {string} [title] - Product title
@@ -10,7 +10,7 @@
   @param {boolean} [is_new] - Show 'New' badge
   @param {boolean} [is_out_of_stock] - Show 'OUT OF STOCK' bar
   @param {string} [handle] - Product handle
-{% enddoc %}
+{% endcomment %}
 
 {% assign card_product = product %}
 {% assign card_title = title | default: card_product.title | default: 'Valor Necklace' %}

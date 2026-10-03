@@ -1117,6 +1117,22 @@
         });
       });
 
+      // Saved Items Carousel Prev/Next Buttons
+      const prevSavedBtn = pageSection.querySelector('#btn-wishlist-prev');
+      const nextSavedBtn = pageSection.querySelector('#btn-wishlist-next');
+      if (itemsContainer && prevSavedBtn && nextSavedBtn) {
+        prevSavedBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const step = itemsContainer.firstElementChild ? itemsContainer.firstElementChild.offsetWidth + 20 : 280;
+          itemsContainer.scrollBy({ left: -step, behavior: 'smooth' });
+        });
+        nextSavedBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const step = itemsContainer.firstElementChild ? itemsContainer.firstElementChild.offsetWidth + 20 : 280;
+          itemsContainer.scrollBy({ left: step, behavior: 'smooth' });
+        });
+      }
+
       // Recommendation Carousel Prev/Next Buttons
       if (recGrid && prevRecBtn && nextRecBtn) {
         prevRecBtn.addEventListener('click', (e) => {
@@ -1641,8 +1657,8 @@
         tabBtns.forEach((btn) => {
           btn.addEventListener('click', (e) => {
             const href = btn.getAttribute('href');
-            if (href && href.startsWith('/collections')) {
-              // Real Shopify collection route navigation
+            if (href && href !== '#' && !href.startsWith('javascript:')) {
+              // Real link navigation - allow native browser navigation
               return;
             }
             e.preventDefault();
