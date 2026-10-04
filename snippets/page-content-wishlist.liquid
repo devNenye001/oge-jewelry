@@ -1,0 +1,224 @@
+{% comment %}
+  OGÉ Fine Jewelry - Wishlist Page Content Snippet
+{% endcomment %}
+
+<section class="wishlist-page-section" data-section-id="{{ section.id }}" data-section-type="wishlist">
+  <div class="wishlist-container">
+
+    <!-- Top Navigation Link: Back to Overview -->
+    <a href="{{ routes.account_url | default: '/account' }}" class="wishlist-back-link" aria-label="Back to Account Overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>{{ section.settings.back_text | default: 'Back to Overview' }}</span>
+    </a>
+
+    <!-- Page Heading -->
+    <h1 class="wishlist-page-title">{{ page.title | default: 'WISHLIST' }}</h1>
+    <hr class="wishlist-title-divider">
+
+    <!-- STATE A: ACTIVE WISHLIST (WHEN ITEMS ARE SAVED) -->
+    <div class="wishlist-state-wrapper" id="wishlist-active-state">
+      <!-- Sub-header bar: Item Count & Carousel Controls -->
+      <div class="wishlist-header-bar">
+        <span class="wishlist-count-text">Your saved items (<span data-wishlist-total>2</span>)</span>
+        <div class="carousel-nav-btns" id="wishlist-nav-btns">
+          <button type="button" class="carousel-nav-btn" id="btn-wishlist-prev" aria-label="Previous saved item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="carousel-nav-btn" id="btn-wishlist-next" aria-label="Next saved item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Saved Items Grid Container -->
+      <div class="wishlist-grid" id="wishlist-items-container">
+        <!-- Item 1 -->
+        <article class="wishlist-card" data-wishlist-item="red-floral-stud-earrings">
+          <div class="wishlist-card__image-wrap">
+            <span class="wishlist-card__badge">New</span>
+            <button type="button" class="wishlist-card__remove-btn" data-wishlist-remove="red-floral-stud-earrings" aria-label="Remove Red Floral Stud Earrings from Wishlist">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="{{ 'product1.png' | asset_url }}" alt="Red Floral Stud Earrings" class="wishlist-card__image" loading="lazy" width="500" height="580">
+            <button type="button" class="wishlist-card__add-btn" data-quick-add data-product-title="Red Floral Stud Earrings" data-product-price="$60" data-product-img="{{ 'product1.png' | asset_url }}" aria-label="Add Red Floral Stud Earrings to Bag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="wishlist-card__info">
+            <h3 class="wishlist-card__title">
+              <a href="/products/red-floral-stud-earrings" class="wishlist-card__title">Red Floral Stud Earrings</a>
+            </h3>
+            <p class="wishlist-card__variant">Gold</p>
+            <p class="wishlist-card__price">$60</p>
+          </div>
+        </article>
+
+        <!-- Item 2 -->
+        <article class="wishlist-card" data-wishlist-item="valor-v-onyx-bracelet">
+          <div class="wishlist-card__image-wrap">
+            <span class="wishlist-card__badge">New</span>
+            <button type="button" class="wishlist-card__remove-btn" data-wishlist-remove="valor-v-onyx-bracelet" aria-label="Remove Valor V Onyx Bracelet from Wishlist">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="{{ 'product8.png' | asset_url }}" alt="Valor V Onyx Bracelet" class="wishlist-card__image" loading="lazy" width="500" height="580">
+            <button type="button" class="wishlist-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet" data-product-price="$94" data-product-img="{{ 'product8.png' | asset_url }}" aria-label="Add Valor V Onyx Bracelet to Bag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="wishlist-card__info">
+            <h3 class="wishlist-card__title">
+              <a href="/products/valor-v-onyx-bracelet" class="wishlist-card__title">Valor V Onyx Bracelet</a>
+            </h3>
+            <p class="wishlist-card__variant">Gold</p>
+            <p class="wishlist-card__price">$94</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- STATE B: EMPTY WISHLIST (WHEN NO ITEMS ARE SAVED) -->
+    <div class="wishlist-state-wrapper" id="wishlist-empty-state" style="display: none;">
+      <div class="wishlist-empty-state">
+        <h2 class="wishlist-empty-title">{{ section.settings.empty_title | default: 'Nothing has been saved to your Wishlist' }}</h2>
+        <p class="wishlist-empty-subtitle">{{ section.settings.empty_subtitle | default: "It looks like you haven't saved any items yet, why not check out our best sellers?" }}</p>
+        <a href="{{ section.settings.empty_btn_link | default: routes.all_products_collection_url }}" class="btn wishlist-shop-btn">
+          {{ section.settings.empty_btn_label | default: 'Shop' }}
+        </a>
+      </div>
+
+      <!-- Recommendations Section for Empty State -->
+      <section class="wishlist-recommendations" aria-label="Recommended Best Sellers">
+        <div class="account-recommendations__header">
+          <h2 class="account-recommendations__title">{{ section.settings.rec_heading | default: 'YOU MAY ALSO LIKE' }}</h2>
+          <div class="account-recommendations__controls">
+            <button type="button" class="account-nav-arrow-btn" aria-label="Previous recommendation" id="btn-wishlist-rec-prev">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="account-nav-arrow-btn" aria-label="Next recommendation" id="btn-wishlist-rec-next">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="account-product-grid" id="wishlist-rec-grid">
+          {% assign rec_col = collections['all'] %}
+          {% if rec_col != blank and rec_col.products.size > 0 %}
+            {% for rec_product in rec_col.products limit: 4 %}
+              <article class="account-product-card">
+                <div class="account-product-card__image-wrap">
+                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="{{ rec_product.handle }}" aria-label="Add {{ rec_product.title | escape }} to WishList">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  </button>
+                  {% if rec_product.featured_image %}
+                    <img src="{{ rec_product.featured_image | image_url: width: 400, height: 460 }}" alt="{{ rec_product.featured_image.alt | default: rec_product.title | escape }}" class="account-product-card__image" loading="lazy" width="400" height="460">
+                  {% else %}
+                    <img src="{{ 'product5.png' | asset_url }}" alt="{{ rec_product.title | escape }}" class="account-product-card__image" loading="lazy" width="400" height="460">
+                  {% endif %}
+                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-id="{{ rec_product.selected_or_first_available_variant.id }}" data-product-title="{{ rec_product.title | escape }}" data-product-price="{{ rec_product.price | money }}" data-product-img="{{ rec_product.featured_image | image_url: width: 400 }}" aria-label="Add {{ rec_product.title | escape }} to Bag">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+                <div class="account-product-card__info">
+                  <h3 class="account-product-card__title"><a href="{{ rec_product.url }}">{{ rec_product.title }}</a></h3>
+                  <p class="account-product-card__variant">{{ rec_product.metafields.custom.metal | default: rec_product.vendor | default: 'Fine Jewelry' }}</p>
+                  <p class="account-product-card__price">
+                    <span>{{ rec_product.price | money }}</span>
+                    {% if rec_product.compare_at_price > rec_product.price %}
+                      <span class="account-product-card__price-compare">{{ rec_product.compare_at_price | money }}</span>
+                    {% endif %}
+                  </p>
+                </div>
+              </article>
+            {% endfor %}
+          {% else %}
+            <!-- Card 1 Fallback -->
+            <article class="account-product-card">
+              <div class="account-product-card__image-wrap">
+                <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet" aria-label="Add to WishList">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <img src="{{ 'product5.png' | asset_url }}" alt="Valor V Onyx Bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
+                <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet" data-product-price="$92" data-product-img="{{ 'product5.png' | asset_url }}" aria-label="Add to Bag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+              </div>
+              <div class="account-product-card__info">
+                <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}">Valor V Onyx Bracelet</a></h3>
+                <p class="account-product-card__variant">Gold</p>
+                <p class="account-product-card__price">$92</p>
+              </div>
+            </article>
+
+            <!-- Card 2 Fallback -->
+            <article class="account-product-card">
+              <div class="account-product-card__image-wrap">
+                <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="onyx-bracelet" aria-label="Add to WishList">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <img src="{{ 'product6.png' | asset_url }}" alt="Onyx bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
+                <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Onyx bracelet" data-product-price="$80" data-product-img="{{ 'product6.png' | asset_url }}" aria-label="Add to Bag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+              </div>
+              <div class="account-product-card__info">
+                <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}">Onyx bracelet</a></h3>
+                <p class="account-product-card__variant">Gold</p>
+                <p class="account-product-card__price"><span>$80</span><span class="account-product-card__price-compare">$110</span></p>
+              </div>
+            </article>
+
+            <!-- Card 3 Fallback -->
+            <article class="account-product-card">
+              <div class="account-product-card__image-wrap">
+                <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet-silver" aria-label="Add to WishList">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <img src="{{ 'product8.png' | asset_url }}" alt="Valor V Onyx Bracelet Silver" class="account-product-card__image" loading="lazy" width="400" height="460">
+                <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet Silver" data-product-price="$120" data-product-img="{{ 'product8.png' | asset_url }}" aria-label="Add to Bag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+              </div>
+              <div class="account-product-card__info">
+                <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}">Valor V Onyx bracelet</a></h3>
+                <p class="account-product-card__variant">Silver</p>
+                <p class="account-product-card__price">$120</p>
+              </div>
+            </article>
+
+            <!-- Card 4 Fallback -->
+            <article class="account-product-card">
+              <div class="account-product-card__image-wrap">
+                <span class="wishlist-card__badge">New</span>
+                <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="red-floral-stud-earrings" aria-label="Add to WishList">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <img src="{{ 'product1.png' | asset_url }}" alt="Red Floral Stud Earrings" class="account-product-card__image" loading="lazy" width="400" height="460">
+                <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Red Floral Stud Earrings" data-product-price="$60" data-product-img="{{ 'product1.png' | asset_url }}" aria-label="Add to Bag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+              </div>
+              <div class="account-product-card__info">
+                <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}">Red Floral Stud Earrings</a></h3>
+                <p class="account-product-card__variant">Gold</p>
+                <p class="account-product-card__price">$60</p>
+              </div>
+            </article>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+
+  </div>
+</section>

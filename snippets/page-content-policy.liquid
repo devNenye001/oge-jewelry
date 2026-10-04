@@ -1,0 +1,70 @@
+{% comment %}
+  OGÉ Fine Jewelry - Policy Content Snippet (Shipping & Returns, Privacy, Terms, Cookies)
+{% endcomment %}
+
+{% assign path_lower = request.path | downcase %}
+{% assign page_title_display = 'POLICIES' %}
+
+{% if path_lower contains 'shipping' or path_lower contains 'return' %}
+  {% assign policy_type = 'shipping' %}
+  {% assign page_title_display = 'SHIPPING & RETURNS' %}
+{% elsif path_lower contains 'privacy' %}
+  {% assign policy_type = 'privacy' %}
+  {% assign page_title_display = 'PRIVACY POLICY' %}
+{% elsif path_lower contains 'term' or path_lower contains 'condition' %}
+  {% assign policy_type = 'terms' %}
+  {% assign page_title_display = 'TERMS & CONDITIONS' %}
+{% elsif path_lower contains 'cookie' %}
+  {% assign policy_type = 'cookies' %}
+  {% assign page_title_display = 'COOKIE POLICY' %}
+{% endif %}
+
+<article class="legal-page-wrap" style="padding: 30px 0; max-width: 860px; margin: 0 auto; color: #1A1A1A; font-family: var(--font-body, 'DM Sans', sans-serif); line-height: 1.8;">
+  <div class="page-container">
+    <h1 class="legal-page__title" style="font-family: var(--font-heading, 'Cormorant Garamond', serif); font-size: 32px; letter-spacing: 0.1em; text-align: center; margin-bottom: 30px; text-transform: uppercase;">
+      {{ page.title | default: policy.title | default: page_title_display }}
+    </h1>
+
+    <div class="legal-page__body" style="font-size: 15px; color: #4A4A4A;">
+      {% if page.content != blank %}
+        {{ page.content }}
+      {% elsif policy.body != blank %}
+        {{ policy.body }}
+      {% else %}
+        {% case policy_type %}
+          {% when 'shipping' %}
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">COMPLIMENTARY DOMESTIC DELIVERY</h2>
+            <p>OGÉ Fine Jewelry provides complimentary insured standard delivery on all domestic orders within the United States. Each piece is hand-packaged in our signature presentation box with tamper-evident security seals.</p>
+            
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">DELIVERY TIMELINES</h2>
+            <p>Orders are dispatched within 1–2 business days of order confirmation. Standard shipping takes 3–5 business days. Express next-day and 2-day air options are available at checkout.</p>
+            
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">RETURNS &amp; EXCHANGES</h2>
+            <p>We honor a 30-day return policy for unworn jewelry in its pristine original condition with intact certificates and packaging. Custom-engraved or bespoke creations are non-refundable.</p>
+
+          {% when 'privacy' %}
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">OUR COMMITMENT TO YOUR PRIVACY</h2>
+            <p>At OGÉ Jewelry, we safeguard your personal information with utmost care. We collect details necessary to process your transactions, deliver orders securely, and provide an elevated concierge experience.</p>
+            
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">DATA SECURITY &amp; CONFIDENTIALITY</h2>
+            <p>Your payment credentials and contact records are processed exclusively through encrypted TLS protocols and certified PCI-DSS compliant gateways. We never monetize or rent client records to third parties.</p>
+
+          {% when 'terms' %}
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">TERMS OF SERVICE</h2>
+            <p>Welcome to OGÉ Fine Jewelry. By accessing our platform and placing orders, you agree to comply with our commercial terms, intellectual property protections, and service conditions.</p>
+            
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">AUTHENTICITY GUARANTEE</h2>
+            <p>Every OGÉ creation is guaranteed authentic, crafted from genuine solid precious metals and ethically sourced stones verified by certified gemological standards.</p>
+
+          {% when 'cookies' %}
+            <h2 style="font-size: 18px; color: #1A1A1A; margin-top: 24px; font-weight: 600;">COOKIE POLICY</h2>
+            <p>OGÉ Fine Jewelry employs essential session cookies, analytical tags, and secure cart preservation tools to ensure an uninterrupted, personalized shopping journey across your visits.</p>
+
+          {% else %}
+            <p>Please contact our client concierge at support@ogejewelry.com for personalized assistance regarding store policies.</p>
+        {% endcase %}
+      {% endif %}
+    </div>
+  </div>
+</article>
+<hr class="legal-page-divider" style="border: none; border-top: 1px solid #ECECEC; margin: 30px 0 0;">

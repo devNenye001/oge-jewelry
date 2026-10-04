@@ -1,109 +1,125 @@
-<div id="not-found-standard-view">
-  <section class="not-found-section" {{ section.shopify_attributes }}>
-    <div class="page-container">
-      <div class="not-found-content">
-        <h1 class="not-found-title">{{ section.settings.title | default: '404 page not found' }}</h1>
-        <p class="not-found-desc">
-          {{ section.settings.subtext | default: 'Unfortunately the page you’re looking for doesn’t seem<br>to exist.' }}
-        </p>
-        <a href="{{ section.settings.button_link | default: routes.root_url }}" class="not-found-btn">
-          {{ section.settings.button_text | default: 'Go Home' }}
-        </a>
-      </div>
-    </div>
-  </section>
+{% assign path_lower = request.path | downcase %}
 
-  <!-- Best Sellers Section on 404 (Straight Horizontal Row) -->
-  <section class="featured-collection-section" style="padding: 20px 0 60px; background-color: #FFFFFF;" id="best-sellers">
-    <div class="page-container">
-      <div class="section-header">
-        <h2 class="section-header__title">{{ section.settings.bestsellers_heading | default: 'BEST SELLERS' }}</h2>
-        <div class="carousel-nav-btns">
-          <button type="button" class="carousel-nav-btn" data-header-scroll-prev aria-label="Previous Best Sellers">
+{% if path_lower contains '/pages/our-story' or path_lower contains '/pages/about' %}
+  {% render 'page-content-about' %}
+{% elsif path_lower contains '/pages/wishlist' %}
+  {% render 'page-content-wishlist' %}
+{% elsif path_lower contains '/pages/faqs' or path_lower contains '/pages/faq' %}
+  {% render 'page-content-faq' %}
+{% elsif path_lower contains '/pages/contact' %}
+  {% render 'page-content-contact' %}
+{% elsif path_lower contains '/shipping' or path_lower contains '/privacy' or path_lower contains '/terms' or path_lower contains '/cookies' or path_lower contains '/policies/' or path_lower contains '/pages/policy' %}
+  {% render 'page-content-policy' %}
+{% elsif path_lower contains '/collections/' %}
+  {% render 'category-content' %}
+{% else %}
+  <div id="not-found-standard-view">
+    <section class="not-found-section" {{ section.shopify_attributes }}>
+      <div class="page-container">
+        <div class="not-found-content">
+          <h1 class="not-found-title">{{ section.settings.title | default: '404 page not found' }}</h1>
+          <p class="not-found-desc">
+            {{ section.settings.subtext | default: 'Unfortunately the page you’re looking for doesn’t seem<br>to exist.' }}
+          </p>
+          <a href="{{ section.settings.button_link | default: routes.root_url }}" class="not-found-btn">
+            {{ section.settings.button_text | default: 'Go Home' }}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Sellers Section on 404 (Straight Horizontal Row) -->
+    <section class="featured-collection-section" style="padding: 20px 0 60px; background-color: #FFFFFF;" id="best-sellers">
+      <div class="page-container">
+        <div class="section-header">
+          <h2 class="section-header__title">{{ section.settings.bestsellers_heading | default: 'BEST SELLERS' }}</h2>
+          <div class="carousel-nav-btns">
+            <button type="button" class="carousel-nav-btn" data-header-scroll-prev aria-label="Previous Best Sellers">
+              {% render 'icon-chevron', direction: 'left' %}
+            </button>
+            <button type="button" class="carousel-nav-btn" data-header-scroll-next aria-label="Next Best Sellers">
+              {% render 'icon-chevron', direction: 'right' %}
+            </button>
+          </div>
+        </div>
+
+        <div class="horizontal-scroll-container" data-horizontal-scroll>
+          <button type="button" class="scroll-edge-arrow scroll-edge-arrow--prev is-hidden" data-scroll-prev aria-label="Previous Products">
             {% render 'icon-chevron', direction: 'left' %}
           </button>
-          <button type="button" class="carousel-nav-btn" data-header-scroll-next aria-label="Next Best Sellers">
+
+          <div class="horizontal-scroll-track not-found-bestsellers-grid" data-scroll-track>
+            {% assign bs_collection = section.settings.collection %}
+            {% if bs_collection == blank or bs_collection.products_count == 0 %}
+              {% if collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
+                {% assign bs_collection = collections['best-sellers'] %}
+              {% elsif collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
+                {% assign bs_collection = collections['new-in'] %}
+              {% elsif collections.all != blank and collections.all.products_count > 0 %}
+                {% assign bs_collection = collections.all %}
+              {% endif %}
+            {% endif %}
+
+            {% if bs_collection != blank and bs_collection.products_count > 0 %}
+              {% for product in bs_collection.products limit: 4 %}
+                {% render 'product-card', product: product %}
+              {% endfor %}
+            {% else %}
+              <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
+              {% render 'product-card', 
+                card_title: 'Valor V Onyx Bracelet',
+                card_price: 9200,
+                card_material: 'Gold',
+                card_image: 'product5.png',
+                card_hover_image: 'product-bracelet-1.jpg',
+                card_handle: 'valor-v-onyx-bracelet',
+                card_out_of_stock: true
+              %}
+
+              <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
+              {% render 'product-card', 
+                card_title: 'Onyx bracelet',
+                card_price: 8000,
+                card_compare_price: 11000,
+                card_material: 'Gold',
+                card_image: 'product6.png',
+                card_hover_image: 'product-bracelet-1.jpg',
+                card_handle: 'onyx-bracelet',
+                card_is_new: true
+              %}
+
+              <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
+              {% render 'product-card', 
+                card_title: 'Valor V Onyx Necklace',
+                card_price: 12000,
+                card_material: 'Gold',
+                card_image: 'product3.jpg',
+                card_hover_image: 'product7.jpg',
+                card_handle: 'valor-v-onyx-necklace'
+              %}
+
+              <!-- Mock Product 4: Ring havoc ($92) -->
+              {% render 'product-card', 
+                card_title: 'Ring havoc',
+                card_price: 9200,
+                card_material: 'Gold',
+                card_image: 'product8.png',
+                card_hover_image: 'product-ring-1.jpg',
+                card_handle: 'ring-havoc'
+              %}
+            {% endif %}
+          </div>
+
+          <button type="button" class="scroll-edge-arrow scroll-edge-arrow--next" data-scroll-next aria-label="Next Products">
             {% render 'icon-chevron', direction: 'right' %}
           </button>
         </div>
       </div>
+    </section>
 
-      <div class="horizontal-scroll-container" data-horizontal-scroll>
-        <button type="button" class="scroll-edge-arrow scroll-edge-arrow--prev is-hidden" data-scroll-prev aria-label="Previous Products">
-          {% render 'icon-chevron', direction: 'left' %}
-        </button>
-
-        <div class="horizontal-scroll-track not-found-bestsellers-grid" data-scroll-track>
-          {% assign bs_collection = section.settings.collection %}
-          {% if bs_collection == blank or bs_collection.products_count == 0 %}
-            {% if collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
-              {% assign bs_collection = collections['best-sellers'] %}
-            {% elsif collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
-              {% assign bs_collection = collections['new-in'] %}
-            {% elsif collections.all != blank and collections.all.products_count > 0 %}
-              {% assign bs_collection = collections.all %}
-            {% endif %}
-          {% endif %}
-
-          {% if bs_collection != blank and bs_collection.products_count > 0 %}
-            {% for product in bs_collection.products limit: 4 %}
-              {% render 'product-card', product: product %}
-            {% endfor %}
-          {% else %}
-            <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
-            {% render 'product-card', 
-              card_title: 'Valor V Onyx Bracelet',
-              card_price: 9200,
-              card_material: 'Gold',
-              card_image: 'product5.png',
-              card_hover_image: 'product-bracelet-1.jpg',
-              card_handle: 'valor-v-onyx-bracelet',
-              card_out_of_stock: true
-            %}
-
-            <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
-            {% render 'product-card', 
-              card_title: 'Onyx bracelet',
-              card_price: 8000,
-              card_compare_price: 11000,
-              card_material: 'Gold',
-              card_image: 'product6.png',
-              card_hover_image: 'product-bracelet-1.jpg',
-              card_handle: 'onyx-bracelet',
-              card_is_new: true
-            %}
-
-            <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
-            {% render 'product-card', 
-              card_title: 'Valor V Onyx Necklace',
-              card_price: 12000,
-              card_material: 'Gold',
-              card_image: 'product3.jpg',
-              card_hover_image: 'product7.jpg',
-              card_handle: 'valor-v-onyx-necklace'
-            %}
-
-            <!-- Mock Product 4: Ring havoc ($92) -->
-            {% render 'product-card', 
-              card_title: 'Ring havoc',
-              card_price: 9200,
-              card_material: 'Gold',
-              card_image: 'product8.png',
-              card_hover_image: 'product-ring-1.jpg',
-              card_handle: 'ring-havoc'
-            %}
-          {% endif %}
-        </div>
-
-        <button type="button" class="scroll-edge-arrow scroll-edge-arrow--next" data-scroll-next aria-label="Next Products">
-          {% render 'icon-chevron', direction: 'right' %}
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
-</div>
+    <hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
+  </div>
+{% endif %}
 
 {% schema %}
 {

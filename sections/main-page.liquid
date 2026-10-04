@@ -1,10 +1,14 @@
-<article class="legal-page-wrap" {{ section.shopify_attributes }}>
-  <h1 class="legal-page__title">{{ page.title | default: policy.title }}</h1>
-  <div class="legal-page__body">
-    {{ page.content | default: policy.body }}
-  </div>
-</article>
-<hr class="legal-page-divider">
+{% if page.content != blank or policy.body != blank %}
+  <article class="legal-page-wrap" {{ section.shopify_attributes }}>
+    <h1 class="legal-page__title">{{ page.title | default: policy.title }}</h1>
+    <div class="legal-page__body">
+      {{ page.content | default: policy.body }}
+    </div>
+  </article>
+  <hr class="legal-page-divider">
+{% else %}
+  {% render 'page-content-policy' %}
+{% endif %}
 
 {% schema %}
 {

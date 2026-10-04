@@ -1,0 +1,97 @@
+{% comment %}
+  OGÉ Fine Jewelry - Contact Page Content Snippet
+{% endcomment %}
+
+<main class="contact-page-wrapper" role="main">
+  <div class="contact-page-container">
+    <h1 class="contact-page-title">{{ section.settings.title | default: 'CONTACT US' }}</h1>
+
+    {% form 'contact', id: 'ContactForm', class: 'contact-form' %}
+      {% if form.posted_successfully? %}
+        <div class="contact-form__alert contact-form__alert--success" role="status">
+          {{ 'templates.contact.form.post_success' | t | default: 'Thank you for reaching out to OGÉ Jewelry. Your message has been received, and our concierge team will respond shortly.' }}
+        </div>
+      {% elsif form.errors %}
+        <div class="contact-form__alert contact-form__alert--error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <!-- Row 1: First Name & Last Name (Two Columns) -->
+      <div class="contact-form__row-grid">
+        <div class="contact-form__field">
+          <label for="ContactForm-first-name" class="contact-form__label">
+            {{ section.settings.first_name_label | default: 'First name *' }}
+          </label>
+          <input 
+            type="text" 
+            id="ContactForm-first-name" 
+            name="contact[first_name]" 
+            class="contact-form__input-underline" 
+            placeholder="{{ section.settings.first_name_placeholder | default: 'Enter first name' }}" 
+            value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
+            required 
+            autocomplete="given-name"
+          >
+        </div>
+
+        <div class="contact-form__field">
+          <label for="ContactForm-last-name" class="contact-form__label">
+            {{ section.settings.last_name_label | default: 'Last name *' }}
+          </label>
+          <input 
+            type="text" 
+            id="ContactForm-last-name" 
+            name="contact[last_name]" 
+            class="contact-form__input-underline" 
+            placeholder="{{ section.settings.last_name_placeholder | default: 'Enter last name' }}" 
+            value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
+            required 
+            autocomplete="family-name"
+          >
+        </div>
+      </div>
+
+      <!-- Row 2: Email Address (Full Width) -->
+      <div class="contact-form__field">
+        <label for="ContactForm-email" class="contact-form__label">
+          {{ section.settings.email_label | default: 'Email address' }}
+        </label>
+        <input 
+          type="email" 
+          id="ContactForm-email" 
+          name="contact[email]" 
+          class="contact-form__input-underline" 
+          placeholder="{{ section.settings.email_placeholder | default: 'name@email.com' }}" 
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          required 
+          autocomplete="email"
+          spellcheck="false"
+          autocapitalize="off"
+        >
+      </div>
+
+      <!-- Row 3: Message Box (Textarea) -->
+      <div class="contact-form__field">
+        <label for="ContactForm-body" class="contact-form__label">
+          {{ section.settings.message_label | default: 'Message' }}
+        </label>
+        <textarea 
+          id="ContactForm-body" 
+          name="contact[body]" 
+          class="contact-form__textarea" 
+          rows="6" 
+          required 
+          aria-label="{{ section.settings.message_label | default: 'Message' }}"
+        >{{ form.body }}</textarea>
+      </div>
+
+      <!-- Row 4: Submit Button -->
+      <button type="submit" class="contact-form__submit-btn" id="ContactFormSubmit">
+        {{ section.settings.submit_label | default: 'Submit' }}
+      </button>
+    {% endform %}
+  </div>
+</main>
+
+<hr class="contact-page-divider">
