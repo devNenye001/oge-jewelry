@@ -145,30 +145,48 @@
      ========================================================================== */
   const SalesPopup = {
     modal: null,
-    storageKey: 'oge_sales_popup_dismissed_v2',
+    storageKey: 'oge_sales_popup_seen',
+
+    isDismissed() {
+      try {
+        if (
+          localStorage.getItem('oge_sales_popup_seen') === 'true' ||
+          localStorage.getItem('oge_sales_popup_dismissed_v2') === 'true' ||
+          sessionStorage.getItem('oge_sales_popup_seen') === 'true' ||
+          (document.cookie && document.cookie.indexOf('oge_sales_popup_seen=true') !== -1)
+        ) {
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    },
+
+    setDismissed() {
+      try {
+        localStorage.setItem('oge_sales_popup_seen', 'true');
+        localStorage.setItem('oge_sales_popup_dismissed_v2', 'true');
+        sessionStorage.setItem('oge_sales_popup_seen', 'true');
+        document.cookie = 'oge_sales_popup_seen=true; max-age=2592000; path=/; SameSite=Lax';
+      } catch (e) {}
+    },
 
     init() {
       this.modal = document.querySelector('[data-sales-popup]');
       if (!this.modal) return;
 
       const isEnabled = this.modal.getAttribute('data-popup-enabled') !== 'false';
-      const delay = parseInt(this.modal.getAttribute('data-popup-delay') || '1000', 10);
-      const storageKey = 'oge_sales_popup_seen';
+      const delay = parseInt(this.modal.getAttribute('data-popup-delay') || '2000', 10);
 
       // Check if user has already seen or dismissed the popup
-      try {
-        if (localStorage.getItem(storageKey)) {
-          return;
-        }
-      } catch (e) {}
+      if (this.isDismissed()) {
+        return;
+      }
 
-      // Show popup after short delay on first visit only
+      // Show popup after configured delay on first visit only
       if (isEnabled) {
         setTimeout(() => {
-          try {
-            if (localStorage.getItem(storageKey)) return;
-            localStorage.setItem(storageKey, 'true');
-          } catch (e) {}
+          if (this.isDismissed()) return;
+          this.setDismissed();
           this.show();
         }, delay);
       }
@@ -184,6 +202,13 @@
       // Background click
       this.modal.addEventListener('click', (e) => {
         if (e.target === this.modal) {
+          this.hide();
+        }
+      });
+
+      // Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.modal.classList.contains('is-open')) {
           this.hide();
         }
       });
@@ -217,18 +242,14 @@
 
     show() {
       if (!this.modal) return;
-      try {
-        localStorage.setItem('oge_sales_popup_seen', 'true');
-      } catch (e) {}
+      this.setDismissed();
       this.modal.classList.add('is-open');
       document.body.classList.add('modal-open');
     },
 
     hide() {
       if (!this.modal) return;
-      try {
-        localStorage.setItem('oge_sales_popup_seen', 'true');
-      } catch (e) {}
+      this.setDismissed();
       this.modal.classList.remove('is-open');
       document.body.classList.remove('modal-open');
     },
@@ -1067,55 +1088,112 @@
         });
       });
 
-      // Remove item buttons on wishlist cards
-      pageSection.querySelectorAll('[data-wishlist-remove]').forEach((removeBtn) => {
-        removeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const card = removeBtn.closest('.wishlist-card');
-          const handle = removeBtn.getAttribute('data-wishlist-remove');
-
-          if (card) {
-            card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.9)';
-
-            setTimeout(() => {
-              card.remove();
-
-              // Remove from AppState wishlist if present
-              if (handle) {
-                const idx = AppState.wishlist.indexOf(handle);
-                if (idx !== -1) {
-                  AppState.wishlist.splice(idx, 1);
-                  localStorage.setItem('oge_wishlist', JSON.stringify(AppState.wishlist));
-                  Wishlist.updateBadges();
-                  Wishlist.updateButtons();
-                }
-              }
-
-              // Count remaining cards in container
-              const remainingCards = itemsContainer ? itemsContainer.querySelectorAll('.wishlist-card').length : 0;
-              if (totalCountEl) {
-                totalCountEl.textContent = remainingCards;
-              }
-
-              // If no cards left, switch to empty state
-              if (remainingCards === 0) {
-                if (activeState) activeState.style.display = 'none';
-                if (emptyState) {
-                  emptyState.style.display = 'block';
-                  emptyState.style.opacity = '0';
-                  emptyState.style.transition = 'opacity 0.35s ease';
-                  requestAnimationFrame(() => {
-                    emptyState.style.opacity = '1';
-                  });
-                }
-              }
-            }, 250);
+      const updateWishlistUI = () => {
+        const count = AppState.wishlist.length;
+        if (totalCountEl) totalCountEl.textContent = count;
+        if (count === 0) {
+          if (activeState) activeState.style.display = 'none';
+          if (emptyState) {
+            emptyState.style.display = 'block';
+            emptyState.style.opacity = '1';
           }
+        } else {
+          if (activeState) activeState.style.display = 'block';
+          if (emptyState) emptyState.style.display = 'none';
+        }
+      };
+
+      const bindCardEvents = () => {
+        pageSection.querySelectorAll('[data-wishlist-remove]').forEach((removeBtn) => {
+          if (removeBtn.dataset.bound) return;
+          removeBtn.dataset.bound = 'true';
+          removeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const card = removeBtn.closest('.wishlist-card');
+            const handle = removeBtn.getAttribute('data-wishlist-remove');
+
+            if (card) {
+              card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.9)';
+
+              setTimeout(() => {
+                card.remove();
+
+                if (handle) {
+                  const idx = AppState.wishlist.indexOf(handle);
+                  if (idx !== -1) {
+                    AppState.wishlist.splice(idx, 1);
+                    localStorage.setItem('oge_wishlist', JSON.stringify(AppState.wishlist));
+                    Wishlist.updateBadges();
+                    Wishlist.updateButtons();
+                  }
+                }
+
+                updateWishlistUI();
+              }, 250);
+            }
+          });
         });
-      });
+      };
+
+      const savedHandles = AppState.wishlist || [];
+      if (savedHandles.length === 0) {
+        updateWishlistUI();
+      } else {
+        updateWishlistUI();
+        if (itemsContainer) {
+          Promise.all(
+            savedHandles.map((handle) =>
+              fetch(`/products/${handle}.js`)
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null)
+            )
+          ).then((products) => {
+            const validProducts = products.filter(Boolean);
+            if (validProducts.length > 0) {
+              itemsContainer.innerHTML = validProducts
+                .map((product) => {
+                  const variantId = product.variants && product.variants[0] ? product.variants[0].id : product.handle;
+                  const variantTitle = product.variants && product.variants[0] && product.variants[0].title !== 'Default Title' ? product.variants[0].title : (product.type || '18K Solid Gold');
+                  const priceStr = formatMoney(product.price);
+                  return `
+                    <article class="wishlist-card" data-wishlist-item="${product.handle}">
+                      <div class="wishlist-card__image-wrap">
+                        <button type="button" class="wishlist-card__remove-btn" data-wishlist-remove="${product.handle}" aria-label="Remove ${product.title} from Wishlist">
+                          <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                          </svg>
+                        </button>
+                        <a href="${product.url}" class="wishlist-card__image-link">
+                          <img src="${product.featured_image}" alt="${product.title}" class="wishlist-card__image" loading="lazy" width="500" height="580">
+                        </a>
+                        <button type="button" class="wishlist-card__add-btn" data-quick-add data-product-id="${variantId}" data-product-handle="${product.handle}" data-product-title="${product.title}" data-product-price="${product.price}" data-product-img="${product.featured_image}" aria-label="Add ${product.title} to Bag" title="Quick Add to Bag">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="wishlist-card__info">
+                        <h3 class="wishlist-card__title">
+                          <a href="${product.url}" class="wishlist-card__title">${product.title}</a>
+                        </h3>
+                        <p class="wishlist-card__variant">${variantTitle}</p>
+                        <p class="wishlist-card__price">${priceStr}</p>
+                      </div>
+                    </article>
+                  `;
+                })
+                .join('');
+            }
+            bindCardEvents();
+          });
+        }
+      }
+
+      bindCardEvents();
 
       // Saved Items Carousel Prev/Next Buttons
       const prevSavedBtn = pageSection.querySelector('#btn-wishlist-prev');

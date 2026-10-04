@@ -34,8 +34,19 @@
         </button>
 
         <div class="horizontal-scroll-track not-found-bestsellers-grid" data-scroll-track>
-          {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
-            {% for product in section.settings.collection.products limit: 4 %}
+          {% assign bs_collection = section.settings.collection %}
+          {% if bs_collection == blank or bs_collection.products_count == 0 %}
+            {% if collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
+              {% assign bs_collection = collections['best-sellers'] %}
+            {% elsif collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
+              {% assign bs_collection = collections['new-in'] %}
+            {% elsif collections.all != blank and collections.all.products_count > 0 %}
+              {% assign bs_collection = collections.all %}
+            {% endif %}
+          {% endif %}
+
+          {% if bs_collection != blank and bs_collection.products_count > 0 %}
+            {% for product in bs_collection.products limit: 4 %}
               {% render 'product-card', product: product %}
             {% endfor %}
           {% else %}

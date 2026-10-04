@@ -1,8 +1,8 @@
 {% assign show_bar = false %}
-{% if section.settings.display_option == 'all' %}
-  {% assign show_bar = true %}
-{% elsif section.settings.display_option == 'home_only' and template.name == 'index' %}
-  {% assign show_bar = true %}
+{% if template.name != 'index' %}
+  {% if section.settings.display_option == 'all' %}
+    {% assign show_bar = true %}
+  {% endif %}
 {% endif %}
 
 {% if show_bar %}
@@ -34,12 +34,8 @@
       "label": "Visibility Option",
       "options": [
         {
-          "value": "home_only",
-          "label": "Homepage Only"
-        },
-        {
           "value": "all",
-          "label": "All Pages"
+          "label": "All Other Pages (Non-Home)"
         },
         {
           "value": "none",

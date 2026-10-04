@@ -43,6 +43,11 @@
   line-height: 1.4;
 }
 
+body.template-index .announcement-bar,
+.template-index .announcement-bar {
+  display: none !important;
+}
+
 .announcement-bar__content,
 .announcement-bar__inner,
 .announcement-bar__text {
@@ -1028,7 +1033,9 @@ body:not(.template-index) .site-header .site-logo__image--black {
    -------------------------------------------------------------------------- */
 .not-found-bestsellers-grid,
 .template-404 #best-sellers .horizontal-scroll-track,
-.template-404 #best-sellers .products-grid {
+.template-404 #best-sellers .products-grid,
+#best-sellers .horizontal-scroll-track,
+#best-sellers .products-grid {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
@@ -1049,12 +1056,16 @@ body:not(.template-index) .site-header .site-logo__image--black {
 
 .not-found-bestsellers-grid::-webkit-scrollbar,
 .template-404 #best-sellers .horizontal-scroll-track::-webkit-scrollbar,
-.template-404 #best-sellers .products-grid::-webkit-scrollbar {
+.template-404 #best-sellers .products-grid::-webkit-scrollbar,
+#best-sellers .horizontal-scroll-track::-webkit-scrollbar,
+#best-sellers .products-grid::-webkit-scrollbar {
   display: none !important;
 }
 
 .not-found-bestsellers-grid .product-card,
-.template-404 #best-sellers .product-card {
+.template-404 #best-sellers .product-card,
+#best-sellers .horizontal-scroll-track .product-card,
+#best-sellers .products-grid .product-card {
   flex: 0 0 calc((100% - 60px) / 4) !important;
   min-width: 240px !important;
   max-width: 280px !important;
@@ -1065,7 +1076,9 @@ body:not(.template-index) .site-header .site-logo__image--black {
 
 @media (max-width: 1024px) {
   .not-found-bestsellers-grid .product-card,
-  .template-404 #best-sellers .product-card {
+  .template-404 #best-sellers .product-card,
+  #best-sellers .horizontal-scroll-track .product-card,
+  #best-sellers .products-grid .product-card {
     flex: 0 0 calc((100% - 40px) / 3) !important;
     min-width: 220px !important;
   }
@@ -1074,14 +1087,18 @@ body:not(.template-index) .site-header .site-logo__image--black {
 @media (max-width: 768px) {
   .not-found-bestsellers-grid,
   .template-404 #best-sellers .horizontal-scroll-track,
-  .template-404 #best-sellers .products-grid {
+  .template-404 #best-sellers .products-grid,
+  #best-sellers .horizontal-scroll-track,
+  #best-sellers .products-grid {
     gap: 16px !important;
     padding: 6px 20px 24px 20px !important;
     margin: 0 -20px !important;
     width: calc(100% + 40px) !important;
   }
   .not-found-bestsellers-grid .product-card,
-  .template-404 #best-sellers .product-card {
+  .template-404 #best-sellers .product-card,
+  #best-sellers .horizontal-scroll-track .product-card,
+  #best-sellers .products-grid .product-card {
     flex: 0 0 74vw !important;
     min-width: 240px !important;
     max-width: 290px !important;
@@ -2683,7 +2700,7 @@ body:not(.template-index) .site-header .site-logo__image--black {
    18. POLICY & LEGAL EDITORIAL PAGES (PRIVACY, TERMS, SHIPPING & RETURNS)
    -------------------------------------------------------------------------- */
 .policy-page-section {
-  padding: 56px 0 80px;
+  padding: 30px 0 80px !important;
   background-color: #FFFFFF;
 }
 
@@ -5879,6 +5896,104 @@ body.template-customers-reset-password {
   padding: 40px 24px 60px;
 }
 
+/* Subtle Product Breadcrumb & Next/Previous Navigation */
+.product-page-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ECECEC;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: #767676;
+}
+
+.product-page-nav__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-page-nav__link {
+  color: #767676;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.product-page-nav__link:hover {
+  color: #111111;
+}
+
+.product-page-nav__sep {
+  color: #CCCCCC;
+}
+
+.product-page-nav__current {
+  color: #111111;
+  font-weight: 500;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-page-nav__pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.product-page-nav__arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #767676;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color var(--transition-fast);
+}
+
+.product-page-nav__arrow:hover:not(.product-page-nav__arrow--disabled) {
+  color: #111111;
+}
+
+.product-page-nav__arrow--disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.product-page-nav__arrow svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+}
+
+.product-page-nav__pipe {
+  color: #CCCCCC;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .product-page-nav {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+  .product-page-nav__current {
+    max-width: 140px;
+  }
+}
+
 .product-details-grid {
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr) minmax(0, 1fr);
@@ -7524,10 +7639,17 @@ body.template-customers-reset-password {
 
 /* Section items in horizontal scroll */
 .horizontal-scroll-track .product-card {
-  flex: 0 0 calc(25% - 15px);
-  min-width: 240px;
-  max-width: 280px;
-  margin-bottom: 0;
+  flex: 0 0 calc((100% - 60px) / 4) !important;
+  min-width: 240px !important;
+  max-width: 280px !important;
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 1200px) {
+  .horizontal-scroll-track .product-card {
+    flex: 0 0 280px !important;
+    max-width: 280px !important;
+  }
 }
 
 /* Find Your Signature collection cards */

@@ -5,18 +5,9 @@
       "settings": {
         "show_share_buttons": true
       }
-    },
-    "recommendations": {
-      "type": "featured-collection",
-      "settings": {
-        "subheading": "YOU MAY ALSO LIKE",
-        "heading": "COMPLEMENTARY PIECES",
-        "products_to_show": 4
-      }
     }
   },
   "order": [
-    "main",
-    "recommendations"
+    "main"
   ]
 }

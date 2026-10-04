@@ -10,6 +10,49 @@
 
 <main class="product-page-main" data-product-page {{ section.shopify_attributes }}>
   <div class="product-details-container">
+
+    <!-- Product Breadcrumb & Next/Previous Navigation (Exact OGÉ Match) -->
+    {% if collection or product.collections.size > 0 %}
+      {% assign current_col = collection | default: product.collections.first %}
+      <nav class="product-page-nav" aria-label="Product Navigation">
+        <div class="product-page-nav__breadcrumb">
+          <a href="{{ routes.root_url }}" class="product-page-nav__link">Home</a>
+          <span class="product-page-nav__sep">/</span>
+          <a href="{{ current_col.url }}" class="product-page-nav__link">{{ current_col.title }}</a>
+          <span class="product-page-nav__sep">/</span>
+          <span class="product-page-nav__current">{{ product.title }}</span>
+        </div>
+
+        <div class="product-page-nav__pagination">
+          {% if current_col.previous_product %}
+            <a href="{{ current_col.previous_product }}" class="product-page-nav__arrow" aria-label="Previous Product">
+              {% render 'icon-chevron', direction: 'left' %}
+              <span>Prev</span>
+            </a>
+          {% else %}
+            <span class="product-page-nav__arrow product-page-nav__arrow--disabled">
+              {% render 'icon-chevron', direction: 'left' %}
+              <span>Prev</span>
+            </span>
+          {% endif %}
+          
+          <span class="product-page-nav__pipe">&bull;</span>
+
+          {% if current_col.next_product %}
+            <a href="{{ current_col.next_product }}" class="product-page-nav__arrow" aria-label="Next Product">
+              <span>Next</span>
+              {% render 'icon-chevron', direction: 'right' %}
+            </a>
+          {% else %}
+            <span class="product-page-nav__arrow product-page-nav__arrow--disabled">
+              <span>Next</span>
+              {% render 'icon-chevron', direction: 'right' %}
+            </span>
+          {% endif %}
+        </div>
+      </nav>
+    {% endif %}
+
     <div class="product-details-grid">
       
       <!-- Left Thumbnail Column (Product Images Rail) -->

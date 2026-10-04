@@ -16,7 +16,8 @@
             {% endfor %}
           {% else %}
             <a href="/collections/new-in" class="footer-col__link">New Arrivals</a>
-            <a href="/collections/all" class="footer-col__link">Best Sellers</a>
+            <a href="/collections/best-sellers" class="footer-col__link">Best Sellers</a>
+            <a href="/collections" class="footer-col__link">Collections</a>
             <a href="/collections/victorious" class="footer-col__link">Victorious Collection</a>
             <a href="/collections/self-romance" class="footer-col__link">Self Romance Collection</a>
             <a href="/collections/boundaries" class="footer-col__link">Boundaries Collection</a>
@@ -38,6 +39,7 @@
             <a href="/pages/our-story" class="footer-col__link">Our Story</a>
             <a href="/pages/contact" class="footer-col__link">Contact Us</a>
             <a href="/pages/faqs" class="footer-col__link">FAQs</a>
+            <a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}" class="footer-col__link">Shipping &amp; Returns</a>
           {% endif %}
         </nav>
       </div>
