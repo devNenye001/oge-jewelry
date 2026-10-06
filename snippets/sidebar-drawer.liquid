@@ -42,7 +42,7 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
         <ul class="sidebar-nav__list">
           <!-- 1. NEW IN -->
           <li class="sidebar-nav__item">
-            <a href="/collections/new-in" class="sidebar-nav__link">
+            <a href="{{ collections['new-arrival'].url }}" class="sidebar-nav__link">
               <span>New In</span>
               <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
             </a>
@@ -58,7 +58,7 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
 
           <!-- 3. MEN -->
           <li class="sidebar-nav__item">
-            <a href="/collections/men" class="sidebar-nav__link">
+            <a href="{{ collections['men-s-signature-collection'].url }}" class="sidebar-nav__link">
               <span>Men</span>
               <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
             </a>
@@ -82,7 +82,7 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
 
           <!-- 6. OUR STORY -->
           <li class="sidebar-nav__item">
-            <a href="/pages/our-story" class="sidebar-nav__link">
+            <a href="{{ pages['about-oge-jewelry'].url }}" class="sidebar-nav__link">
               <span>Our Story</span>
               <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
             </a>
@@ -156,12 +156,12 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
       <div class="submenu-content" data-submenu-content="submenu-collections" style="display: none;">
         <div class="submenu-grid">
           <div class="submenu-links">
-            <a href="/collections/rebirth" class="submenu-link">Rebirth</a>
-            <a href="/collections/boundaries" class="submenu-link">Boundaries</a>
-            <a href="/collections/victorious" class="submenu-link">Victorious</a>
-            <a href="/collections/self-romance" class="submenu-link">Self Romance</a>
+            <a href="{{ collections['the-rebirth-collection'].url }}" class="submenu-link">Rebirth</a>
+            <a href="{{ collections['boundaries-collection'].url }}" class="submenu-link">Boundaries</a>
+            <a href="{{ collections['victorious-collection'].url }}" class="submenu-link">Victorious</a>
+            <a href="{{ collections['the-self-romance-collection'].url }}" class="submenu-link">Self Romance</a>
           </div>
-          <a href="/collections/self-romance" class="submenu-featured-card">
+          <a href="{{ collections['the-self-romance-collection'].url }}" class="submenu-featured-card">
             <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="400" height="533">
             <div class="submenu-featured-card__overlay">
               <span class="submenu-featured-card__title">Self Romance</span>

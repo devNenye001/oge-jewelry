@@ -36,10 +36,10 @@
           <div class="horizontal-scroll-track not-found-bestsellers-grid" data-scroll-track>
             {% assign bs_collection = section.settings.collection %}
             {% if bs_collection == blank or bs_collection.products_count == 0 %}
-              {% if collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
-                {% assign bs_collection = collections['best-sellers'] %}
-              {% elsif collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
-                {% assign bs_collection = collections['new-in'] %}
+              {% if collections['bestseller'] != blank and collections['bestseller'].products_count > 0 %}
+                {% assign bs_collection = collections['bestseller'] %}
+              {% elsif collections['new-arrival'] != blank and collections['new-arrival'].products_count > 0 %}
+                {% assign bs_collection = collections['new-arrival'] %}
               {% elsif collections.all != blank and collections.all.products_count > 0 %}
                 {% assign bs_collection = collections.all %}
               {% endif %}

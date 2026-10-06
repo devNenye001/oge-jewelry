@@ -20,7 +20,7 @@
           {{ section.settings.text_2 | default: '<p>Born from a devotion to timeless craftsmanship and contemporary silhouette, our creations transcend fleeting trends. Whether worn as a personal armor or passed on as a family heirloom, OGÉ is made to be treasured forever.</p>' }}
         </div>
         {% if section.settings.btn_text != blank %}
-          <a href="{{ section.settings.btn_url | default: '/pages/our-story' }}" class="btn btn-brown brand-story__cta">
+          <a href="{{ section.settings.btn_url | default: pages['about-oge-jewelry'].url }}" class="btn btn-brown brand-story__cta">
             {{ section.settings.btn_text }}
           </a>
         {% endif %}

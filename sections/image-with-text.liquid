@@ -23,7 +23,7 @@
         </div>
 
         {% if section.settings.button_text != blank %}
-          <a href="{{ section.settings.button_url | default: '/pages/our-story' }}" class="btn btn-primary">
+          <a href="{{ section.settings.button_url | default: pages['about-oge-jewelry'].url }}" class="btn btn-primary">
             {{ section.settings.button_text }}
           </a>
         {% endif %}

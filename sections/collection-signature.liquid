@@ -5,10 +5,10 @@
 {% assign coll_4 = section.settings.collection_4 %}
 
 {% assign url_align = coll_align.url | default: section.settings.link_alignment | default: '/collections/alignment' %}
-{% assign url_1 = coll_1.url | default: section.settings.link_1 | default: '/collections/rebirth' %}
-{% assign url_2 = coll_2.url | default: section.settings.link_2 | default: '/collections/boundaries' %}
-{% assign url_3 = coll_3.url | default: section.settings.link_3 | default: '/collections/victorious' %}
-{% assign url_4 = coll_4.url | default: section.settings.link_4 | default: '/collections/self-romance' %}
+{% assign url_1 = coll_1.url | default: section.settings.link_1 | default: collections['the-rebirth-collection'].url %}
+{% assign url_2 = coll_2.url | default: section.settings.link_2 | default: collections['boundaries-collection'].url %}
+{% assign url_3 = coll_3.url | default: section.settings.link_3 | default: collections['victorious-collection'].url %}
+{% assign url_4 = coll_4.url | default: section.settings.link_4 | default: collections['the-self-romance-collection'].url %}
 
 {% assign img_align = section.settings.image_alignment | default: coll_align.image | default: coll_align.featured_image %}
 {% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}

@@ -1,5 +1,5 @@
 <section class="hero-banner" id="hero" {{ section.shopify_attributes }}>
-  <a href="{{ section.settings.btn_1_url | default: '/collections/new-in' }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
+  <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
     <div class="hero-banner__image-wrap">
       {% if section.settings.image != blank %}
         {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
@@ -30,7 +30,7 @@
       "type": "url",
       "id": "btn_1_url",
       "label": "Hero Link URL",
-      "default": "/collections/new-in"
+      "default": "/collections/new-arrival"
     }
   ],
   "presets": [

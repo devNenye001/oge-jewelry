@@ -22,10 +22,10 @@
       <div class="horizontal-scroll-track" data-scroll-track>
       {% assign featured_collection = section.settings.collection %}
       {% if featured_collection == blank %}
-        {% if section.settings.preset_type == 'new_arrivals' and collections['new-in'] != blank and collections['new-in'].products_count > 0 %}
-          {% assign featured_collection = collections['new-in'] %}
-        {% elsif section.settings.preset_type == 'best_sellers' and collections['best-sellers'] != blank and collections['best-sellers'].products_count > 0 %}
-          {% assign featured_collection = collections['best-sellers'] %}
+        {% if section.settings.preset_type == 'new_arrivals' and collections['new-arrival'] != blank and collections['new-arrival'].products_count > 0 %}
+          {% assign featured_collection = collections['new-arrival'] %}
+        {% elsif section.settings.preset_type == 'best_sellers' and collections['bestseller'] != blank and collections['bestseller'].products_count > 0 %}
+          {% assign featured_collection = collections['bestseller'] %}
         {% endif %}
       {% endif %}
 
@@ -58,8 +58,8 @@
       "id": "preset_type",
       "label": "Default Collection",
       "options": [
-        { "value": "new_arrivals", "label": "New Arrivals (new-in collection)" },
-        { "value": "best_sellers", "label": "Pieces Worth Keeping (best-sellers collection)" }
+        { "value": "new_arrivals", "label": "New Arrivals (new-arrival collection)" },
+        { "value": "best_sellers", "label": "Pieces Worth Keeping (bestseller collection)" }
       ],
       "default": "new_arrivals"
     },
