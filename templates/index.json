@@ -1,9 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "btn_1_url": "/collections/new-arrival"
+        "image": "shopify://shop_images/extend_this_photo_2K_20260913193703.jpg",
+        "eyebrow": "THE NEW COLLECTION",
+        "title": "Timeless Elegance, Handcrafted in Solid Gold",
+        "text": "Discover fine jewelry pieces designed to empower and endure for generations.",
+        "btn_1_text": "Shop New In",
+        "btn_1_url": "/collections/new-arrival",
+        "btn_2_text": "Our Story",
+        "btn_2_url": ""
       }
     },
     "new_arrivals": {
@@ -11,31 +27,49 @@
       "settings": {
         "heading": "NEW ARRIVALS",
         "preset_type": "new_arrivals",
+        "collection": "",
         "products_to_show": 4,
-        "show_navigation": true
+        "show_navigation": true,
+        "bg_color": "#ffffff"
       }
     },
     "category_bento": {
       "type": "category-bento",
       "settings": {
         "heading": "SHOP BY CATEGORY",
+        "collection_1": "",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
+        "link_1": "",
+        "collection_2": "",
         "title_2": "RINGS",
         "cta_2": "Shop now",
+        "link_2": "",
+        "collection_3": "",
         "title_3": "EARRING",
-        "cta_3": "Shop now"
+        "cta_3": "Shop now",
+        "link_3": ""
       }
     },
     "signature_collections": {
       "type": "collection-signature",
       "settings": {
         "heading": "FIND YOUR SIGNATURE",
+        "collection_alignment": "",
         "title_alignment": "ALIGNMENT COLLECTION",
+        "link_alignment": "",
+        "collection_1": "",
         "title_1": "REBIRTH COLLECTION",
+        "link_1": "",
+        "collection_2": "",
         "title_2": "BOUNDARIES COLLECTION",
+        "link_2": "",
+        "collection_3": "",
         "title_3": "VICTORIOUS COLLECTION",
-        "title_4": "SELF ROMANCE COLLECTION"
+        "link_3": "",
+        "collection_4": "",
+        "title_4": "SELF ROMANCE COLLECTION",
+        "link_4": ""
       }
     },
     "pieces_worth_keeping": {
@@ -43,8 +77,10 @@
       "settings": {
         "heading": "PIECES WORTH KEEPING",
         "preset_type": "best_sellers",
+        "collection": "",
         "products_to_show": 4,
-        "show_navigation": true
+        "show_navigation": true,
+        "bg_color": "#ffffff"
       }
     },
     "promotional_sales": {
@@ -53,9 +89,11 @@
         "eyebrow_1": "Exclusive Release",
         "headline_1": "GOLD STATEMENT<br>EARRINGS",
         "cta_1": "Shop now",
+        "link_1": "",
         "eyebrow_2": "Artisan Masterpiece",
         "headline_2": "HANDCRAFTED GOLD<br>NECKLACES",
-        "cta_2": "Shop now"
+        "cta_2": "Shop now",
+        "link_2": ""
       }
     },
     "brand_story": {
@@ -64,6 +102,7 @@
         "eyebrow": "",
         "title": "MORE THAN JEWELRY, IT'S A FEELING.",
         "text_1": "<p>OGE was created for the woman who knows that jewelry is more than an accessory — it is an expression of who she is.</p><p>Each piece is thoughtfully designed to celebrate individuality, confidence, and the moments that make her story uniquely hers.</p><p>From everyday elegance to unforgettable occasions, OGE creates pieces made to be worn, loved, and remembered.</p>",
+        "text_2": "<p>Born from a devotion to timeless craftsmanship and contemporary silhouette, our creations transcend fleeting trends. Whether worn as a personal armor or passed on as a family heirloom, OGÉ is made to be treasured forever.</p>",
         "btn_text": "Learn More",
         "btn_url": "/pages/about-oge-jewelry"
       }
@@ -78,6 +117,10 @@
       "type": "video-reels",
       "settings": {
         "heading": "WATCH ON INSTA",
+        "video_url_1": "",
+        "video_url_2": "",
+        "video_url_3": "",
+        "large_video_url": "",
         "btn_text": "Follow us on Instagram",
         "btn_url": "https://instagram.com"
       }
@@ -85,7 +128,9 @@
     "journal_blog": {
       "type": "journal-blog",
       "settings": {
-        "heading": "OGÉ JOURNAL"
+        "heading": "OGÉ JOURNAL",
+        "blog": "",
+        "post_limit": 3
       }
     },
     "faq_accordion": {
