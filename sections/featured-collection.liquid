@@ -33,83 +33,6 @@
         {% for product in featured_collection.products limit: section.settings.products_to_show %}
           {% render 'product-card', product: product %}
         {% endfor %}
-      {% else %}
-        {% if section.settings.preset_type == 'best_sellers' %}
-          <!-- Official Best Sellers from Victorious & Self Romance Collections -->
-          {% render 'product-card', 
-            title: 'Valor Necklace - Black Onyx 18k Gold Vermeil', 
-            material: '18K Gold Vermeil & Onyx', 
-            price: 18500, 
-            image_url: 'product3.jpg', 
-            hover_image_url: 'product-necklace-1.jpg', 
-            handle: 'valor-necklace-gold' 
-          %}
-          {% render 'product-card', 
-            title: 'Valor Stud Earrings - Black Onyx 18k Gold Vermeil', 
-            material: '18K Gold Vermeil & Onyx', 
-            price: 12500, 
-            image_url: 'product2.png', 
-            hover_image_url: 'product-earrings-1.jpg', 
-            handle: 'valor-stud-earrings-gold' 
-          %}
-          {% render 'product-card', 
-            title: 'Valor Bracelet - Black Onyx 18k Gold Vermeil', 
-            material: '18K Gold Vermeil & Onyx', 
-            price: 15500, 
-            image_url: 'product5.png', 
-            hover_image_url: 'product-bracelet-1.jpg', 
-            handle: 'valor-bracelet-gold' 
-          %}
-          {% render 'product-card', 
-            title: 'Devotion Necklace - Cupid, Roses & Pearls', 
-            material: 'Silver Rhodium & Freshwater Pearls', 
-            price: 16500, 
-            compare_at_price: 19500, 
-            image_url: 'product7.jpg', 
-            hover_image_url: 'product-necklace-1.jpg', 
-            handle: 'devotion-necklace' 
-          %}
-        {% else %}
-          <!-- Official New Arrivals from Boundaries & Self Romance Collections -->
-          {% render 'product-card', 
-            title: 'Saraswati Ring - White Mother of Pearl', 
-            material: '18K Gold Vermeil & Mother of Pearl', 
-            price: 14000, 
-            compare_at_price: 16500, 
-            image_url: 'product-ring-1.jpg', 
-            hover_image_url: 'product4.png', 
-            is_new: true, 
-            handle: 'saraswati-ring' 
-          %}
-          {% render 'product-card', 
-            title: 'Ala Ring - Peridot & Black Enamel', 
-            material: '18K Gold Vermeil & Peridot', 
-            price: 14000, 
-            image_url: 'product4.png', 
-            hover_image_url: 'product-ring-1.jpg', 
-            is_new: true, 
-            handle: 'ala-ring' 
-          %}
-          {% render 'product-card', 
-            title: 'Ascend Earrings - Cupid & Pearl Studs', 
-            material: 'Silver Rhodium & Shell Pearls', 
-            price: 11500, 
-            compare_at_price: 13500, 
-            image_url: 'product1.png', 
-            hover_image_url: 'product-earrings-1.jpg', 
-            is_new: true, 
-            handle: 'ascend-earrings' 
-          %}
-          {% render 'product-card', 
-            title: 'Harmonia Ring - Rose Quartz', 
-            material: '18K Gold Vermeil & Rose Quartz', 
-            price: 14500, 
-            image_url: 'product3.jpg', 
-            hover_image_url: 'product8.png', 
-            is_new: true, 
-            handle: 'harmonia-ring' 
-          %}
-        {% endif %}
       {% endif %}
       </div>
 
@@ -133,10 +56,10 @@
     {
       "type": "select",
       "id": "preset_type",
-      "label": "Preset Fallback Type",
+      "label": "Default Collection",
       "options": [
-        { "value": "new_arrivals", "label": "New Arrivals (product1 - product4)" },
-        { "value": "best_sellers", "label": "Pieces Worth Keeping (product5 - product8)" }
+        { "value": "new_arrivals", "label": "New Arrivals (new-in collection)" },
+        { "value": "best_sellers", "label": "Pieces Worth Keeping (best-sellers collection)" }
       ],
       "default": "new_arrivals"
     },

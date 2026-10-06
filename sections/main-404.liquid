@@ -1,19 +1,4 @@
-{% assign path_lower = request.path | downcase %}
-
-{% if path_lower contains '/pages/our-story' or path_lower contains '/pages/about' %}
-  {% render 'page-content-about' %}
-{% elsif path_lower contains '/pages/wishlist' %}
-  {% render 'page-content-wishlist' %}
-{% elsif path_lower contains '/pages/faqs' or path_lower contains '/pages/faq' %}
-  {% render 'page-content-faq' %}
-{% elsif path_lower contains '/pages/contact' %}
-  {% render 'page-content-contact' %}
-{% elsif path_lower contains '/shipping' or path_lower contains '/privacy' or path_lower contains '/terms' or path_lower contains '/cookies' or path_lower contains '/policies/' or path_lower contains '/pages/policy' %}
-  {% render 'page-content-policy' %}
-{% elsif path_lower contains '/collections/' %}
-  {% render 'category-content' %}
-{% else %}
-  <div id="not-found-standard-view">
+<div id="not-found-standard-view">
     <section class="not-found-section" {{ section.shopify_attributes }}>
       <div class="page-container">
         <div class="not-found-content">
@@ -65,48 +50,6 @@
                 {% render 'product-card', product: product %}
               {% endfor %}
             {% else %}
-              <!-- Mock Product 1: Valor V Onyx Bracelet (OUT OF STOCK) -->
-              {% render 'product-card', 
-                card_title: 'Valor V Onyx Bracelet',
-                card_price: 9200,
-                card_material: 'Gold',
-                card_image: 'product5.png',
-                card_hover_image: 'product-bracelet-1.jpg',
-                card_handle: 'valor-v-onyx-bracelet',
-                card_out_of_stock: true
-              %}
-
-              <!-- Mock Product 2: Onyx bracelet ($80 $110 - New badge, + Add button) -->
-              {% render 'product-card', 
-                card_title: 'Onyx bracelet',
-                card_price: 8000,
-                card_compare_price: 11000,
-                card_material: 'Gold',
-                card_image: 'product6.png',
-                card_hover_image: 'product-bracelet-1.jpg',
-                card_handle: 'onyx-bracelet',
-                card_is_new: true
-              %}
-
-              <!-- Mock Product 3: Valor V Onyx Necklace ($120 - + Add button) -->
-              {% render 'product-card', 
-                card_title: 'Valor V Onyx Necklace',
-                card_price: 12000,
-                card_material: 'Gold',
-                card_image: 'product3.jpg',
-                card_hover_image: 'product7.jpg',
-                card_handle: 'valor-v-onyx-necklace'
-              %}
-
-              <!-- Mock Product 4: Ring havoc ($92) -->
-              {% render 'product-card', 
-                card_title: 'Ring havoc',
-                card_price: 9200,
-                card_material: 'Gold',
-                card_image: 'product8.png',
-                card_hover_image: 'product-ring-1.jpg',
-                card_handle: 'ring-havoc'
-              %}
             {% endif %}
           </div>
 
@@ -119,8 +62,6 @@
 
     <hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
   </div>
-{% endif %}
-
 {% schema %}
 {
   "name": "404 Main & Best Sellers",

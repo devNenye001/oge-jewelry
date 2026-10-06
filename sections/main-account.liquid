@@ -134,60 +134,6 @@
                   </div>
                 </article>
               {% endfor %}
-            {% else %}
-              <!-- Product 1 Fallback -->
-              <article class="account-product-card">
-                <div class="account-product-card__image-wrap">
-                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet" aria-label="Add Valor V Onyx Bracelet to WishList">
-                    {% render 'icon-heart' %}
-                  </button>
-                  <img src="{{ 'product5.png' | asset_url }}" alt="Valor V Onyx Bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
-                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet" data-product-price="$92" data-product-img="{{ 'product5.png' | asset_url }}" aria-label="Quick Add Valor V Onyx Bracelet to Bag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                  </button>
-                </div>
-                <div class="account-product-card__info">
-                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Valor V Onyx Bracelet</a></h3>
-                  <p class="account-product-card__variant">Gold</p>
-                  <p class="account-product-card__price">$92</p>
-                </div>
-              </article>
-
-              <!-- Product 2 Fallback -->
-              <article class="account-product-card">
-                <div class="account-product-card__image-wrap">
-                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="onyx-bracelet" aria-label="Add Onyx bracelet to WishList">
-                    {% render 'icon-heart' %}
-                  </button>
-                  <img src="{{ 'product6.png' | asset_url }}" alt="Onyx bracelet Gold" class="account-product-card__image" loading="lazy" width="400" height="460">
-                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Onyx bracelet" data-product-price="$80" data-product-img="{{ 'product6.png' | asset_url }}" aria-label="Quick Add Onyx bracelet to Bag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                  </button>
-                </div>
-                <div class="account-product-card__info">
-                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Onyx bracelet</a></h3>
-                  <p class="account-product-card__variant">Gold</p>
-                  <p class="account-product-card__price"><span>$80</span><span class="account-product-card__price-compare">$110</span></p>
-                </div>
-              </article>
-
-              <!-- Product 3 Fallback -->
-              <article class="account-product-card">
-                <div class="account-product-card__image-wrap">
-                  <button type="button" class="account-product-card__wishlist" data-wishlist-btn data-product-handle="valor-v-onyx-bracelet-silver" aria-label="Add Valor V Onyx Bracelet Silver to WishList">
-                    {% render 'icon-heart' %}
-                  </button>
-                  <img src="{{ 'product8.png' | asset_url }}" alt="Valor V Onyx Bracelet Silver" class="account-product-card__image" loading="lazy" width="400" height="460">
-                  <button type="button" class="account-product-card__add-btn" data-quick-add data-product-title="Valor V Onyx Bracelet Silver" data-product-price="$120" data-product-img="{{ 'product8.png' | asset_url }}" aria-label="Quick Add Valor V Onyx Bracelet Silver to Bag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                  </button>
-                </div>
-                <div class="account-product-card__info">
-                  <h3 class="account-product-card__title"><a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="account-product-card__title">Valor V Onyx Bracelet</a></h3>
-                  <p class="account-product-card__variant">Silver</p>
-                  <p class="account-product-card__price">$120</p>
-                </div>
-              </article>
             {% endif %}
           </div>
         </section>

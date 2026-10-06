@@ -1147,11 +1147,16 @@
           Promise.all(
             savedHandles.map((handle) =>
               fetch(`/products/${handle}.js`)
-                .then((r) => (r.ok ? r.json() : null))
-                .catch(() => null)
+                .then((r) => (r.ok ? r.json() : r.status === 404 ? null : { handle, unavailable: true }))
+                .catch(() => ({ handle, unavailable: true }))
             )
           ).then((products) => {
-            const validProducts = products.filter(Boolean);
+            const validProducts = products.filter((product) => product && !product.unavailable);
+            const unresolvedHandles = products.filter((product) => product && product.unavailable).map((product) => product.handle);
+            AppState.wishlist = validProducts.map((product) => product.handle).concat(unresolvedHandles);
+            localStorage.setItem('oge_wishlist', JSON.stringify(AppState.wishlist));
+            Wishlist.updateBadges();
+            Wishlist.updateButtons();
             if (validProducts.length > 0) {
               itemsContainer.innerHTML = validProducts
                 .map((product) => {
@@ -1189,6 +1194,7 @@
                 .join('');
             }
             bindCardEvents();
+            updateWishlistUI();
           });
         }
       }

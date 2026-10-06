@@ -49,78 +49,14 @@
         {% for product in collection.products %}
           {% render 'product-card', product: product %}
         {% endfor %}
-      {% elsif collections.all.products.size > 0 %}
-        {% assign displayed_count = 0 %}
-        {% for product in collections.all.products %}
-          {% assign product_type_lower = product.type | downcase %}
-          {% assign product_tags_lower = product.tags | join: ' ' | downcase %}
-          {% assign product_title_lower = product.title | downcase %}
-          {% assign match = false %}
-
-          {% if collection.handle contains 'ring' %}
-            {% if product_type_lower contains 'ring' or product_tags_lower contains 'ring' or product_title_lower contains 'ring' %}
-              {% assign match = true %}
-            {% endif %}
-          {% elsif collection.handle contains 'necklace' %}
-            {% if product_type_lower contains 'necklace' or product_tags_lower contains 'necklace' or product_title_lower contains 'necklace' %}
-              {% assign match = true %}
-            {% endif %}
-          {% elsif collection.handle contains 'earring' %}
-            {% if product_type_lower contains 'earring' or product_tags_lower contains 'earring' or product_title_lower contains 'earring' %}
-              {% assign match = true %}
-            {% endif %}
-          {% elsif collection.handle contains 'bracelet' %}
-            {% if product_type_lower contains 'bracelet' or product_tags_lower contains 'bracelet' or product_title_lower contains 'bracelet' or product_title_lower contains 'cuff' %}
-              {% assign match = true %}
-            {% endif %}
-          {% else %}
-            {% assign match = true %}
-          {% endif %}
-
-          {% if match %}
-            {% render 'product-card', product: product %}
-            {% assign displayed_count = displayed_count | plus: 1 %}
-          {% endif %}
-        {% endfor %}
-
-        {% if displayed_count == 0 %}
-          <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
-            <h2 class="wishlist-empty-title">No products found</h2>
-            <p class="wishlist-empty-desc">There are currently no products available in this category.</p>
-            <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
-          </div>
-        {% endif %}
       {% else %}
-        <!-- Curated fallback matching approved OGÉ collection if store catalog is empty -->
-        {% if collection.handle contains 'ring' %}
-          {% render 'product-card', card_title: 'Boundaries Ring', card_price: 14000, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'boundaries-ring' %}
-          {% render 'product-card', card_title: 'Sculptural Wave Ring', card_price: 16500, card_material: '18K Solid Gold', card_image: 'product-ring-1.jpg', card_hover_image: 'product8.png', card_handle: 'sculptural-wave-ring' %}
-          {% render 'product-card', card_title: 'Eternal Band Ring', card_price: 12000, card_material: '18K Gold Vermeil', card_image: 'product4.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'eternal-band-ring' %}
-          {% render 'product-card', card_title: 'Ring Havoc', card_price: 9200, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'ring-havoc' %}
-        {% elsif collection.handle contains 'necklace' %}
-          {% render 'product-card', card_title: 'Valor V Onyx Necklace', card_price: 12000, card_material: '18K Gold & Onyx', card_image: 'product3.jpg', card_hover_image: 'product7.jpg', card_handle: 'valor-v-onyx-necklace' %}
-          {% render 'product-card', card_title: 'Pendant Gold Choker', card_price: 18500, card_material: '18K Solid Gold', card_image: 'product-necklace-1.jpg', card_hover_image: 'product7.jpg', card_handle: 'pendant-gold-choker' %}
-          {% render 'product-card', card_title: 'Alignment Solitaire Pendant', card_price: 21000, card_material: '18K Solid Gold', card_image: 'product3.jpg', card_hover_image: 'product-necklace-1.jpg', card_handle: 'alignment-solitaire-pendant' %}
-          {% render 'product-card', card_title: 'Victorious Chain Necklace', card_price: 16000, card_material: '18K Gold Vermeil', card_image: 'product-necklace-1.jpg', card_hover_image: 'product3.jpg', card_handle: 'victorious-chain-necklace' %}
-        {% elsif collection.handle contains 'earring' %}
-          {% render 'product-card', card_title: 'Red Floral Stud Earrings', card_price: 6000, card_material: '18K Solid Gold', card_image: 'product2.png', card_hover_image: 'product-earrings-1.jpg', card_handle: 'red-floral-stud-earrings', card_is_new: true %}
-          {% render 'product-card', card_title: 'Molten Drop Earrings', card_price: 9500, card_material: '18K Solid Gold', card_image: 'product-earrings-1.jpg', card_hover_image: 'product2.png', card_handle: 'molten-drop-earrings' %}
-          {% render 'product-card', card_title: 'Valor V Stud Earrings', card_price: 8500, card_material: '18K Gold & Onyx', card_image: 'product1.png', card_hover_image: 'product-earrings-1.jpg', card_handle: 'valor-v-stud-earrings' %}
-          {% render 'product-card', card_title: 'Baroque Pearl Earrings', card_price: 11000, card_material: '18K Gold & Pearl', card_image: 'product-earrings-1.jpg', card_hover_image: 'product1.png', card_handle: 'baroque-pearl-earrings' %}
-        {% elsif collection.handle contains 'bracelet' %}
-          {% render 'product-card', card_title: 'Valor V Onyx Bracelet', card_price: 9200, card_material: '18K Gold & Onyx', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'valor-v-onyx-bracelet', card_out_of_stock: true %}
-          {% render 'product-card', card_title: 'Onyx Bracelet', card_price: 8000, card_compare_price: 11000, card_material: '18K Gold Vermeil', card_image: 'product6.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'onyx-bracelet', card_is_new: true %}
-          {% render 'product-card', card_title: 'Stacked Solid Gold Cuff', card_price: 24500, card_material: '18K Solid Gold', card_image: 'product-bracelet-1.jpg', card_hover_image: 'product6.png', card_handle: 'stacked-solid-gold-cuff' %}
-          {% render 'product-card', card_title: 'Silver Clover Bracelet', card_price: 12000, card_material: 'Sterling Silver', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'silver-clover-bracelet' %}
-        {% else %}
-          {% render 'product-card', card_title: 'Valor V Onyx Bracelet', card_price: 9200, card_material: '18K Gold & Onyx', card_image: 'product5.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'valor-v-onyx-bracelet' %}
-          {% render 'product-card', card_title: 'Onyx Bracelet', card_price: 8000, card_compare_price: 11000, card_material: '18K Gold Vermeil', card_image: 'product6.png', card_hover_image: 'product-bracelet-1.jpg', card_handle: 'onyx-bracelet', card_is_new: true %}
-          {% render 'product-card', card_title: 'Valor V Onyx Necklace', card_price: 12000, card_material: '18K Gold & Onyx', card_image: 'product3.jpg', card_hover_image: 'product7.jpg', card_handle: 'valor-v-onyx-necklace' %}
-          {% render 'product-card', card_title: 'Ring Havoc', card_price: 9200, card_material: '18K Solid Gold', card_image: 'product8.png', card_hover_image: 'product-ring-1.jpg', card_handle: 'ring-havoc' %}
-        {% endif %}
+        <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+          <h2 class="wishlist-empty-title">No products found</h2>
+          <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
+          <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+        </div>
       {% endif %}
     </div>
-
     {% if paginate.pages > 1 %}
       <nav class="collection-pagination" aria-label="Pagination">
         {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
