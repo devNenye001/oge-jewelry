@@ -78,10 +78,10 @@
       {% endif %}
 
       <!-- Shopping Bag Cart Icon (Desktop & Mobile) -->
-      <button 
-        type="button" 
-        class="header-icon-btn" 
-        data-cart-drawer-open 
+      <a
+        href="{{ routes.cart_url }}"
+        class="header-icon-btn"
+        data-cart-drawer-open
         id="btn-cart"
         aria-label="{{ 'header.cart' | t }}"
       >
@@ -91,7 +91,7 @@
         {% else %}
           <span class="header-icon-btn__badge" data-cart-count style="display: none;"></span>
         {% endif %}
-      </button>
+      </a>
     </div>
 
   </div>
