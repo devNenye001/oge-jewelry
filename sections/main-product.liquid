@@ -53,6 +53,27 @@
       </nav>
     {% endif %}
 
+    {% assign product_category_handle = blank %}
+    {% if collection != blank %}
+      {% if collection.handle == 'rings' or collection.handle == 'necklaces' or collection.handle == 'bracelets' or collection.handle == 'earrings' %}
+        {% assign product_category_handle = collection.handle %}
+      {% endif %}
+    {% endif %}
+    {% if product_category_handle == blank %}
+      {% for product_collection in product.collections %}
+        {% if product_collection.handle == 'rings' or product_collection.handle == 'necklaces' or product_collection.handle == 'bracelets' or product_collection.handle == 'earrings' %}
+          {% assign product_category_handle = product_collection.handle %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    <nav class="collection-category-tabs collection-nav-tabs" aria-label="Product Categories">
+      <a href="/collections/rings" class="collection-tab-btn{% if product_category_handle == 'rings' %} is-active{% endif %}">Rings</a>
+      <a href="/collections/necklaces" class="collection-tab-btn{% if product_category_handle == 'necklaces' %} is-active{% endif %}">Necklaces</a>
+      <a href="/collections/bracelets" class="collection-tab-btn{% if product_category_handle == 'bracelets' %} is-active{% endif %}">Bracelets</a>
+      <a href="/collections/earrings" class="collection-tab-btn{% if product_category_handle == 'earrings' %} is-active{% endif %}">Earrings</a>
+    </nav>
+
     <div class="product-details-grid">
       
       <!-- Left Thumbnail Column (Product Images Rail) -->
