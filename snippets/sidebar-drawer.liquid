@@ -100,7 +100,7 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
           <a href="{{ routes.account_login_url | default: '/account/login' }}" class="sidebar-footer__link">{{ 'general.login' | default: 'Login' }}</a>
         {% endif %}
 
-        <a href="/pages/wishlist" class="sidebar-footer__link">{{ 'general.wishlist' | default: 'WishList' }}</a>
+        <a href="{{ pages['wishlist'].url }}" class="sidebar-footer__link">{{ 'general.wishlist' | default: 'WishList' }}</a>
 
         <!-- Localization Selector (US Flag + Country / Language) -->
         <div class="sidebar-localization" data-country-trigger role="button" tabindex="0" aria-label="Select Country and Language" style="cursor: pointer;">

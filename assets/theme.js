@@ -1623,20 +1623,6 @@
       // Toggle password eye icons (Right Icons for Open & Close)
       initPasswordToggles();
 
-      // Login form submission
-      const loginForm = document.getElementById('form-auth-login');
-      if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const emailInput = document.getElementById('login-email');
-          const emailVal = emailInput ? emailInput.value.trim() : '';
-          if (emailVal) {
-            localStorage.setItem('oge_user_email', emailVal);
-          }
-          window.location.href = 'account-overview.html';
-        });
-      }
-
       // Signup multi-step handling
       const step1 = document.getElementById('signup-step-1');
       const step2 = document.getElementById('signup-step-2');
@@ -1675,54 +1661,18 @@
 
       if (signupForm) {
         signupForm.addEventListener('submit', (e) => {
-          e.preventDefault();
           const pwd = document.getElementById('signup-password')?.value;
           const confirmPwd = document.getElementById('signup-confirm-password')?.value;
 
           if (!pwd || pwd.length < 6) {
+            e.preventDefault();
             alert('Please enter a secure password.');
             return;
           }
           if (pwd !== confirmPwd) {
+            e.preventDefault();
             alert('Passwords do not match. Please re-enter.');
-            return;
           }
-
-          const firstName = document.getElementById('signup-firstname')?.value.trim() || 'Ndubuisi';
-          const lastName = document.getElementById('signup-lastname')?.value.trim() || 'Chinenye';
-          const email = document.getElementById('signup-email')?.value.trim() || 'johnrosey4@gmail.com';
-
-          localStorage.setItem('oge_user_name', `${firstName} ${lastName}`);
-          localStorage.setItem('oge_user_email', email);
-
-          window.location.href = 'account-overview.html';
-        });
-      }
-
-      // Reset Password form submission
-      const resetForm = document.getElementById('form-auth-reset-password');
-      if (resetForm) {
-        resetForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const emailInput = document.getElementById('reset-email');
-          const emailVal = emailInput ? emailInput.value.trim() : '';
-
-          if (!emailVal || !emailVal.includes('@')) {
-            alert('Please enter a valid email address.');
-            return;
-          }
-
-          // Show confirmation message and transition
-          const submitBtn = document.getElementById('btn-reset-submit');
-          if (submitBtn) {
-            submitBtn.textContent = 'Email Sent!';
-            submitBtn.style.backgroundColor = '#2e7d32';
-          }
-
-          setTimeout(() => {
-            alert(`We've sent a password reset link to ${emailVal}. Please check your inbox.`);
-            window.location.href = 'login.html';
-          }, 600);
         });
       }
     }
