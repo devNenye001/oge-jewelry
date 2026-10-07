@@ -15,13 +15,13 @@
               <a href="{{ link.url }}" class="footer-col__link">{{ link.title }}</a>
             {% endfor %}
           {% else %}
-            <a href="{{ collections['new-arrival'].url }}" class="footer-col__link">New Arrivals</a>
-            <a href="{{ collections['bestseller'].url }}" class="footer-col__link">Best Sellers</a>
-            <a href="{{ collections['victorious-collection'].url }}" class="footer-col__link">Victorious Collection</a>
-            <a href="{{ collections['the-self-romance-collection'].url }}" class="footer-col__link">Self Romance Collection</a>
-            <a href="{{ collections['boundaries-collection'].url }}" class="footer-col__link">Boundaries Collection</a>
-            <a href="{{ collections['the-rebirth-collection'].url }}" class="footer-col__link">Rebirth Collection</a>
-            <a href="{{ collections['bundled-collection'].url }}" class="footer-col__link">Bundle Deals</a>
+            <a href="{{ collections['new-arrival'].url | default: '/collections/new-in' }}" class="footer-col__link">New Arrivals</a>
+            <a href="{{ collections['bestseller'].url | default: '/collections/all' }}" class="footer-col__link">Best Sellers</a>
+            <a href="{{ collections['victorious-collection'].url | default: '/collections/victorious' }}" class="footer-col__link">Victorious Collection</a>
+            <a href="{{ collections['the-self-romance-collection'].url | default: '/collections/self-romance' }}" class="footer-col__link">Self Romance Collection</a>
+            <a href="{{ collections['boundaries-collection'].url | default: '/collections/boundaries' }}" class="footer-col__link">Boundaries Collection</a>
+            <a href="{{ collections['the-rebirth-collection'].url | default: '/collections/rebirth' }}" class="footer-col__link">Rebirth Collection</a>
+            <a href="{{ collections['bundled-collection'].url | default: '/pages/bundle-deals' }}" class="footer-col__link">Bundle Deals</a>
           {% endif %}
         </nav>
       </div>
@@ -35,9 +35,9 @@
               <a href="{{ link.url }}" class="footer-col__link">{{ link.title }}</a>
             {% endfor %}
           {% else %}
-            <a href="{{ pages['about-oge-jewelry'].url }}" class="footer-col__link">Our Story</a>
+            <a href="{{ pages['about-oge-jewelry'].url | default: '/pages/about' }}" class="footer-col__link">Our Story</a>
             <a href="/pages/contact" class="footer-col__link">Contact Us</a>
-            <a href="{{ pages['faq'].url }}" class="footer-col__link">FAQs</a>
+            <a href="{{ pages['faq'].url | default: '/pages/faqs' }}" class="footer-col__link">FAQs</a>
             <a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}" class="footer-col__link">Shipping &amp; Returns</a>
           {% endif %}
         </nav>

@@ -65,10 +65,9 @@
           {% render 'product-card', product: product %}
         {% endfor %}
       {% else %}
-        <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
-          <h2 class="wishlist-empty-title">No products found</h2>
-          <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
-          <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+        <div class="wishlist-empty-box collection-empty-state" id="collection-empty-placeholder" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+          <h2 class="wishlist-empty-title">Loading Jewelry...</h2>
+          <p class="wishlist-empty-desc">Discovering handcrafted fine jewelry pieces.</p>
         </div>
       {% endif %}
     </div>
@@ -79,6 +78,61 @@
     {% endif %}
   {% endpaginate %}
 </main>
+
+<script>
+  (function() {
+    function initCollectionGrid() {
+      const grid = document.getElementById('collection-products-grid');
+      if (!grid) return;
+
+      // Density switchers
+      const switchers = document.querySelectorAll('.grid-switch-btn');
+      switchers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          switchers.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          const cols = btn.getAttribute('data-grid-view') || '4';
+          grid.classList.remove('grid--1-col', 'grid--2-col', 'grid--4-col');
+          grid.classList.add(`grid--${cols}-col`);
+        });
+      });
+
+      // If Shopify liquid produced 0 products, populate from catalog dataset
+      const placeholder = document.getElementById('collection-empty-placeholder');
+      if (placeholder && window.OGE_HELPERS && window.OGE_CATALOG) {
+        const handle = '{{ collection.handle }}' || '';
+        let items = [];
+        if (handle.includes('ring') || handle.includes('necklace') || handle.includes('bracelet') || handle.includes('earring') || handle.includes('fine') || handle.includes('men') || handle.includes('new')) {
+          items = window.OGE_HELPERS.getProductsByCategory(handle);
+        } else {
+          items = window.OGE_HELPERS.getProductsByCollection(handle);
+        }
+        if (!items || items.length === 0) {
+          items = window.OGE_CATALOG;
+        }
+        if (items && items.length > 0) {
+          grid.innerHTML = items.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+          if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
+            window.OGE_CURRENCY.updateDOM();
+          }
+        } else {
+          placeholder.innerHTML = `
+            <h2 class="wishlist-empty-title">No products found</h2>
+            <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
+            <a href="/collections/all" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+          `;
+        }
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCollectionGrid);
+    } else {
+      initCollectionGrid();
+    }
+  })();
+</script>
 
 {% schema %}
 {

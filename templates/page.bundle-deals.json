@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-bundle-deals"
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
