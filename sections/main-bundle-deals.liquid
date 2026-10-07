@@ -3,7 +3,7 @@
   Matches bundle-deals.html
 {% endcomment %}
 
-<main id="MainContent" role="main">
+<div class="bundle-deals-section-wrap">
   <div class="bundle-deals-wrapper">
     <h1 class="bundle-deals-heading">{{ section.settings.heading | default: 'BUNDLE DEALS' }}</h1>
 
@@ -18,7 +18,7 @@
         <div class="bundle-card__overlay">
           <span class="bundle-card__eyebrow">{{ section.settings.card_1_eyebrow | default: 'Bundle deal' }}</span>
           <h2 class="bundle-card__title">{{ section.settings.card_1_title | default: '2 ALA RINGS FOR $150' }}</h2>
-          <a href="{{ section.settings.card_1_link | default: '/collections/rings' }}" class="bundle-card__link">Shop Now</a>
+          <a href="{{ section.settings.card_1_link | default: '/pages/rings' }}" class="bundle-card__link">Shop Now</a>
         </div>
       </div>
 
@@ -32,12 +32,12 @@
         <div class="bundle-card__overlay">
           <span class="bundle-card__eyebrow">{{ section.settings.card_2_eyebrow | default: 'Jewelry Set Offer' }}</span>
           <h2 class="bundle-card__title">{{ section.settings.card_2_title | default: 'VALOR EARRING +<br>NECKLACE FOR $200' }}</h2>
-          <a href="{{ section.settings.card_2_link | default: '/collections/necklaces' }}" class="bundle-card__link">Shop Now</a>
+          <a href="{{ section.settings.card_2_link | default: '/pages/necklaces' }}" class="bundle-card__link">Shop Now</a>
         </div>
       </div>
     </div>
   </div>
-</main>
+</div>
 
 <hr class="category-divider-line">
 

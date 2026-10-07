@@ -61,7 +61,11 @@
       </a>
 
       <!-- Wishlist Heart Icon (Desktop & Mobile) -->
-      <a href="{{ pages['wishlist'].url }}" class="header-icon-btn" aria-label="{{ 'header.wishlist' | t }}">
+      {% assign header_wishlist_url = pages['wishlist'].url %}
+      {% if header_wishlist_url == blank or header_wishlist_url == '' %}
+        {% assign header_wishlist_url = '/pages/wishlist' %}
+      {% endif %}
+      <a href="{{ header_wishlist_url }}" class="header-icon-btn" aria-label="{{ 'header.wishlist' | t }}">
         {% render 'icon-heart' %}
         <span class="header-icon-btn__badge" data-wishlist-count style="display: none;">0</span>
       </a>

@@ -1,0 +1,116 @@
+{% comment %}
+  OGÉ Fine Jewelry - Earrings Page Template (Exact earrings.html Match)
+{% endcomment %}
+
+<header class="category-page-header">
+  <h1 class="category-page-title" id="category-page-heading">EARRINGS</h1>
+</header>
+<hr class="category-divider-line">
+
+<!-- Subcategory Filter Tabs (Mini Navigator) -->
+<nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
+  <a href="/pages/rings" class="collection-tab-btn">Rings</a>
+  <a href="/pages/necklaces" class="collection-tab-btn">Necklaces</a>
+  <a href="/pages/bracelets" class="collection-tab-btn">Bracelets</a>
+  <a href="/pages/earrings" class="collection-tab-btn is-active">Earrings</a>
+</nav>
+
+<!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER) -->
+<div class="collection-utility-bar">
+  <div class="collection-utility-left" style="position: relative;">
+    <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="category-filter-dropdown">
+      Filter &amp; Sort
+    </button>
+    <div class="filter-dropdown-menu" id="category-filter-dropdown" role="menu">
+      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
+      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
+      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
+      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
+    </div>
+  </div>
+  <div class="collection-utility-right">
+    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
+      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="collection-catalog-wrap">
+  <div class="collection-products-grid grid--4-col" id="category-grid">
+    <!-- Rendered via catalog-data.js -->
+  </div>
+</div>
+
+<hr class="category-divider-line">
+
+<script>
+  (function() {
+    function initEarrings() {
+      if (!window.OGE_HELPERS || !window.OGE_CATALOG) {
+        setTimeout(initEarrings, 40);
+        return;
+      }
+      const grid = document.getElementById('category-grid');
+      if (!grid) return;
+      const products = window.OGE_HELPERS.getProductsByCategory('earrings');
+      grid.innerHTML = products.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+      if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
+        window.OGE_CURRENCY.updateDOM();
+      }
+
+      // Density
+      const densityBtns = document.querySelectorAll('.grid-density-btn');
+      densityBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          densityBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          const cols = btn.getAttribute('data-cols') || '4';
+          grid.classList.remove('grid--1-col', 'grid--2-col', 'grid--4-col');
+          grid.classList.add('grid--' + cols + '-col');
+        });
+      });
+
+      // Filter & Sort
+      const filterToggle = document.getElementById('filter-sort-toggle');
+      const filterDropdown = document.getElementById('category-filter-dropdown');
+      if (filterToggle && filterDropdown) {
+        filterToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = filterDropdown.classList.toggle('is-active');
+          filterToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        document.addEventListener('click', () => {
+          filterDropdown.classList.remove('is-active');
+          filterToggle.setAttribute('aria-expanded', 'false');
+        });
+        filterDropdown.querySelectorAll('.filter-option-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterDropdown.querySelectorAll('.filter-option-btn').forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            const sort = btn.getAttribute('data-sort');
+            let sorted = [...products];
+            if (sort === 'price-low') sorted.sort((a, b) => a.price - b.price);
+            else if (sort === 'price-high') sorted.sort((a, b) => b.price - a.price);
+            else if (sort === 'newest') sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+            grid.innerHTML = sorted.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+            if (window.OGE_CURRENCY) window.OGE_CURRENCY.updateDOM();
+            filterDropdown.classList.remove('is-active');
+            filterToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEarrings);
+    else initEarrings();
+  })();
+</script>
