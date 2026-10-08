@@ -29,10 +29,10 @@
 
 <!-- Subcategory Filter Tabs (Mini Navigator - Only Rings, Necklaces, Bracelets, Earrings) -->
 <nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
-  <a href="/collections/rings" class="collection-tab-btn {% if collection.handle == 'rings' or collection.handle contains 'ring' %}is-active{% endif %}">Rings</a>
-  <a href="/collections/necklaces" class="collection-tab-btn {% if collection.handle == 'necklaces' or collection.handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
-  <a href="/collections/bracelets" class="collection-tab-btn {% if collection.handle == 'bracelets' or collection.handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
-  <a href="/collections/earrings" class="collection-tab-btn {% if collection.handle == 'earrings' or collection.handle contains 'earring' %}is-active{% endif %}">Earrings</a>
+  <a href="/collections/all?view=category&type=rings" class="collection-tab-btn {% if collection.handle == 'rings' or collection.handle contains 'ring' %}is-active{% endif %}">Rings</a>
+  <a href="/collections/all?view=category&type=necklaces" class="collection-tab-btn {% if collection.handle == 'necklaces' or collection.handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
+  <a href="/collections/all?view=category&type=bracelets" class="collection-tab-btn {% if collection.handle == 'bracelets' or collection.handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
+  <a href="/collections/all?view=category&type=earrings" class="collection-tab-btn {% if collection.handle == 'earrings' or collection.handle contains 'earring' %}is-active{% endif %}">Earrings</a>
 </nav>
 
 <!-- Collection Toolbar: Grid View Switchers (Filtering is handled via native collection category tabs above) -->
@@ -98,30 +98,55 @@
         });
       });
 
-      // If Shopify liquid produced 0 products, populate from catalog dataset
+      const params = new URLSearchParams(window.location.search);
+      const queryColl = (params.get('collection') || '').toLowerCase().trim();
+      const queryType = (params.get('type') || '').toLowerCase().trim();
+
+      // Update banner and title if query collection is provided
+      if (queryColl) {
+        const collData = {
+          'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
+          'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
+          'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
+          'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+          'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+          'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
+        };
+        if (collData[queryColl]) {
+          const titleEl = document.querySelector('.collection-hero__title');
+          if (titleEl) titleEl.textContent = collData[queryColl].title;
+          const imgEl = document.querySelector('.collection-hero__image');
+          if (imgEl) imgEl.src = collData[queryColl].img;
+          document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
+        }
+      }
+
+      // If Shopify liquid produced 0 products or query collection is specified, populate from catalog dataset
       const placeholder = document.getElementById('collection-empty-placeholder');
-      if (placeholder && window.OGE_HELPERS && window.OGE_CATALOG) {
-        const handle = '{{ collection.handle }}' || '';
-        let items = [];
-        if (handle.includes('ring') || handle.includes('necklace') || handle.includes('bracelet') || handle.includes('earring') || handle.includes('fine') || handle.includes('men') || handle.includes('new')) {
-          items = window.OGE_HELPERS.getProductsByCategory(handle);
-        } else {
-          items = window.OGE_HELPERS.getProductsByCollection(handle);
-        }
-        if (!items || items.length === 0) {
-          items = window.OGE_CATALOG;
-        }
-        if (items && items.length > 0) {
-          grid.innerHTML = items.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
-          if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
-            window.OGE_CURRENCY.updateDOM();
+      if (window.OGE_HELPERS && window.OGE_CATALOG) {
+        let handle = queryColl || queryType || '{{ collection.handle }}' || '';
+        if (queryColl || placeholder) {
+          let items = [];
+          if (handle.includes('ring') || handle.includes('necklace') || handle.includes('bracelet') || handle.includes('earring') || handle.includes('fine') || handle.includes('men') || handle.includes('new')) {
+            items = window.OGE_HELPERS.getProductsByCategory(handle);
+          } else {
+            items = window.OGE_HELPERS.getProductsByCollection(handle);
           }
-        } else {
-          placeholder.innerHTML = `
-            <h2 class="wishlist-empty-title">No products found</h2>
-            <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
-            <a href="/collections/all" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
-          `;
+          if (!items || items.length === 0) {
+            items = window.OGE_CATALOG;
+          }
+          if (items && items.length > 0) {
+            grid.innerHTML = items.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+            if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
+              window.OGE_CURRENCY.updateDOM();
+            }
+          } else if (placeholder) {
+            placeholder.innerHTML = `
+              <h2 class="wishlist-empty-title">No products found</h2>
+              <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
+              <a href="/collections/all" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+            `;
+          }
         }
       }
     }

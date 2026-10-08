@@ -17,31 +17,37 @@
             {% endfor %}
           {% else %}
             {% assign new_in_url = collections['new-arrival'].url %}
-            {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = '/pages/new-in' %}{% endif %}
+            {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = collections['new-in'].url %}{% endif %}
+            {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = '/collections/all?view=category&type=new' %}{% endif %}
             <a href="{{ new_in_url }}" class="footer-col__link">New Arrivals</a>
 
             {% assign best_url = collections['bestseller'].url %}
-            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/pages/shop' %}{% endif %}
+            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/collections/all?view=category&type=all' %}{% endif %}
             <a href="{{ best_url }}" class="footer-col__link">Best Sellers</a>
 
             {% assign vic_url = collections['victorious-collection'].url %}
-            {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = '/collections/victorious' %}{% endif %}
+            {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = collections['victorious'].url %}{% endif %}
+            {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = '/collections/all?collection=victorious' %}{% endif %}
             <a href="{{ vic_url }}" class="footer-col__link">Victorious Collection</a>
 
             {% assign self_url = collections['the-self-romance-collection'].url %}
-            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = '/collections/self-romance' %}{% endif %}
+            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = collections['self-romance'].url %}{% endif %}
+            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = collections['self-woman'].url %}{% endif %}
+            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = '/collections/all?collection=self-romance' %}{% endif %}
             <a href="{{ self_url }}" class="footer-col__link">Self Romance Collection</a>
 
             {% assign bound_url = collections['boundaries-collection'].url %}
-            {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = '/collections/boundaries' %}{% endif %}
+            {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = collections['boundaries'].url %}{% endif %}
+            {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = '/collections/all?collection=boundaries' %}{% endif %}
             <a href="{{ bound_url }}" class="footer-col__link">Boundaries Collection</a>
 
             {% assign reb_url = collections['the-rebirth-collection'].url %}
-            {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = '/collections/rebirth' %}{% endif %}
+            {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = collections['rebirth'].url %}{% endif %}
+            {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = '/collections/all?collection=rebirth' %}{% endif %}
             <a href="{{ reb_url }}" class="footer-col__link">Rebirth Collection</a>
 
             {% assign bundle_url = pages['bundle-deals'].url %}
-            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = '/pages/bundle-deals' %}{% endif %}
+            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = '/collections/all?view=bundle-deals' %}{% endif %}
             <a href="{{ bundle_url }}" class="footer-col__link">Bundle Deals</a>
           {% endif %}
         </nav>
@@ -58,20 +64,24 @@
             {% endfor %}
           {% else %}
             {% assign story_url = pages['about-oge-jewelry'].url %}
+            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = pages['our-story'].url %}{% endif %}
             {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = pages['about'].url %}{% endif %}
-            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = '/pages/about' %}{% endif %}
+            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = '/collections/all?view=about' %}{% endif %}
             <a href="{{ story_url }}" class="footer-col__link">Our Story</a>
 
-            <a href="/pages/contact" class="footer-col__link">Contact Us</a>
+            {% assign contact_url = pages['contact'].url %}
+            {% if contact_url == blank or contact_url == '' or contact_url == '#' %}{% assign contact_url = pages['contact-us'].url %}{% endif %}
+            {% if contact_url == blank or contact_url == '' or contact_url == '#' %}{% assign contact_url = '/collections/all?view=contact' %}{% endif %}
+            <a href="{{ contact_url }}" class="footer-col__link">Contact Us</a>
 
             {% assign faq_url = pages['faq'].url %}
             {% if faq_url == blank or faq_url == '' or faq_url == '#' %}{% assign faq_url = pages['faqs'].url %}{% endif %}
-            {% if faq_url == blank or faq_url == '' or faq_url == '#' %}{% assign faq_url = '/pages/faqs' %}{% endif %}
+            {% if faq_url == blank or faq_url == '' or faq_url == '#' %}{% assign faq_url = '/collections/all?view=faqs' %}{% endif %}
             <a href="{{ faq_url }}" class="footer-col__link">FAQs</a>
 
             {% assign shipping_url = pages['shipping-returns'].url %}
             {% if shipping_url == blank or shipping_url == '' or shipping_url == '#' %}{% assign shipping_url = shop.shipping_policy.url %}{% endif %}
-            {% if shipping_url == blank or shipping_url == '' or shipping_url == '#' %}{% assign shipping_url = '/pages/shipping-returns' %}{% endif %}
+            {% if shipping_url == blank or shipping_url == '' or shipping_url == '#' %}{% assign shipping_url = '/collections/all?view=shipping-returns' %}{% endif %}
             <a href="{{ shipping_url }}" class="footer-col__link">Shipping &amp; Returns</a>
           {% endif %}
         </nav>
@@ -135,19 +145,19 @@
         <nav class="footer-legal" aria-label="Legal Links">
           {% assign privacy_url = pages['privacy-policy'].url %}
           {% if privacy_url == blank or privacy_url == '' %}{% assign privacy_url = shop.privacy_policy.url %}{% endif %}
-          {% if privacy_url == blank or privacy_url == '' %}{% assign privacy_url = '/pages/privacy-policy' %}{% endif %}
+          {% if privacy_url == blank or privacy_url == '' %}{% assign privacy_url = '/collections/all?view=privacy-policy' %}{% endif %}
           <a href="{{ privacy_url }}" class="footer-legal__link">Privacy Policy</a>
           <span class="footer-legal__sep">&middot;</span>
 
           {% assign terms_url = pages['terms-conditions'].url %}
           {% if terms_url == blank or terms_url == '' %}{% assign terms_url = shop.terms_of_service.url %}{% endif %}
-          {% if terms_url == blank or terms_url == '' %}{% assign terms_url = '/pages/terms-conditions' %}{% endif %}
+          {% if terms_url == blank or terms_url == '' %}{% assign terms_url = '/collections/all?view=terms-conditions' %}{% endif %}
           <a href="{{ terms_url }}" class="footer-legal__link">Terms &amp; Conditions</a>
           <span class="footer-legal__sep">&middot;</span>
 
           {% assign shipping_policy_url = pages['shipping-returns'].url %}
           {% if shipping_policy_url == blank or shipping_policy_url == '' %}{% assign shipping_policy_url = shop.shipping_policy.url %}{% endif %}
-          {% if shipping_policy_url == blank or shipping_policy_url == '' %}{% assign shipping_policy_url = '/pages/shipping-returns' %}{% endif %}
+          {% if shipping_policy_url == blank or shipping_policy_url == '' %}{% assign shipping_policy_url = '/collections/all?view=shipping-returns' %}{% endif %}
           <a href="{{ shipping_policy_url }}" class="footer-legal__link">Shipping &amp; Returns</a>
         </nav>
       </div>

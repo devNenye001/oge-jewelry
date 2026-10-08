@@ -1,9 +1,10 @@
 {% comment %}
-  OGÉ Fine Jewelry - Earrings Page Template (Exact earrings.html Match)
+  OGÉ Fine Jewelry - Bracelets Collection View Template (Exact bracelets.html Match)
+  Renders at /collections/all?view=bracelets or /collections/bracelets
 {% endcomment %}
 
 <header class="category-page-header">
-  <h1 class="category-page-title" id="category-page-heading">EARRINGS</h1>
+  <h1 class="category-page-title" id="category-page-heading">BRACELETS</h1>
 </header>
 <hr class="category-divider-line">
 
@@ -11,8 +12,8 @@
 <nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
   <a href="/collections/all?view=category&type=rings" class="collection-tab-btn">Rings</a>
   <a href="/collections/all?view=category&type=necklaces" class="collection-tab-btn">Necklaces</a>
-  <a href="/collections/all?view=category&type=bracelets" class="collection-tab-btn">Bracelets</a>
-  <a href="/collections/all?view=category&type=earrings" class="collection-tab-btn is-active">Earrings</a>
+  <a href="/collections/all?view=category&type=bracelets" class="collection-tab-btn is-active">Bracelets</a>
+  <a href="/collections/all?view=category&type=earrings" class="collection-tab-btn">Earrings</a>
 </nav>
 
 <!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER) -->
@@ -53,14 +54,14 @@
 
 <script>
   (function() {
-    function initEarrings() {
+    function initBracelets() {
       if (!window.OGE_HELPERS || !window.OGE_CATALOG) {
-        setTimeout(initEarrings, 40);
+        setTimeout(initBracelets, 40);
         return;
       }
       const grid = document.getElementById('category-grid');
       if (!grid) return;
-      const products = window.OGE_HELPERS.getProductsByCategory('earrings');
+      const products = window.OGE_HELPERS.getProductsByCategory('bracelets');
       grid.innerHTML = products.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
       if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
         window.OGE_CURRENCY.updateDOM();
@@ -110,7 +111,7 @@
         });
       }
     }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEarrings);
-    else initEarrings();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBracelets);
+    else initBracelets();
   })();
 </script>
