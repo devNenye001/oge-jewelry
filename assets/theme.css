@@ -6042,9 +6042,12 @@ body.template-customers-reset-password {
   transition: border-color 0.2s ease;
 }
 
-.product-thumb-item:hover,
+.product-thumb-item:hover {
+  border-color: #888888;
+}
+
 .product-thumb-item.is-active {
-  border-color: #111111;
+  border: 1.5px solid #111111;
 }
 
 .product-thumb-item img {
@@ -6112,20 +6115,107 @@ body.template-customers-reset-password {
   color: #111111;
 }
 
+.product-quantity-wrap {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.product-quantity-label {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: #555555;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.quantity-picker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #D0D0D0;
+  border-radius: 1px;
+  background-color: #FFFFFF;
+  height: 44px;
+  width: 124px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.quantity-btn {
+  width: 38px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #111111;
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  user-select: none;
+  padding: 0;
+  line-height: 1;
+}
+
+.quantity-btn:hover {
+  background-color: #F7F7F7;
+  color: #000000;
+}
+
+.quantity-btn:active {
+  background-color: #EFEFEF;
+}
+
+.quantity-input {
+  width: 48px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #ECECEC;
+  border-right: 1px solid #ECECEC;
+  background: transparent;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #111111;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-input:focus {
+  outline: none;
+  background-color: #FAFAFA;
+}
+
 .product-info__actions {
   display: flex;
   gap: 12px;
   align-items: center;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .product-add-to-bag-btn {
   flex: 1;
-  height: 48px;
+  height: 50px;
   background-color: #8C4B3A;
   color: #FFFFFF;
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   border: none;
   border-radius: 0;
@@ -6133,16 +6223,21 @@ body.template-customers-reset-password {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background-color var(--transition-fast);
+  letter-spacing: 0.02em;
+  transition: background-color var(--transition-fast), transform 0.1s ease;
 }
 
 .product-add-to-bag-btn:hover {
   background-color: #783E2F;
 }
 
+.product-add-to-bag-btn:active {
+  transform: scale(0.99);
+}
+
 .product-wishlist-btn {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border: 1px solid #D4D4D4;
   border-radius: 0;
   background: #FFFFFF;
@@ -6157,11 +6252,12 @@ body.template-customers-reset-password {
 
 .product-wishlist-btn:hover {
   border-color: #111111;
+  background-color: #FAFAFA;
 }
 
 .product-wishlist-btn.is-active svg {
-  fill: #8C4B3A;
-  stroke: #8C4B3A;
+  fill: #8C4B3A !important;
+  stroke: #8C4B3A !important;
 }
 
 .product-info__delivery-note {
@@ -6170,6 +6266,7 @@ body.template-customers-reset-password {
   color: #666666;
   text-align: center;
   margin: 14px 0 28px;
+  letter-spacing: 0.01em;
 }
 
 /* Product Accordions */

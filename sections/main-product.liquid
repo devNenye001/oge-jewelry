@@ -52,38 +52,16 @@
         </div>
       </nav>
     {% endif %}
-
-    {% assign product_category_handle = blank %}
-    {% if collection != blank %}
-      {% if collection.handle == 'rings' or collection.handle == 'necklaces' or collection.handle == 'bracelets' or collection.handle == 'earrings' %}
-        {% assign product_category_handle = collection.handle %}
-      {% endif %}
-    {% endif %}
-    {% if product_category_handle == blank %}
-      {% for product_collection in product.collections %}
-        {% if product_collection.handle == 'rings' or product_collection.handle == 'necklaces' or product_collection.handle == 'bracelets' or product_collection.handle == 'earrings' %}
-          {% assign product_category_handle = product_collection.handle %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-    <nav class="collection-category-tabs collection-nav-tabs" aria-label="Product Categories">
-      <a href="/collections/rings" class="collection-tab-btn{% if product_category_handle == 'rings' %} is-active{% endif %}">Rings</a>
-      <a href="/collections/necklaces" class="collection-tab-btn{% if product_category_handle == 'necklaces' %} is-active{% endif %}">Necklaces</a>
-      <a href="/collections/bracelets" class="collection-tab-btn{% if product_category_handle == 'bracelets' %} is-active{% endif %}">Bracelets</a>
-      <a href="/collections/earrings" class="collection-tab-btn{% if product_category_handle == 'earrings' %} is-active{% endif %}">Earrings</a>
-    </nav>
-
     <div class="product-details-grid">
       
-      <!-- Left Thumbnail Column (Product Images Rail) -->
+      <!-- Left Thumbnail Column (Product Images Rail - Exactly 4 Thumbnails) -->
       <div class="product-gallery-thumbs" data-product-thumbs>
         {% if product.media.size > 0 %}
-          {% for media in product.media %}
+          {% for media in product.media limit: 4 %}
             <button 
               type="button" 
               class="product-thumb-item {% if forloop.first %}is-active{% endif %}" 
-              data-thumb-src="{{ media | image_url: width: 1000 }}" 
+              data-thumb-src="{{ media | image_url: width: 1200 }}" 
               data-media-id="{{ media.id }}"
               aria-label="View product thumbnail {{ forloop.index }}"
             >
@@ -91,18 +69,18 @@
             </button>
           {% endfor %}
         {% elsif product.images.size > 0 %}
-          {% for image in product.images %}
+          {% for image in product.images limit: 4 %}
             <button 
               type="button" 
               class="product-thumb-item {% if forloop.first %}is-active{% endif %}" 
-              data-thumb-src="{{ image | image_url: width: 1000 }}" 
+              data-thumb-src="{{ image | image_url: width: 1200 }}" 
               data-media-id="{{ image.id }}"
               aria-label="View product thumbnail {{ forloop.index }}"
             >
               <img src="{{ image | image_url: width: 176, height: 176, crop: 'center' }}" alt="{{ image.alt | default: product.title | escape }}" loading="eager" width="88" height="88">
             </button>
           {% endfor %}
-        {% elsif product == blank %}
+        {% else %}
           <button type="button" class="product-thumb-item is-active" data-thumb-src="{{ 'product-ring-1.jpg' | asset_url }}" aria-label="View product thumbnail 1">
             <img src="{{ 'product-ring-1.jpg' | asset_url }}" alt="Valor Ring" loading="eager" width="88" height="88">
           </button>
@@ -249,6 +227,11 @@
               class="product-wishlist-btn" 
               data-wishlist-btn 
               data-product-handle="{{ product.handle | default: 'saraswati-ring' }}" 
+              data-product-title="{{ product.title | default: 'Saraswati Ring' | escape }}"
+              data-product-price="{% if current_variant != blank %}{{ current_variant.price | money }}{% else %}$70{% endif %}"
+              data-product-img="{% if featured_image %}{{ featured_image | image_url: width: 600 }}{% else %}{{ 'product-ring-1.jpg' | asset_url }}{% endif %}"
+              data-product-material="{{ product_metal | escape }}"
+              data-product-url="{{ product.url | default: '/products/saraswati-ring' }}"
               aria-label="Add to Wishlist"
               title="Add to Wishlist"
             >
@@ -257,13 +240,6 @@
               </svg>
             </button>
           </div>
-
-          <!-- Dynamic Checkout Button (Buy Now) -->
-          {% if current_variant.available %}
-            <div class="product-buy-now-wrap" data-buy-now-wrap>
-              {{ form | payment_button }}
-            </div>
-          {% endif %}
         {% endform %}
 
         {% if product != blank %}
@@ -272,18 +248,18 @@
           </script>
         {% endif %}
 
-        <p class="product-info__delivery-note">*Complimentary insured shipping on all orders over $100*</p>
+        <p class="product-info__delivery-note">*Free Delivery on all orders above 100$*</p>
 
         <!-- 4 Interactive Product Accordions -->
         <div class="product-accordions" data-product-accordions>
           
           <!-- Accordion 1: Details & Dimension -->
-          <div class="product-accordion-item is-open">
-            <button type="button" class="product-accordion-header" aria-expanded="true">
+          <div class="product-accordion-item">
+            <button type="button" class="product-accordion-header" aria-expanded="false">
               <span class="product-accordion-title">Details &amp; Dimension</span>
-              <span class="product-accordion-icon">&minus;</span>
+              <span class="product-accordion-icon">&plus;</span>
             </button>
-            <div class="product-accordion-body" style="max-height: 400px;">
+            <div class="product-accordion-body">
               <div class="product-accordion-content">
                 {% if product.description != blank %}
                   <div class="product-description-rte rte">
@@ -406,8 +382,129 @@
         {% endif %}
       </div>
     </div>
-  </section>
 </main>
+
+<script>
+  (function() {
+    function initProductSection() {
+      var root = document.querySelector('[data-product-page]');
+      if (!root) return;
+
+      // 1. Thumbnail Image Switching
+      var thumbBtns = root.querySelectorAll('[data-product-thumbs] .product-thumb-item');
+      var mainImg = root.querySelector('[data-product-main-image]');
+
+      thumbBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          thumbBtns.forEach(function(b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+
+          var newSrc = btn.getAttribute('data-thumb-src');
+          if (!newSrc) {
+            var childImg = btn.querySelector('img');
+            if (childImg) newSrc = childImg.src;
+          }
+
+          if (newSrc && mainImg) {
+            mainImg.style.transition = 'opacity 0.15s ease';
+            mainImg.style.opacity = '0.5';
+            setTimeout(function() {
+              mainImg.src = newSrc;
+              if (mainImg.hasAttribute('srcset')) mainImg.removeAttribute('srcset');
+              mainImg.style.opacity = '1';
+            }, 60);
+          }
+        });
+      });
+
+      // 2. Quantity Counter (- / +)
+      var qtyMinus = root.querySelector('[data-quantity-minus]');
+      var qtyPlus = root.querySelector('[data-quantity-plus]');
+      var qtyInput = root.querySelector('[data-quantity-input]');
+
+      if (qtyMinus && qtyInput) {
+        qtyMinus.addEventListener('click', function(e) {
+          e.preventDefault();
+          var current = parseInt(qtyInput.value, 10) || 1;
+          if (current > 1) {
+            qtyInput.value = current - 1;
+            qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
+
+      if (qtyPlus && qtyInput) {
+        qtyPlus.addEventListener('click', function(e) {
+          e.preventDefault();
+          var current = parseInt(qtyInput.value, 10) || 1;
+          var max = parseInt(qtyInput.getAttribute('max') || '99', 10);
+          if (current < max) {
+            qtyInput.value = current + 1;
+            qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
+
+      if (qtyInput) {
+        qtyInput.addEventListener('change', function() {
+          var val = parseInt(qtyInput.value, 10) || 1;
+          if (val < 1) val = 1;
+          if (val > 99) val = 99;
+          qtyInput.value = val;
+        });
+      }
+
+      // 3. Accordions
+      var accordionHeaders = root.querySelectorAll('.product-accordion-header');
+      accordionHeaders.forEach(function(header) {
+        header.addEventListener('click', function(e) {
+          e.preventDefault();
+          var item = header.closest('.product-accordion-item');
+          if (!item) return;
+
+          var isOpen = item.classList.contains('is-open');
+          var body = item.querySelector('.product-accordion-body');
+          var icon = header.querySelector('.product-accordion-icon');
+
+          if (isOpen) {
+            item.classList.remove('is-open');
+            header.setAttribute('aria-expanded', 'false');
+            if (body) body.style.maxHeight = null;
+            if (icon) icon.textContent = '+';
+          } else {
+            item.classList.add('is-open');
+            header.setAttribute('aria-expanded', 'true');
+            if (body) body.style.maxHeight = (body.scrollHeight + 30) + 'px';
+            if (icon) icon.innerHTML = '&minus;';
+          }
+        });
+      });
+
+      // 4. Related Products Carousel Nav Arrows
+      var relatedTrack = root.querySelector('[data-related-track]');
+      var relPrev = root.querySelector('[data-related-prev]');
+      var relNext = root.querySelector('[data-related-next]');
+
+      if (relatedTrack && relPrev && relNext) {
+        relPrev.addEventListener('click', function(e) {
+          e.preventDefault();
+          relatedTrack.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        relNext.addEventListener('click', function(e) {
+          e.preventDefault();
+          relatedTrack.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProductSection);
+    } else {
+      initProductSection();
+    }
+  })();
+</script>
 
 {% schema %}
 {

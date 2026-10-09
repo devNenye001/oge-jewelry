@@ -108,7 +108,12 @@
       class="product-card__wishlist-btn" 
       data-wishlist-btn 
       data-product-handle="{{ card_handle }}" 
-      aria-label="Add {{ card_title }} to WishList"
+      data-product-title="{{ card_title | escape }}"
+      data-product-price="{% if card_price contains '$' %}{{ card_price }}{% else %}{{ card_price | money }}{% endif %}"
+      data-product-img="{{ card_img_src }}"
+      data-product-material="{{ card_material | escape }}"
+      data-product-url="{{ card_url }}"
+      aria-label="Add {{ card_title | escape }} to WishList"
       title="Add to WishList"
     >
       <svg class="icon icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">

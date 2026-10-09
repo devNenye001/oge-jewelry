@@ -747,6 +747,7 @@
         const btn = e.target.closest('[data-wishlist-btn]');
         if (btn) {
           e.preventDefault();
+          e.stopPropagation();
           const handle = btn.getAttribute('data-product-handle') || 'product';
           this.toggle(handle, btn);
         }
@@ -754,33 +755,88 @@
     },
 
     toggle(handle, btn) {
+      if (!handle) return;
       const index = AppState.wishlist.indexOf(handle);
+
+      // Collect product item metadata for wishlist page display
+      let itemData = null;
+      if (btn) {
+        const card = btn.closest('.product-card, .wishlist-card, .account-product-card, [data-product-card], [data-product-page]');
+        const title = btn.getAttribute('data-product-title') || 
+                      card?.querySelector('.product-card__title a, .product-info__title, .wishlist-card__title a')?.textContent?.trim() || 
+                      handle.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+        const price = btn.getAttribute('data-product-price') || 
+                      card?.querySelector('.product-card__current-price, .product-info__price, .wishlist-card__price')?.textContent?.trim() || 
+                      '';
+        const img = btn.getAttribute('data-product-img') || 
+                    card?.querySelector('.product-card__img-primary, .product-main-image, .wishlist-card__image')?.getAttribute('src') || 
+                    '';
+        const url = btn.getAttribute('data-product-url') || 
+                    card?.querySelector('a[href*="/products/"]')?.getAttribute('href') || 
+                    `/products/${handle}`;
+        const material = btn.getAttribute('data-product-material') || 
+                         card?.querySelector('.product-card__material, .product-info__metal, .wishlist-card__variant')?.textContent?.trim() || 
+                         '18K Gold Vermeil';
+        itemData = { handle, title, price, img, url, material };
+      }
+
+      let storedItems = [];
+      try {
+        storedItems = JSON.parse(localStorage.getItem('oge_wishlist_items') || '[]');
+      } catch (err) {
+        storedItems = [];
+      }
+
       if (index === -1) {
         AppState.wishlist.push(handle);
-        if (btn) btn.classList.add('is-active');
+        if (itemData) {
+          const existingIdx = storedItems.findIndex((i) => i.handle === handle);
+          if (existingIdx === -1) storedItems.push(itemData);
+          else storedItems[existingIdx] = itemData;
+        }
       } else {
         AppState.wishlist.splice(index, 1);
-        if (btn) btn.classList.remove('is-active');
+        storedItems = storedItems.filter((i) => i.handle !== handle);
       }
+
       localStorage.setItem('oge_wishlist', JSON.stringify(AppState.wishlist));
+      localStorage.setItem('oge_wishlist_items', JSON.stringify(storedItems));
+
       this.updateBadges();
+      this.updateButtons();
+
+      window.dispatchEvent(new CustomEvent('oge:wishlist:updated', { 
+        detail: { wishlist: AppState.wishlist, items: storedItems } 
+      }));
     },
 
     updateBadges() {
-      const count = AppState.wishlist.length;
+      const count = AppState.wishlist ? AppState.wishlist.length : 0;
       document.querySelectorAll('[data-wishlist-count]').forEach((el) => {
         el.textContent = count;
-        el.style.display = count > 0 ? 'flex' : 'none';
+        el.setAttribute('data-wishlist-count', count);
+        if (count > 0) {
+          el.style.display = 'flex';
+          el.classList.remove('is-hidden');
+        } else {
+          el.style.display = 'none';
+          el.classList.add('is-hidden');
+        }
+      });
+      document.querySelectorAll('[data-wishlist-total]').forEach((el) => {
+        el.textContent = count;
       });
     },
 
     updateButtons() {
       document.querySelectorAll('[data-wishlist-btn]').forEach((btn) => {
         const handle = btn.getAttribute('data-product-handle');
-        if (AppState.wishlist.includes(handle)) {
+        if (handle && AppState.wishlist.includes(handle)) {
           btn.classList.add('is-active');
+          btn.setAttribute('aria-pressed', 'true');
         } else {
           btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
         }
       });
     }
@@ -1142,25 +1198,58 @@
       } else {
         updateWishlistUI();
         if (itemsContainer) {
+          let storedItems = [];
+          try {
+            storedItems = JSON.parse(localStorage.getItem('oge_wishlist_items') || '[]');
+          } catch (e) {
+            storedItems = [];
+          }
+
           Promise.all(
             savedHandles.map((handle) =>
               fetch(`/products/${handle}.js`)
-                .then((r) => (r.ok ? r.json() : r.status === 404 ? null : { handle, unavailable: true }))
-                .catch(() => ({ handle, unavailable: true }))
+                .then((r) => (r.ok ? r.json() : null))
+                .then((product) => {
+                  if (product) return product;
+                  const cached = storedItems.find((i) => i.handle === handle);
+                  if (cached) {
+                    return {
+                      handle: cached.handle,
+                      title: cached.title,
+                      featured_image: cached.img,
+                      url: cached.url,
+                      price: cached.price,
+                      isCached: true,
+                      variants: [{ id: cached.handle, title: cached.material || 'Gold' }]
+                    };
+                  }
+                  return null;
+                })
+                .catch(() => {
+                  const cached = storedItems.find((i) => i.handle === handle);
+                  if (cached) {
+                    return {
+                      handle: cached.handle,
+                      title: cached.title,
+                      featured_image: cached.img,
+                      url: cached.url,
+                      price: cached.price,
+                      isCached: true,
+                      variants: [{ id: cached.handle, title: cached.material || 'Gold' }]
+                    };
+                  }
+                  return null;
+                })
             )
           ).then((products) => {
-            const validProducts = products.filter((product) => product && !product.unavailable);
-            const unresolvedHandles = products.filter((product) => product && product.unavailable).map((product) => product.handle);
-            AppState.wishlist = validProducts.map((product) => product.handle).concat(unresolvedHandles);
-            localStorage.setItem('oge_wishlist', JSON.stringify(AppState.wishlist));
-            Wishlist.updateBadges();
-            Wishlist.updateButtons();
+            const validProducts = products.filter(Boolean);
             if (validProducts.length > 0) {
               itemsContainer.innerHTML = validProducts
                 .map((product) => {
                   const variantId = product.variants && product.variants[0] ? product.variants[0].id : product.handle;
                   const variantTitle = product.variants && product.variants[0] && product.variants[0].title !== 'Default Title' ? product.variants[0].title : (product.type || '18K Solid Gold');
-                  const priceStr = formatMoney(product.price);
+                  const priceStr = typeof product.price === 'number' ? formatMoney(product.price) : (product.price || '$94');
+                  const imgSrc = product.featured_image || '/assets/product1.png';
                   return `
                     <article class="wishlist-card" data-wishlist-item="${product.handle}">
                       <div class="wishlist-card__image-wrap">
@@ -1170,9 +1259,9 @@
                           </svg>
                         </button>
                         <a href="${product.url}" class="wishlist-card__image-link">
-                          <img src="${product.featured_image}" alt="${product.title}" class="wishlist-card__image" loading="lazy" width="500" height="580">
+                          <img src="${imgSrc}" alt="${product.title}" class="wishlist-card__image" loading="lazy" width="500" height="580">
                         </a>
-                        <button type="button" class="wishlist-card__add-btn" data-quick-add data-product-id="${variantId}" data-product-handle="${product.handle}" data-product-title="${product.title}" data-product-price="${product.price}" data-product-img="${product.featured_image}" aria-label="Add ${product.title} to Bag" title="Quick Add to Bag">
+                        <button type="button" class="wishlist-card__add-btn" data-quick-add data-product-id="${variantId}" data-product-handle="${product.handle}" data-product-title="${product.title}" data-product-price="${product.price}" data-product-img="${imgSrc}" aria-label="Add ${product.title} to Bag" title="Quick Add to Bag">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
