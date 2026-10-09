@@ -117,8 +117,11 @@
       "type": "video-reels",
       "settings": {
         "heading": "Stay Connected",
+        "video_1": "shopify://files/videos/OGE 1.mp4",
         "video_url_1": "",
+        "video_2": "shopify://files/videos/27b92990db28409baa09ddec9faff0cb.HD-1080p-2.5Mbps-51876667.mp4",
         "video_url_2": "",
+        "video_3": "shopify://files/videos/oge-collection-reencoded.mp4",
         "video_url_3": "",
         "btn_text": "Follow us on Instagram",
         "btn_url": "https://instagram.com"
