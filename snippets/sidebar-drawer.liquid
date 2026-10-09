@@ -15,22 +15,22 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
     <div class="sidebar-panel sidebar-panel--main">
       <!-- Sidebar Header Bar: Close on Left, Centered Logo, Search & Profile on Far Right (Mobile) / Close on Right (Desktop) -->
       <div class="sidebar-header-bar">
-        <button class="sidebar-close-btn" data-sidebar-close aria-label="{{ 'general.close' | default: 'Close' }}" id="btn-sidebar-close">
+        <button class="sidebar-close-btn" data-sidebar-close aria-label="Close" id="btn-sidebar-close">
           {% render 'icon-close' %}
         </button>
         <a href="{{ routes.root_url }}" class="sidebar-logo-center" aria-label="OGÉ Home">
           <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name | default: '06é' }}" class="site-logo__image">
         </a>
         <div class="sidebar-header-actions">
-          <a href="{{ routes.search_url }}" class="header-icon-btn" data-search-open aria-label="{{ 'general.search' | default: 'Search' }}">
+          <a href="{{ routes.search_url }}" class="header-icon-btn" data-search-open aria-label="Search">
             {% render 'icon-search' %}
           </a>
           {% if customer %}
-            <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="{{ 'general.account' | default: 'Account' }}">
+            <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Account">
               {% render 'icon-account' %}
             </a>
           {% else %}
-            <a href="{{ routes.account_login_url }}" class="header-icon-btn" aria-label="{{ 'general.account' | default: 'Account' }}">
+            <a href="{{ routes.account_login_url }}" class="header-icon-btn" aria-label="Account">
               {% render 'icon-account' %}
             </a>
           {% endif %}
@@ -106,15 +106,16 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
 
       <!-- Sidebar Footer (Secondary Links & Currency/Language) -->
       <div class="sidebar-footer">
-        {% if shop.customer_accounts_enabled and customer %}
-          <a href="{{ routes.account_url }}" class="sidebar-footer__link">{{ 'general.account' | default: 'Account' }}</a>
+        {% if customer %}
+          <a href="{{ routes.account_url | default: '/account' }}" class="sidebar-footer__link">Account</a>
         {% else %}
-          <a href="{{ routes.account_login_url | default: '/account/login' }}" class="sidebar-footer__link">{{ 'general.login' | default: 'Login' }}</a>
+          <a href="{{ routes.account_login_url | default: '/account/login' }}" class="sidebar-footer__link">Login</a>
+          <a href="{{ routes.account_register_url | default: '/account/register' }}" class="sidebar-footer__link">Sign Up</a>
         {% endif %}
 
         {% assign sidebar_wishlist_url = pages['wishlist'].url %}
         {% if sidebar_wishlist_url == blank or sidebar_wishlist_url == '' %}{% assign sidebar_wishlist_url = '/collections/all?view=wishlist' %}{% endif %}
-        <a href="{{ sidebar_wishlist_url }}" class="sidebar-footer__link">{{ 'general.wishlist' | default: 'WishList' }}</a>
+        <a href="{{ sidebar_wishlist_url }}" class="sidebar-footer__link">WishList</a>
 
         <!-- Localization Selector (US Flag + Country / Language) -->
         <div class="sidebar-localization" data-country-trigger role="button" tabindex="0" aria-label="Select Country and Language" style="cursor: pointer;">
@@ -138,11 +139,11 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
     <div class="sidebar-panel sidebar-panel--submenu">
       <!-- Submenu Header (Back Arrow + Title + Close Button) -->
       <div class="submenu-header">
-        <button type="button" class="submenu-back-btn" data-submenu-back aria-label="{{ 'general.back' | default: 'Back' }}" id="btn-submenu-back">
+        <button type="button" class="submenu-back-btn" data-submenu-back aria-label="Back" id="btn-submenu-back">
           {% render 'icon-chevron', direction: 'left' %}
           <span data-submenu-title-display>Jewelry</span>
         </button>
-        <button type="button" class="sidebar-close-btn" data-sidebar-close aria-label="{{ 'general.close' | default: 'Close' }}">
+        <button type="button" class="sidebar-close-btn" data-sidebar-close aria-label="Close">
           {% render 'icon-close' %}
         </button>
       </div>
