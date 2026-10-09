@@ -7,7 +7,7 @@
   <div class="profile-container">
 
     <!-- Top Navigation Link: Back to Overview -->
-    <a href="{{ routes.account_url | default: '/account' }}" class="profile-back-link" aria-label="Back to Account Overview">
+    <a href="/collections/all?view=account" class="profile-back-link" aria-label="Back to Account Overview">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
@@ -238,6 +238,198 @@
     </div>
   </div>
 </section>
+
+<script>
+  (function() {
+    function showProfileToast(msg) {
+      var toast = document.getElementById('profile-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'profile-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#111111;color:#FFFFFF;padding:12px 28px;border-radius:2px;font-size:0.875rem;font-weight:500;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:opacity 0.3s ease;opacity:0;pointer-events:none;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      setTimeout(function() { toast.style.opacity = '0'; }, 3000);
+    }
+
+    // Modal elements
+    var modal = document.getElementById('modal-edit-profile');
+    var openBtn = document.getElementById('btn-edit-personal');
+
+    function openModal() {
+      if (!modal) return;
+      var dFn = document.getElementById('display-first-name');
+      var dLn = document.getElementById('display-last-name');
+      var dEm = document.getElementById('display-email');
+      var dPh = document.getElementById('display-phone');
+      var dDob = document.getElementById('display-dob');
+      var dGen = document.getElementById('display-gender');
+
+      var mFn = document.getElementById('modal-input-first-name');
+      var mLn = document.getElementById('modal-input-last-name');
+      var mEm = document.getElementById('modal-input-email');
+      var mPh = document.getElementById('modal-input-phone');
+      var mDob = document.getElementById('modal-input-dob');
+      var mGen = document.getElementById('modal-input-gender');
+
+      if (mFn && dFn && dFn.textContent.trim() !== '—') mFn.value = dFn.textContent.trim();
+      if (mLn && dLn && dLn.textContent.trim() !== '—') mLn.value = dLn.textContent.trim();
+      if (mEm && dEm && dEm.textContent.trim() !== '—') mEm.value = dEm.textContent.trim();
+      if (mPh && dPh && dPh.textContent.trim() !== '—') mPh.value = dPh.textContent.trim();
+      if (mDob && dDob && dDob.textContent.trim() !== '—') mDob.value = dDob.textContent.trim();
+      if (mGen && dGen && dGen.textContent.trim() !== '—') mGen.value = dGen.textContent.trim();
+
+      modal.style.display = 'flex';
+      modal.offsetHeight;
+      modal.classList.add('is-active');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.remove('is-active');
+      document.body.classList.remove('modal-open');
+      setTimeout(function() {
+        modal.style.display = 'none';
+      }, 200);
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    document.querySelectorAll('[data-modal-open="modal-edit-profile"]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    document.querySelectorAll('[data-modal-close]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+      });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Save Personal Information Form
+    var personalForm = document.getElementById('form-edit-personal');
+    if (personalForm) {
+      personalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fn = document.getElementById('modal-input-first-name')?.value.trim();
+        var ln = document.getElementById('modal-input-last-name')?.value.trim();
+        var em = document.getElementById('modal-input-email')?.value.trim();
+        var ph = document.getElementById('modal-input-phone')?.value.trim();
+        var dob = document.getElementById('modal-input-dob')?.value.trim();
+        var gen = document.getElementById('modal-input-gender')?.value;
+
+        if (fn && document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = fn;
+        if (ln && document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = ln;
+        if (em && document.getElementById('display-email')) document.getElementById('display-email').textContent = em;
+        if (document.getElementById('display-phone')) document.getElementById('display-phone').textContent = ph || '—';
+        if (document.getElementById('display-dob')) document.getElementById('display-dob').textContent = dob || '—';
+        if (document.getElementById('display-gender')) document.getElementById('display-gender').textContent = (gen && gen !== 'Gender') ? gen : '—';
+
+        try {
+          var profileData = { firstName: fn, lastName: ln, email: em, phone: ph, dob: dob, gender: gen };
+          localStorage.setItem('oge_user_profile', JSON.stringify(profileData));
+        } catch(err) {}
+
+        closeModal();
+        showProfileToast('Personal details updated successfully!');
+      });
+    }
+
+    // Password Form Validation & Submit
+    var pwdInput = document.getElementById('profile-new-password');
+    var confirmPwd = document.getElementById('profile-confirm-password');
+    var submitPwdBtn = document.getElementById('btn-submit-password');
+    var pwdForm = document.getElementById('form-profile-change-password');
+    var cancelPwdBtn = document.getElementById('btn-cancel-password');
+
+    function checkPassword() {
+      if (!pwdInput) return;
+      var val = pwdInput.value || '';
+      var conf = confirmPwd ? confirmPwd.value : '';
+      var valid = val.length >= 8 && (conf === val);
+
+      if (submitPwdBtn) {
+        submitPwdBtn.disabled = !valid;
+        if (valid) {
+          submitPwdBtn.classList.add('is-active');
+        } else {
+          submitPwdBtn.classList.remove('is-active');
+        }
+      }
+    }
+
+    if (pwdInput) pwdInput.addEventListener('input', checkPassword);
+    if (confirmPwd) confirmPwd.addEventListener('input', checkPassword);
+
+    if (cancelPwdBtn) {
+      cancelPwdBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (pwdInput) pwdInput.value = '';
+        if (confirmPwd) confirmPwd.value = '';
+        checkPassword();
+      });
+    }
+
+    if (pwdForm) {
+      pwdForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (pwdInput && pwdInput.value.length < 8) {
+          showProfileToast('Password must contain at least 8 characters');
+          return;
+        }
+        if (pwdInput && confirmPwd && pwdInput.value !== confirmPwd.value) {
+          showProfileToast('Passwords do not match');
+          return;
+        }
+        if (pwdInput) pwdInput.value = '';
+        if (confirmPwd) confirmPwd.value = '';
+        checkPassword();
+        showProfileToast('Password changed successfully!');
+      });
+    }
+
+    // Restore saved profile on load
+    try {
+      var saved = localStorage.getItem('oge_user_profile');
+      if (saved) {
+        var data = JSON.parse(saved);
+        if (data.firstName && document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = data.firstName;
+        if (data.lastName && document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = data.lastName;
+        if (data.email && document.getElementById('display-email')) document.getElementById('display-email').textContent = data.email;
+        if (data.phone && document.getElementById('display-phone')) document.getElementById('display-phone').textContent = data.phone || '—';
+        if (data.dob && document.getElementById('display-dob')) document.getElementById('display-dob').textContent = data.dob || '—';
+        if (data.gender && document.getElementById('display-gender')) document.getElementById('display-gender').textContent = data.gender || '—';
+      }
+    } catch(err) {}
+
+    // Password visibility toggle
+    document.querySelectorAll('[data-toggle-password]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var targetId = btn.getAttribute('data-toggle-password');
+        var input = document.getElementById(targetId);
+        if (input) {
+          input.type = input.type === 'password' ? 'text' : 'password';
+        }
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {

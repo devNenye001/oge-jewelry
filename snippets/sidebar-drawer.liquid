@@ -25,15 +25,9 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
           <a href="{{ routes.search_url }}" class="header-icon-btn" data-search-open aria-label="Search">
             {% render 'icon-search' %}
           </a>
-          {% if customer %}
-            <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Account">
-              {% render 'icon-account' %}
-            </a>
-          {% else %}
-            <a href="{{ routes.account_login_url }}" class="header-icon-btn" aria-label="Account">
-              {% render 'icon-account' %}
-            </a>
-          {% endif %}
+          <a href="/collections/all?view=account" class="header-icon-btn" aria-label="Account">
+            {% render 'icon-account' %}
+          </a>
         </div>
       </div>
 
@@ -51,12 +45,12 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
             </a>
           </li>
 
-          <!-- 2. JEWELRY -->
+          <!-- 2. JEWELRY (Straight to Shop Page) -->
           <li class="sidebar-nav__item">
-            <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="Jewelry" id="btn-menu-jewelry">
+            <a href="/collections/all?view=shop" class="sidebar-nav__link">
               <span>Jewelry</span>
               <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </button>
+            </a>
           </li>
 
           <!-- 3. MEN -->
@@ -106,12 +100,11 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
 
       <!-- Sidebar Footer (Secondary Links & Currency/Language) -->
       <div class="sidebar-footer">
-        {% if customer %}
-          <a href="{{ routes.account_url | default: '/account' }}" class="sidebar-footer__link">Account</a>
-        {% else %}
-          <a href="{{ routes.account_login_url | default: '/account/login' }}" class="sidebar-footer__link">Login</a>
-          <a href="{{ routes.account_register_url | default: '/account/register' }}" class="sidebar-footer__link">Sign Up</a>
-        {% endif %}
+        <a href="/collections/all?view=account" class="sidebar-footer__link">Account</a>
+        {% unless customer %}
+          <a href="/collections/all?view=login" class="sidebar-footer__link">Login</a>
+          <a href="/collections/all?view=signup" class="sidebar-footer__link">Sign Up</a>
+        {% endunless %}
 
         {% assign sidebar_wishlist_url = pages['wishlist'].url %}
         {% if sidebar_wishlist_url == blank or sidebar_wishlist_url == '' %}{% assign sidebar_wishlist_url = '/collections/all?view=wishlist' %}{% endif %}

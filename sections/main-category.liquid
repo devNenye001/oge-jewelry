@@ -19,41 +19,45 @@
 </header>
 <hr class="category-divider-line">
 
-<!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER) -->
-<div class="collection-utility-bar">
-  <div class="collection-utility-left" style="position: relative;">
-    <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="category-filter-dropdown">
-      Filter &amp; Sort
-    </button>
-    <div class="filter-dropdown-menu" id="category-filter-dropdown" role="menu">
-      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
-      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
-      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
-      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
-    </div>
-  </div>
-  <div class="collection-utility-right">
-    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
-      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
-      </button>
-      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
-      </button>
-      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- Product Catalog -->
 <main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
+    {% assign found_count = 0 %}
     {% if collection.products.size > 0 %}
       {% for product in collection.products %}
         {% render 'product-card', product: product %}
+        {% assign found_count = found_count | plus: 1 %}
       {% endfor %}
+    {% else %}
+      {% assign target_cat = active_title | downcase %}
+      {% for product in collections.all.products %}
+        {% assign p_title = product.title | downcase %}
+        {% assign p_type = product.type | downcase %}
+        {% assign matches = false %}
+        {% if target_cat contains 'necklace' and p_title contains 'necklace' or p_type contains 'necklace' or product.tags contains 'necklace' or product.tags contains 'necklaces' %}
+          {% assign matches = true %}
+        {% elsif target_cat contains 'earring' and p_title contains 'earring' or p_type contains 'earring' or product.tags contains 'earring' or product.tags contains 'earrings' %}
+          {% assign matches = true %}
+        {% elsif target_cat contains 'ring' and p_title contains 'ring' or p_type contains 'ring' or product.tags contains 'ring' or product.tags contains 'rings' %}
+          {% assign matches = true %}
+        {% elsif target_cat contains 'bracelet' and p_title contains 'bracelet' or p_type contains 'bracelet' or product.tags contains 'bracelet' or product.tags contains 'bracelets' %}
+          {% assign matches = true %}
+        {% elsif target_cat contains 'all' or target_cat contains 'shop' %}
+          {% assign matches = true %}
+        {% endif %}
+
+        {% if matches %}
+          {% render 'product-card', product: product %}
+          {% assign found_count = found_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      {% if found_count == 0 %}
+        {% for product in collections.all.products limit: 12 %}
+          {% render 'product-card', product: product %}
+          {% assign found_count = found_count | plus: 1 %}
+        {% endfor %}
+      {% endif %}
     {% endif %}
   </div>
 </main>

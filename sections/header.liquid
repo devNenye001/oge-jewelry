@@ -70,16 +70,10 @@
         <span class="header-icon-btn__badge" data-wishlist-count style="display: none;">0</span>
       </a>
 
-      <!-- Customer Account Icon (Desktop Only): login if guest, account if authenticated -->
-      {% if customer %}
-        <a href="{{ routes.account_url }}" class="header-icon-btn desktop-only" aria-label="{{ 'header.account' | t | default: 'Account' }}">
-          {% render 'icon-account' %}
-        </a>
-      {% else %}
-        <a href="{{ routes.account_login_url }}" class="header-icon-btn desktop-only" aria-label="{{ 'header.account' | t | default: 'Account' }}">
-          {% render 'icon-account' %}
-        </a>
-      {% endif %}
+      <!-- Customer Account Icon: Directs to account overview -->
+      <a href="/collections/all?view=account" class="header-icon-btn" aria-label="{{ 'header.account' | t | default: 'Account' }}">
+        {% render 'icon-account' %}
+      </a>
 
       <!-- Shopping Bag Cart Icon (Desktop & Mobile) -->
       <a

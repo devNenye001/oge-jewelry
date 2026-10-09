@@ -9721,4 +9721,14 @@ p.wishlist-empty-desc {
   color: #8C4B3A !important;
 }
 
+/* Hide Filter Bar and Navigation Sub-tabs across all collection & category pages */
+.collection-utility-bar,
+.collection-category-tabs,
+.collection-nav-tabs,
+#collection-tabs-nav,
+.filter-dropdown-menu {
+  display: none !important;
+}
+
+
 

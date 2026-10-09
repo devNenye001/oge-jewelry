@@ -22,19 +22,19 @@
 
         <!-- Desktop Sidebar Navigation -->
         <nav class="account-sidebar__nav account-sidebar__nav--desktop" aria-label="Account Menu Desktop">
-          <a href="{{ routes.account_url }}" class="account-sidebar__link is-active">
+          <a href="/collections/all?view=account" class="account-sidebar__link is-active">
             <span>Orders</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ pages['wishlist'].url }}" class="account-sidebar__link">
+          <a href="/collections/all?view=wishlist" class="account-sidebar__link">
             <span>Wishlist</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ routes.account_addresses_url }}" class="account-sidebar__link">
+          <a href="/collections/all?view=profile" class="account-sidebar__link">
             <span>Profile</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ routes.account_logout_url }}" class="account-sidebar__link account-sidebar__link--signout">
+          <a href="/collections/all?view=login" class="account-sidebar__link account-sidebar__link--signout">
             <span>Sign out</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
@@ -72,19 +72,19 @@
 
         <!-- Mobile-Only Sidebar Navigation (Appears directly after Overview Cards on Responsive View) -->
         <nav class="account-sidebar__nav account-sidebar__nav--mobile" aria-label="Account Menu Mobile">
-          <a href="{{ routes.account_url }}" class="account-sidebar__link is-active">
+          <a href="/collections/all?view=account" class="account-sidebar__link is-active">
             <span>Orders</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ pages['wishlist'].url }}" class="account-sidebar__link">
+          <a href="/collections/all?view=wishlist" class="account-sidebar__link">
             <span>Wishlist</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ routes.account_addresses_url }}" class="account-sidebar__link">
+          <a href="/collections/all?view=profile" class="account-sidebar__link">
             <span>Profile</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="{{ routes.account_logout_url }}" class="account-sidebar__link account-sidebar__link--signout">
+          <a href="/collections/all?view=login" class="account-sidebar__link account-sidebar__link--signout">
             <span>Sign out</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
