@@ -7,7 +7,7 @@
   <div class="orders-container">
 
     <!-- Top Navigation Link: Back to Overview -->
-    <a href="{{ routes.account_url | default: '/account' }}" class="profile-back-link" aria-label="Back to Account Overview">
+    <a href="/collections/all?view=account" class="profile-back-link" aria-label="Back to Account Overview">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
@@ -18,14 +18,46 @@
     <h1 class="profile-page-title">{{ page.title | default: 'ORDERS' }}</h1>
     <hr class="profile-title-divider">
 
-    <!-- Empty State Container -->
-    <div class="orders-empty-state">
-      <h2 class="orders-empty-title">{{ section.settings.empty_title | default: 'No orders have been made yet!' }}</h2>
-      <p class="orders-empty-subtitle">{{ section.settings.empty_subtitle | default: 'When you place an order, its details, shipment tracking, and receipts will be displayed here.' }}</p>
-      <a href="{{ section.settings.shop_btn_link | default: routes.all_products_collection_url }}" class="btn orders-shop-btn">
-        {{ section.settings.shop_btn_label | default: 'Start Shopping' }}
-      </a>
-    </div>
+    {% if customer and customer.orders.size > 0 %}
+      <!-- Orders Table -->
+      <div class="orders-table-wrapper" style="margin-bottom: 48px; overflow-x: auto;">
+        <table class="orders-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid #111111;">
+              <th style="padding: 14px 12px; font-weight: 600;">Order</th>
+              <th style="padding: 14px 12px; font-weight: 600;">Date</th>
+              <th style="padding: 14px 12px; font-weight: 600;">Payment</th>
+              <th style="padding: 14px 12px; font-weight: 600;">Fulfillment</th>
+              <th style="padding: 14px 12px; font-weight: 600; text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders %}
+              <tr style="border-bottom: 1px solid #EEEEEE;">
+                <td style="padding: 16px 12px;">
+                  <a href="{{ order.customer_url }}" style="color: #8C4B3A; font-weight: 600; text-decoration: underline;">
+                    {{ order.name }}
+                  </a>
+                </td>
+                <td style="padding: 16px 12px; color: #555555;">{{ order.created_at | date: "%B %d, %Y" }}</td>
+                <td style="padding: 16px 12px;">{{ order.financial_status_label }}</td>
+                <td style="padding: 16px 12px;">{{ order.fulfillment_status_label }}</td>
+                <td style="padding: 16px 12px; font-weight: 600; text-align: right;">{{ order.total_price | money }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <!-- Empty State Container -->
+      <div class="orders-empty-state">
+        <h2 class="orders-empty-title">{{ section.settings.empty_title | default: 'No orders have been made yet!' }}</h2>
+        <p class="orders-empty-subtitle">{{ section.settings.empty_subtitle | default: 'When you place an order, its details, shipment tracking, and receipts will be displayed here.' }}</p>
+        <a href="/collections/all?view=shop" class="btn orders-shop-btn">
+          {{ section.settings.shop_btn_label | default: 'Start Shopping' }}
+        </a>
+      </div>
+    {% endif %}
 
     <!-- Recommendations Section -->
     <section class="wishlist-recommendations" aria-label="Recommended Best Sellers">
