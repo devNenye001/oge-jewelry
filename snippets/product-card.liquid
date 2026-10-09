@@ -124,30 +124,23 @@
     </a>
 
     <!-- 4. Quick Add To Cart '+' Button (Bottom Center) -->
-    {% unless card_sold_out %}
-      <button 
-        type="button" 
-        class="product-card__add-btn" 
-        data-quick-add 
-        data-product-id="{{ card_variant_id }}"
-        data-product-handle="{{ card_handle }}"
-        data-product-title="{{ card_title | escape }}" 
-        data-product-price="{{ card_price }}" 
-        data-product-img="{{ card_img_src }}" 
-        aria-label="Add {{ card_title | escape }} to Bag"
-        title="Quick Add to Bag"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
-    {% endunless %}
-
-    <!-- 5. Out Of Stock Badge Bar -->
-    {% if card_sold_out %}
-      <div class="product-card__out-of-stock-bar">OUT OF STOCK</div>
-    {% endif %}
+    <button 
+      type="button" 
+      class="product-card__add-btn" 
+      data-quick-add 
+      data-product-id="{{ card_variant_id }}"
+      data-product-handle="{{ card_handle }}"
+      data-product-title="{{ card_title | escape }}" 
+      data-product-price="{{ card_price }}" 
+      data-product-img="{{ card_img_src }}" 
+      aria-label="Add {{ card_title | escape }} to Bag"
+      title="Quick Add to Bag"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
   </div>
 
   <!-- 6. Product Details -->

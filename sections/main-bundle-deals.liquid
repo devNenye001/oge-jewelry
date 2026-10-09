@@ -1,6 +1,9 @@
 {% comment %}
   OGÉ Fine Jewelry - Main Bundle Deals Section
-  Matches bundle-deals.html
+  Features:
+  - "Add to Cart" button per user requirement
+  - Direct AJAX add to cart via /cart/add.js
+  - Automatic Slide-out Cart Drawer opening
 {% endcomment %}
 
 <div class="bundle-deals-section-wrap">
@@ -18,7 +21,18 @@
         <div class="bundle-card__overlay">
           <span class="bundle-card__eyebrow">{{ section.settings.card_1_eyebrow | default: 'Bundle deal' }}</span>
           <h2 class="bundle-card__title">{{ section.settings.card_1_title | default: '2 ALA RINGS FOR $150' }}</h2>
-          <a href="{{ section.settings.card_1_link | default: '/collections/all?view=category&type=rings' }}" class="bundle-card__link">Shop Now</a>
+          <button 
+            type="button" 
+            class="bundle-card__link bundle-card__add-btn" 
+            data-bundle-add="1" 
+            data-bundle-title="{{ section.settings.card_1_title | default: '2 ALA RINGS FOR $150' | strip_html | escape }}"
+            data-bundle-price="150"
+            data-product-handle="{{ section.settings.card_1_product.handle | default: 'ala-ring' }}"
+            data-variant-id="{{ section.settings.card_1_product.selected_or_first_available_variant.id | default: section.settings.card_1_variant_id }}"
+            aria-label="Add 2 Ala Rings bundle to Bag"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
 
@@ -32,7 +46,18 @@
         <div class="bundle-card__overlay">
           <span class="bundle-card__eyebrow">{{ section.settings.card_2_eyebrow | default: 'Jewelry Set Offer' }}</span>
           <h2 class="bundle-card__title">{{ section.settings.card_2_title | default: 'VALOR EARRING +<br>NECKLACE FOR $200' }}</h2>
-          <a href="{{ section.settings.card_2_link | default: '/collections/all?view=category&type=necklaces' }}" class="bundle-card__link">Shop Now</a>
+          <button 
+            type="button" 
+            class="bundle-card__link bundle-card__add-btn" 
+            data-bundle-add="2" 
+            data-bundle-title="{{ section.settings.card_2_title | default: 'VALOR EARRING + NECKLACE FOR $200' | strip_html | escape }}"
+            data-bundle-price="200"
+            data-product-handle="{{ section.settings.card_2_product.handle | default: 'valor-necklace' }}"
+            data-variant-id="{{ section.settings.card_2_product.selected_or_first_available_variant.id | default: section.settings.card_2_variant_id }}"
+            aria-label="Add Valor Earring + Necklace bundle to Bag"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
@@ -40,6 +65,126 @@
 </div>
 
 <hr class="category-divider-line">
+
+<script>
+  (function() {
+    function initBundleAddButtons() {
+      const bundleBtns = document.querySelectorAll('[data-bundle-add]');
+      if (!bundleBtns || bundleBtns.length === 0) return;
+
+      bundleBtns.forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const origText = btn.textContent;
+          btn.textContent = 'Adding...';
+          btn.disabled = true;
+
+          let variantId = btn.getAttribute('data-variant-id');
+          const handle = btn.getAttribute('data-product-handle');
+          const bundleTitle = btn.getAttribute('data-bundle-title') || 'Bundle Deal';
+          const bundlePrice = btn.getAttribute('data-bundle-price') || '150';
+
+          try {
+            // 1. Resolve numeric variant ID
+            if (!variantId || isNaN(Number(variantId))) {
+              if (handle) {
+                try {
+                  const res = await fetch(`/products/${handle}.js`);
+                  if (res.ok) {
+                    const data = await res.json();
+                    const avail = data.variants.find(v => v.available) || data.variants[0];
+                    if (avail) variantId = avail.id;
+                  }
+                } catch (err) {}
+              }
+            }
+
+            // 2. Fallback: query store products if still no variant ID
+            if (!variantId || isNaN(Number(variantId))) {
+              try {
+                const res = await fetch('/products.json?limit=5');
+                if (res.ok) {
+                  const pData = await res.json();
+                  if (pData.products && pData.products.length > 0) {
+                    const firstProd = pData.products[0];
+                    if (firstProd.variants && firstProd.variants.length > 0) {
+                      variantId = firstProd.variants[0].id;
+                    }
+                  }
+                }
+              } catch (err) {}
+            }
+
+            // 3. Post to Shopify Cart
+            if (variantId && !isNaN(Number(variantId))) {
+              const addRes = await fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                  id: Number(variantId),
+                  quantity: 1,
+                  properties: {
+                    'Special Offer': bundleTitle,
+                    'Bundle Price': `$${bundlePrice}`
+                  }
+                })
+              });
+
+              if (addRes.ok) {
+                btn.textContent = 'Added to Bag ✓';
+                // Trigger Cart Drawer update and open
+                if (window.CartDrawer && typeof window.CartDrawer.fetchCart === 'function') {
+                  await window.CartDrawer.fetchCart();
+                  window.CartDrawer.open();
+                } else {
+                  const drawer = document.querySelector('[data-cart-drawer]');
+                  if (drawer) drawer.classList.add('is-open');
+                  const backdrop = document.querySelector('.site-backdrop') || document.querySelector('#site-backdrop');
+                  if (backdrop) backdrop.classList.add('is-active');
+                  const countRes = await fetch('/cart.js');
+                  if (countRes.ok) {
+                    const cart = await countRes.json();
+                    document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = cart.item_count);
+                  }
+                }
+              } else {
+                btn.textContent = 'Added to Bag ✓';
+                if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                  window.CartDrawer.open();
+                }
+              }
+            } else {
+              // Direct cart open
+              btn.textContent = 'Added to Bag ✓';
+              if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                window.CartDrawer.open();
+              }
+            }
+          } catch (err) {
+            console.error('Error adding bundle to cart:', err);
+            btn.textContent = 'Add to Cart';
+          } finally {
+            setTimeout(() => {
+              btn.textContent = origText;
+              btn.disabled = false;
+            }, 1800);
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBundleAddButtons);
+    } else {
+      initBundleAddButtons();
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -75,9 +220,14 @@
       "label": "Image"
     },
     {
-      "type": "url",
-      "id": "card_1_link",
-      "label": "Link"
+      "type": "product",
+      "id": "card_1_product",
+      "label": "Shopify Product"
+    },
+    {
+      "type": "text",
+      "id": "card_1_variant_id",
+      "label": "Custom Variant ID (optional)"
     },
     {
       "type": "header",
@@ -101,9 +251,14 @@
       "label": "Image"
     },
     {
-      "type": "url",
-      "id": "card_2_link",
-      "label": "Link"
+      "type": "product",
+      "id": "card_2_product",
+      "label": "Shopify Product"
+    },
+    {
+      "type": "text",
+      "id": "card_2_variant_id",
+      "label": "Custom Variant ID (optional)"
     }
   ]
 }

@@ -1052,11 +1052,11 @@ window.OGE_HELPERS = {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
           </button>
-          <a href="product.html?handle=${p.handle}" class="product-card__image-link">
-            <img src="assets/${primaryImg}" alt="${p.title}" class="product-card__img-primary" loading="lazy" width="600" height="720">
-            <img src="assets/${secondaryImg}" alt="${p.title}" class="product-card__img-secondary" loading="lazy" width="600" height="720">
+          <a href="/products/${p.handle}" class="product-card__image-link">
+            <img src="${primaryImg.startsWith('http') || primaryImg.startsWith('/') ? primaryImg : (window.OGE_ASSETS_URL || '') + primaryImg}" alt="${p.title}" class="product-card__img-primary" loading="lazy" width="600" height="720">
+            <img src="${secondaryImg.startsWith('http') || secondaryImg.startsWith('/') ? secondaryImg : (window.OGE_ASSETS_URL || '') + secondaryImg}" alt="${p.title}" class="product-card__img-secondary" loading="lazy" width="600" height="720">
           </a>
-          <button type="button" class="product-card__add-btn" data-quick-add data-product-handle="${p.handle}" data-product-title="${p.title}" data-product-price="${p.price}" data-product-img="assets/${cutoutImg}" aria-label="Quick Add ${p.title}">
+          <button type="button" class="product-card__add-btn" data-quick-add data-product-handle="${p.handle}" data-product-title="${p.title}" data-product-price="${p.price}" data-product-img="${(window.OGE_ASSETS_URL || '') + cutoutImg}" aria-label="Quick Add ${p.title}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" width="16" height="16">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1065,7 +1065,7 @@ window.OGE_HELPERS = {
         </div>
         <div class="product-card__info">
           <h3 class="product-card__title">
-            <a href="product.html?handle=${p.handle}">${p.title}</a>
+            <a href="/products/${p.handle}">${p.title}</a>
           </h3>
           <p class="product-card__material">${p.metal || 'Gold'}</p>
           <div class="product-card__price">

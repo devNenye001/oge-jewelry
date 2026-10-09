@@ -1,6 +1,10 @@
 {% comment %}
   OGÉ Fine Jewelry - Main Collection Section
-  Online Store 2.0 Shopify collection grid with category navigation and pagination.
+  Features:
+  - Hero banner with high-res collection image and title (e.g. THE SELF WOMAN COLLECTION, THE REBIRTH COLLECTION)
+  - Centered filter tabs: All, Necklaces, Bracelets, Rings (Matches Figma Mockup)
+  - Utility toolbar: Filter & Sort on left, Grid density switcher (1, 2, 4 col) on right
+  - 4-column product grid with client-side category filtering and sorting
 {% endcomment %}
 
 <!-- Collection Hero Banner -->
@@ -20,43 +24,51 @@
   {% endif %}
   <div class="collection-hero__overlay"></div>
   <div class="collection-hero__content">
-    <h1 class="collection-hero__title">{{ collection.title | default: 'ALL JEWELRY' }}</h1>
+    <h1 class="collection-hero__title">{{ collection.title | default: 'THE SELF WOMAN COLLECTION' }}</h1>
     {% if collection.description != blank %}
       <p class="collection-hero__desc">{{ collection.description }}</p>
     {% endif %}
   </div>
 </section>
 
-<!-- Subcategory Filter Tabs (Mini Navigator - Only Rings, Necklaces, Bracelets, Earrings) -->
-<nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
-  <a href="/collections/all?view=category&type=rings" class="collection-tab-btn {% if collection.handle == 'rings' or collection.handle contains 'ring' %}is-active{% endif %}">Rings</a>
-  <a href="/collections/all?view=category&type=necklaces" class="collection-tab-btn {% if collection.handle == 'necklaces' or collection.handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
-  <a href="/collections/all?view=category&type=bracelets" class="collection-tab-btn {% if collection.handle == 'bracelets' or collection.handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
-  <a href="/collections/all?view=category&type=earrings" class="collection-tab-btn {% if collection.handle == 'earrings' or collection.handle contains 'earring' %}is-active{% endif %}">Earrings</a>
+<!-- Sub-filter Tabs (All, Necklaces, Bracelets, Rings - Matches Figma Mockup) -->
+<nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Filter Categories">
+  <button type="button" class="collection-tab-btn is-active" data-collection-tab="all">All</button>
+  <button type="button" class="collection-tab-btn" data-collection-tab="necklaces">Necklaces</button>
+  <button type="button" class="collection-tab-btn" data-collection-tab="bracelets">Bracelets</button>
+  <button type="button" class="collection-tab-btn" data-collection-tab="rings">Rings</button>
 </nav>
 
-<!-- Collection Toolbar: Grid View Switchers (Filtering is handled via native collection category tabs above) -->
-<div class="collection-toolbar" style="justify-content: flex-end;">
-  <div class="collection-toolbar__right">
-    <div class="collection-toolbar__view-switchers" aria-label="View Switchers">
-      <!-- 1 Column Switcher -->
-      <button type="button" class="grid-switch-btn" data-grid-view="1" aria-label="Single Column View" title="1 Column View">
-        <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+<!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER) -->
+<div class="collection-utility-bar">
+  <div class="collection-utility-left" style="position: relative;">
+    <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="collection-filter-dropdown">
+      Filter &amp; Sort
+    </button>
+    <div class="filter-dropdown-menu" id="collection-filter-dropdown" role="menu">
+      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
+      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
+      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
+      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
+    </div>
+  </div>
+  <div class="collection-utility-right">
+    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
+      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
       </button>
-      <!-- 2 Column Switcher -->
-      <button type="button" class="grid-switch-btn" data-grid-view="2" aria-label="Two Columns View" title="2 Columns View">
-        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="5" width="6" height="14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
       </button>
-      <!-- 4 Column Switcher (Default Active) -->
-      <button type="button" class="grid-switch-btn is-active" data-grid-view="4" aria-label="Four Columns View" title="4 Columns View">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
       </button>
     </div>
   </div>
 </div>
 
 <!-- Product Catalog -->
-<main class="collection-catalog-wrap">
+<main class="collection-catalog-wrap" id="MainContent">
   {% assign products_per_page = section.settings.products_per_page | default: 16 %}
   {% paginate collection.products by products_per_page %}
     <div class="collection-products-grid grid--4-col" id="collection-products-grid">
@@ -79,82 +91,186 @@
   {% endpaginate %}
 </main>
 
+<hr class="category-divider-line">
+
 <script>
   (function() {
-    function initCollectionGrid() {
+    function initCollectionPage() {
       const grid = document.getElementById('collection-products-grid');
       if (!grid) return;
 
-      // Density switchers
-      const switchers = document.querySelectorAll('.grid-switch-btn');
-      switchers.forEach(btn => {
+      const path = (window.location.pathname || '').toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      let queryColl = (params.get('collection') || '').toLowerCase().trim();
+
+      if (!queryColl) {
+        if (path.includes('rebirth')) queryColl = 'rebirth';
+        else if (path.includes('victor')) queryColl = 'victorious';
+        else if (path.includes('bound') || path.includes('bondr')) queryColl = 'boundaries';
+        else if (path.includes('romance') || path.includes('self')) queryColl = 'self-woman';
+        else if (path.includes('align')) queryColl = 'alignment';
+      }
+
+      // Update banner and title
+      const collData = {
+        'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
+        'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
+        'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
+        'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+        'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+        'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
+      };
+
+      if (queryColl && collData[queryColl]) {
+        const titleEl = document.querySelector('.collection-hero__title');
+        if (titleEl) titleEl.textContent = collData[queryColl].title;
+        const imgEl = document.querySelector('.collection-hero__image');
+        if (imgEl) imgEl.src = collData[queryColl].img;
+        document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
+      }
+
+      // Density switchers (1, 2, 4 columns)
+      const densityBtns = document.querySelectorAll('.grid-density-btn');
+      densityBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
-          switchers.forEach(b => b.classList.remove('is-active'));
+          densityBtns.forEach(b => b.classList.remove('is-active'));
           btn.classList.add('is-active');
-          const cols = btn.getAttribute('data-grid-view') || '4';
+          const cols = btn.getAttribute('data-cols') || '4';
           grid.classList.remove('grid--1-col', 'grid--2-col', 'grid--4-col');
           grid.classList.add(`grid--${cols}-col`);
         });
       });
 
-      const params = new URLSearchParams(window.location.search);
-      const queryColl = (params.get('collection') || '').toLowerCase().trim();
-      const queryType = (params.get('type') || '').toLowerCase().trim();
+      // Filter & Sort dropdown toggle
+      const filterToggle = document.getElementById('filter-sort-toggle');
+      const filterDropdown = document.getElementById('collection-filter-dropdown');
+      if (filterToggle && filterDropdown) {
+        filterToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = filterDropdown.classList.contains('is-open');
+          filterDropdown.classList.toggle('is-open', !isOpen);
+          filterToggle.setAttribute('aria-expanded', !isOpen);
+        });
 
-      // Update banner and title if query collection is provided
-      if (queryColl) {
-        const collData = {
-          'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
-          'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
-          'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
-          'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-          'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-          'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
-        };
-        if (collData[queryColl]) {
-          const titleEl = document.querySelector('.collection-hero__title');
-          if (titleEl) titleEl.textContent = collData[queryColl].title;
-          const imgEl = document.querySelector('.collection-hero__image');
-          if (imgEl) imgEl.src = collData[queryColl].img;
-          document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
-        }
+        document.addEventListener('click', (e) => {
+          if (!filterDropdown.contains(e.target) && e.target !== filterToggle) {
+            filterDropdown.classList.remove('is-open');
+            filterToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
       }
 
-      // If Shopify liquid produced 0 products or query collection is specified, populate from catalog dataset
+      // Catalog dataset fallback if liquid has 0 products
       const placeholder = document.getElementById('collection-empty-placeholder');
+      let baseItems = [];
       if (window.OGE_HELPERS && window.OGE_CATALOG) {
-        let handle = queryColl || queryType || '{{ collection.handle }}' || '';
-        if (queryColl || placeholder) {
-          let items = [];
-          if (handle.includes('ring') || handle.includes('necklace') || handle.includes('bracelet') || handle.includes('earring') || handle.includes('fine') || handle.includes('men') || handle.includes('new')) {
-            items = window.OGE_HELPERS.getProductsByCategory(handle);
-          } else {
-            items = window.OGE_HELPERS.getProductsByCollection(handle);
-          }
-          if (!items || items.length === 0) {
-            items = window.OGE_CATALOG;
-          }
-          if (items && items.length > 0) {
-            grid.innerHTML = items.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
-            if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
-              window.OGE_CURRENCY.updateDOM();
-            }
-          } else if (placeholder) {
-            placeholder.innerHTML = `
-              <h2 class="wishlist-empty-title">No products found</h2>
-              <p class="wishlist-empty-desc">There are currently no products available in this collection.</p>
-              <a href="/collections/all" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
-            `;
-          }
+        const handle = queryColl || '{{ collection.handle }}' || 'self-woman';
+        baseItems = window.OGE_HELPERS.getProductsByCollection(handle);
+        if (!baseItems || baseItems.length === 0) {
+          baseItems = window.OGE_CATALOG;
+        }
+
+        if (placeholder || grid.children.length === 0) {
+          renderGrid(baseItems);
         }
       }
+
+      function renderGrid(items) {
+        if (!items || items.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+              <h2 class="wishlist-empty-title">No products found</h2>
+              <p class="wishlist-empty-desc">No products match this selection in this collection.</p>
+            </div>
+          `;
+          return;
+        }
+        grid.innerHTML = items.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+        if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
+          window.OGE_CURRENCY.updateDOM();
+        }
+      }
+
+      // Sub-filter tabs (All, Necklaces, Bracelets, Rings)
+      const tabs = document.querySelectorAll('[data-collection-tab]');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          e.preventDefault();
+          tabs.forEach(t => t.classList.remove('is-active'));
+          tab.classList.add('is-active');
+
+          const tabType = tab.getAttribute('data-collection-tab');
+
+          // If products were rendered by liquid directly:
+          const domCards = Array.from(grid.querySelectorAll('.product-card'));
+          if (domCards.length > 0 && (!window.OGE_CATALOG || !placeholder)) {
+            domCards.forEach(card => {
+              const text = (card.textContent || '').toLowerCase();
+              const handle = (card.getAttribute('data-product-handle') || '').toLowerCase();
+              if (tabType === 'all') {
+                card.style.display = '';
+              } else if (tabType === 'rings' && (text.includes('ring') || handle.includes('ring'))) {
+                card.style.display = '';
+              } else if (tabType === 'necklaces' && (text.includes('necklace') || handle.includes('necklace'))) {
+                card.style.display = '';
+              } else if (tabType === 'bracelets' && (text.includes('bracelet') || handle.includes('bracelet') || text.includes('bangle'))) {
+                card.style.display = '';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+            return;
+          }
+
+          // If products rendered from dataset:
+          if (baseItems && baseItems.length > 0) {
+            if (tabType === 'all') {
+              renderGrid(baseItems);
+            } else {
+              const filtered = baseItems.filter(p => {
+                const cat = (p.category || '').toLowerCase();
+                const title = (p.title || '').toLowerCase();
+                if (tabType === 'rings') return cat === 'rings' || title.includes('ring');
+                if (tabType === 'necklaces') return cat === 'necklaces' || title.includes('necklace');
+                if (tabType === 'bracelets') return cat === 'bracelets' || title.includes('bracelet');
+                return true;
+              });
+              renderGrid(filtered);
+            }
+          }
+        });
+      });
+
+      // Sort options handling
+      const sortBtns = document.querySelectorAll('#collection-filter-dropdown [data-sort]');
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          sortBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          const sortVal = btn.getAttribute('data-sort');
+          if (filterDropdown) filterDropdown.classList.remove('is-open');
+
+          const cards = Array.from(grid.querySelectorAll('.product-card'));
+          if (cards.length > 0) {
+            cards.sort((a, b) => {
+              const priceA = parseFloat((a.querySelector('.product-card__current-price')?.textContent || '0').replace(/[^0-9.]/g, '')) || 0;
+              const priceB = parseFloat((b.querySelector('.product-card__current-price')?.textContent || '0').replace(/[^0-9.]/g, '')) || 0;
+              if (sortVal === 'price-low') return priceA - priceB;
+              if (sortVal === 'price-high') return priceB - priceA;
+              return 0;
+            });
+            cards.forEach(card => grid.appendChild(card));
+          }
+        });
+      });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCollectionGrid);
+      document.addEventListener('DOMContentLoaded', initCollectionPage);
     } else {
-      initCollectionGrid();
+      initCollectionPage();
     }
   })();
 </script>

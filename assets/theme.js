@@ -599,9 +599,7 @@
                      btn.closest('[data-wishlist-item]')?.getAttribute('data-wishlist-item') ||
                      btn.closest('[data-product-handle]')?.getAttribute('data-product-handle');
 
-      // Subtle touch animation feedback
-      btn.style.transform = 'scale(1.2)';
-      setTimeout(() => { btn.style.transform = ''; }, 200);
+      // Handle quick add click
 
       // Resolve numeric variant ID if handle was provided
       if (!variantId || isNaN(Number(variantId))) {
@@ -2907,6 +2905,9 @@
       AccountDashboard,
       CountrySelector
     ];
+    window.OGE_CART_DRAWER = CartDrawer;
+    window.CartDrawer = CartDrawer;
+
     modules.forEach((mod) => {
       try {
         if (mod && typeof mod.init === 'function') {
