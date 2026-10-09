@@ -65,6 +65,21 @@
   {% assign card_hover_img_src = blank %}
 {% endif %}
 
+{% if card_hover_img_src == blank %}
+  {% assign title_low = card_title | downcase %}
+  {% if title_low contains 'ring' or card_handle contains 'ring' %}
+    {% assign card_hover_img_src = 'product3.jpg' | asset_url %}
+  {% elsif title_low contains 'earring' or card_handle contains 'earring' %}
+    {% assign card_hover_img_src = 'ear.jpg' | asset_url %}
+  {% elsif title_low contains 'necklace' or card_handle contains 'necklace' %}
+    {% assign card_hover_img_src = 'sidebar-necklaces.jpg' | asset_url %}
+  {% elsif title_low contains 'bracelet' or card_handle contains 'bracelet' %}
+    {% assign card_hover_img_src = 'product5.png' | asset_url %}
+  {% else %}
+    {% assign card_hover_img_src = 'product7.jpg' | asset_url %}
+  {% endif %}
+{% endif %}
+
 {% assign card_new = is_new %}
 {% if card_new == blank and card_product != blank %}
   {% if card_product.tags contains 'new' or card_product.tags contains 'New' or card_product.tags contains 'NEW' %}

@@ -1,9 +1,16 @@
 {% comment %}
-  OGÉ Fine Jewelry - Shop All Jewelry Page Template (Exact shop.html / jewelries.html Match)
+  OGÉ Fine Jewelry - Shop All Jewelry Page Template (Matches Category Design)
+  Renders at /pages/shop or /pages/jewelries
+  Exact Category Design:
+  - Header: SHOP ALL JEWELRIES
+  - Horizontal Divider
+  - Utility Bar: Filter & Sort + 3 Density Switchers
+  - NO subcategory / mini navigator tabs
+  - Full product grid of all products with liquid rendering and dataset fallback
 {% endcomment %}
 
 <header class="category-page-header">
-  <h1 class="category-page-title" id="category-page-heading">ALL JEWELRY</h1>
+  <h1 class="category-page-title" id="category-page-heading">SHOP ALL JEWELRIES</h1>
 </header>
 <hr class="category-divider-line">
 
@@ -35,30 +42,36 @@
   </div>
 </div>
 
-<div class="collection-catalog-wrap">
+<main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
-    <!-- Rendered via catalog-data.js -->
+    {% assign all_prods = collections.all.products | default: collection.products %}
+    {% if all_prods.size > 0 %}
+      {% for product in all_prods %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    {% endif %}
   </div>
-</div>
+</main>
 
 <hr class="category-divider-line">
 
 <script>
   (function() {
     function initShop() {
-      if (!window.OGE_HELPERS || !window.OGE_CATALOG) {
-        setTimeout(initShop, 40);
-        return;
-      }
       const grid = document.getElementById('category-grid');
       if (!grid) return;
-      const products = window.OGE_HELPERS.getProductsByCategory('all');
-      grid.innerHTML = products.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
-      if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
-        window.OGE_CURRENCY.updateDOM();
+
+      const hasLiquidProducts = grid.querySelectorAll('.product-card').length > 0;
+
+      if (!hasLiquidProducts && window.OGE_HELPERS && window.OGE_CATALOG) {
+        const products = window.OGE_CATALOG;
+        grid.innerHTML = products.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
+        if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.updateDOM === 'function') {
+          window.OGE_CURRENCY.updateDOM();
+        }
       }
 
-      // Density
+      // Density switchers (1, 2, 4 columns)
       const densityBtns = document.querySelectorAll('.grid-density-btn');
       densityBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -71,37 +84,49 @@
         });
       });
 
-      // Filter & Sort
+      // Filter & Sort dropdown
       const filterToggle = document.getElementById('filter-sort-toggle');
       const filterDropdown = document.getElementById('category-filter-dropdown');
       if (filterToggle && filterDropdown) {
         filterToggle.addEventListener('click', (e) => {
           e.stopPropagation();
-          const isOpen = filterDropdown.classList.toggle('is-active');
-          filterToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          const isOpen = filterDropdown.classList.contains('is-open');
+          filterDropdown.classList.toggle('is-open', !isOpen);
+          filterToggle.setAttribute('aria-expanded', !isOpen);
         });
-        document.addEventListener('click', () => {
-          filterDropdown.classList.remove('is-active');
-          filterToggle.setAttribute('aria-expanded', 'false');
+
+        document.addEventListener('click', (e) => {
+          if (!filterDropdown.contains(e.target) && e.target !== filterToggle) {
+            filterDropdown.classList.remove('is-open');
+            filterToggle.setAttribute('aria-expanded', 'false');
+          }
         });
+
         filterDropdown.querySelectorAll('.filter-option-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             filterDropdown.querySelectorAll('.filter-option-btn').forEach(b => b.classList.remove('is-active'));
             btn.classList.add('is-active');
             const sort = btn.getAttribute('data-sort');
-            let sorted = [...products];
-            if (sort === 'price-low') sorted.sort((a, b) => a.price - b.price);
-            else if (sort === 'price-high') sorted.sort((a, b) => b.price - a.price);
-            else if (sort === 'newest') sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-            grid.innerHTML = sorted.map((p, idx) => window.OGE_HELPERS.renderProductCard(p, idx)).join('');
-            if (window.OGE_CURRENCY) window.OGE_CURRENCY.updateDOM();
-            filterDropdown.classList.remove('is-active');
+
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+            if (cards.length > 0) {
+              cards.sort((a, b) => {
+                const priceA = parseFloat((a.querySelector('.product-card__current-price')?.textContent || '0').replace(/[^0-9.]/g, '')) || 0;
+                const priceB = parseFloat((b.querySelector('.product-card__current-price')?.textContent || '0').replace(/[^0-9.]/g, '')) || 0;
+                if (sort === 'price-low') return priceA - priceB;
+                if (sort === 'price-high') return priceB - priceA;
+                return 0;
+              });
+              cards.forEach(card => grid.appendChild(card));
+            }
+            filterDropdown.classList.remove('is-open');
             filterToggle.setAttribute('aria-expanded', 'false');
           });
         });
       }
     }
+
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initShop);
     else initShop();
   })();

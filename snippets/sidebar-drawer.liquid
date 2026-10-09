@@ -151,7 +151,7 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
       <div class="submenu-content" data-submenu-content="submenu-jewelry">
         <div class="submenu-grid">
           <div class="submenu-links">
-            <a href="/collections/all?view=category&type=all" class="submenu-link submenu-link--all">Shop All</a>
+            <a href="/collections/all?view=shop" class="submenu-link submenu-link--all">Shop All Jewelries</a>
             <a href="/collections/all?view=category&type=rings" class="submenu-link">Rings</a>
             <a href="/collections/all?view=category&type=earrings" class="submenu-link">Earrings</a>
             <a href="/collections/all?view=category&type=necklaces" class="submenu-link">Necklaces</a>
@@ -166,10 +166,11 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
         </div>
       </div>
 
-      <!-- Submenu Content 2: COLLECTIONS (Rebirth, Boundaries, Victorious, Self Romance) -->
+      <!-- Submenu Content 2: COLLECTIONS (All Collections, Rebirth, Boundaries, Victorious, Self Romance) -->
       <div class="submenu-content" data-submenu-content="submenu-collections" style="display: none;">
         <div class="submenu-grid">
           <div class="submenu-links">
+            <a href="/collections/all?view=shop" class="submenu-link submenu-link--all">All Collections</a>
             {% assign rebirth_url = collections['the-rebirth-collection'].url %}
             {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = collections['rebirth'].url %}{% endif %}
             {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = '/collections/all?collection=rebirth' %}{% endif %}

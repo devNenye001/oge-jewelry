@@ -1,43 +1,57 @@
 {% comment %}
   OGÉ Fine Jewelry - Main Collection Section
   Features:
-  - Hero banner with high-res collection image and title (e.g. THE SELF WOMAN COLLECTION, THE REBIRTH COLLECTION)
-  - Centered filter tabs: All, Necklaces, Bracelets, Rings (Matches Figma Mockup)
-  - Utility toolbar: Filter & Sort on left, Grid density switcher (1, 2, 4 col) on right
-  - 4-column product grid with client-side category filtering and sorting
+  - If viewing "Shop All" / "All Jewelries" / "All Collections":
+      Uses the clean Category design (Centered title "SHOP ALL JEWELRIES", fine divider, utility bar with Filter & Sort and density switchers, NO hero banner, NO tabs).
+  - If viewing a specific Signature Collection (Rebirth, Victorious, Boundaries, Self Romance):
+      Renders the Hero Banner, centered sub-filter tabs (All, Necklaces, Bracelets, Rings), utility bar, and product grid.
 {% endcomment %}
 
-<!-- Collection Hero Banner -->
-<section class="collection-hero">
-  {% if collection.image %}
-    <img src="{{ collection.image | image_url: width: 1920 }}" alt="{{ collection.title | escape }}" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% elsif collection.handle contains 'bound' %}
-    <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% elsif collection.handle contains 'victor' %}
-    <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% elsif collection.handle contains 'align' %}
-    <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% elsif collection.handle contains 'rebirth' %}
-    <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% else %}
-    <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="{{ collection.title | default: 'The Self Woman Collection' }}" class="collection-hero__image" loading="eager" width="1920" height="400">
-  {% endif %}
-  <div class="collection-hero__overlay"></div>
-  <div class="collection-hero__content">
-    <h1 class="collection-hero__title">{{ collection.title | default: 'THE SELF WOMAN COLLECTION' }}</h1>
-    {% if collection.description != blank %}
-      <p class="collection-hero__desc">{{ collection.description }}</p>
-    {% endif %}
-  </div>
-</section>
+{% assign coll_handle = collection.handle | default: '' %}
+{% assign is_shop_all = false %}
+{% if coll_handle == 'all' or coll_handle == 'frontpage' or coll_handle == 'shop' or coll_handle == 'all-jewelries' or coll_handle == 'jewelries' or coll_handle == blank %}
+  {% assign is_shop_all = true %}
+{% endif %}
 
-<!-- Sub-filter Tabs (All, Necklaces, Bracelets, Rings - Matches Figma Mockup) -->
-<nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Filter Categories">
-  <button type="button" class="collection-tab-btn is-active" data-collection-tab="all">All</button>
-  <button type="button" class="collection-tab-btn" data-collection-tab="necklaces">Necklaces</button>
-  <button type="button" class="collection-tab-btn" data-collection-tab="bracelets">Bracelets</button>
-  <button type="button" class="collection-tab-btn" data-collection-tab="rings">Rings</button>
-</nav>
+{% if is_shop_all %}
+  <!-- Category Design Header for Shop All Jewelries / All Collections -->
+  <header class="category-page-header">
+    <h1 class="category-page-title" id="category-page-heading">SHOP ALL JEWELRIES</h1>
+  </header>
+  <hr class="category-divider-line">
+{% else %}
+  <!-- Collection Hero Banner for Signature Collections -->
+  <section class="collection-hero" id="collection-hero-banner">
+    {% if collection.image %}
+      <img src="{{ collection.image | image_url: width: 1920 }}" alt="{{ collection.title | escape }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% elsif collection.handle contains 'bound' %}
+      <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% elsif collection.handle contains 'victor' %}
+      <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% elsif collection.handle contains 'align' %}
+      <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% elsif collection.handle contains 'rebirth' %}
+      <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% else %}
+      <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="{{ collection.title | default: 'The Self Woman Collection' }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+    {% endif %}
+    <div class="collection-hero__overlay"></div>
+    <div class="collection-hero__content">
+      <h1 class="collection-hero__title">{{ collection.title | default: 'THE SELF WOMAN COLLECTION' }}</h1>
+      {% if collection.description != blank %}
+        <p class="collection-hero__desc">{{ collection.description }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Sub-filter Tabs for Signature Collections (All, Necklaces, Bracelets, Rings - Matches Figma Mockup) -->
+  <nav class="collection-category-tabs collection-nav-tabs" id="collection-tabs-nav" aria-label="Collection Filter Categories">
+    <button type="button" class="collection-tab-btn is-active" data-collection-tab="all">All</button>
+    <button type="button" class="collection-tab-btn" data-collection-tab="necklaces">Necklaces</button>
+    <button type="button" class="collection-tab-btn" data-collection-tab="bracelets">Bracelets</button>
+    <button type="button" class="collection-tab-btn" data-collection-tab="rings">Rings</button>
+  </nav>
+{% endif %}
 
 <!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER) -->
 <div class="collection-utility-bar">
@@ -69,7 +83,7 @@
 
 <!-- Product Catalog -->
 <main class="collection-catalog-wrap" id="MainContent">
-  {% assign products_per_page = section.settings.products_per_page | default: 16 %}
+  {% assign products_per_page = section.settings.products_per_page | default: 24 %}
   {% paginate collection.products by products_per_page %}
     <div class="collection-products-grid grid--4-col" id="collection-products-grid">
       {% if collection.products.size > 0 %}
@@ -102,31 +116,40 @@
       const path = (window.location.pathname || '').toLowerCase();
       const params = new URLSearchParams(window.location.search);
       let queryColl = (params.get('collection') || '').toLowerCase().trim();
+      const queryType = (params.get('type') || '').toLowerCase().trim();
 
       if (!queryColl) {
         if (path.includes('rebirth')) queryColl = 'rebirth';
         else if (path.includes('victor')) queryColl = 'victorious';
         else if (path.includes('bound') || path.includes('bondr')) queryColl = 'boundaries';
-        else if (path.includes('romance') || path.includes('self')) queryColl = 'self-woman';
+        else if (path.includes('romance') || path.includes('self-woman')) queryColl = 'self-woman';
         else if (path.includes('align')) queryColl = 'alignment';
+        else if (path.includes('all') || path.includes('shop') || path === '/collections' || path === '/collections/') queryColl = 'all';
       }
 
-      // Update banner and title
-      const collData = {
-        'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
-        'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
-        'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
-        'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-        'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-        'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
-      };
+      // Check if we are on Shop All / All Collections
+      const isShopAllMode = queryColl === 'all' || queryColl === 'shop' || queryColl === '' && ('{{ is_shop_all }}' === 'true');
 
-      if (queryColl && collData[queryColl]) {
-        const titleEl = document.querySelector('.collection-hero__title');
-        if (titleEl) titleEl.textContent = collData[queryColl].title;
-        const imgEl = document.querySelector('.collection-hero__image');
-        if (imgEl) imgEl.src = collData[queryColl].img;
-        document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
+      if (isShopAllMode) {
+        const headingEl = document.getElementById('category-page-heading');
+        if (headingEl) headingEl.textContent = 'SHOP ALL JEWELRIES';
+        document.title = 'SHOP ALL JEWELRIES — OGÉ Fine Jewelry';
+      } else {
+        const collData = {
+          'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
+          'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
+          'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
+          'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+          'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
+          'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
+        };
+        if (queryColl && collData[queryColl]) {
+          const titleEl = document.querySelector('.collection-hero__title');
+          if (titleEl) titleEl.textContent = collData[queryColl].title;
+          const imgEl = document.querySelector('.collection-hero__image');
+          if (imgEl) imgEl.src = collData[queryColl].img;
+          document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
+        }
       }
 
       // Density switchers (1, 2, 4 columns)
@@ -165,10 +188,14 @@
       const placeholder = document.getElementById('collection-empty-placeholder');
       let baseItems = [];
       if (window.OGE_HELPERS && window.OGE_CATALOG) {
-        const handle = queryColl || '{{ collection.handle }}' || 'self-woman';
-        baseItems = window.OGE_HELPERS.getProductsByCollection(handle);
-        if (!baseItems || baseItems.length === 0) {
+        if (isShopAllMode) {
           baseItems = window.OGE_CATALOG;
+        } else {
+          const handle = queryColl || '{{ collection.handle }}' || 'self-woman';
+          baseItems = window.OGE_HELPERS.getProductsByCollection(handle);
+          if (!baseItems || baseItems.length === 0) {
+            baseItems = window.OGE_CATALOG;
+          }
         }
 
         if (placeholder || grid.children.length === 0) {
@@ -192,7 +219,7 @@
         }
       }
 
-      // Sub-filter tabs (All, Necklaces, Bracelets, Rings)
+      // Sub-filter tabs for signature collections
       const tabs = document.querySelectorAll('[data-collection-tab]');
       tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
@@ -286,7 +313,7 @@
       "min": 4,
       "max": 36,
       "step": 4,
-      "default": 16
+      "default": 24
     }
   ]
 }

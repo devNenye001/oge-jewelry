@@ -1,10 +1,9 @@
 {
   "sections": {
     "main": {
-      "type": "collection-list",
+      "type": "main-collection",
       "settings": {
-        "subheading": "ALL CATEGORIES",
-        "heading": "OUR COLLECTIONS"
+        "products_per_page": 24
       }
     }
   },

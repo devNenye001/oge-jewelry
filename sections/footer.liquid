@@ -22,8 +22,9 @@
             <a href="{{ new_in_url }}" class="footer-col__link">New Arrivals</a>
 
             {% assign best_url = collections['bestseller'].url %}
-            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/collections/all?view=category&type=all' %}{% endif %}
-            <a href="{{ best_url }}" class="footer-col__link">Best Sellers</a>
+            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/collections/all?view=shop' %}{% endif %}
+            <a href="{{ best_url }}" class="footer-col__link">Shop All Jewelries</a>
+            <a href="/collections/all?view=shop" class="footer-col__link">All Collections</a>
 
             {% assign vic_url = collections['victorious-collection'].url %}
             {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = collections['victorious'].url %}{% endif %}

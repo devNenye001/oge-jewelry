@@ -1156,17 +1156,14 @@ body:not(.template-index) .site-header .site-logo__image--black {
   pointer-events: none;
 }
 
-/* Smooth replacement / crossfade on desktop hover only */
-@media (hover: hover) and (pointer: fine) {
-  .product-card.has-hover-image:hover .product-card__img-primary,
-  .product-card:hover .product-card__image-link:has(.product-card__img-secondary) .product-card__img-primary {
-    opacity: 0;
-  }
+/* Smooth picture switching hover for product card */
+.product-card:hover .product-card__img-primary {
+  opacity: 0 !important;
+}
 
-  .product-card.has-hover-image:hover .product-card__img-secondary,
-  .product-card:hover .product-card__img-secondary {
-    opacity: 1;
-  }
+.product-card:hover .product-card__img-secondary {
+  opacity: 1 !important;
+  transform: scale(1.03);
 }
 
 .product-card__wishlist-btn {
