@@ -6258,6 +6258,175 @@ body.template-customers-reset-password {
   color: #111111;
 }
 
+/* Variant Selectors & Ring Size Rectangles (Exact Luxury Aesthetic) */
+.product-variants-container {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.product-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-option-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-option-label {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #111111;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.product-option-label span {
+  color: #666666;
+  font-weight: 400;
+}
+
+.product-option-label strong {
+  font-weight: 700;
+  color: #111111;
+}
+
+.product-option-stock-badge {
+  font-size: 0.8125rem;
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+.stock-badge-soldout {
+  color: #C0392B;
+  font-weight: 600;
+}
+
+.stock-badge-instock {
+  color: #27AE60;
+}
+
+.product-size-guide-trigger {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.8125rem;
+  color: #666666;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.product-size-guide-trigger:hover {
+  color: #111111;
+}
+
+.product-option-values {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 4px !important;
+}
+
+/* Luxury Rectangle Size Box (44px x 44px box) */
+.product-option-pill {
+  min-width: 44px !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1.2px solid #D5D5D5 !important;
+  border-radius: 2px !important;
+  background-color: #FFFFFF !important;
+  color: #111111 !important;
+  font-family: var(--font-body, 'DM Sans', sans-serif) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  cursor: pointer !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  outline: none !important;
+  line-height: 1 !important;
+  user-select: none !important;
+  position: relative !important;
+  text-decoration: none !important;
+}
+
+.product-option-pill:hover:not(.is-selected):not(.is-sold-out) {
+  border-color: #111111 !important;
+  background-color: #F8F8F8 !important;
+}
+
+/* Active / Selected Rectangle: Black with White text */
+.product-option-pill.is-selected {
+  background-color: #111111 !important;
+  color: #FFFFFF !important;
+  border-color: #111111 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Sold Out / Unavailable Rectangle: Faint with diagonal strike */
+.product-option-pill.is-sold-out {
+  opacity: 0.55 !important;
+  color: #888888 !important;
+  background-color: #FAFAFA !important;
+  border-color: #E2E2E2 !important;
+}
+
+.product-option-pill.is-sold-out::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 12% !important;
+  right: 12% !important;
+  height: 1.2px !important;
+  background-color: #999999 !important;
+  transform: rotate(-35deg) !important;
+  pointer-events: none !important;
+}
+
+.product-option-pill.is-selected.is-sold-out {
+  background-color: #333333 !important;
+  color: #FFFFFF !important;
+  border-color: #333333 !important;
+  opacity: 0.9 !important;
+}
+
+.product-option-pill.is-selected.is-sold-out::after {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.product-sold-out-warning {
+  margin: 8px 0 0 0;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.8125rem;
+  color: #C0392B;
+  letter-spacing: 0.01em;
+}
+
+.product-add-to-bag-btn:disabled,
+.product-add-to-bag-btn.is-disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  background-color: #888888 !important;
+  border-color: #888888 !important;
+  color: #FFFFFF !important;
+}
+
 .product-quantity-wrap {
   margin-bottom: 24px;
   display: flex;

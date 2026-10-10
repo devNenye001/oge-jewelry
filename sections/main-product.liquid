@@ -3,10 +3,166 @@
   Dynamic Shopify product object rendering with variant selectors, galleries, accordions, and quick checkout.
 {% endcomment %}
 
-{% assign current_variant = product.selected_or_first_available_variant | default: product.variants.first %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% if current_variant.available == false and product.available %}
+  {% assign current_variant = product.first_available_variant | default: current_variant %}
+{% endif %}
+{% if current_variant == blank %}
+  {% assign current_variant = product.variants.first %}
+{% endif %}
 {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
 {% assign product_metal = product.metafields.custom.metal | default: product.metafields.custom.material | default: product.type | default: "18K Gold Vermeil" %}
 {% assign product_stone = product.metafields.custom.stone | default: "Natural Gemstone" %}
+<style>
+  /* Ring Sizes & Variant Options - Luxury Rectangles */
+  .product-variants-container {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .product-option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .product-option-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .product-option-label {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+  }
+  .product-option-label span {
+    color: #666666;
+    font-weight: 400;
+  }
+  .product-option-label strong {
+    font-weight: 700;
+    color: #111111;
+  }
+  .product-option-stock-badge {
+    font-size: 0.8125rem;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .stock-badge-soldout {
+    color: #C0392B;
+    font-weight: 600;
+  }
+  .stock-badge-instock {
+    color: #27AE60;
+  }
+  .product-size-guide-trigger {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.8125rem;
+    color: #666666;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .product-size-guide-trigger:hover {
+    color: #111111;
+  }
+  .product-option-values {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 4px !important;
+  }
+  /* 44px x 44px Luxury Rectangle Box for Sizes */
+  .product-option-pill {
+    min-width: 44px !important;
+    height: 44px !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1.2px solid #D5D5D5 !important;
+    border-radius: 2px !important;
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+    font-family: var(--font-body, 'DM Sans', sans-serif) !important;
+    font-size: 0.9375rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+    cursor: pointer !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    outline: none !important;
+    line-height: 1 !important;
+    user-select: none !important;
+    position: relative !important;
+    text-decoration: none !important;
+  }
+  .product-option-pill:hover:not(.is-selected):not(.is-sold-out) {
+    border-color: #111111 !important;
+    background-color: #F8F8F8 !important;
+  }
+  /* Active / Selected Rectangle: Black with White text */
+  .product-option-pill.is-selected {
+    background-color: #111111 !important;
+    color: #FFFFFF !important;
+    border-color: #111111 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+  }
+  /* Sold Out / Unavailable Rectangle: Faint with diagonal strike */
+  .product-option-pill.is-sold-out {
+    opacity: 0.55 !important;
+    color: #888888 !important;
+    background-color: #FAFAFA !important;
+    border-color: #E2E2E2 !important;
+  }
+  .product-option-pill.is-sold-out::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 12% !important;
+    right: 12% !important;
+    height: 1.2px !important;
+    background-color: #999999 !important;
+    transform: rotate(-35deg) !important;
+    pointer-events: none !important;
+  }
+  .product-option-pill.is-selected.is-sold-out {
+    background-color: #333333 !important;
+    color: #FFFFFF !important;
+    border-color: #333333 !important;
+    opacity: 0.9 !important;
+  }
+  .product-option-pill.is-selected.is-sold-out::after {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+  }
+  .product-sold-out-warning {
+    margin: 8px 0 0 0;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.8125rem;
+    color: #C0392B;
+    letter-spacing: 0.01em;
+  }
+  .product-add-to-bag-btn:disabled,
+  .product-add-to-bag-btn.is-disabled {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    background-color: #888888 !important;
+    border-color: #888888 !important;
+    color: #FFFFFF !important;
+  }
+</style>
 
 <main class="product-page-main" data-product-page {{ section.shopify_attributes }}>
   <div class="product-details-container">
@@ -153,34 +309,66 @@
           {% if product != blank and product.has_only_default_variant == false %}
             <div class="product-variants-container" data-product-variants>
               {% for option in product.options_with_values %}
-                <div class="product-option-group" data-option-index="{{ forloop.index0 }}">
-                  <label class="product-option-label">
-                    <span>{{ option.name }}</span>: 
-                    <strong data-option-selected-val>{{ option.selected_value }}</strong>
-                  </label>
+                {% assign opt_idx = forloop.index0 %}
+                {% assign current_opt_val = current_variant.options[opt_idx] | default: option.selected_value %}
+                <div class="product-option-group" data-option-index="{{ opt_idx }}">
+                  <div class="product-option-header-row">
+                    <label class="product-option-label">
+                      <span>{{ option.name }}</span>: 
+                      <strong data-option-selected-val>{{ current_opt_val }}</strong>
+                      <span class="product-option-stock-badge" data-option-stock-badge>
+                        {% unless current_variant.available %}
+                          <span class="stock-badge-soldout">(Sold Out)</span>
+                        {% else %}
+                          <span class="stock-badge-instock">(In Stock)</span>
+                        {% endunless %}
+                      </span>
+                    </label>
+                    {% if option.name contains 'Size' or option.name contains 'size' %}
+                      <a href="javascript:void(0);" class="product-size-guide-trigger" data-size-guide-open>Size Guide</a>
+                    {% endif %}
+                  </div>
                   <div class="product-option-values">
                     {% for value in option.values %}
+                      {% assign is_selected = false %}
+                      {% if current_opt_val == value %}
+                        {% assign is_selected = true %}
+                      {% endif %}
+                      {% assign val_available = false %}
+                      {% for v in product.variants %}
+                        {% if v.options[opt_idx] == value and v.available %}
+                          {% assign val_available = true %}
+                        {% endif %}
+                      {% endfor %}
                       <button 
                         type="button" 
-                        class="product-option-pill {% if option.selected_value == value %}is-selected{% endif %}"
+                        class="product-option-pill {% if is_selected %}is-selected{% endif %} {% unless val_available %}is-sold-out{% endunless %}"
                         data-option-pill
-                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-index="{{ opt_idx }}"
                         data-option-value="{{ value | escape }}"
                         data-option-name="{{ option.name | escape }}"
+                        {% unless val_available %}title="{{ value }} - Sold Out"{% endunless %}
                       >
                         {{ value }}
                       </button>
                     {% endfor %}
                   </div>
+                  <p class="product-sold-out-warning" data-sold-out-notice {% if current_variant.available %}style="display: none;"{% endif %}>
+                    This size is currently sold out. Please select an available size.
+                  </p>
                 </div>
               {% endfor %}
             </div>
           {% elsif product == blank %}
             <!-- Default Rings Size Selector Fallback only when previewing without product -->
             <div class="product-option-group">
-              <label class="product-option-label">
-                <span>Ring Size</span>: <strong id="selected-size-label">7</strong>
-              </label>
+              <div class="product-option-header-row">
+                <label class="product-option-label">
+                  <span>Ring Size</span>: <strong id="selected-size-label">7</strong>
+                  <span class="product-option-stock-badge"><span class="stock-badge-instock">(In Stock)</span></span>
+                </label>
+                <a href="javascript:void(0);" class="product-size-guide-trigger" data-size-guide-open>Size Guide</a>
+              </div>
               <div class="product-option-values">
                 <button type="button" class="product-option-pill" data-size="5">5</button>
                 <button type="button" class="product-option-pill" data-size="6">6</button>
@@ -464,6 +652,122 @@
           qtyInput.value = val;
         });
       }
+
+      // 2b. Variant Option Selection & Sold-Out Sync
+      var productJsonEl = root.querySelector('[data-product-json]');
+      var productData = null;
+      if (productJsonEl) {
+        try {
+          productData = JSON.parse(productJsonEl.textContent);
+        } catch(e) {}
+      }
+
+      var optionPills = root.querySelectorAll('[data-option-pill]');
+      var variantInput = root.querySelector('[data-selected-variant-id]');
+      var addBtn = root.querySelector('[data-add-to-cart-btn]');
+      var addBtnText = root.querySelector('[data-add-to-cart-text]');
+      var priceDisplay = root.querySelector('[data-product-price]');
+
+      function getSelectedOptionValues() {
+        var selected = [];
+        root.querySelectorAll('.product-option-group').forEach(function(grp) {
+          var active = grp.querySelector('[data-option-pill].is-selected');
+          if (active) {
+            selected.push(active.getAttribute('data-option-value') || active.textContent.trim());
+          }
+        });
+        return selected;
+      }
+
+      function updateVariantState(selectedValues) {
+        if (!productData || !productData.variants) return;
+        var matched = productData.variants.find(function(v) {
+          return v.options.every(function(optVal, idx) {
+            return selectedValues[idx] === undefined || String(optVal).trim() === String(selectedValues[idx]).trim();
+          });
+        });
+
+        var stockBadges = root.querySelectorAll('[data-option-stock-badge]');
+        var warningEl = root.querySelector('[data-sold-out-notice]');
+
+        if (matched) {
+          if (variantInput) variantInput.value = matched.id;
+          if (matched.available) {
+            if (addBtn) {
+              addBtn.disabled = false;
+              addBtn.classList.remove('is-disabled');
+            }
+            if (addBtnText) addBtnText.textContent = 'Add to Bag';
+            stockBadges.forEach(function(b) {
+              b.innerHTML = '<span class="stock-badge-instock">(In Stock)</span>';
+            });
+            if (warningEl) warningEl.style.display = 'none';
+          } else {
+            if (addBtn) {
+              addBtn.disabled = true;
+              addBtn.classList.add('is-disabled');
+            }
+            if (addBtnText) addBtnText.textContent = 'Sold Out';
+            stockBadges.forEach(function(b) {
+              b.innerHTML = '<span class="stock-badge-soldout">(Sold Out)</span>';
+            });
+            if (warningEl) {
+              warningEl.style.display = 'block';
+              warningEl.textContent = 'This size is currently sold out. Please select an available size.';
+            }
+          }
+        }
+      }
+
+      // Initial check on load: If currently selected is sold out but an available variant exists, auto-select it!
+      if (productData && productData.variants && productData.variants.length > 0) {
+        var initialSelected = getSelectedOptionValues();
+        var currentMatched = productData.variants.find(function(v) {
+          return v.options.every(function(optVal, idx) {
+            return initialSelected[idx] === undefined || String(optVal).trim() === String(initialSelected[idx]).trim();
+          });
+        });
+
+        if (!currentMatched || !currentMatched.available) {
+          var firstAvailable = productData.variants.find(function(v) { return v.available; });
+          if (firstAvailable && firstAvailable.options) {
+            firstAvailable.options.forEach(function(optVal, optIdx) {
+              var grp = root.querySelector('.product-option-group[data-option-index="' + optIdx + '"]');
+              if (grp) {
+                var pills = grp.querySelectorAll('[data-option-pill]');
+                pills.forEach(function(p) {
+                  var pVal = p.getAttribute('data-option-value') || p.textContent.trim();
+                  if (String(pVal).trim() === String(optVal).trim()) {
+                    pills.forEach(function(b) { b.classList.remove('is-selected'); });
+                    p.classList.add('is-selected');
+                    var lbl = grp.querySelector('[data-option-selected-val]');
+                    if (lbl) lbl.textContent = pVal;
+                  }
+                });
+              }
+            });
+          }
+        }
+        updateVariantState(getSelectedOptionValues());
+      }
+
+      optionPills.forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          var group = pill.closest('.product-option-group');
+          if (!group) return;
+          group.querySelectorAll('[data-option-pill]').forEach(function(p) {
+            p.classList.remove('is-selected');
+          });
+          pill.classList.add('is-selected');
+
+          var label = group.querySelector('[data-option-selected-val]');
+          var val = pill.getAttribute('data-option-value') || pill.textContent.trim();
+          if (label) label.textContent = val;
+
+          updateVariantState(getSelectedOptionValues());
+        });
+      });
 
       // 3. Accordions
       var accordionHeaders = root.querySelectorAll('.product-accordion-header');

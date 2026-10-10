@@ -2303,29 +2303,47 @@
           });
         });
 
-        // Sync initial variant from URL ?variant=ID if present
+        // Sync initial variant from URL ?variant=ID if present, or auto-select first available variant
         try {
           const urlParams = new URLSearchParams(window.location.search);
           const urlVariantId = urlParams.get('variant');
+          let targetVariant = null;
           if (urlVariantId) {
-            const foundVariant = this.productData.variants.find((v) => String(v.id) === String(urlVariantId));
-            if (foundVariant && foundVariant.options) {
-              foundVariant.options.forEach((optVal, optIdx) => {
-                const grp = productContainer.querySelector(`.product-option-group[data-option-index="${optIdx}"]`);
-                if (grp) {
-                  const pills = grp.querySelectorAll('[data-option-pill]');
-                  pills.forEach((p) => {
-                    const val = p.getAttribute('data-option-value') || p.textContent.trim();
-                    if (val === optVal) {
-                      pills.forEach((b) => b.classList.remove('is-selected'));
-                      p.classList.add('is-selected');
-                      const lbl = grp.querySelector('[data-option-selected-val]');
-                      if (lbl) lbl.textContent = val;
-                    }
-                  });
-                }
-              });
-              this.onVariantChange(foundVariant.options, productContainer);
+            targetVariant = this.productData.variants.find((v) => String(v.id) === String(urlVariantId));
+          }
+          if (!targetVariant || !targetVariant.available) {
+            const firstAvail = this.productData.variants.find((v) => v.available);
+            if (firstAvail) {
+              targetVariant = firstAvail;
+            }
+          }
+          if (targetVariant && targetVariant.options) {
+            targetVariant.options.forEach((optVal, optIdx) => {
+              const grp = productContainer.querySelector(`.product-option-group[data-option-index="${optIdx}"]`);
+              if (grp) {
+                const pills = grp.querySelectorAll('[data-option-pill]');
+                pills.forEach((p) => {
+                  const val = p.getAttribute('data-option-value') || p.textContent.trim();
+                  if (String(val).trim() === String(optVal).trim()) {
+                    pills.forEach((b) => b.classList.remove('is-selected'));
+                    p.classList.add('is-selected');
+                    const lbl = grp.querySelector('[data-option-selected-val]');
+                    if (lbl) lbl.textContent = val;
+                  }
+                });
+              }
+            });
+            this.onVariantChange(targetVariant.options, productContainer);
+          } else {
+            const selectedOptions = [];
+            productContainer.querySelectorAll('.product-option-group').forEach((grp) => {
+              const activePill = grp.querySelector('[data-option-pill].is-selected');
+              if (activePill) {
+                selectedOptions.push(activePill.getAttribute('data-option-value') || activePill.textContent.trim());
+              }
+            });
+            if (selectedOptions.length > 0) {
+              this.onVariantChange(selectedOptions, productContainer);
             }
           }
         } catch (e) {
@@ -2509,7 +2527,10 @@
           } catch (err) {
             console.error('Error adding product to bag:', err);
           } finally {
-            if (addBtn) addBtn.disabled = false;
+            if (addBtn) {
+              const isSoldOut = btnText && btnText.textContent === 'Sold Out';
+              addBtn.disabled = isSoldOut;
+            }
             if (btnText && btnText.textContent === 'Adding...') {
               btnText.textContent = originalText;
             }
@@ -2558,15 +2579,35 @@
           }
         }
 
+        const stockBadges = container.querySelectorAll('[data-option-stock-badge]');
+        const warningEl = container.querySelector('[data-sold-out-notice]');
+
         // 4. Update Availability & Add to Cart
         if (matchedVariant.available) {
-          if (addToCartBtn) addToCartBtn.disabled = false;
+          if (addToCartBtn) {
+            addToCartBtn.disabled = false;
+            addToCartBtn.classList.remove('is-disabled');
+          }
           if (addToCartText) addToCartText.textContent = 'Add to Bag';
           if (buyNowWrap) buyNowWrap.style.display = '';
+          stockBadges.forEach((b) => {
+            b.innerHTML = '<span class="stock-badge-instock">(In Stock)</span>';
+          });
+          if (warningEl) warningEl.style.display = 'none';
         } else {
-          if (addToCartBtn) addToCartBtn.disabled = true;
+          if (addToCartBtn) {
+            addToCartBtn.disabled = true;
+            addToCartBtn.classList.add('is-disabled');
+          }
           if (addToCartText) addToCartText.textContent = 'Sold Out';
           if (buyNowWrap) buyNowWrap.style.display = 'none';
+          stockBadges.forEach((b) => {
+            b.innerHTML = '<span class="stock-badge-soldout">(Sold Out)</span>';
+          });
+          if (warningEl) {
+            warningEl.style.display = 'block';
+            warningEl.textContent = 'This size is currently sold out. Please select an available size.';
+          }
         }
 
         // 5. Update Variant Image & Active Thumbnail
