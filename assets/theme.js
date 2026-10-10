@@ -2892,7 +2892,7 @@
       document.body.style.overflow = '';
     },
 
-    selectLocation(code) {
+    selectLocation(code, isUserClick = false) {
       if (!code) code = 'eu';
       const items = document.querySelectorAll('[data-location-item]');
       const item = document.querySelector(`[data-location-item][data-location-code="${code}"]`);
@@ -2937,6 +2937,31 @@
         const curr = currencyMap[code] || 'EUR';
         window.OGE_CURRENCY.setCurrency(curr);
       }
+
+      // Trigger storefront language translation across all website words
+      const langMap = {
+        fr: 'fr',
+        de: 'de',
+        ch: 'de',
+        dk: 'da',
+        nl: 'nl',
+        se: 'sv',
+        eu: 'en',
+        gb: 'en',
+        us: 'en',
+        ca: 'en',
+        au: 'en',
+        no: 'en',
+        row: 'en'
+      };
+      const targetLang = langMap[code.toLowerCase()] || 'en';
+      if (window.OGE_TRANSLATION) {
+        if (isUserClick) {
+          window.OGE_TRANSLATION.setLanguage(targetLang);
+        } else {
+          window.OGE_TRANSLATION.applyLanguage(targetLang);
+        }
+      }
     },
 
     bindModalEvents() {
@@ -2950,7 +2975,7 @@
       items.forEach((item) => {
         item.onclick = () => {
           const code = item.getAttribute('data-location-code') || 'eu';
-          this.selectLocation(code);
+          this.selectLocation(code, true);
           this.close();
         };
       });
@@ -2977,9 +3002,9 @@
       // Restore saved location if any
       try {
         const saved = localStorage.getItem('oge_selected_location') || 'eu';
-        this.selectLocation(saved);
+        this.selectLocation(saved, false);
       } catch (err) {
-        this.selectLocation('eu');
+        this.selectLocation('eu', false);
       }
     }
   };
