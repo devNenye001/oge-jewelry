@@ -82,20 +82,6 @@
   </div>
 </div>
 
-<script>
-  (function() {
-    document.querySelectorAll('[data-toggle-password]').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        var targetId = btn.getAttribute('data-toggle-password');
-        var input = document.getElementById(targetId);
-        if (input) {
-          input.type = input.type === 'password' ? 'text' : 'password';
-        }
-      });
-    });
-  })();
-</script>
 
 {% schema %}
 {

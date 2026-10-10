@@ -423,7 +423,8 @@
       var qtyPlus = root.querySelector('[data-quantity-plus]');
       var qtyInput = root.querySelector('[data-quantity-input]');
 
-      if (qtyMinus && qtyInput) {
+      if (qtyMinus && qtyInput && !qtyMinus.dataset.qtyBound) {
+        qtyMinus.dataset.qtyBound = 'true';
         qtyMinus.addEventListener('click', function(e) {
           e.preventDefault();
           var current = parseInt(qtyInput.value, 10) || 1;
@@ -434,7 +435,8 @@
         });
       }
 
-      if (qtyPlus && qtyInput) {
+      if (qtyPlus && qtyInput && !qtyPlus.dataset.qtyBound) {
+        qtyPlus.dataset.qtyBound = 'true';
         qtyPlus.addEventListener('click', function(e) {
           e.preventDefault();
           var current = parseInt(qtyInput.value, 10) || 1;

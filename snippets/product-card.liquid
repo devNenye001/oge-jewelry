@@ -24,7 +24,14 @@
 {% endif %}
 {% assign card_material = card_material | default: '18K Gold Vermeil' %}
 
-{% assign card_handle = handle | default: card_product.handle | default: card_title | handleize %}
+{% assign card_handle = blank %}
+{% if card_product != blank and card_product.handle != blank %}
+  {% assign card_handle = card_product.handle %}
+{% elsif handle != blank %}
+  {% assign card_handle = handle %}
+{% else %}
+  {% assign card_handle = card_title | handleize %}
+{% endif %}
 {% if card_product != blank and card_product.url != blank %}
   {% assign card_url = card_product.url %}
 {% else %}
@@ -88,15 +95,29 @@
 {% endif %}
 
 {% assign card_sold_out = is_out_of_stock %}
-{% if card_product != blank and card_product.available == false %}
-  {% assign card_sold_out = true %}
+{% assign first_available_var = card_product.selected_or_first_available_variant %}
+{% if first_available_var == blank or first_available_var.available == false %}
+  {% for var in card_product.variants %}
+    {% if var.available %}
+      {% assign first_available_var = var %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
 {% endif %}
-{% assign card_variant_id = card_product.selected_or_first_available_variant.id | default: card_product.variants.first.id | default: card_handle %}
 
-<div class="product-card{% if card_hover_img_src != blank %} has-hover-image{% endif %}" data-product-card data-product-handle="{{ card_handle }}">
+{% if card_product != blank %}
+  {% if card_product.available == false or first_available_var == blank %}
+    {% assign card_sold_out = true %}
+  {% endif %}
+{% endif %}
+{% assign card_variant_id = first_available_var.id | default: card_product.variants.first.id | default: card_handle %}
+
+<div class="product-card{% if card_hover_img_src != blank %} has-hover-image{% endif %}{% if card_sold_out %} is-sold-out{% endif %}" data-product-card data-product-handle="{{ card_handle }}">
   <div class="product-card__media">
-    <!-- 1. Top Badges (New / Sale) -->
-    {% if card_new %}
+    <!-- 1. Top Badges (Sold Out / New / Sale) -->
+    {% if card_sold_out %}
+      <span class="product-card__badge-soldout">Sold Out</span>
+    {% elsif card_new %}
       <span class="product-card__badge-new">New</span>
     {% elsif card_compare_price and card_compare_price > card_price %}
       <span class="product-card__badge-sale">Sale</span>
@@ -144,23 +165,35 @@
     </a>
 
     <!-- 4. Quick Add To Cart '+' Button (Bottom Center) -->
-    <button 
-      type="button" 
-      class="product-card__add-btn" 
-      data-quick-add 
-      data-product-id="{{ card_variant_id }}"
-      data-product-handle="{{ card_handle }}"
-      data-product-title="{{ card_title | escape }}" 
-      data-product-price="{{ card_price }}" 
-      data-product-img="{{ card_img_src }}" 
-      aria-label="Add {{ card_title | escape }} to Bag"
-      title="Quick Add to Bag"
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-    </button>
+    {% if card_sold_out %}
+      <button 
+        type="button" 
+        class="product-card__add-btn is-disabled" 
+        disabled 
+        aria-label="{{ card_title | escape }} is Sold Out"
+        title="Sold Out"
+      >
+        <span class="sold-out-dash">&minus;</span>
+      </button>
+    {% else %}
+      <button 
+        type="button" 
+        class="product-card__add-btn" 
+        data-quick-add 
+        data-product-id="{{ card_variant_id }}"
+        data-product-handle="{{ card_handle }}"
+        data-product-title="{{ card_title | escape }}" 
+        data-product-price="{{ card_price }}" 
+        data-product-img="{{ card_img_src }}" 
+        aria-label="Add {{ card_title | escape }} to Bag"
+        title="Quick Add to Bag"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    {% endif %}
   </div>
 
   <!-- 6. Product Details -->

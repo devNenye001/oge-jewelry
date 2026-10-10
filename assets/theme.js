@@ -593,6 +593,16 @@
     },
 
     async handleQuickAdd(btn) {
+      if (btn.disabled || btn.classList.contains('is-disabled') || btn.getAttribute('aria-disabled') === 'true') {
+        return;
+      }
+
+      if (btn.closest('.is-sold-out')) {
+        this.showError('This item is currently sold out.');
+        this.open();
+        return;
+      }
+
       let variantId = btn.getAttribute('data-product-id');
       const handle = btn.getAttribute('data-product-handle') ||
                      btn.closest('[data-product-card]')?.getAttribute('data-product-handle') ||
@@ -1353,10 +1363,7 @@
   const EYE_CLOSED_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
 
   function initPasswordToggles() {
-    document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
-      if (btn.dataset.pwdBound) return;
-      btn.dataset.pwdBound = 'true';
-
+    const bindBtn = (btn) => {
       const targetId = btn.getAttribute('data-toggle-password');
       const input = document.getElementById(targetId);
       if (input) {
@@ -1365,22 +1372,29 @@
         btn.setAttribute('aria-label', isVisible ? 'Hide password' : 'Show password');
         btn.setAttribute('title', isVisible ? 'Hide password' : 'Show password');
       }
+    };
 
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('[data-toggle-password]').forEach(bindBtn);
+
+    if (!document.__pwdToggleBound) {
+      document.__pwdToggleBound = true;
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-toggle-password]');
+        if (!btn) return;
         e.preventDefault();
         e.stopPropagation();
-        const curTargetId = btn.getAttribute('data-toggle-password');
-        const curInput = document.getElementById(curTargetId);
-        if (!curInput) return;
-        const isPassword = curInput.type === 'password';
-        curInput.type = isPassword ? 'text' : 'password';
+        const targetId = btn.getAttribute('data-toggle-password');
+        const input = document.getElementById(targetId);
+        if (!input) return;
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
         btn.innerHTML = isPassword ? EYE_OPEN_SVG : EYE_CLOSED_SVG;
         const newLabel = isPassword ? 'Hide password' : 'Show password';
         btn.setAttribute('aria-label', newLabel);
         btn.setAttribute('title', newLabel);
         btn.style.color = isPassword ? '#111111' : '#666666';
       });
-    });
+    }
   }
 
   /* ==========================================================================
@@ -2336,7 +2350,8 @@
       const qtyPlus = productContainer.querySelector('[data-quantity-plus]');
       const qtyInput = productContainer.querySelector('[data-quantity-input]');
 
-      if (qtyMinus && qtyInput) {
+      if (qtyMinus && qtyInput && !qtyMinus.dataset.qtyBound) {
+        qtyMinus.dataset.qtyBound = 'true';
         qtyMinus.addEventListener('click', (e) => {
           e.preventDefault();
           let currentVal = parseInt(qtyInput.value, 10) || 1;
@@ -2347,7 +2362,8 @@
         });
       }
 
-      if (qtyPlus && qtyInput) {
+      if (qtyPlus && qtyInput && !qtyPlus.dataset.qtyBound) {
+        qtyPlus.dataset.qtyBound = 'true';
         qtyPlus.addEventListener('click', (e) => {
           e.preventDefault();
           let currentVal = parseInt(qtyInput.value, 10) || 1;

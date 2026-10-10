@@ -7016,6 +7016,48 @@ body.template-customers-reset-password {
   box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
 }
 
+.product-card.is-sold-out .product-card__media img {
+  opacity: 0.82;
+}
+
+.product-card__badge-soldout {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  background-color: #111111;
+  color: #FFFFFF;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  line-height: 1;
+  border-radius: 1px;
+}
+
+.product-card__add-btn.is-disabled {
+  background: #F3F3F3 !important;
+  color: #AAAAAA !important;
+  border: 1px solid #E0E0E0 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.product-card__add-btn.is-disabled .sold-out-dash {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+/* Hide any dynamic more payment options link */
+.shopify-payment-button,
+.shopify-payment-button__more-options,
+.product-buy-now-wrap,
+[data-shopify="payment-button"] {
+  display: none !important;
+}
+
 .product-card__info {
   padding-top: 12px;
   display: flex;
@@ -9244,10 +9286,12 @@ p.wishlist-empty-desc {
 }
 
 .template-policy .shopify-policy__title,
+.template-policy .shopify-policy__title h1,
 .shopify-policy__title,
+.shopify-policy__title h1,
 .legal-page__title {
   font-family: 'Perandory', 'Cormorant Garamond', Georgia, serif !important;
-  font-size: 2.25rem !important;
+  font-size: 24px !important;
   font-weight: 600 !important;
   letter-spacing: 0.02em !important;
   text-transform: uppercase !important;
@@ -9256,6 +9300,16 @@ p.wishlist-empty-desc {
   padding-top: 0 !important;
   text-align: left !important;
   line-height: 1.2 !important;
+}
+
+@media (min-width: 769px) {
+  .template-policy .shopify-policy__title,
+  .template-policy .shopify-policy__title h1,
+  .shopify-policy__title,
+  .shopify-policy__title h1,
+  .legal-page__title {
+    font-size: 28px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -9268,14 +9322,20 @@ p.wishlist-empty-desc {
   }
 
   .template-policy .shopify-policy__title,
+  .template-policy .shopify-policy__title h1,
   .shopify-policy__title,
+  .shopify-policy__title h1,
   .legal-page__title {
-    font-size: 1.625rem !important;
+    font-size: 24px !important;
     margin-bottom: 18px !important;
   }
 }
 
-/* ALL Content Inside Legal Pages (Except .legal-page__title) is DM Sans ONLY */
+/* ALL Subheadings and Content Inside Policy & Legal Pages are DM Sans ONLY */
+.template-policy .shopify-policy__container *:not(.shopify-policy__title):not(.shopify-policy__title *):not(.legal-page__title),
+.shopify-policy__body,
+.shopify-policy__body *,
+.shopify-policy__container *:not(h1),
 .template-policy .legal-page-wrap *:not(.legal-page__title),
 .legal-page-wrap *:not(.legal-page__title),
 .legal-page-wrap h2,
@@ -9291,15 +9351,23 @@ p.wishlist-empty-desc {
 .legal-page__section h2,
 .legal-page__section h3,
 .legal-page__section h4,
+.shopify-policy__body h2,
+.shopify-policy__body h3,
+.shopify-policy__body h4,
 .template-policy .legal-page-wrap h2,
 .template-policy .legal-page-wrap h3,
-.template-policy .legal-page-wrap h4 {
+.template-policy .legal-page-wrap h4,
+.template-policy h2,
+.template-policy h3,
+.template-policy h4 {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
 .legal-page-wrap h2,
 .legal-page__body h2,
 .legal-page__section h2,
+.shopify-policy__body h2,
+.template-policy .shopify-policy__body h2,
 .template-policy .legal-page-wrap h2 {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 0.9375rem !important;
@@ -9314,11 +9382,14 @@ p.wishlist-empty-desc {
 .legal-page-wrap h3,
 .legal-page__body h3,
 .legal-page__section h3,
+.shopify-policy__body h3,
+.template-policy .shopify-policy__body h3,
 .template-policy .legal-page-wrap h3 {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 0.875rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
   color: #111111 !important;
   margin: 22px 0 8px !important;
   line-height: 1.4 !important;
@@ -9326,6 +9397,8 @@ p.wishlist-empty-desc {
 
 .legal-page-wrap h4,
 .legal-page__body h4,
+.shopify-policy__body h4,
+.template-policy .shopify-policy__body h4,
 .template-policy .legal-page-wrap h4 {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 0.84375rem !important;
