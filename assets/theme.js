@@ -2331,6 +2331,25 @@
         } catch (e) {
           // ignore
         }
+
+        // Sort numeric size pills in natural ascending order (e.g. 5, 6, 7, 8, 9, 10)
+        productContainer.querySelectorAll('.product-option-group').forEach((group) => {
+          const valuesWrap = group.querySelector('.product-option-values');
+          if (!valuesWrap) return;
+          const pills = Array.from(valuesWrap.querySelectorAll('[data-option-pill]'));
+          const allNumeric = pills.length > 1 && pills.every((p) => {
+            const val = p.getAttribute('data-option-value') || p.textContent.trim();
+            return !isNaN(parseFloat(val)) && isFinite(val);
+          });
+          if (allNumeric) {
+            pills.sort((a, b) => {
+              const valA = parseFloat(a.getAttribute('data-option-value') || a.textContent.trim());
+              const valB = parseFloat(b.getAttribute('data-option-value') || b.textContent.trim());
+              return valA - valB;
+            });
+            pills.forEach((p) => valuesWrap.appendChild(p));
+          }
+        });
       }
 
       // Fallback ring size pills for mockup preview
