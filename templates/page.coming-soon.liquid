@@ -1,0 +1,347 @@
+{% comment %}
+  OGÉ Fine Jewelry - Coming Soon Page Template
+  Used for upcoming collection drops such as The Alignment Collection.
+  Renders at /pages/coming-soon or /pages/alignment
+{% endcomment %}
+
+<style>
+  .coming-soon-hero {
+    position: relative;
+    width: 100%;
+    min-height: 480px;
+    height: 60vh;
+    max-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #111111;
+    overflow: hidden;
+  }
+  .coming-soon-hero__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.7);
+  }
+  .coming-soon-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17,17,17,0.4) 0%, rgba(17,17,17,0.7) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .coming-soon-hero__content {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #FFFFFF;
+  }
+  .coming-soon-hero__tag {
+    display: inline-block;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #F3C96B;
+    margin-bottom: 14px;
+  }
+  .coming-soon-hero__title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 2.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+    color: #FFFFFF;
+    line-height: 1.15;
+  }
+  .coming-soon-hero__badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+  }
+  .coming-soon-hero__desc {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0 auto;
+    max-width: 580px;
+  }
+  .coming-soon-section {
+    padding: 70px 20px 90px;
+    background-color: #FFFFFF;
+  }
+  .coming-soon-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .coming-soon-card {
+    background-color: #FAFAFA;
+    border: 1px solid #ECECEC;
+    border-radius: 2px;
+    padding: 48px 32px;
+    max-width: 560px;
+    margin: -60px auto 60px auto;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  }
+  .coming-soon-card__title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1.625rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #111111;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+  }
+  .coming-soon-card__desc {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #666666;
+    margin: 0 0 24px 0;
+  }
+  .coming-soon-form {
+    display: flex;
+    gap: 8px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .coming-soon-input {
+    flex: 1;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid #D5D5D5;
+    border-radius: 2px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    color: #111111;
+    background-color: #FFFFFF;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .coming-soon-input:focus {
+    border-color: #111111;
+  }
+  .coming-soon-btn {
+    height: 48px;
+    padding: 0 24px;
+    background-color: #111111;
+    color: #FFFFFF;
+    border: 1px solid #111111;
+    border-radius: 2px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .coming-soon-btn:hover {
+    background-color: #333333;
+  }
+  .coming-soon-success {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    color: #27AE60;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+  .coming-soon-explore-header {
+    margin-bottom: 36px;
+  }
+  .coming-soon-explore-title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #111111;
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+  }
+  .coming-soon-explore-desc {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    color: #777777;
+    margin: 0;
+  }
+  .coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .coming-soon-tile {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 2px;
+    text-decoration: none;
+    display: block;
+  }
+  .coming-soon-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .coming-soon-tile:hover img {
+    transform: scale(1.05);
+  }
+  .coming-soon-tile__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 18px;
+    text-align: left;
+    color: #FFFFFF;
+  }
+  .coming-soon-tile__title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0 0 4px 0;
+  }
+  .coming-soon-tile__cta {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  @media (max-width: 768px) {
+    .coming-soon-hero {
+      min-height: 400px;
+      height: 50vh;
+    }
+    .coming-soon-hero__title {
+      font-size: 2rem;
+    }
+    .coming-soon-grid {
+      grid-template-columns: 1fr;
+    }
+    .coming-soon-form {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<!-- Hero Section with Alignment Collection Image -->
+<section class="coming-soon-hero" aria-label="The Alignment Collection">
+  <img 
+    src="{{ 'alignment-collection.jpg' | asset_url }}" 
+    alt="The Alignment Collection" 
+    class="coming-soon-hero__img"
+    loading="eager"
+    width="1920"
+    height="640"
+  >
+  <div class="coming-soon-hero__overlay">
+    <div class="coming-soon-hero__content">
+      <span class="coming-soon-hero__tag">Exclusive Upcoming Release</span>
+      <h1 class="coming-soon-hero__title">The Alignment Collection</h1>
+      <span class="coming-soon-hero__badge">Coming Soon</span>
+      <p class="coming-soon-hero__desc">
+        An expression of balance in motion, the Alignment Collection pairs sculptural geometry with timeless solid gold and radiant natural gemstones. A modern statement of harmony and intention.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Notification & Early Access Section -->
+<section class="coming-soon-section">
+  <div class="coming-soon-container">
+    <div class="coming-soon-card">
+      <h2 class="coming-soon-card__title">Be The First To Know</h2>
+      <p class="coming-soon-card__desc">
+        Join our private VIP list for exclusive early access and private launch invitations when The Alignment Collection debuts.
+      </p>
+
+      {% form 'customer', class: 'coming-soon-form-wrap' %}
+        <input type="hidden" name="contact[tags]" value="alignment_coming_soon, newsletter">
+        {% if form.posted_successfully? %}
+          <p class="coming-soon-success">Thank you! You are now on the exclusive VIP early access list.</p>
+        {% else %}
+          <div class="coming-soon-form">
+            <input 
+              type="email" 
+              name="contact[email]" 
+              class="coming-soon-input" 
+              placeholder="Enter your email address" 
+              required 
+              aria-label="Email address for Alignment Collection notify"
+            >
+            <button type="submit" class="coming-soon-btn">Notify Me</button>
+          </div>
+        {% endif %}
+      {% endform %}
+    </div>
+
+    <!-- Explore Active Collections -->
+    <div class="coming-soon-explore-header">
+      <h2 class="coming-soon-explore-title">Discover Current Collections</h2>
+      <p class="coming-soon-explore-desc">While we prepare this release, explore our current handcrafted fine jewelry.</p>
+    </div>
+
+    <div class="coming-soon-grid">
+      <!-- Rebirth Collection -->
+      <a href="{{ collections['the-rebirth-collection'].url | default: collections['rebirth'].url | default: '/collections/the-rebirth-collection' }}" class="coming-soon-tile">
+        <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" loading="lazy" width="600" height="800">
+        <div class="coming-soon-tile__overlay">
+          <h3 class="coming-soon-tile__title">Rebirth Collection</h3>
+          <span class="coming-soon-tile__cta">Shop Now &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Victorious Collection -->
+      <a href="{{ collections['victorious-collection'].url | default: collections['victorious'].url | default: '/collections/victorious-collection' }}" class="coming-soon-tile">
+        <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" loading="lazy" width="600" height="800">
+        <div class="coming-soon-tile__overlay">
+          <h3 class="coming-soon-tile__title">Victorious Collection</h3>
+          <span class="coming-soon-tile__cta">Shop Now &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Self Romance Collection -->
+      <a href="{{ collections['the-self-romance-collection'].url | default: collections['self-romance'].url | default: '/collections/the-self-romance-collection' }}" class="coming-soon-tile">
+        <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="600" height="800">
+        <div class="coming-soon-tile__overlay">
+          <h3 class="coming-soon-tile__title">Self Romance Collection</h3>
+          <span class="coming-soon-tile__cta">Shop Now &rarr;</span>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <a href="/collections/all" class="btn btn-primary" style="padding: 14px 36px; display: inline-block;">Explore All Jewelry</a>
+    </div>
+  </div>
+</section>

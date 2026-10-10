@@ -4,33 +4,33 @@
 {% assign coll_3 = section.settings.collection_3 %}
 {% assign coll_4 = section.settings.collection_4 %}
 
-{% assign url_align = coll_align.url %}
-{% if url_align == blank or url_align == '' or url_align == '#' %}{% assign url_align = section.settings.link_alignment %}{% endif %}
-{% if url_align == blank or url_align == '' or url_align == '#' %}{% assign url_align = '/collections/all?collection=alignment' %}{% endif %}
+{% assign url_align = section.settings.link_alignment %}
+{% if url_align == blank or url_align == '' or url_align == '#' %}{% assign url_align = pages['coming-soon'].url %}{% endif %}
+{% if url_align == blank or url_align == '' or url_align == '#' %}{% assign url_align = '/pages/coming-soon' %}{% endif %}
 
 {% assign url_1 = coll_1.url %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = section.settings.link_1 %}{% endif %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = collections['the-rebirth-collection'].url %}{% endif %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = collections['rebirth'].url %}{% endif %}
-{% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = '/collections/all?collection=rebirth' %}{% endif %}
+{% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = '/collections/the-rebirth-collection' %}{% endif %}
 
 {% assign url_2 = coll_2.url %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = section.settings.link_2 %}{% endif %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = collections['boundaries-collection'].url %}{% endif %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = collections['boundaries'].url %}{% endif %}
-{% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = '/collections/all?collection=boundaries' %}{% endif %}
+{% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = '/collections/boundaries-collection' %}{% endif %}
 
 {% assign url_3 = coll_3.url %}
 {% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = section.settings.link_3 %}{% endif %}
 {% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = collections['victorious-collection'].url %}{% endif %}
 {% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = collections['victorious'].url %}{% endif %}
-{% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = '/collections/all?collection=victorious' %}{% endif %}
+{% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = '/collections/victorious-collection' %}{% endif %}
 
 {% assign url_4 = coll_4.url %}
 {% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = section.settings.link_4 %}{% endif %}
 {% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = collections['the-self-romance-collection'].url %}{% endif %}
 {% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = collections['self-romance'].url %}{% endif %}
-{% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = '/collections/all?collection=self-romance' %}{% endif %}
+{% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = '/collections/the-self-romance-collection' %}{% endif %}
 
 {% assign img_align = section.settings.image_alignment | default: coll_align.image | default: coll_align.featured_image %}
 {% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}
@@ -50,7 +50,7 @@
       </button>
 
       <div class="signature-scroll-container" data-signature-scroll>
-        <!-- Collection 1: Alignment (First Card) -->
+        <!-- Collection 1: Alignment (First Card -> Links to Coming Soon) -->
         <a href="{{ url_align }}" class="signature-card">
           {% if img_align != blank %}
             {{ img_align | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_alignment }}
@@ -59,7 +59,7 @@
           {% endif %}
           <div class="signature-card__overlay">
             <h3 class="signature-card__title">{{ section.settings.title_alignment | default: coll_align.title | default: 'ALIGNMENT COLLECTION' }}</h3>
-            <span class="signature-card__link">Shop Now</span>
+            <span class="signature-card__link">Coming Soon</span>
           </div>
         </a>
 

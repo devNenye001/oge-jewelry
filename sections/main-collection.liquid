@@ -18,18 +18,14 @@
   {% assign show_banner = true %}
 {% endif %}
 
-{% assign banner_img = section.settings.banner_image | default: collection.image %}
-{% assign banner_title = section.settings.banner_title %}
-{% if banner_title == blank %}
-  {% if is_shop_all %}
-    {% assign banner_title = 'SHOP ALL JEWELRIES' %}
-  {% else %}
-    {% assign banner_title = collection.title | default: 'THE SELF WOMAN COLLECTION' %}
-  {% endif %}
-{% endif %}
-
-{% assign banner_desc = section.settings.banner_desc %}
-{% if banner_desc == blank %}
+{% if is_shop_all %}
+  {% assign banner_img = section.settings.banner_image | default: collection.image %}
+  {% assign banner_title = section.settings.banner_title | default: 'SHOP ALL JEWELRIES' %}
+  {% if banner_title == blank %}{% assign banner_title = 'SHOP ALL JEWELRIES' %}{% endif %}
+  {% assign banner_desc = section.settings.banner_desc | default: 'Handcrafted fine jewelry sculpted in 18k solid gold and ethically sourced gemstones.' %}
+{% else %}
+  {% assign banner_img = collection.image %}
+  {% assign banner_title = collection.title | default: 'COLLECTION' %}
   {% assign banner_desc = collection.description %}
 {% endif %}
 
@@ -130,9 +126,9 @@
           'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
         };
         if (queryColl && collData[queryColl]) {
-          const titleEl = document.querySelector('.collection-hero__title');
+          const titleEl = document.querySelector('.collection-hero-banner__title') || document.querySelector('.category-page-title');
           if (titleEl) titleEl.textContent = collData[queryColl].title;
-          const imgEl = document.querySelector('.collection-hero__image');
+          const imgEl = document.querySelector('.collection-hero-banner__img');
           if (imgEl) imgEl.src = collData[queryColl].img;
           document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
         }

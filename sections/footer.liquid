@@ -18,37 +18,37 @@
           {% else %}
             {% assign new_in_url = collections['new-arrival'].url %}
             {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = collections['new-in'].url %}{% endif %}
-            {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = '/collections/all?view=category&type=new' %}{% endif %}
+            {% if new_in_url == blank or new_in_url == '' or new_in_url == '#' %}{% assign new_in_url = '/collections/new-in' %}{% endif %}
             <a href="{{ new_in_url }}" class="footer-col__link">New Arrivals</a>
 
-            {% assign best_url = collections['bestseller'].url %}
-            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/collections/all?view=shop' %}{% endif %}
+            {% assign best_url = collections['all'].url %}
+            {% if best_url == blank or best_url == '' or best_url == '#' %}{% assign best_url = '/collections/all' %}{% endif %}
             <a href="{{ best_url }}" class="footer-col__link">Shop All Jewelries</a>
-            <a href="/collections/all?view=shop" class="footer-col__link">All Collections</a>
+            <a href="/collections" class="footer-col__link">All Collections</a>
 
             {% assign vic_url = collections['victorious-collection'].url %}
             {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = collections['victorious'].url %}{% endif %}
-            {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = '/collections/all?collection=victorious' %}{% endif %}
+            {% if vic_url == blank or vic_url == '' or vic_url == '#' %}{% assign vic_url = '/collections/victorious-collection' %}{% endif %}
             <a href="{{ vic_url }}" class="footer-col__link">Victorious Collection</a>
 
             {% assign self_url = collections['the-self-romance-collection'].url %}
             {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = collections['self-romance'].url %}{% endif %}
             {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = collections['self-woman'].url %}{% endif %}
-            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = '/collections/all?collection=self-romance' %}{% endif %}
+            {% if self_url == blank or self_url == '' or self_url == '#' %}{% assign self_url = '/collections/the-self-romance-collection' %}{% endif %}
             <a href="{{ self_url }}" class="footer-col__link">Self Romance Collection</a>
 
             {% assign bound_url = collections['boundaries-collection'].url %}
             {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = collections['boundaries'].url %}{% endif %}
-            {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = '/collections/all?collection=boundaries' %}{% endif %}
+            {% if bound_url == blank or bound_url == '' or bound_url == '#' %}{% assign bound_url = '/collections/boundaries-collection' %}{% endif %}
             <a href="{{ bound_url }}" class="footer-col__link">Boundaries Collection</a>
 
             {% assign reb_url = collections['the-rebirth-collection'].url %}
             {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = collections['rebirth'].url %}{% endif %}
-            {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = '/collections/all?collection=rebirth' %}{% endif %}
+            {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = '/collections/the-rebirth-collection' %}{% endif %}
             <a href="{{ reb_url }}" class="footer-col__link">Rebirth Collection</a>
 
             {% assign bundle_url = pages['bundle-deals'].url %}
-            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = '/collections/all?view=bundle-deals' %}{% endif %}
+            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = '/pages/bundle-deals' %}{% endif %}
             <a href="{{ bundle_url }}" class="footer-col__link">Bundle Deals</a>
           {% endif %}
         </nav>

@@ -40,15 +40,15 @@
         "collection_1": "",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
-        "link_1": "",
+        "link_1": "/collections/necklaces",
         "collection_2": "",
         "title_2": "RINGS",
         "cta_2": "Shop now",
-        "link_2": "",
+        "link_2": "/collections/rings",
         "collection_3": "",
         "title_3": "EARRING",
         "cta_3": "Shop now",
-        "link_3": ""
+        "link_3": "/collections/earrings"
       }
     },
     "signature_collections": {
@@ -57,19 +57,19 @@
         "heading": "FIND YOUR SIGNATURE",
         "collection_alignment": "",
         "title_alignment": "ALIGNMENT COLLECTION",
-        "link_alignment": "",
+        "link_alignment": "/pages/coming-soon",
         "collection_1": "",
         "title_1": "REBIRTH COLLECTION",
-        "link_1": "",
+        "link_1": "/collections/the-rebirth-collection",
         "collection_2": "",
         "title_2": "BOUNDARIES COLLECTION",
-        "link_2": "",
+        "link_2": "/collections/boundaries-collection",
         "collection_3": "",
         "title_3": "VICTORIOUS COLLECTION",
-        "link_3": "",
+        "link_3": "/collections/victorious-collection",
         "collection_4": "",
         "title_4": "SELF ROMANCE COLLECTION",
-        "link_4": ""
+        "link_4": "/collections/the-self-romance-collection"
       }
     },
     "pieces_worth_keeping": {
