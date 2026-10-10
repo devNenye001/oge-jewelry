@@ -13,37 +13,58 @@
   {% assign is_shop_all = true %}
 {% endif %}
 
-{% if is_shop_all %}
-  <!-- Category Design Header for Shop All Jewelries / All Collections -->
-  <header class="category-page-header">
-    <h1 class="category-page-title" id="category-page-heading">SHOP ALL JEWELRIES</h1>
-  </header>
-  <hr class="category-divider-line">
-{% else %}
-  <!-- Collection Hero Banner for Signature Collections -->
-  <section class="collection-hero" id="collection-hero-banner">
-    {% if collection.image %}
-      <img src="{{ collection.image | image_url: width: 1920 }}" alt="{{ collection.title | escape }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+{% assign show_banner = section.settings.show_banner %}
+{% if show_banner == nil %}
+  {% assign show_banner = true %}
+{% endif %}
+
+{% assign banner_img = section.settings.banner_image | default: collection.image %}
+{% assign banner_title = section.settings.banner_title %}
+{% if banner_title == blank %}
+  {% if is_shop_all %}
+    {% assign banner_title = 'SHOP ALL JEWELRIES' %}
+  {% else %}
+    {% assign banner_title = collection.title | default: 'THE SELF WOMAN COLLECTION' %}
+  {% endif %}
+{% endif %}
+
+{% assign banner_desc = section.settings.banner_desc %}
+{% if banner_desc == blank %}
+  {% assign banner_desc = collection.description %}
+{% endif %}
+
+{% if show_banner %}
+  <!-- Collection Hero Banner (Fully Editable in Shopify Theme Customizer) -->
+  <section class="collection-hero-banner" id="collection-hero-banner" {{ section.shopify_attributes }}>
+    {% if banner_img != blank %}
+      {{ banner_img | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
     {% elsif collection.handle contains 'bound' %}
-      <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+      <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
     {% elsif collection.handle contains 'victor' %}
-      <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+      <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
     {% elsif collection.handle contains 'align' %}
-      <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+      <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
     {% elsif collection.handle contains 'rebirth' %}
-      <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero__image" loading="eager" width="1920" height="400">
+      <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+    {% elsif collection.handle contains 'romance' or collection.handle contains 'self' %}
+      <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="The Self Romance Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
     {% else %}
-      <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="{{ collection.title | default: 'The Self Woman Collection' }}" class="collection-hero__image" loading="eager" width="1920" height="400">
+      <img src="{{ 'hero.jpg' | asset_url }}" alt="{{ banner_title }}" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
     {% endif %}
-    <div class="collection-hero__overlay"></div>
-    <div class="collection-hero__content">
-      <h1 class="collection-hero__title">{{ collection.title | default: 'THE SELF WOMAN COLLECTION' }}</h1>
-      {% if collection.description != blank %}
-        <p class="collection-hero__desc">{{ collection.description }}</p>
-      {% endif %}
+    <div class="collection-hero-banner__overlay">
+      <div class="collection-hero__content">
+        <h1 class="collection-hero-banner__title">{{ banner_title }}</h1>
+        {% if banner_desc != blank %}
+          <p class="collection-hero-banner__desc">{{ banner_desc }}</p>
+        {% endif %}
+      </div>
     </div>
   </section>
-
+{% else %}
+  <header class="category-page-header">
+    <h1 class="category-page-title" id="category-page-heading">{{ banner_title }}</h1>
+  </header>
+  <hr class="category-divider-line">
 {% endif %}
 
 <!-- Product Catalog -->
@@ -269,8 +290,41 @@
 
 {% schema %}
 {
-  "name": "Collection Grid",
+  "name": "Collection Grid & Banner",
   "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show Hero Banner",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Custom Banner Image",
+      "info": "Upload an image to override or use for All Products / Shop All"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner Title",
+      "info": "Leave blank to use Collection Title or 'SHOP ALL JEWELRIES'",
+      "default": "SHOP ALL JEWELRIES"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_desc",
+      "label": "Banner Subtitle / Description",
+      "default": "Handcrafted fine jewelry sculpted in 18k solid gold and ethically sourced gemstones."
+    },
+    {
+      "type": "header",
+      "content": "Catalog Grid Settings"
+    },
     {
       "type": "range",
       "id": "products_per_page",

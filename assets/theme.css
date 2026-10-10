@@ -906,6 +906,59 @@ body:not(.template-index) .site-header .site-logo__image--black {
   }
 }
 
+.hero-banner__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 20px;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.hero-banner__content {
+  max-width: 780px;
+  color: #FFFFFF;
+}
+
+.hero-banner__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #E2D1A6;
+  margin: 0 0 12px;
+}
+
+.hero-banner__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 16px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.hero-banner__text {
+  font-family: var(--font-body);
+  font-size: clamp(0.9375rem, 1.4vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 auto 28px;
+  max-width: 600px;
+}
+
+.hero-banner__actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* --------------------------------------------------------------------------
    5. SECTION HEADERS & CAROUSEL NAVIGATION
    -------------------------------------------------------------------------- */
@@ -6956,6 +7009,17 @@ body.template-customers-reset-password {
     font-size: 1.75rem;
     letter-spacing: 0.1em;
   }
+}
+
+.collection-hero-banner__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.875rem, 1.2vw, 1.0625rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 640px;
+  margin: 12px auto 0;
+  line-height: 1.6;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 /* Sub-category Filter Tabs directly below Banner (Matching Image 3: All, Necklaces, Bracelets, Rings) */

@@ -1,5 +1,5 @@
 <section class="hero-banner" id="hero" {{ section.shopify_attributes }}>
-  <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
+  {% if section.settings.title != blank or section.settings.eyebrow != blank or section.settings.text != blank or section.settings.btn_1_text != blank %}
     <div class="hero-banner__image-wrap">
       {% if section.settings.image != blank %}
         {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
@@ -13,8 +13,52 @@
           height="1200"
         >
       {% endif %}
+      <div class="hero-banner__overlay">
+        <div class="hero-banner__content">
+          {% if section.settings.eyebrow != blank %}
+            <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+          {% endif %}
+          {% if section.settings.title != blank %}
+            <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
+          {% endif %}
+          {% if section.settings.text != blank %}
+            <p class="hero-banner__text">{{ section.settings.text }}</p>
+          {% endif %}
+          {% if section.settings.btn_1_text != blank or section.settings.btn_2_text != blank %}
+            <div class="hero-banner__actions">
+              {% if section.settings.btn_1_text != blank %}
+                <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="btn btn-primary hero-banner__btn">
+                  {{ section.settings.btn_1_text }}
+                </a>
+              {% endif %}
+              {% if section.settings.btn_2_text != blank %}
+                <a href="{{ section.settings.btn_2_url | default: '/pages/about' }}" class="btn btn-outline hero-banner__btn">
+                  {{ section.settings.btn_2_text }}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
     </div>
-  </a>
+  {% else %}
+    <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
+      <div class="hero-banner__image-wrap">
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
+        {% else %}
+          <img 
+            src="{{ 'hero.jpg' | asset_url }}" 
+            alt="{{ section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}" 
+            class="hero-banner__image" 
+            loading="eager"
+            width="2000"
+            height="1200"
+          >
+        {% endif %}
+      </div>
+    </a>
+  {% endif %}
 </section>
 
 {% schema %}
@@ -22,15 +66,63 @@
   "name": "Hero Banner",
   "settings": [
     {
+      "type": "header",
+      "content": "Hero Image"
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero Image"
+      "label": "Hero Image",
+      "info": "Upload an image to replace the homepage hero banner"
     },
     {
       "type": "url",
       "id": "btn_1_url",
-      "label": "Hero Link URL",
+      "label": "Hero Banner Link URL",
       "default": "/collections/new-arrival"
+    },
+    {
+      "type": "header",
+      "content": "Overlay Text (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "THE NEW COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading Title",
+      "default": "Timeless Elegance, Handcrafted in Solid Gold"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description / Subtitle",
+      "default": "Discover fine jewelry pieces designed to empower and endure for generations."
+    },
+    {
+      "type": "header",
+      "content": "Buttons (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "btn_1_text",
+      "label": "Primary Button Text",
+      "default": "Shop New In"
+    },
+    {
+      "type": "text",
+      "id": "btn_2_text",
+      "label": "Secondary Button Text",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "btn_2_url",
+      "label": "Secondary Button URL"
     }
   ],
   "presets": [

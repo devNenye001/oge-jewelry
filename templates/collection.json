@@ -3,7 +3,10 @@
     "main": {
       "type": "main-collection",
       "settings": {
-        "products_per_page": 16
+        "show_banner": true,
+        "banner_title": "SHOP ALL JEWELRIES",
+        "banner_desc": "Handcrafted fine jewelry sculpted in 18k solid gold and ethically sourced gemstones.",
+        "products_per_page": 24
       }
     }
   },
