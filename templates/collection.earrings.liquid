@@ -1,5 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Earrings Collection View Template
+  OGÉ Fine Jewelry - Earrings Collection View Template (Exact Category Page Design)
+  Renders at /collections/earrings or /collections/all?view=earrings
 {% endcomment %}
 
 <header class="category-page-header">
@@ -10,14 +11,33 @@
 <main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
     {% assign count = 0 %}
-    {% for product in collections.all.products %}
-      {% assign p_title = product.title | downcase %}
-      {% assign p_type = product.type | downcase %}
-      {% if p_title contains 'earring' or p_title contains 'hoop' or p_title contains 'stud' or p_type contains 'earring' or product.tags contains 'earring' or product.tags contains 'earrings' or collection.handle == 'earrings' %}
+    {% if collection.products.size > 0 %}
+      {% for product in collection.products %}
         {% render 'product-card', product: product %}
         {% assign count = count | plus: 1 %}
+      {% endfor %}
+    {% endif %}
+
+    {% if count == 0 %}
+      {% assign target_coll = collections['earrings'] %}
+      {% if target_coll and target_coll.products.size > 0 %}
+        {% for product in target_coll.products %}
+          {% render 'product-card', product: product %}
+          {% assign count = count | plus: 1 %}
+        {% endfor %}
       {% endif %}
-    {% endfor %}
+    {% endif %}
+
+    {% if count == 0 %}
+      {% for product in collections.all.products %}
+        {% assign p_title = product.title | downcase %}
+        {% assign p_type = product.type | downcase %}
+        {% if p_title contains 'earring' or p_title contains 'hoop' or p_title contains 'stud' or p_type contains 'earring' or product.tags contains 'earring' or product.tags contains 'earrings' or collection.handle == 'earrings' %}
+          {% render 'product-card', product: product %}
+          {% assign count = count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
 
     {% if count == 0 %}
       {% for product in collections.all.products limit: 12 %}

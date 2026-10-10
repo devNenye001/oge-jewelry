@@ -114,7 +114,7 @@
 
     openSubmenu(submenuId, title) {
       if (!this.panelsContainer) return;
-      
+
       // Update submenu header title if available
       const titleEl = this.drawer.querySelector('[data-submenu-title-display]');
       if (titleEl && title) {
@@ -157,7 +157,7 @@
         ) {
           return true;
         }
-      } catch (e) {}
+      } catch (e) { }
       return false;
     },
 
@@ -167,7 +167,7 @@
         localStorage.setItem('oge_sales_popup_dismissed_v2', 'true');
         sessionStorage.setItem('oge_sales_popup_seen', 'true');
         document.cookie = 'oge_sales_popup_seen=true; max-age=2592000; path=/; SameSite=Lax';
-      } catch (e) {}
+      } catch (e) { }
     },
 
     init() {
@@ -605,9 +605,9 @@
 
       let variantId = btn.getAttribute('data-product-id');
       const handle = btn.getAttribute('data-product-handle') ||
-                     btn.closest('[data-product-card]')?.getAttribute('data-product-handle') ||
-                     btn.closest('[data-wishlist-item]')?.getAttribute('data-wishlist-item') ||
-                     btn.closest('[data-product-handle]')?.getAttribute('data-product-handle');
+        btn.closest('[data-product-card]')?.getAttribute('data-product-handle') ||
+        btn.closest('[data-wishlist-item]')?.getAttribute('data-wishlist-item') ||
+        btn.closest('[data-product-handle]')?.getAttribute('data-product-handle');
 
       // Handle quick add click
 
@@ -772,21 +772,21 @@
       let itemData = null;
       if (btn) {
         const card = btn.closest('.product-card, .wishlist-card, .account-product-card, [data-product-card], [data-product-page]');
-        const title = btn.getAttribute('data-product-title') || 
-                      card?.querySelector('.product-card__title a, .product-info__title, .wishlist-card__title a')?.textContent?.trim() || 
-                      handle.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-        const price = btn.getAttribute('data-product-price') || 
-                      card?.querySelector('.product-card__current-price, .product-info__price, .wishlist-card__price')?.textContent?.trim() || 
-                      '';
-        const img = btn.getAttribute('data-product-img') || 
-                    card?.querySelector('.product-card__img-primary, .product-main-image, .wishlist-card__image')?.getAttribute('src') || 
-                    '';
-        const url = btn.getAttribute('data-product-url') || 
-                    card?.querySelector('a[href*="/products/"]')?.getAttribute('href') || 
-                    `/products/${handle}`;
-        const material = btn.getAttribute('data-product-material') || 
-                         card?.querySelector('.product-card__material, .product-info__metal, .wishlist-card__variant')?.textContent?.trim() || 
-                         '18K Gold Vermeil';
+        const title = btn.getAttribute('data-product-title') ||
+          card?.querySelector('.product-card__title a, .product-info__title, .wishlist-card__title a')?.textContent?.trim() ||
+          handle.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+        const price = btn.getAttribute('data-product-price') ||
+          card?.querySelector('.product-card__current-price, .product-info__price, .wishlist-card__price')?.textContent?.trim() ||
+          '';
+        const img = btn.getAttribute('data-product-img') ||
+          card?.querySelector('.product-card__img-primary, .product-main-image, .wishlist-card__image')?.getAttribute('src') ||
+          '';
+        const url = btn.getAttribute('data-product-url') ||
+          card?.querySelector('a[href*="/products/"]')?.getAttribute('href') ||
+          `/products/${handle}`;
+        const material = btn.getAttribute('data-product-material') ||
+          card?.querySelector('.product-card__material, .product-info__metal, .wishlist-card__variant')?.textContent?.trim() ||
+          '18K Gold Vermeil';
         itemData = { handle, title, price, img, url, material };
       }
 
@@ -815,8 +815,8 @@
       this.updateBadges();
       this.updateButtons();
 
-      window.dispatchEvent(new CustomEvent('oge:wishlist:updated', { 
-        detail: { wishlist: AppState.wishlist, items: storedItems } 
+      window.dispatchEvent(new CustomEvent('oge:wishlist:updated', {
+        detail: { wishlist: AppState.wishlist, items: storedItems }
       }));
     },
 
@@ -1010,7 +1010,7 @@
         if (playPromise !== undefined) {
           playPromise.catch(() => {
             const playOnInteract = () => {
-              v.play().catch(() => {});
+              v.play().catch(() => { });
               document.removeEventListener('click', playOnInteract);
               document.removeEventListener('scroll', playOnInteract);
               document.removeEventListener('touchstart', playOnInteract);
@@ -1052,7 +1052,7 @@
             modalVideo.src = videoSrc;
             modal.classList.add('is-active');
             modalBackdrop.classList.add('is-active');
-            modalVideo.play().catch(() => {});
+            modalVideo.play().catch(() => { });
           }
         });
       });
@@ -2250,13 +2250,13 @@
       // 1. Gallery Thumbnail Switching
       const thumbBtns = productContainer.querySelectorAll('[data-product-thumbs] .product-thumb-item');
       const mainImage = productContainer.querySelector('[data-product-main-image]');
-      
+
       if (thumbBtns.length > 0 && mainImage) {
         thumbBtns.forEach((btn) => {
           btn.addEventListener('click', () => {
             thumbBtns.forEach((b) => b.classList.remove('is-active'));
             btn.classList.add('is-active');
-            
+
             const newSrc = btn.getAttribute('data-thumb-src');
             if (newSrc) {
               mainImage.style.opacity = '0.4';
@@ -2944,7 +2944,7 @@
 
       try {
         localStorage.setItem('oge_selected_location', code);
-      } catch (err) {}
+      } catch (err) { }
 
       // Trigger currency update if OGE_CURRENCY helper exists
       if (window.OGE_CURRENCY && typeof window.OGE_CURRENCY.setCurrency === 'function') {

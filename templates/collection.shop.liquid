@@ -1,5 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Shop All Jewelry Collection View Template
+  OGÉ Fine Jewelry - Shop All Jewelry Collection View Template (Exact Category Page Design)
+  Renders at /collections/shop, /collections/all, /collections/jewelries
 {% endcomment %}
 
 <header class="category-page-header">
@@ -9,12 +10,13 @@
 
 <main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
-    {% assign all_prods = collections.all.products | default: collection.products %}
-    {% if all_prods.size > 0 %}
-      {% for product in all_prods %}
-        {% render 'product-card', product: product %}
-      {% endfor %}
+    {% assign all_prods = collection.products | default: collections.all.products %}
+    {% if all_prods.size == 0 %}
+      {% assign all_prods = collections.all.products %}
     {% endif %}
+    {% for product in all_prods %}
+      {% render 'product-card', product: product %}
+    {% endfor %}
   </div>
 </main>
 <hr class="category-divider-line">

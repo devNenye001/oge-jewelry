@@ -1,5 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Fine Jewelry Page Template
+  OGÉ Fine Jewelry - Fine Jewelry Page Template (Exact Category Page Design)
+  Renders at /pages/fine-jewelry
 {% endcomment %}
 
 <header class="category-page-header">
@@ -9,9 +10,27 @@
 
 <main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
-    {% assign all_prods = collections['fine-jewelry'].products | default: collections.all.products %}
-    {% if all_prods.size > 0 %}
-      {% for product in all_prods %}
+    {% assign count = 0 %}
+    {% assign target_coll = collections['fine-jewelry'] | default: collections['fine'] %}
+    {% if target_coll and target_coll.products.size > 0 %}
+      {% for product in target_coll.products %}
+        {% render 'product-card', product: product %}
+        {% assign count = count | plus: 1 %}
+      {% endfor %}
+    {% endif %}
+
+    {% if count == 0 %}
+      {% for product in collections.all.products %}
+        {% assign p_title = product.title | downcase %}
+        {% if p_title contains '18k' or p_title contains 'gold' or p_title contains 'diamond' or p_title contains 'vermeil' or product.tags contains 'fine-jewelry' %}
+          {% render 'product-card', product: product %}
+          {% assign count = count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if count == 0 %}
+      {% for product in collections.all.products limit: 12 %}
         {% render 'product-card', product: product %}
       {% endfor %}
     {% endif %}

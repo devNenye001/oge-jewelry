@@ -1,5 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Bracelets Template
+  OGÉ Fine Jewelry - Bracelets Page Template (Exact Category Page Design)
+  Renders at /pages/bracelets
 {% endcomment %}
 
 <header class="category-page-header">
@@ -10,14 +11,24 @@
 <main class="collection-catalog-wrap" id="MainContent">
   <div class="collection-products-grid grid--4-col" id="category-grid">
     {% assign count = 0 %}
-    {% for product in collections.all.products %}
-      {% assign p_title = product.title | downcase %}
-      {% assign p_type = product.type | downcase %}
-      {% if p_title contains 'bracelet' or p_title contains 'bangle' or p_title contains 'cuff' or p_type contains 'bracelet' or product.tags contains 'bracelet' or product.tags contains 'bracelets' or collection.handle == 'bracelets' %}
+    {% assign target_coll = collections['bracelets'] %}
+    {% if target_coll and target_coll.products.size > 0 %}
+      {% for product in target_coll.products %}
         {% render 'product-card', product: product %}
         {% assign count = count | plus: 1 %}
-      {% endif %}
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
+
+    {% if count == 0 %}
+      {% for product in collections.all.products %}
+        {% assign p_title = product.title | downcase %}
+        {% assign p_type = product.type | downcase %}
+        {% if p_title contains 'bracelet' or p_title contains 'bangle' or p_title contains 'cuff' or p_type contains 'bracelet' or product.tags contains 'bracelet' or product.tags contains 'bracelets' %}
+          {% render 'product-card', product: product %}
+          {% assign count = count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
 
     {% if count == 0 %}
       {% for product in collections.all.products limit: 12 %}
