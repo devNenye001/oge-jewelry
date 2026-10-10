@@ -124,7 +124,9 @@
         "video_3": "shopify://files/videos/oge-collection-reencoded.mp4",
         "video_url_3": "",
         "btn_text": "Follow us on Instagram",
-        "btn_url": "https://instagram.com"
+        "btn_url": "https://instagram.com",
+        "large_video": "shopify://files/videos/FILM.mp4",
+        "large_video_url": ""
       }
     },
     "journal_blog": {
