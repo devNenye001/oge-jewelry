@@ -76,7 +76,7 @@
       <div class="account-product-grid" id="orders-rec-grid">
         {% assign rec_col = collections['all'] %}
         {% if rec_col != blank and rec_col.products.size > 0 %}
-          {% for rec_product in rec_col.products limit: 4 %}
+          {% for rec_product in rec_col.products limit: 8 %}
             {% render 'product-card', product: rec_product %}
           {% endfor %}
         {% endif %}

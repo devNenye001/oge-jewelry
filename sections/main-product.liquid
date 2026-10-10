@@ -351,7 +351,7 @@
   </div>
 
   <!-- YOU MAY ALSO LIKE SECTION -->
-  <section class="related-products-section" aria-label="You May Also Like" data-product-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4">
+  <section class="related-products-section" aria-label="You May Also Like" data-product-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8">
     <div class="page-container">
       <div class="related-products__header">
         <h2 class="related-products__title">{{ section.settings.related_heading | default: 'YOU MAY ALSO LIKE' }}</h2>
@@ -373,15 +373,23 @@
         {% assign related_collection = section.settings.related_collection | default: collection | default: product.collections.first | default: collections.all %}
         {% assign shown_count = 0 %}
         {% if related_collection != blank and related_collection.products_count > 0 %}
-          {% for rel_prod in related_collection.products limit: 12 %}
-            {% if rel_prod.id != product.id and shown_count < 4 %}
+          {% for rel_prod in related_collection.products limit: 20 %}
+            {% if rel_prod.id != product.id and shown_count < 10 %}
               {% render 'product-card', product: rel_prod %}
               {% assign shown_count = shown_count | plus: 1 %}
             {% endif %}
           {% endfor %}
         {% endif %}
+        {% if shown_count == 0 %}
+          {% for rel_prod in collections.all.products limit: 10 %}
+            {% if rel_prod.id != product.id %}
+              {% render 'product-card', product: rel_prod %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
+  </section>
 </main>
 
 <script>
@@ -489,13 +497,28 @@
       var relNext = root.querySelector('[data-related-next]');
 
       if (relatedTrack && relPrev && relNext) {
+        function getScrollStep() {
+          var card = relatedTrack.querySelector('.product-card');
+          if (card) {
+            var style = window.getComputedStyle(relatedTrack);
+            var gap = parseFloat(style.gap) || 16;
+            return card.offsetWidth + gap;
+          }
+          return 260;
+        }
+
         relPrev.addEventListener('click', function(e) {
           e.preventDefault();
-          relatedTrack.scrollBy({ left: -300, behavior: 'smooth' });
+          var step = getScrollStep();
+          var mult = window.innerWidth > 900 ? 2 : 1;
+          relatedTrack.scrollBy({ left: -(step * mult), behavior: 'smooth' });
         });
+
         relNext.addEventListener('click', function(e) {
           e.preventDefault();
-          relatedTrack.scrollBy({ left: 300, behavior: 'smooth' });
+          var step = getScrollStep();
+          var mult = window.innerWidth > 900 ? 2 : 1;
+          relatedTrack.scrollBy({ left: (step * mult), behavior: 'smooth' });
         });
       }
     }

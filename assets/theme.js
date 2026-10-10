@@ -2434,15 +2434,33 @@
       const nextBtn = productContainer.querySelector('[data-related-next]');
       const track = productContainer.querySelector('[data-related-track]');
 
-      if (prevBtn && track) {
-        prevBtn.addEventListener('click', () => {
-          track.scrollBy({ left: -320, behavior: 'smooth' });
-        });
-      }
-      if (nextBtn && track) {
-        nextBtn.addEventListener('click', () => {
-          track.scrollBy({ left: 320, behavior: 'smooth' });
-        });
+      if (track) {
+        const getStep = () => {
+          const card = track.querySelector('.product-card');
+          if (card) {
+            const style = window.getComputedStyle(track);
+            const gap = parseFloat(style.gap) || 16;
+            return card.offsetWidth + gap;
+          }
+          return 260;
+        };
+
+        if (prevBtn && !prevBtn.dataset.bound) {
+          prevBtn.dataset.bound = 'true';
+          prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const mult = window.innerWidth > 900 ? 2 : 1;
+            track.scrollBy({ left: -(getStep() * mult), behavior: 'smooth' });
+          });
+        }
+        if (nextBtn && !nextBtn.dataset.bound) {
+          nextBtn.dataset.bound = 'true';
+          nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const mult = window.innerWidth > 900 ? 2 : 1;
+            track.scrollBy({ left: getStep() * mult, behavior: 'smooth' });
+          });
+        }
       }
 
       // Dynamic Shopify Recommendations loader fallback if track is empty
