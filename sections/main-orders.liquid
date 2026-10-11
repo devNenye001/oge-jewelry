@@ -18,7 +18,70 @@
     <h1 class="profile-page-title">{{ page.title | default: 'ORDERS' }}</h1>
     <hr class="profile-title-divider">
 
-    {% if customer and customer.orders.size > 0 %}
+    {% if order %}
+      <!-- Individual Order Details View -->
+      <div class="order-detail-view" style="margin-bottom: 48px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 500; margin: 0 0 6px 0;">Order {{ order.name }}</h2>
+            <p style="color: #666666; font-size: 0.875rem; margin: 0;">Placed on {{ order.created_at | date: "%B %d, %Y at %I:%M %p" }}</p>
+          </div>
+          <div style="font-size: 0.875rem;">
+            <span style="display: inline-block; padding: 4px 10px; background: #F4F4F4; border-radius: 2px; margin-right: 6px;">{{ order.financial_status_label }}</span>
+            <span style="display: inline-block; padding: 4px 10px; background: #F4F4F4; border-radius: 2px;">{{ order.fulfillment_status_label }}</span>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9375rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid #111111; text-align: left;">
+                <th style="padding: 12px; font-weight: 600;">Product & Details</th>
+                <th style="padding: 12px; font-weight: 600;">SKU</th>
+                <th style="padding: 12px; font-weight: 600; text-align: right;">Price</th>
+                <th style="padding: 12px; font-weight: 600; text-align: center;">Qty</th>
+                <th style="padding: 12px; font-weight: 600; text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for line_item in order.line_items %}
+                <tr style="border-bottom: 1px solid #EEEEEE;">
+                  <td style="padding: 16px 12px;">
+                    <div style="font-weight: 500; font-size: 1rem;">{{ line_item.title }}</div>
+                    {% unless line_item.variant.title == blank or line_item.variant.title == 'Default Title' %}
+                      <div style="font-size: 0.85rem; color: #555555; margin-top: 3px;">
+                        {% assign is_num = line_item.variant.title | plus: 0 %}
+                        {% if is_num > 0 %}Size: {% endif %}{{ line_item.variant.title }}
+                      </div>
+                    {% endunless %}
+                    {% if line_item.properties.size > 0 %}
+                      <div style="font-size: 0.8125rem; color: #666666; margin-top: 4px;">
+                        {% for p in line_item.properties %}
+                          {% assign first_c = p.first | slice: 0 %}
+                          {% unless p.last == blank or first_c == '_' %}
+                            <div><strong>{{ p.first }}:</strong> {{ p.last }}</div>
+                          {% endunless %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td style="padding: 16px 12px; color: #777777;">{{ line_item.sku | default: '—' }}</td>
+                  <td style="padding: 16px 12px; text-align: right;">{{ line_item.original_price | money }}</td>
+                  <td style="padding: 16px 12px; text-align: center;">{{ line_item.quantity }}</td>
+                  <td style="padding: 16px 12px; text-align: right; font-weight: 600;">{{ line_item.final_line_price | money }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">Total:</td>
+                <td style="padding: 12px; text-align: right; font-weight: 600; font-size: 1.125rem;">{{ order.total_price | money }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    {% elsif customer and customer.orders.size > 0 %}
       <!-- Orders Table -->
       <div class="orders-table-wrapper" style="margin-bottom: 48px; overflow-x: auto;">
         <table class="orders-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">

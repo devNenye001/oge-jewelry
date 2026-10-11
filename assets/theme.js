@@ -676,6 +676,21 @@
         const variantTitle = (item.variant_title && item.variant_title !== 'Default Title') ? item.variant_title : '';
         const tag = (item.properties && item.properties._tag) || 'New';
 
+        // Order Details: format size, variant title, and properties
+        let detailsHtml = '';
+        if (variantTitle) {
+          const displayVariant = !isNaN(Number(variantTitle.trim())) ? `Size: ${escapeHtml(variantTitle)}` : escapeHtml(variantTitle);
+          detailsHtml += `<p class="cart-item__variant">${displayVariant}</p>`;
+        }
+        if (item.properties && typeof item.properties === 'object') {
+          Object.entries(item.properties).forEach(([k, v]) => {
+            if (k && !k.startsWith('_') && v) {
+              if (variantTitle && variantTitle.trim() === String(v).trim()) return;
+              detailsHtml += `<p class="cart-item__property" style="font-size: 0.8125rem; color: #555555; margin: 3px 0 0 0; line-height: 1.3;"><span style="color: #888888;">${escapeHtml(k)}:</span> <strong>${escapeHtml(v)}</strong></p>`;
+            }
+          });
+        }
+
         itemsHtml += `
           <div class="cart-item" data-item-key="${item.key}" data-item-id="${item.variant_id}" data-item-title="${escapeHtml(item.title)}">
             <div class="cart-item__main">
@@ -687,7 +702,7 @@
                 <h3 class="cart-item__title">
                   <a href="${item.url}" style="color: inherit; text-decoration: none;">${escapeHtml(item.product_title || item.title)}</a>
                 </h3>
-                ${variantTitle ? `<p class="cart-item__variant">${escapeHtml(variantTitle)}</p>` : ''}
+                ${detailsHtml}
                 <p class="cart-item__price">${itemPrice}</p>
               </div>
             </div>
@@ -2518,12 +2533,33 @@
             return;
           }
 
+          // Extract line item properties (e.g. Size, Ring Size) for order details
+          const properties = {};
+          const propInputs = productForm.querySelectorAll('[name^="properties["]');
+          propInputs.forEach((inp) => {
+            const match = inp.name.match(/properties\[(.*?)\]/);
+            if (match && match[1] && inp.value) {
+              properties[match[1]] = inp.value;
+            }
+          });
+
+          // Ensure active pill size is recorded
+          const activePill = productContainer.querySelector('[data-option-pill].is-selected, .product-option-pill.is-selected');
+          if (activePill) {
+            const val = activePill.getAttribute('data-option-value') || activePill.getAttribute('data-size') || activePill.textContent.trim();
+            const optName = activePill.getAttribute('data-option-name') || 'Size';
+            if (val) {
+              if (!properties[optName]) properties[optName] = val;
+              if (!properties['Size']) properties['Size'] = val;
+            }
+          }
+
           const originalText = btnText ? btnText.textContent : 'Add to Bag';
           if (btnText) btnText.textContent = 'Adding...';
           if (addBtn) addBtn.disabled = true;
 
           try {
-            await CartDrawer.addItem(variantId, quantity);
+            await CartDrawer.addItem(variantId, quantity, properties);
           } catch (err) {
             console.error('Error adding product to bag:', err);
           } finally {
@@ -2733,6 +2769,20 @@
           const variantTitle = (item.variant_title && item.variant_title !== 'Default Title') ? item.variant_title : '';
           const linePrice = formatMoney(item.final_line_price);
 
+          let pageDetailsHtml = '';
+          if (variantTitle) {
+            const displayVariant = !isNaN(Number(variantTitle.trim())) ? `Size: ${escapeHtml(variantTitle)}` : escapeHtml(variantTitle);
+            pageDetailsHtml += `<div style="color: var(--color-text-muted); font-size: 0.8125rem; margin-bottom: 2px;">${displayVariant}</div>`;
+          }
+          if (item.properties && typeof item.properties === 'object') {
+            Object.entries(item.properties).forEach(([k, v]) => {
+              if (k && !k.startsWith('_') && v) {
+                if (variantTitle && variantTitle.trim() === String(v).trim()) return;
+                pageDetailsHtml += `<div style="color: var(--color-text-muted); font-size: 0.8125rem; margin-bottom: 2px;"><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</div>`;
+              }
+            });
+          }
+
           html += `
             <div class="cart-page-item" data-item-key="${item.key}" style="display: grid; grid-template-columns: 80px 1fr auto; gap: 20px; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 20px;">
               <div style="aspect-ratio: 1/1; background: #F9F9F9; border-radius: 4px; overflow: hidden;">
@@ -2740,7 +2790,7 @@
               </div>
               <div>
                 <a href="${item.url}" style="font-weight: 500; font-size: 1rem; display: block; margin-bottom: 4px; color: inherit; text-decoration: none;">${escapeHtml(item.product_title || item.title)}</a>
-                ${variantTitle ? `<div style="color: var(--color-text-muted); font-size: 0.8125rem; margin-bottom: 4px;">${escapeHtml(variantTitle)}</div>` : ''}
+                ${pageDetailsHtml}
                 <div style="color: var(--color-text-muted); font-size: 0.875rem;">${linePrice}</div>
               </div>
               <div style="display: flex; align-items: center; gap: 14px; justify-content: flex-end;">

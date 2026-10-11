@@ -80,28 +80,29 @@
     display: flex !important;
     flex-wrap: wrap !important;
     align-items: center !important;
-    gap: 10px !important;
-    margin-top: 4px !important;
+    gap: 22px !important;
+    margin-top: 10px !important;
   }
-  /* 44px x 44px Luxury Rectangle Box for Sizes */
+  /* Minimalist Editorial Sizes (Matching Reference Photo) */
+  /* Unselected size options: NO border, plain clean text */
   .product-option-pill {
     min-width: 44px !important;
-    height: 44px !important;
-    padding: 0 14px !important;
+    height: 38px !important;
+    padding: 0 10px !important;
     box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    border: 1.2px solid #D5D5D5 !important;
-    border-radius: 2px !important;
-    background-color: #FFFFFF !important;
+    border: 1px solid transparent !important;
+    border-radius: 0px !important;
+    background-color: transparent !important;
     color: #111111 !important;
-    font-family: var(--font-body, 'DM Sans', sans-serif) !important;
-    font-size: 0.9375rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.02em !important;
+    font-family: var(--font-body, 'DM Sans', -apple-system, sans-serif) !important;
+    font-size: 1.0625rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
     cursor: pointer !important;
-    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: border-color 0.15s ease !important;
     outline: none !important;
     line-height: 1 !important;
     user-select: none !important;
@@ -109,43 +110,40 @@
     text-decoration: none !important;
   }
   .product-option-pill:hover:not(.is-selected):not(.is-sold-out) {
-    border-color: #111111 !important;
-    background-color: #F8F8F8 !important;
+    border-color: #D6D6D6 !important;
+    background-color: transparent !important;
   }
-  /* Active / Selected Rectangle: Black with White text */
+  /* Selected size: Crisp 1px rectangular box with white background and black text */
   .product-option-pill.is-selected {
-    background-color: #111111 !important;
-    color: #FFFFFF !important;
-    border-color: #111111 !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+    border: 1px solid #767676 !important;
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
   }
-  /* Sold Out / Unavailable Rectangle: Faint with diagonal strike */
+  /* Sold Out / Unavailable Size */
   .product-option-pill.is-sold-out {
-    opacity: 0.55 !important;
+    opacity: 0.35 !important;
     color: #888888 !important;
-    background-color: #FAFAFA !important;
-    border-color: #E2E2E2 !important;
+    border-color: transparent !important;
+    background-color: transparent !important;
   }
   .product-option-pill.is-sold-out::after {
     content: "" !important;
     position: absolute !important;
     top: 50% !important;
-    left: 12% !important;
-    right: 12% !important;
-    height: 1.2px !important;
-    background-color: #999999 !important;
+    left: 15% !important;
+    right: 15% !important;
+    height: 1px !important;
+    background-color: #888888 !important;
     transform: rotate(-35deg) !important;
     pointer-events: none !important;
   }
   .product-option-pill.is-selected.is-sold-out {
-    background-color: #333333 !important;
-    color: #FFFFFF !important;
-    border-color: #333333 !important;
-    opacity: 0.9 !important;
-  }
-  .product-option-pill.is-selected.is-sold-out::after {
-    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid #999999 !important;
+    background-color: #FFFFFF !important;
+    color: #888888 !important;
+    opacity: 0.8 !important;
   }
   .product-sold-out-warning {
     margin: 8px 0 0 0;
@@ -305,6 +303,18 @@
           <!-- Hidden Variant Input for Shopify Form -->
           <input type="hidden" name="id" value="{{ current_variant.id | default: 'default' }}" data-selected-variant-id>
 
+          <!-- Hidden Line Item Properties so Size and Options are permanently recorded in Order Details -->
+          {% if product != blank and product.has_only_default_variant == false %}
+            {% for option in product.options_with_values %}
+              {% assign opt_idx = forloop.index0 %}
+              {% assign current_opt_val = current_variant.options[opt_idx] | default: option.selected_value %}
+              <input type="hidden" name="properties[{{ option.name }}]" value="{{ current_opt_val | escape }}" data-property-option="{{ opt_idx }}" data-property-option-name="{{ option.name | escape }}">
+            {% endfor %}
+            <input type="hidden" name="properties[Size]" value="{{ current_variant.options[0] | default: current_variant.title | default: '7' | escape }}" data-property-size>
+          {% else %}
+            <input type="hidden" name="properties[Size]" value="7" data-property-size>
+          {% endif %}
+
           <!-- Variant Option Selectors (Sizes / Finish) -->
           {% if product != blank and product.has_only_default_variant == false %}
             <div class="product-variants-container" data-product-variants>
@@ -314,13 +324,11 @@
                 <div class="product-option-group" data-option-index="{{ opt_idx }}">
                   <div class="product-option-header-row">
                     <label class="product-option-label">
-                      <span>{{ option.name }}</span>: 
-                      <strong data-option-selected-val>{{ current_opt_val }}</strong>
+                      <span>{{ option.name }}</span>
+                      <strong data-option-selected-val style="display: none;">{{ current_opt_val }}</strong>
                       <span class="product-option-stock-badge" data-option-stock-badge>
                         {% unless current_variant.available %}
                           <span class="stock-badge-soldout">(Sold Out)</span>
-                        {% else %}
-                          <span class="stock-badge-instock">(In Stock)</span>
                         {% endunless %}
                       </span>
                     </label>
@@ -364,8 +372,9 @@
             <div class="product-option-group">
               <div class="product-option-header-row">
                 <label class="product-option-label">
-                  <span>Ring Size</span>: <strong id="selected-size-label">7</strong>
-                  <span class="product-option-stock-badge"><span class="stock-badge-instock">(In Stock)</span></span>
+                  <span>Ring Size</span>
+                  <strong id="selected-size-label" style="display: none;">7</strong>
+                  <span class="product-option-stock-badge"><span class="stock-badge-instock" style="display: none;">(In Stock)</span></span>
                 </label>
                 <a href="javascript:void(0);" class="product-size-guide-trigger" data-size-guide-open>Size Guide</a>
               </div>
@@ -690,6 +699,16 @@
         var stockBadges = root.querySelectorAll('[data-option-stock-badge]');
         var warningEl = root.querySelector('[data-sold-out-notice]');
 
+        // Update hidden line item properties so Shopify records size in order details
+        if (selectedValues && selectedValues.length > 0) {
+          selectedValues.forEach(function(val, idx) {
+            var propInp = root.querySelector('input[data-property-option="' + idx + '"]');
+            if (propInp) propInp.value = val;
+          });
+          var sizePropInp = root.querySelector('[data-property-size]');
+          if (sizePropInp) sizePropInp.value = selectedValues[0];
+        }
+
         if (matched) {
           if (variantInput) variantInput.value = matched.id;
           if (matched.available) {
@@ -699,7 +718,7 @@
             }
             if (addBtnText) addBtnText.textContent = 'Add to Bag';
             stockBadges.forEach(function(b) {
-              b.innerHTML = '<span class="stock-badge-instock">(In Stock)</span>';
+              b.innerHTML = '<span class="stock-badge-instock" style="display:none;">(In Stock)</span>';
             });
             if (warningEl) warningEl.style.display = 'none';
           } else {
@@ -749,6 +768,23 @@
           }
         }
         updateVariantState(getSelectedOptionValues());
+      }
+
+      // Fallback size pills (for previewing without product model)
+      var fallbackPills = root.querySelectorAll('.product-option-values [data-size]');
+      if (fallbackPills.length > 0) {
+        fallbackPills.forEach(function(pill) {
+          pill.addEventListener('click', function(e) {
+            e.preventDefault();
+            fallbackPills.forEach(function(p) { p.classList.remove('is-selected'); });
+            pill.classList.add('is-selected');
+            var sizeVal = pill.getAttribute('data-size') || pill.textContent.trim();
+            var sizePropInp = root.querySelector('[data-property-size]');
+            if (sizePropInp) sizePropInp.value = sizeVal;
+            var lbl = root.querySelector('#selected-size-label');
+            if (lbl) lbl.textContent = sizeVal;
+          });
+        });
       }
 
       optionPills.forEach(function(pill) {

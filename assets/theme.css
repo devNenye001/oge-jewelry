@@ -6335,29 +6335,30 @@ body.template-customers-reset-password {
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: center !important;
-  gap: 10px !important;
-  margin-top: 4px !important;
+  gap: 22px !important;
+  margin-top: 10px !important;
 }
 
-/* Luxury Rectangle Size Box (44px x 44px box) */
+/* Minimalist Editorial Sizes (Matching Reference Photo) */
+/* Unselected size options: NO border, plain clean text */
 .product-option-pill {
   min-width: 44px !important;
-  height: 44px !important;
-  padding: 0 14px !important;
+  height: 38px !important;
+  padding: 0 10px !important;
   box-sizing: border-box !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 1.2px solid #D5D5D5 !important;
-  border-radius: 2px !important;
-  background-color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+  border-radius: 0px !important;
+  background-color: transparent !important;
   color: #111111 !important;
-  font-family: var(--font-body, 'DM Sans', sans-serif) !important;
-  font-size: 0.9375rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em !important;
+  font-family: var(--font-body, 'DM Sans', -apple-system, sans-serif) !important;
+  font-size: 1.0625rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em !important;
   cursor: pointer !important;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: border-color 0.15s ease !important;
   outline: none !important;
   line-height: 1 !important;
   user-select: none !important;
@@ -6366,48 +6367,44 @@ body.template-customers-reset-password {
 }
 
 .product-option-pill:hover:not(.is-selected):not(.is-sold-out) {
-  border-color: #111111 !important;
-  background-color: #F8F8F8 !important;
+  border-color: #D6D6D6 !important;
+  background-color: transparent !important;
 }
 
-/* Active / Selected Rectangle: Black with White text */
+/* Selected size: Crisp 1px rectangular box with white background and black text */
 .product-option-pill.is-selected {
-  background-color: #111111 !important;
-  color: #FFFFFF !important;
-  border-color: #111111 !important;
-  font-weight: 700 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+  border: 1px solid #767676 !important;
+  background-color: #FFFFFF !important;
+  color: #111111 !important;
+  font-weight: 400 !important;
+  box-shadow: none !important;
 }
 
-/* Sold Out / Unavailable Rectangle: Faint with diagonal strike */
+/* Sold Out / Unavailable Size */
 .product-option-pill.is-sold-out {
-  opacity: 0.55 !important;
+  opacity: 0.35 !important;
   color: #888888 !important;
-  background-color: #FAFAFA !important;
-  border-color: #E2E2E2 !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .product-option-pill.is-sold-out::after {
   content: "" !important;
   position: absolute !important;
   top: 50% !important;
-  left: 12% !important;
-  right: 12% !important;
-  height: 1.2px !important;
-  background-color: #999999 !important;
+  left: 15% !important;
+  right: 15% !important;
+  height: 1px !important;
+  background-color: #888888 !important;
   transform: rotate(-35deg) !important;
   pointer-events: none !important;
 }
 
 .product-option-pill.is-selected.is-sold-out {
-  background-color: #333333 !important;
-  color: #FFFFFF !important;
-  border-color: #333333 !important;
-  opacity: 0.9 !important;
-}
-
-.product-option-pill.is-selected.is-sold-out::after {
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid #999999 !important;
+  background-color: #FFFFFF !important;
+  color: #888888 !important;
+  opacity: 0.8 !important;
 }
 
 .product-sold-out-warning {
