@@ -1,0 +1,500 @@
+{% comment %}
+  OGÉ Fine Jewelry - Main Policy & Legal Section
+  Supports:
+  - Native Shopify Policies (/policies/privacy-policy, /policies/terms-of-service, /policies/shipping-policy)
+  - Shopify Pages (/pages/privacy-policy, /pages/terms-conditions, /pages/shipping-returns)
+  - Theme Customizer: Fully editable via Section Settings & Custom Blocks
+  - Content Priority:
+    1. section.settings.content (Customizer Rich Text)
+    2. section.blocks (Customizer Blocks)
+    3. policy.body (Shopify Admin -> Settings -> Policies)
+    4. page.content (Shopify Admin -> Online Store -> Pages)
+    5. Curated OGÉ Legal Design Fallback
+{% endcomment %}
+
+{% assign path_low = request.path | downcase %}
+{% assign detected_type = 'general' %}
+{% if path_low contains 'privacy' or policy.title contains 'Privacy' or page.title contains 'Privacy' %}
+  {% assign detected_type = 'privacy' %}
+  {% assign default_title = 'PRIVACY POLICY' %}
+{% elsif path_low contains 'term' or path_low contains 'condition' or policy.title contains 'Terms' or page.title contains 'Terms' %}
+  {% assign detected_type = 'terms' %}
+  {% assign default_title = 'TERMS & CONDITIONS' %}
+{% elsif path_low contains 'shipping' or path_low contains 'return' or policy.title contains 'Shipping' or page.title contains 'Shipping' %}
+  {% assign detected_type = 'shipping' %}
+  {% assign default_title = 'SHIPPING & RETURNS' %}
+{% else %}
+  {% assign default_title = 'STORE POLICY' %}
+{% endif %}
+
+{% assign resolved_title = section.settings.heading %}
+{% if resolved_title == blank %}
+  {% assign resolved_title = policy.title | default: page.title | default: default_title %}
+{% endif %}
+
+<article class="legal-page-wrap" {{ section.shopify_attributes }}>
+  <h1 class="legal-page__title">{{ resolved_title }}</h1>
+
+  <div class="legal-page__body">
+    {% if section.settings.content != blank %}
+      <!-- 1. Customizer Rich Text Content -->
+      {% if section.settings.last_updated != blank %}
+        <p><strong>Last updated: {{ section.settings.last_updated }}</strong></p>
+      {% endif %}
+      {{ section.settings.content }}
+
+    {% elsif section.blocks.size > 0 %}
+      <!-- 2. Customizer Block-by-Block Content -->
+      {% if section.settings.last_updated != blank %}
+        <p><strong>Last updated: {{ section.settings.last_updated }}</strong></p>
+      {% endif %}
+      {% for block in section.blocks %}
+        <div class="legal-page__section" {{ block.shopify_attributes }}>
+          {% if block.settings.title != blank %}
+            <h2>{{ block.settings.title }}</h2>
+          {% endif %}
+          {% if block.settings.content != blank %}
+            {{ block.settings.content }}
+          {% endif %}
+        </div>
+      {% endfor %}
+
+    {% elsif policy.body != blank %}
+      <!-- 3. Shopify Admin Settings -> Policies Content -->
+      {% if section.settings.last_updated != blank %}
+        <p><strong>Last updated: {{ section.settings.last_updated }}</strong></p>
+      {% endif %}
+      {{ policy.body }}
+
+    {% elsif page.content != blank %}
+      <!-- 4. Shopify Online Store -> Pages Content -->
+      {% if section.settings.last_updated != blank %}
+        <p><strong>Last updated: {{ section.settings.last_updated }}</strong></p>
+      {% endif %}
+      {{ page.content }}
+
+    {% else %}
+      <!-- 5. Approved Curated OGÉ Legal Design Fallback -->
+      {% if detected_type == 'privacy' %}
+        <p><strong>Last updated: {{ section.settings.last_updated | default: 'September 2026' }}</strong></p>
+        <p>
+          At OGÉ Jewelry, we value your privacy and are committed to protecting the personal information you share with us. This Privacy Policy explains how we collect, use, store, and protect your information when you visit or make a purchase through our website.
+        </p>
+
+        <h2>1. INFORMATION WE COLLECT</h2>
+        <p>When you visit our website, place an order, create an account, subscribe to our newsletter, or contact us, we may collect information such as:</p>
+        <ul>
+          <li>Your name</li>
+          <li>Email address</li>
+          <li>Phone number</li>
+          <li>Billing and shipping address</li>
+          <li>Payment and transaction information</li>
+          <li>Order history</li>
+          <li>Information you provide when contacting us</li>
+          <li>Device, browser, and website usage information</li>
+        </ul>
+        <p>We only collect information that is reasonably necessary to provide and improve our services.</p>
+
+        <h2>2. HOW WE USE YOUR INFORMATION</h2>
+        <p>We may use your information to:</p>
+        <ul>
+          <li>Process and deliver your orders</li>
+          <li>Communicate with you about your orders</li>
+          <li>Respond to enquiries and customer service requests</li>
+          <li>Send order confirmations and important updates</li>
+          <li>Provide information about new collections, products, or offers where you have opted in</li>
+          <li>Improve our website, products, and customer experience</li>
+          <li>Prevent fraud, unauthorized transactions, and misuse of our website</li>
+          <li>Meet applicable legal and regulatory requirements</li>
+        </ul>
+
+        <h2>3. PAYMENT INFORMATION</h2>
+        <p>
+          Payments made through our website are processed through secure third-party payment providers. OGÉ Jewelry does not store your complete payment card details on our servers.
+        </p>
+        <p>
+          Your payment information is handled according to the privacy and security practices of the payment provider used for your transaction.
+        </p>
+
+        <h2>4. COOKIES</h2>
+        <p>
+          Our website may use cookies and similar technologies to help the website function properly, remember your preferences, understand how visitors use our website, and improve your shopping experience.
+        </p>
+        <p>
+          You may be able to control or disable cookies through your browser settings. Some features of the website may not function properly if cookies are disabled.
+        </p>
+
+        <h2>5. THIRD-PARTY SERVICES &amp; LINKS</h2>
+        <p>
+          We may work with third-party service providers to help operate our business, such as payment processors, shipping partners, website analytics services, and email providers.
+        </p>
+        <p>
+          These third parties only receive access to the information needed to perform their services. Our website may also include links to external websites that are not operated by OGÉ Jewelry. We are not responsible for the privacy practices of external sites.
+        </p>
+
+        <h2>6. DATA SECURITY</h2>
+        <p>
+          We take reasonable and appropriate administrative, technical, and physical measures to protect your personal information from unauthorized access, disclosure, alteration, or misuse.
+        </p>
+        <p>
+          However, no method of transmission over the Internet or electronic storage is completely secure, and we cannot guarantee absolute security.
+        </p>
+
+        <h2>7. DATA RETENTION</h2>
+        <p>
+          We retain your personal information only for as long as is necessary to fulfill the purposes described in this Privacy Policy, complete orders, resolve disputes, maintain accurate records, and comply with legal obligations.
+        </p>
+
+        <h2>8. YOUR RIGHTS</h2>
+        <p>Depending on your location, you may have rights regarding your personal information, such as the right to:</p>
+        <ul>
+          <li>Access the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your information, subject to legal requirements</li>
+          <li>Opt out of marketing communications at any time</li>
+        </ul>
+        <p>To exercise any of these rights, please contact us using the information below.</p>
+
+        <h2>9. DIRECT MARKETING</h2>
+        <p>
+          If you subscribe to our newsletter or opt in to marketing updates, we may send you emails regarding new arrivals, promotions, or brand updates.
+        </p>
+        <p>
+          You can unsubscribe from marketing emails at any time by clicking the unsubscribe link at the bottom of the email or contacting us directly.
+        </p>
+
+        <h2>10. CHILDREN'S PRIVACY</h2>
+        <p>
+          Our website is not directed to children under the age of 13 (or the applicable age in your jurisdiction), and we do not knowingly collect personal information from children.
+        </p>
+
+        <h2>11. CHANGES TO THIS POLICY</h2>
+        <p>
+          We may update this Privacy Policy from time to time to reflect changes to our business, website, or legal requirements. Any updates will be posted on this page with a revised "Last updated" date.
+        </p>
+
+        <h2>12. CONTACT US</h2>
+        <p>If you have questions about this Privacy Policy or how your information is handled, please contact:</p>
+        <p>
+          <strong>OGÉ Fine Jewelry</strong><br>
+          Email: <a href="mailto:support@ogejewelry.com">support@ogejewelry.com</a>
+        </p>
+
+      {% elsif detected_type == 'terms' %}
+        <p><strong>Last updated: {{ section.settings.last_updated | default: 'September 2026' }}</strong></p>
+        <p>
+          Welcome to OGÉ Jewelry. These Terms &amp; Conditions govern your use of our website and the purchase of products from OGÉ Jewelry. By accessing our website or placing an order, you agree to these terms.
+        </p>
+
+        <div class="legal-page__section">
+          <h3>1. ABOUT OGÉ</h3>
+          <p>
+            OGÉ Jewelry provides fine jewelry and related products through our online store. We reserve the right to update our products, pricing, content, and policies at any time.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>2. PRODUCTS &amp; AVAILABILITY</h3>
+          <p>
+            We make every effort to ensure that product descriptions, images, materials, measurements, and prices are accurate. However, colours may appear slightly different depending on your device or screen.
+          </p>
+          <p>
+            Product availability may change without notice. We reserve the right to limit quantities or discontinue products at any time.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>3. PRICING &amp; PAYMENT</h3>
+          <p>
+            All prices displayed on our website are listed in the applicable currency shown at checkout.
+          </p>
+          <p>
+            Prices may change without prior notice. Orders are only confirmed once payment has been successfully received.
+          </p>
+          <p>
+            We reserve the right to correct pricing errors and, where necessary, cancel an order affected by an incorrect price.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>4. ORDERS</h3>
+          <p>
+            Once an order is placed, you will receive an order confirmation by email.
+          </p>
+          <p>
+            We reserve the right to refuse or cancel an order where there is an error in product information, pricing, availability, suspected fraudulent activity, or other circumstances requiring cancellation.
+          </p>
+          <p>
+            If your order is cancelled after payment has been received, you will be notified and refunded through the applicable payment method.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>5. SHIPPING &amp; DELIVERY</h3>
+          <p>
+            Estimated shipping times and delivery details are provided on our Shipping &amp; Returns page and at checkout.
+          </p>
+          <p>
+            Delivery timeframes are estimates and may be subject to customs, courier, or logistical delays outside our control.
+          </p>
+          <p>
+            Customers are responsible for providing complete and accurate shipping information.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>6. RETURNS &amp; EXCHANGES</h3>
+          <p>
+            Our returns and exchange policy applies to eligible purchases and should be reviewed before placing an order.
+          </p>
+          <p>
+            Returned items must meet the conditions outlined in our Returns Policy, including any applicable time limits and requirements regarding the condition of the jewelry.
+          </p>
+          <p>
+            Items that are personalized, final sale, worn, damaged, or otherwise excluded under our Returns Policy may not be eligible for return or exchange.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>7. ACCURACY OF INFORMATION</h3>
+          <p>
+            We aim to keep website content accurate and up to date, but we do not warrant that all descriptions, pricing, availability, or other website content will always be error-free or complete.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>8. INTELLECTUAL PROPERTY</h3>
+          <p>
+            All content on this website—including brand names, logos, images, product designs, text, graphics, and visual elements—belongs to OGÉ Jewelry or its licensors.
+          </p>
+          <p>
+            You may not copy, reproduce, distribute, modify, or use our content without prior written permission.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>9. USER ACCOUNTS</h3>
+          <p>
+            If you create an account on our website, you are responsible for maintaining the confidentiality of your login credentials and for all activities under your account.
+          </p>
+          <p>
+            Please notify us immediately if you suspect unauthorized access to your account.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>10. PROHIBITED USES</h3>
+          <p>You agree not to use the website to:</p>
+          <ul>
+            <li>Violate any applicable laws or regulations</li>
+            <li>Transmit harmful code, malware, or destructive material</li>
+            <li>Interfere with website security or operation</li>
+            <li>Collect data from the website without authorization</li>
+            <li>Use the website for fraudulent, deceptive, or unauthorized purposes</li>
+          </ul>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>11. LIMITATION OF LIABILITY</h3>
+          <p>
+            To the maximum extent permitted by applicable law, OGÉ Jewelry will not be liable for indirect, incidental, special, or consequential damages resulting from your use of the website or the purchase of our products.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>12. INDEMNIFICATION</h3>
+          <p>
+            You agree to indemnify and hold harmless OGÉ Jewelry from any claims, liabilities, damages, and expenses arising from your misuse of the website or breach of these Terms &amp; Conditions.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>13. PRIVACY</h3>
+          <p>
+            Your use of our website is also governed by our Privacy Policy, which explains how we collect, use, and protect your information.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>14. CHANGES TO TERMS</h3>
+          <p>
+            We may update these Terms &amp; Conditions from time to time. Continued use of the website after changes are posted constitutes acceptance of the revised terms.
+          </p>
+        </div>
+
+        <div class="legal-page__section">
+          <h3>15. CONTACT INFORMATION</h3>
+          <p>For questions regarding these Terms &amp; Conditions, please contact us at:</p>
+          <p>
+            <strong>OGÉ Fine Jewelry</strong><br>
+            Email: <a href="mailto:support@ogejewelry.com">support@ogejewelry.com</a>
+          </p>
+        </div>
+
+      {% elsif detected_type == 'shipping' %}
+        <h2>SHIPPING INFORMATION</h2>
+        <p>
+          At OGÉ Jewelry, every piece is handled with care. We aim to process and deliver your order as swiftly and securely as possible.
+        </p>
+
+        <h3>How long does order processing take?</h3>
+        <p>
+          Orders are typically processed within <strong>2–4 business days</strong> after payment has been successfully received.
+        </p>
+        <p>
+          Orders containing personalized, specially made, or pre-order pieces may require additional processing time. Where applicable, the estimated timeframe will be communicated on the product page or at checkout.
+        </p>
+
+        <h3>How long does delivery take?</h3>
+        <p>
+          Once your order has been dispatched, delivery times depend on your location and selected shipping method.
+        </p>
+        <p>Estimated delivery times:</p>
+        <ul>
+          <li><strong>Domestic:</strong> 2–5 business days</li>
+          <li><strong>International:</strong> 5–10 business days</li>
+        </ul>
+        <p>
+          Please note that delivery estimates are not guarantees. Delays may occur due to customs, weather, public holidays, courier delays, or other circumstances outside our control.
+        </p>
+
+        <h3>Will I receive tracking information?</h3>
+        <p>
+          Yes. Where tracking is available for your selected shipping method, tracking information will be provided once your order has been dispatched.
+        </p>
+        <p>
+          Please ensure that the email address and phone number provided at checkout are correct.
+        </p>
+
+        <h3>Are customs duties and taxes included?</h3>
+        <p>
+          For international orders, customs duties, import taxes, or other charges may apply depending on the destination country.
+        </p>
+        <p>
+          Any applicable charges are the responsibility of the customer unless otherwise stated at checkout.
+        </p>
+
+        <h3>What if my package is delayed or lost?</h3>
+        <p>
+          If your order appears to be delayed, please contact us with your order number so we can assist.
+        </p>
+        <p>
+          Once an order has been handed over to the shipping provider, delivery is also subject to the courier's processes and timelines.
+        </p>
+
+        <hr class="legal-page-divider" style="border: none; border-top: 1px solid #ECECEC; margin: 36px 0;">
+
+        <h2>RETURNS &amp; EXCHANGES POLICY</h2>
+        <p>
+          We want you to love your OGÉ jewelry. If you are not satisfied with your purchase, eligible items may be returned or exchanged in accordance with the terms below.
+        </p>
+
+        <h3>What is the return window?</h3>
+        <p>
+          Items must be requested for return within <strong>14 days</strong> of delivery.
+        </p>
+
+        <h3>What conditions must returned items meet?</h3>
+        <p>To be eligible for a return or exchange, items must:</p>
+        <ul>
+          <li>Be unworn, unused, and in their original condition</li>
+          <li>Include original packaging, pouches, tags, and documentation</li>
+          <li>Show no signs of wear, scratching, adjustment, or damage</li>
+        </ul>
+        <p>We reserve the right to decline returns that do not meet these conditions.</p>
+
+        <h3>Which items cannot be returned?</h3>
+        <p>The following items are generally not eligible for return or exchange:</p>
+        <ul>
+          <li>Personalized, engraved, or custom-made items</li>
+          <li>Items marked as final sale</li>
+          <li>Pierced earrings (for hygiene reasons, where applicable by law)</li>
+          <li>Items returned damaged, worn, or without original packaging</li>
+        </ul>
+
+        <h3>How do I start a return?</h3>
+        <p>To request a return or exchange:</p>
+        <ol>
+          <li>Contact our customer support team with your order number and the reason for return</li>
+          <li>Wait for confirmation and return instructions before sending any item back</li>
+          <li>Carefully package the item in its original presentation packaging</li>
+          <li>Ship the return using an insured and trackable delivery service</li>
+        </ol>
+
+        <h3>Who covers return shipping?</h3>
+        <p>
+          Return shipping costs are the responsibility of the customer unless the return is due to an error on our part or a defective product.
+        </p>
+
+        <h3>When will I receive my refund?</h3>
+        <p>
+          Once your return has been received and inspected, we will notify you of the approval or rejection of your refund.
+        </p>
+        <p>
+          Approved refunds are processed to your original payment method, typically within <strong>5–10 business days</strong>, depending on your bank or payment provider.
+        </p>
+
+        <h3>What if my item arrives damaged or incorrect?</h3>
+        <p>
+          If your item arrives damaged, defective, or incorrect, please contact us within <strong>48 hours</strong> of delivery with photos of the issue so we can make it right.
+        </p>
+
+        <hr class="legal-page-divider" style="border: none; border-top: 1px solid #ECECEC; margin: 36px 0;">
+
+        <h2>CONTACT US</h2>
+        <p>If you have any questions regarding shipping, delivery, returns, or exchanges, please contact:</p>
+        <p>
+          <strong>OGÉ Fine Jewelry Client Care</strong><br>
+          Email: <a href="mailto:support@ogejewelry.com">support@ogejewelry.com</a>
+        </p>
+
+      {% else %}
+        <p>Please contact our client care team at support@ogejewelry.com for assistance regarding store policies.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Policy Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to automatically use policy or page title"
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "Last Updated Subtitle",
+      "default": "September 2026"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Custom Policy Content (Theme Editor)",
+      "info": "Type or paste policy text here to override in the Customizer. Leave blank to pull from Shopify Admin -> Settings -> Policies or Pages."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy_section",
+      "name": "Policy Section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Heading (e.g. 1. INFORMATION WE COLLECT)"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Section Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

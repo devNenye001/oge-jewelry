@@ -1,7 +1,8 @@
 {
   "sections": {
     "main": {
-      "type": "main-page"
+      "type": "main-policy",
+      "settings": {}
     }
   },
   "order": [
