@@ -39,7 +39,11 @@
     <script>
       window.Shopify = window.Shopify || {};
       window.Shopify.money_format = {{ shop.money_format | json }};
-      window.Shopify.currency = {{ cart.currency.iso_code | default: shop.currency | json }};
+      window.Shopify.currency = {
+        active: {{ cart.currency.iso_code | default: shop.currency | json }},
+        rate: "1.0"
+      };
+      window.Shopify.shopCurrency = {{ shop.currency | json }};
       window.Shopify.routes = {
         root: "{{ routes.root_url }}",
         cart: "{{ routes.cart_url }}",
@@ -48,6 +52,14 @@
         cart_update_url: "{{ routes.cart_update_url }}",
         cart_clear_url: "{{ routes.cart_clear_url }}"
       };
+      (function() {
+        try {
+          var activeCurr = {{ cart.currency.iso_code | default: shop.currency | json }};
+          if (activeCurr && document.cookie.indexOf('cart_currency=') === -1) {
+            document.cookie = 'cart_currency=' + encodeURIComponent(activeCurr) + '; path=/; SameSite=Lax';
+          }
+        } catch(e) {}
+      })();
     </script>
 
     <!-- Catalog Dataset & Helpers -->

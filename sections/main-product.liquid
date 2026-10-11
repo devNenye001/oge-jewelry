@@ -4,9 +4,6 @@
 {% endcomment %}
 
 {% assign current_variant = product.selected_or_first_available_variant %}
-{% if current_variant.available == false and product.available %}
-  {% assign current_variant = product.first_available_variant | default: current_variant %}
-{% endif %}
 {% if current_variant == blank %}
   {% assign current_variant = product.variants.first %}
 {% endif %}
@@ -310,9 +307,9 @@
               {% assign current_opt_val = current_variant.options[opt_idx] | default: option.selected_value %}
               <input type="hidden" name="properties[{{ option.name }}]" value="{{ current_opt_val | escape }}" data-property-option="{{ opt_idx }}" data-property-option-name="{{ option.name | escape }}">
             {% endfor %}
-            <input type="hidden" name="properties[Size]" value="{{ current_variant.options[0] | default: current_variant.title | default: '7' | escape }}" data-property-size>
-          {% else %}
-            <input type="hidden" name="properties[Size]" value="7" data-property-size>
+            {% if product.options contains 'Size' or product.options contains 'size' %}
+              <input type="hidden" name="properties[Size]" value="{{ current_variant.options[0] | default: current_variant.title | escape }}" data-property-size>
+            {% endif %}
           {% endif %}
 
           <!-- Variant Option Selectors (Sizes / Finish) -->
@@ -437,6 +434,8 @@
               </svg>
             </button>
           </div>
+
+          <p class="product-sold-out-warning" data-form-error-notice style="display: none; margin-top: 10px;"></p>
         {% endform %}
 
         {% if product != blank %}
@@ -738,34 +737,41 @@
         }
       }
 
-      // Initial check on load: If currently selected is sold out but an available variant exists, auto-select it!
+      // Initial check on load: If URL ?variant=ID is specified, honor it. Otherwise, default to first available.
       if (productData && productData.variants && productData.variants.length > 0) {
-        var initialSelected = getSelectedOptionValues();
-        var currentMatched = productData.variants.find(function(v) {
-          return v.options.every(function(optVal, idx) {
-            return initialSelected[idx] === undefined || String(optVal).trim() === String(initialSelected[idx]).trim();
-          });
-        });
-
-        if (!currentMatched || !currentMatched.available) {
-          var firstAvailable = productData.variants.find(function(v) { return v.available; });
-          if (firstAvailable && firstAvailable.options) {
-            firstAvailable.options.forEach(function(optVal, optIdx) {
-              var grp = root.querySelector('.product-option-group[data-option-index="' + optIdx + '"]');
-              if (grp) {
-                var pills = grp.querySelectorAll('[data-option-pill]');
-                pills.forEach(function(p) {
-                  var pVal = p.getAttribute('data-option-value') || p.textContent.trim();
-                  if (String(pVal).trim() === String(optVal).trim()) {
-                    pills.forEach(function(b) { b.classList.remove('is-selected'); });
-                    p.classList.add('is-selected');
-                    var lbl = grp.querySelector('[data-option-selected-val]');
-                    if (lbl) lbl.textContent = pVal;
-                  }
-                });
-              }
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlVariantId = urlParams.get('variant');
+        var targetVar = null;
+        if (urlVariantId) {
+          targetVar = productData.variants.find(function(v) { return String(v.id) === String(urlVariantId); });
+        }
+        if (!targetVar) {
+          var initialSelected = getSelectedOptionValues();
+          var currentMatched = productData.variants.find(function(v) {
+            return v.options.every(function(optVal, idx) {
+              return initialSelected[idx] === undefined || String(optVal).trim() === String(initialSelected[idx]).trim();
             });
+          });
+          if (!currentMatched || !currentMatched.available) {
+            targetVar = productData.variants.find(function(v) { return v.available; });
           }
+        }
+        if (targetVar && targetVar.options) {
+          targetVar.options.forEach(function(optVal, optIdx) {
+            var grp = root.querySelector('.product-option-group[data-option-index="' + optIdx + '"]');
+            if (grp) {
+              var pills = grp.querySelectorAll('[data-option-pill]');
+              pills.forEach(function(p) {
+                var pVal = p.getAttribute('data-option-value') || p.textContent.trim();
+                if (String(pVal).trim() === String(optVal).trim()) {
+                  pills.forEach(function(b) { b.classList.remove('is-selected'); });
+                  p.classList.add('is-selected');
+                  var lbl = grp.querySelector('[data-option-selected-val]');
+                  if (lbl) lbl.textContent = pVal;
+                }
+              });
+            }
+          });
         }
         updateVariantState(getSelectedOptionValues());
       }

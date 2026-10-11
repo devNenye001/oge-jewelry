@@ -119,7 +119,9 @@
 
             // 3. Post to Shopify Cart
             if (variantId && !isNaN(Number(variantId))) {
-              const addRes = await fetch('/cart/add.js', {
+              const activeCurr = (window.Shopify && window.Shopify.currency && (window.Shopify.currency.active || window.Shopify.currency)) || 'USD';
+              const addEndpoint = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_add_url) || '/cart/add') + '.js?currency=' + encodeURIComponent(activeCurr);
+              const addRes = await fetch(addEndpoint, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

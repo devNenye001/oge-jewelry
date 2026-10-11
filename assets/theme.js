@@ -305,14 +305,31 @@
     get cart() {
       return ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart) || '/cart');
     },
+    get activeCurrency() {
+      if (window.Shopify && window.Shopify.currency) {
+        if (typeof window.Shopify.currency === 'string') return window.Shopify.currency;
+        if (window.Shopify.currency.active) return window.Shopify.currency.active;
+      }
+      if (window.Shopify && window.Shopify.shopCurrency) return window.Shopify.shopCurrency;
+      return 'USD';
+    },
+    get currencyParam() {
+      const c = this.activeCurrency;
+      return c ? `currency=${encodeURIComponent(c)}` : '';
+    },
     get cartJs() {
-      return this.cart + '.js';
+      const p = this.currencyParam;
+      return this.cart + '.js' + (p ? `?${p}` : '');
     },
     get cartAddJs() {
-      return ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_add_url) || '/cart/add') + '.js';
+      const base = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_add_url) || '/cart/add') + '.js';
+      const p = this.currencyParam;
+      return base + (p ? `?${p}` : '');
     },
     get cartChangeJs() {
-      return ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_change_url) || '/cart/change') + '.js';
+      const base = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_change_url) || '/cart/change') + '.js';
+      const p = this.currencyParam;
+      return base + (p ? `?${p}` : '');
     },
     get checkout() {
       return this.root + '/checkout';
@@ -521,14 +538,16 @@
           const err = await res.json();
           const errorMsg = err.description || err.message || 'Unable to add this item to your bag.';
           this.showError(errorMsg);
-          this.open();
-          return { success: false, error: err };
+          if (this.cart && this.cart.item_count > 0) {
+            this.open();
+          }
+          return { success: false, error: err, errorMessage: errorMsg };
         }
       } catch (err) {
         console.error('Error adding item to cart:', err);
-        this.showError('A network error occurred. Please try again.');
-        this.open();
-        return { success: false, error: err };
+        const errorMsg = 'A network error occurred. Please try again.';
+        this.showError(errorMsg);
+        return { success: false, error: err, errorMessage: errorMsg };
       }
     },
 
@@ -2334,11 +2353,8 @@
           if (urlVariantId) {
             targetVariant = this.productData.variants.find((v) => String(v.id) === String(urlVariantId));
           }
-          if (!targetVariant || !targetVariant.available) {
-            const firstAvail = this.productData.variants.find((v) => v.available);
-            if (firstAvail) {
-              targetVariant = firstAvail;
-            }
+          if (!targetVariant) {
+            targetVariant = this.productData.variants.find((v) => v.available) || this.productData.variants[0];
           }
           if (targetVariant && targetVariant.options) {
             targetVariant.options.forEach((optVal, optIdx) => {
@@ -2569,18 +2585,35 @@
           if (btnText) btnText.textContent = 'Adding...';
           if (addBtn) addBtn.disabled = true;
 
+          const errorNotice = productContainer.querySelector('[data-form-error-notice]') || productContainer.querySelector('[data-sold-out-notice]');
+          if (errorNotice) errorNotice.style.display = 'none';
+
           try {
-            await CartDrawer.addItem(variantId, quantity, properties);
+            const res = await CartDrawer.addItem(variantId, quantity, properties);
+            if (!res || !res.success) {
+              const errMsg = (res && (res.errorMessage || (res.error && (res.error.description || res.error.message)))) || 'Unable to add this item to your bag.';
+              if (errorNotice) {
+                errorNotice.textContent = errMsg;
+                errorNotice.style.display = 'block';
+              }
+              if (errMsg.toLowerCase().includes('sold out')) {
+                if (btnText) btnText.textContent = 'Sold Out';
+                if (addBtn) {
+                  addBtn.disabled = true;
+                  addBtn.classList.add('is-disabled');
+                }
+              } else {
+                if (btnText) btnText.textContent = originalText;
+                if (addBtn) addBtn.disabled = false;
+              }
+            } else {
+              if (btnText) btnText.textContent = originalText;
+              if (addBtn) addBtn.disabled = false;
+            }
           } catch (err) {
             console.error('Error adding product to bag:', err);
-          } finally {
-            if (addBtn) {
-              const isSoldOut = btnText && btnText.textContent === 'Sold Out';
-              addBtn.disabled = isSoldOut;
-            }
-            if (btnText && btnText.textContent === 'Adding...') {
-              btnText.textContent = originalText;
-            }
+            if (btnText) btnText.textContent = originalText;
+            if (addBtn) addBtn.disabled = false;
           }
         });
       }
@@ -2628,6 +2661,8 @@
 
         const stockBadges = container.querySelectorAll('[data-option-stock-badge]');
         const warningEl = container.querySelector('[data-sold-out-notice]');
+        const formErrorNotice = container.querySelector('[data-form-error-notice]');
+        if (formErrorNotice) formErrorNotice.style.display = 'none';
 
         // 4. Update Availability & Add to Cart
         if (matchedVariant.available) {
@@ -2638,7 +2673,7 @@
           if (addToCartText) addToCartText.textContent = 'Add to Bag';
           if (buyNowWrap) buyNowWrap.style.display = '';
           stockBadges.forEach((b) => {
-            b.innerHTML = '<span class="stock-badge-instock">(In Stock)</span>';
+            b.innerHTML = '<span class="stock-badge-instock" style="display: none;">(In Stock)</span>';
           });
           if (warningEl) warningEl.style.display = 'none';
         } else {
