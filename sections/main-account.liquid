@@ -22,19 +22,19 @@
 
         <!-- Desktop Sidebar Navigation -->
         <nav class="account-sidebar__nav account-sidebar__nav--desktop" aria-label="Account Menu Desktop">
-          <a href="/collections/all?view=orders" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=orders" class="account-sidebar__link">
             <span>Orders</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=wishlist" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=wishlist" class="account-sidebar__link">
             <span>Wishlist</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=profile" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=profile" class="account-sidebar__link">
             <span>Profile</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=login" class="account-sidebar__link account-sidebar__link--signout">
+          <a href="{{ routes.all_products_collection_url }}?view=login" class="account-sidebar__link account-sidebar__link--signout">
             <span>Sign out</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
@@ -52,10 +52,10 @@
             <div class="account-card__body">
               {% if customer.orders_count > 0 %}
                 <p class="account-card__empty-text">You have {{ customer.orders_count }} past order(s).</p>
-                <a href="/collections/all?view=orders" class="account-card__action-link">View Orders</a>
+                <a href="{{ routes.all_products_collection_url }}?view=orders" class="account-card__action-link">View Orders</a>
               {% else %}
                 <p class="account-card__empty-text">No orders have been made yet!</p>
-                <a href="/collections/all?view=orders" class="account-card__action-link">Start Shopping</a>
+                <a href="{{ routes.all_products_collection_url }}?view=orders" class="account-card__action-link">Start Shopping</a>
               {% endif %}
             </div>
           </div>
@@ -72,19 +72,19 @@
 
         <!-- Mobile-Only Sidebar Navigation (Appears directly after Overview Cards on Responsive View) -->
         <nav class="account-sidebar__nav account-sidebar__nav--mobile" aria-label="Account Menu Mobile">
-          <a href="/collections/all?view=orders" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=orders" class="account-sidebar__link">
             <span>Orders</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=wishlist" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=wishlist" class="account-sidebar__link">
             <span>Wishlist</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=profile" class="account-sidebar__link">
+          <a href="{{ routes.all_products_collection_url }}?view=profile" class="account-sidebar__link">
             <span>Profile</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>
-          <a href="/collections/all?view=login" class="account-sidebar__link account-sidebar__link--signout">
+          <a href="{{ routes.all_products_collection_url }}?view=login" class="account-sidebar__link account-sidebar__link--signout">
             <span>Sign out</span>
             {% render 'icon-chevron', direction: 'right' %}
           </a>

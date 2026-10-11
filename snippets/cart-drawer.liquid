@@ -108,7 +108,7 @@
         <span>Securely Check Out | {{ cart.total_price | money }}</span>
       </a>
     {% else %}
-      <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="cart-drawer__btn-shop-all" data-cart-drawer-close>Shop All</a>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__btn-shop-all" data-cart-drawer-close>Shop All</a>
     {% endif %}
   </div>
 </div>

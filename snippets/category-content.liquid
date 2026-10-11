@@ -25,10 +25,10 @@
 
 <!-- Subcategory Filter Tabs (Mini Navigator - Only Rings, Necklaces, Bracelets, Earrings) -->
 <nav class="collection-category-tabs collection-nav-tabs" aria-label="Collection Categories">
-  <a href="/collections/rings" class="collection-tab-btn {% if active_handle == 'rings' or active_handle contains 'ring' %}is-active{% endif %}">Rings</a>
-  <a href="/collections/necklaces" class="collection-tab-btn {% if active_handle == 'necklaces' or active_handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
-  <a href="/collections/bracelets" class="collection-tab-btn {% if active_handle == 'bracelets' or active_handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
-  <a href="/collections/earrings" class="collection-tab-btn {% if active_handle == 'earrings' or active_handle contains 'earring' %}is-active{% endif %}">Earrings</a>
+  <a href="{{ routes.collections_url }}/rings" class="collection-tab-btn {% if active_handle == 'rings' or active_handle contains 'ring' %}is-active{% endif %}">Rings</a>
+  <a href="{{ routes.collections_url }}/necklaces" class="collection-tab-btn {% if active_handle == 'necklaces' or active_handle contains 'necklace' %}is-active{% endif %}">Necklaces</a>
+  <a href="{{ routes.collections_url }}/bracelets" class="collection-tab-btn {% if active_handle == 'bracelets' or active_handle contains 'bracelet' %}is-active{% endif %}">Bracelets</a>
+  <a href="{{ routes.collections_url }}/earrings" class="collection-tab-btn {% if active_handle == 'earrings' or active_handle contains 'earring' %}is-active{% endif %}">Earrings</a>
 </nav>
 
 <!-- Category Toolbar (Grid View Switchers) -->
@@ -98,7 +98,7 @@
           <div class="wishlist-empty-box collection-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
             <h2 class="wishlist-empty-title">No products found</h2>
             <p class="wishlist-empty-desc">There are currently no products available in this category.</p>
-            <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
+            <a href="{{ routes.all_products_collection_url }}" class="wishlist-shop-btn" style="display: inline-block;">Explore All Jewelry</a>
           </div>
         {% endif %}
       {% else %}

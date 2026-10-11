@@ -18,14 +18,38 @@
   {% assign show_banner = true %}
 {% endif %}
 
-{% if is_shop_all %}
-  {% assign banner_img = section.settings.banner_image | default: collection.image %}
-  {% assign banner_title = section.settings.banner_title | default: 'SHOP ALL JEWELRIES' %}
-  {% if banner_title == blank %}{% assign banner_title = 'SHOP ALL JEWELRIES' %}{% endif %}
-  {% assign banner_desc = section.settings.banner_desc | default: 'Handcrafted fine jewelry sculpted in 18k solid gold and ethically sourced gemstones.' %}
-{% else %}
+{%- comment -%}
+  Banner image priority:
+  1. section.settings.banner_image (explicitly set in Shopify Theme Customizer)
+  2. collection.image (Shopify Admin collection image)
+  3. Handle-based fallback image
+{%- endcomment -%}
+{% assign banner_img = section.settings.banner_image %}
+{% if banner_img == blank and collection.image != blank %}
   {% assign banner_img = collection.image %}
-  {% assign banner_title = collection.title | default: 'COLLECTION' %}
+{% endif %}
+
+{%- comment -%}
+  Banner title priority:
+  1. section.settings.banner_title (explicitly set in Shopify Theme Customizer)
+  2. collection.title (Shopify Admin collection title)
+  3. Default 'SHOP'
+{%- endcomment -%}
+{% assign banner_title = section.settings.banner_title %}
+{% if banner_title == blank and collection.title != blank %}
+  {% assign banner_title = collection.title %}
+{% endif %}
+{% if banner_title == blank %}
+  {% assign banner_title = 'SHOP' %}
+{% endif %}
+
+{%- comment -%}
+  Banner description priority:
+  1. section.settings.banner_desc (explicitly set in Shopify Theme Customizer)
+  2. collection.description (Shopify Admin collection description)
+{%- endcomment -%}
+{% assign banner_desc = section.settings.banner_desc %}
+{% if banner_desc == blank and collection.description != blank %}
   {% assign banner_desc = collection.description %}
 {% endif %}
 
@@ -106,33 +130,10 @@
         else if (path.includes('bound') || path.includes('bondr')) queryColl = 'boundaries';
         else if (path.includes('romance') || path.includes('self-woman')) queryColl = 'self-woman';
         else if (path.includes('align')) queryColl = 'alignment';
-        else if (path.includes('all') || path.includes('shop') || path === '/collections' || path === '/collections/') queryColl = 'all';
+        else if (path.includes('all') || path.includes('shop') || path === '{{ routes.collections_url }}' || path === '{{ routes.collections_url }}/') queryColl = 'all';
       }
 
-      // Check if we are on Shop All / All Collections
-      const isShopAllMode = queryColl === 'all' || queryColl === 'shop' || queryColl === '' && ('{{ is_shop_all }}' === 'true');
-
-      if (isShopAllMode) {
-        const headingEl = document.getElementById('category-page-heading');
-        if (headingEl) headingEl.textContent = 'SHOP ALL JEWELRIES';
-        document.title = 'SHOP ALL JEWELRIES — OGÉ Fine Jewelry';
-      } else {
-        const collData = {
-          'victorious': { title: 'THE VICTORIOUS COLLECTION', img: '{{ "Victorious-collection.jpg" | asset_url }}' },
-          'boundaries': { title: 'THE BOUNDARIES COLLECTION', img: '{{ "Boundaries-collection.jpg" | asset_url }}' },
-          'rebirth': { title: 'THE REBIRTH COLLECTION', img: '{{ "Rebirth-collection.jpg" | asset_url }}' },
-          'self-romance': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-          'self-woman': { title: 'THE SELF WOMAN COLLECTION', img: '{{ "SelfRomance-collection.jpg" | asset_url }}' },
-          'alignment': { title: 'THE ALIGNMENT COLLECTION', img: '{{ "alignment-collection.jpg" | asset_url }}' }
-        };
-        if (queryColl && collData[queryColl]) {
-          const titleEl = document.querySelector('.collection-hero-banner__title') || document.querySelector('.category-page-title');
-          if (titleEl) titleEl.textContent = collData[queryColl].title;
-          const imgEl = document.querySelector('.collection-hero-banner__img');
-          if (imgEl) imgEl.src = collData[queryColl].img;
-          document.title = `${collData[queryColl].title} — OGÉ Fine Jewelry`;
-        }
-      }
+      const isShopAllMode = queryColl === 'all' || queryColl === 'shop' || (queryColl === '' && '{{ is_shop_all }}' === 'true');
 
       // Density switchers (1, 2, 4 columns)
       const densityBtns = document.querySelectorAll('.grid-density-btn');

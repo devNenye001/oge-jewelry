@@ -1,20 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Men's Collection View Template
+  OGÉ Fine Jewelry - Men Collection Template
+  Powered by sections/main-collection.liquid to ensure banner image, heading text, and catalog are fully editable in Shopify Theme Customizer.
 {% endcomment %}
 
-<header class="category-page-header">
-  <h1 class="category-page-title" id="category-page-heading">MEN'S COLLECTION</h1>
-</header>
-<hr class="category-divider-line">
-
-<main class="collection-catalog-wrap" id="MainContent">
-  <div class="collection-products-grid grid--4-col" id="category-grid">
-    {% assign all_prods = collections['men-s-signature-collection'].products | default: collections['men'].products | default: collections.all.products %}
-    {% if all_prods.size > 0 %}
-      {% for product in all_prods %}
-        {% render 'product-card', product: product %}
-      {% endfor %}
-    {% endif %}
-  </div>
-</main>
-<hr class="category-divider-line">
+{% section 'main-collection' %}

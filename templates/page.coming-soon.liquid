@@ -311,9 +311,13 @@
       <p class="coming-soon-explore-desc">While we prepare this release, explore our current handcrafted fine jewelry.</p>
     </div>
 
+    {% assign default_rebirth = routes.collections_url | append: '/the-rebirth-collection' %}
+    {% assign default_victorious = routes.collections_url | append: '/victorious-collection' %}
+    {% assign default_self_romance = routes.collections_url | append: '/the-self-romance-collection' %}
+
     <div class="coming-soon-grid">
       <!-- Rebirth Collection -->
-      <a href="{{ collections['the-rebirth-collection'].url | default: collections['rebirth'].url | default: '/collections/the-rebirth-collection' }}" class="coming-soon-tile">
+      <a href="{{ collections['the-rebirth-collection'].url | default: collections['rebirth'].url | default: default_rebirth }}" class="coming-soon-tile">
         <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" loading="lazy" width="600" height="800">
         <div class="coming-soon-tile__overlay">
           <h3 class="coming-soon-tile__title">Rebirth Collection</h3>
@@ -322,7 +326,7 @@
       </a>
 
       <!-- Victorious Collection -->
-      <a href="{{ collections['victorious-collection'].url | default: collections['victorious'].url | default: '/collections/victorious-collection' }}" class="coming-soon-tile">
+      <a href="{{ collections['victorious-collection'].url | default: collections['victorious'].url | default: default_victorious }}" class="coming-soon-tile">
         <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" loading="lazy" width="600" height="800">
         <div class="coming-soon-tile__overlay">
           <h3 class="coming-soon-tile__title">Victorious Collection</h3>
@@ -331,7 +335,7 @@
       </a>
 
       <!-- Self Romance Collection -->
-      <a href="{{ collections['the-self-romance-collection'].url | default: collections['self-romance'].url | default: '/collections/the-self-romance-collection' }}" class="coming-soon-tile">
+      <a href="{{ collections['the-self-romance-collection'].url | default: collections['self-romance'].url | default: default_self_romance }}" class="coming-soon-tile">
         <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="600" height="800">
         <div class="coming-soon-tile__overlay">
           <h3 class="coming-soon-tile__title">Self Romance Collection</h3>
@@ -341,7 +345,7 @@
     </div>
 
     <div style="margin-top: 48px;">
-      <a href="/collections/all" class="btn btn-primary" style="padding: 14px 36px; display: inline-block;">Explore All Jewelry</a>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary" style="padding: 14px 36px; display: inline-block;">Explore All Jewelry</a>
     </div>
   </div>
 </section>

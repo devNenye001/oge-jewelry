@@ -67,7 +67,7 @@
     {% else %}
       <div class="cart-page-empty" data-cart-page-empty style="text-align: center; padding: 60px 0;">
         <p style="font-size: 1.125rem; color: var(--color-text-muted); margin-bottom: 24px;">{{ 'cart.empty' | t }}</p>
-        <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="btn btn-primary">{{ 'cart.continue_shopping' | t }}</a>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">{{ 'cart.continue_shopping' | t }}</a>
       </div>
     {% endif %}
   </div>

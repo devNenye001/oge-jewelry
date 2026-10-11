@@ -1,19 +1,6 @@
 {% comment %}
-  OGÉ Fine Jewelry - Shop All Jewelry Page Template (Exact Category Page Design)
-  Renders at /pages/shop or /pages/jewelries
+  OGÉ Fine Jewelry - Shop All Page Template
+  Powered by sections/main-collection.liquid to ensure banner image, heading text, and catalog are fully editable in Shopify Theme Customizer.
 {% endcomment %}
 
-<header class="category-page-header">
-  <h1 class="category-page-title" id="category-page-heading">SHOP ALL JEWELRIES</h1>
-</header>
-<hr class="category-divider-line">
-
-<main class="collection-catalog-wrap" id="MainContent">
-  <div class="collection-products-grid grid--4-col" id="category-grid">
-    {% assign all_prods = collections.all.products | default: collection.products %}
-    {% for product in all_prods %}
-      {% render 'product-card', product: product %}
-    {% endfor %}
-  </div>
-</main>
-<hr class="category-divider-line">
+{% section 'main-collection' %}

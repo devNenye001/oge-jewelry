@@ -28,28 +28,28 @@
         {% endfor %}
       {% else %}
         <!-- Default 4 Tiles Matching Navigation -->
-        <a href="/collections/necklaces" class="collection-tile">
+        <a href="{{ routes.collections_url }}/necklaces" class="collection-tile">
           <img src="{{ 'sidebar-necklaces.jpg' | asset_url }}" alt="Necklaces" loading="lazy" width="600" height="800">
           <div class="collection-tile__overlay">
             <h3 class="collection-tile__title">Necklaces</h3>
             <span class="collection-tile__link-text">Shop Collection</span>
           </div>
         </a>
-        <a href="/collections/rings" class="collection-tile">
+        <a href="{{ routes.collections_url }}/rings" class="collection-tile">
           <img src="{{ 'product-ring-1.jpg' | asset_url }}" alt="Rings" loading="lazy" width="600" height="800">
           <div class="collection-tile__overlay">
             <h3 class="collection-tile__title">Rings</h3>
             <span class="collection-tile__link-text">Shop Collection</span>
           </div>
         </a>
-        <a href="/collections/earrings" class="collection-tile">
+        <a href="{{ routes.collections_url }}/earrings" class="collection-tile">
           <img src="{{ 'product-earrings-1.jpg' | asset_url }}" alt="Earrings" loading="lazy" width="600" height="800">
           <div class="collection-tile__overlay">
             <h3 class="collection-tile__title">Earrings</h3>
             <span class="collection-tile__link-text">Shop Collection</span>
           </div>
         </a>
-        <a href="/collections/bracelets" class="collection-tile">
+        <a href="{{ routes.collections_url }}/bracelets" class="collection-tile">
           <img src="{{ 'product-bracelet-1.jpg' | asset_url }}" alt="Bracelets" loading="lazy" width="600" height="800">
           <div class="collection-tile__overlay">
             <h3 class="collection-tile__title">Bracelets</h3>

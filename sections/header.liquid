@@ -63,7 +63,7 @@
       <!-- Wishlist Heart Icon (Desktop & Mobile) -->
       {% assign header_wishlist_url = pages['wishlist'].url %}
       {% if header_wishlist_url == blank or header_wishlist_url == '' %}
-        {% assign header_wishlist_url = '/collections/all?view=wishlist' %}
+        {% assign header_wishlist_url = routes.all_products_collection_url | append: '?view=wishlist' %}
       {% endif %}
       <a href="{{ header_wishlist_url }}" class="header-icon-btn" aria-label="{{ 'header.wishlist' | t }}">
         {% render 'icon-heart' %}
@@ -85,7 +85,7 @@
       </script>
 
       <!-- Customer Account Icon: Directs to account overview -->
-      <a href="/collections/all?view=account" class="header-icon-btn" aria-label="{{ 'header.account' | t | default: 'Account' }}">
+      <a href="{{ routes.all_products_collection_url }}?view=account" class="header-icon-btn" aria-label="{{ 'header.account' | t | default: 'Account' }}">
         {% render 'icon-account' %}
       </a>
 

@@ -1,8 +1,11 @@
 <section class="promo-sales-section" style="padding: 20px 0 40px; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
   <div class="page-container">
     <div class="promo-sales-grid">
+      {% assign default_link_1 = routes.collections_url | append: '/earrings' %}
+      {% assign default_link_2 = routes.collections_url | append: '/necklaces' %}
+
       <!-- Sales Card 1: The Valor Earring -->
-      <a href="{{ section.settings.link_1 | default: '/collections/earrings' }}" class="promo-card">
+      <a href="{{ section.settings.link_1 | default: default_link_1 }}" class="promo-card">
         {% if section.settings.image_1 != blank %}
           {{ section.settings.image_1 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.headline_1 }}
         {% else %}
@@ -18,7 +21,7 @@
       </a>
 
       <!-- Sales Card 2: Valor Earring + Necklace Set Offer -->
-      <a href="{{ section.settings.link_2 | default: '/collections/necklaces' }}" class="promo-card">
+      <a href="{{ section.settings.link_2 | default: default_link_2 }}" class="promo-card">
         {% if section.settings.image_2 != blank %}
           {{ section.settings.image_2 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.headline_2 }}
         {% else %}

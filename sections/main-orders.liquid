@@ -7,7 +7,7 @@
   <div class="orders-container">
 
     <!-- Top Navigation Link: Back to Overview -->
-    <a href="/collections/all?view=account" class="profile-back-link" aria-label="Back to Account Overview">
+    <a href="{{ routes.all_products_collection_url }}?view=account" class="profile-back-link" aria-label="Back to Account Overview">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
@@ -116,7 +116,7 @@
       <div class="orders-empty-state">
         <h2 class="orders-empty-title">{{ section.settings.empty_title | default: 'No orders have been made yet!' }}</h2>
         <p class="orders-empty-subtitle">{{ section.settings.empty_subtitle | default: 'When you place an order, its details, shipment tracking, and receipts will be displayed here.' }}</p>
-        <a href="/collections/all?view=shop" class="btn orders-shop-btn">
+        <a href="{{ routes.all_products_collection_url }}?view=shop" class="btn orders-shop-btn">
           {{ section.settings.shop_btn_label | default: 'Start Shopping' }}
         </a>
       </div>
