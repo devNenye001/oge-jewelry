@@ -603,13 +603,21 @@
         return;
       }
 
+      const hasVariants = btn.getAttribute('data-has-variants') === 'true';
+      const prodUrl = btn.getAttribute('data-product-url') ||
+        btn.closest('[data-product-card]')?.querySelector('.product-card__image-link')?.getAttribute('href') ||
+        btn.closest('[data-product-card]')?.querySelector('a')?.getAttribute('href');
+
+      if (hasVariants && prodUrl) {
+        window.location.href = prodUrl;
+        return;
+      }
+
       let variantId = btn.getAttribute('data-product-id');
       const handle = btn.getAttribute('data-product-handle') ||
         btn.closest('[data-product-card]')?.getAttribute('data-product-handle') ||
         btn.closest('[data-wishlist-item]')?.getAttribute('data-wishlist-item') ||
         btn.closest('[data-product-handle]')?.getAttribute('data-product-handle');
-
-      // Handle quick add click
 
       // Resolve numeric variant ID if handle was provided
       if (!variantId || isNaN(Number(variantId))) {
