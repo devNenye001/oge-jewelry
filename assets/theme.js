@@ -2447,9 +2447,12 @@
       }
 
       // 4. Accordions Toggle
-      const accordionHeaders = productContainer.querySelectorAll('[data-product-accordions] .product-accordion-header');
+      const accordionHeaders = productContainer.querySelectorAll('[data-product-accordions] .product-accordion-header, .product-accordion-header');
       accordionHeaders.forEach((header) => {
-        header.addEventListener('click', () => {
+        if (header.dataset.accordionBound) return;
+        header.dataset.accordionBound = 'true';
+        header.addEventListener('click', (e) => {
+          e.preventDefault();
           const item = header.closest('.product-accordion-item');
           if (!item) return;
           const isCurrentlyOpen = item.classList.contains('is-open');
@@ -2464,8 +2467,8 @@
           } else {
             item.classList.add('is-open');
             header.setAttribute('aria-expanded', 'true');
-            if (body) body.style.maxHeight = body.scrollHeight + 'px';
-            if (icon) icon.textContent = '−';
+            if (body) body.style.maxHeight = (body.scrollHeight + 40) + 'px';
+            if (icon) icon.innerHTML = '&minus;';
           }
         });
       });

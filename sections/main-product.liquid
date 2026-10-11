@@ -808,6 +808,8 @@
       // 3. Accordions
       var accordionHeaders = root.querySelectorAll('.product-accordion-header');
       accordionHeaders.forEach(function(header) {
+        if (header.dataset.accordionBound) return;
+        header.dataset.accordionBound = 'true';
         header.addEventListener('click', function(e) {
           e.preventDefault();
           var item = header.closest('.product-accordion-item');
@@ -825,7 +827,7 @@
           } else {
             item.classList.add('is-open');
             header.setAttribute('aria-expanded', 'true');
-            if (body) body.style.maxHeight = (body.scrollHeight + 30) + 'px';
+            if (body) body.style.maxHeight = (body.scrollHeight + 40) + 'px';
             if (icon) icon.innerHTML = '&minus;';
           }
         });

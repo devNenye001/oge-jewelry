@@ -6624,7 +6624,7 @@ body.template-customers-reset-password {
 }
 
 .product-accordion-item.is-open .product-accordion-body {
-  max-height: 400px;
+  max-height: 1200px;
 }
 
 .product-accordion-content {
