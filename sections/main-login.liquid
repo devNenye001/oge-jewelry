@@ -1,24 +1,24 @@
 {% comment %}
-  OGÉ Fine Jewelry - Main Login Section (Split Screen)
-  Left: Form / Right: Victorious Collection Image
+  OGÉ Fine Jewelry - Main Login & Recover Password Section (Split Screen)
+  Left: Form (Login / Recover Password toggle) / Right: Victorious Collection Image
 {% endcomment %}
 
 <div class="auth-page-wrapper">
   <div class="auth-split-grid">
     
-    <!-- Left Column: Login Form -->
+    <!-- Left Column: Authentication Forms -->
     <div class="auth-form-column">
       <!-- Top Back Link -->
-      <a href="{{ routes.root_url | default: '/' }}" class="auth-back-link" aria-label="Go Back">
+      <a href="{{ routes.root_url }}" class="auth-back-link" aria-label="Go Back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
         <span>Back</span>
       </a>
 
-      <!-- Form Inner Container -->
-      <div class="auth-form-inner">
-        <a href="{{ routes.root_url | default: '/' }}" class="auth-logo-center" aria-label="OGÉ Home">
+      <!-- 1. LOGIN FORM CONTAINER -->
+      <div class="auth-form-inner" id="login-form-container">
+        <a href="{{ routes.root_url }}" class="auth-logo-center" aria-label="OGÉ Home">
           <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name }}" class="auth-logo-img" width="90" height="28">
         </a>
 
@@ -41,19 +41,19 @@
             <div class="form-input-line-wrap">
               <input type="password" name="customer[password]" id="login-password" class="form-input-line" placeholder="Enter password" required autocomplete="current-password">
               <button type="button" class="password-eye-btn" data-toggle-password="login-password" aria-label="Show password" title="Show password">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                      <line x1="2" y1="2" x2="22" y2="22"></line>
-                    </svg>
-                  </button>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                  <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                  <line x1="2" y1="2" x2="22" y2="22"></line>
+                </svg>
+              </button>
             </div>
           </div>
 
           <!-- Forgot Password Link -->
           <div class="auth-forgot-row">
-            <a href="{{ routes.account_recover_url | default: '/account/login#recover' }}" class="auth-forgot-link" id="btn-forgot-password">I've forgotten my password</a>
+            <a href="#recover" class="auth-forgot-link" id="btn-forgot-password">I've forgotten my password</a>
           </div>
 
           <!-- Submit Button -->
@@ -61,8 +61,45 @@
 
           <!-- Footer Prompt -->
           <p class="auth-footer-prompt">
-            Dont have an account? <a href="{{ routes.all_products_collection_url }}?view=signup">Create an account here</a>
+            Don't have an account? <a href="{{ routes.account_register_url | default: routes.all_products_collection_url | append: '?view=signup' }}">Create an account here</a>
           </p>
+        {% endform %}
+      </div>
+
+      <!-- 2. RECOVER / FORGOT PASSWORD FORM CONTAINER -->
+      <div class="auth-form-inner" id="recover-form-container" style="display: none;">
+        <a href="{{ routes.root_url }}" class="auth-logo-center" aria-label="OGÉ Home">
+          <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name }}" class="auth-logo-img" width="90" height="28">
+        </a>
+
+        <h1 class="auth-title-serif" style="text-align: center; font-size: 1.5rem; margin-top: 16px; margin-bottom: 8px;">RESET PASSWORD</h1>
+        <p class="auth-subtitle">We will send you an email to reset your password.</p>
+
+        {% form 'recover_customer_password', id: 'form-auth-recover' %}
+          {% assign recover_success = form.posted_successfully? %}
+          {{ form.errors | default_errors }}
+
+          {% if form.posted_successfully? %}
+            <div class="auth-success-box" style="padding: 14px 18px; background-color: #F4FBF7; color: #1E6B38; border: 1px solid #C8E6C9; margin-bottom: 24px; font-size: 0.875rem; text-align: center; line-height: 1.5;">
+              {{ 'customer.recover_password.success' | t | default: "We've sent you an email with a link to update your password." }}
+            </div>
+          {% endif %}
+
+          <!-- Email Address Field -->
+          <div class="form-group-line" style="margin-bottom: 24px;">
+            <label for="recover-email" class="form-label-line">Email address</label>
+            <div class="form-input-line-wrap">
+              <input type="email" name="email" id="recover-email" class="form-input-line" placeholder="name@email.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="auth-btn-primary" id="btn-recover-submit">Reset Password</button>
+
+          <!-- Back to Login Link -->
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="#login" class="auth-forgot-link" id="btn-recover-cancel" style="font-size: 0.8125rem;">Cancel & Return to Login</a>
+          </div>
         {% endform %}
       </div>
 
@@ -82,10 +119,68 @@
   </div>
 </div>
 
+<script>
+  (function() {
+    function checkAuthHash() {
+      var isRecover = window.location.hash === '#recover' || 
+                      window.location.search.indexOf('recover') !== -1 || 
+                      window.location.pathname.indexOf('recover') !== -1 ||
+                      {% if recover_success %}true{% else %}false{% endif %};
+      var loginBox = document.getElementById('login-form-container');
+      var recoverBox = document.getElementById('recover-form-container');
+
+      if (loginBox && recoverBox) {
+        if (isRecover) {
+          loginBox.style.display = 'none';
+          recoverBox.style.display = 'block';
+          var recInp = document.getElementById('recover-email');
+          if (recInp) recInp.focus();
+        } else {
+          loginBox.style.display = 'block';
+          recoverBox.style.display = 'none';
+        }
+      }
+    }
+
+    function initAuthToggles() {
+      checkAuthHash();
+
+      var forgotBtn = document.getElementById('btn-forgot-password');
+      if (forgotBtn) {
+        forgotBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.hash = 'recover';
+          checkAuthHash();
+        });
+      }
+
+      var cancelBtn = document.getElementById('btn-recover-cancel');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (window.history && window.history.pushState) {
+            window.history.pushState('', document.title, window.location.pathname + window.location.search);
+          } else {
+            window.location.hash = '';
+          }
+          checkAuthHash();
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAuthToggles);
+    } else {
+      initAuthToggles();
+    }
+
+    window.addEventListener('hashchange', checkAuthHash);
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "Customer Login",
+  "name": "Customer Login & Recover",
   "settings": []
 }
 {% endschema %}
