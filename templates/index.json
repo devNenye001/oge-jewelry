@@ -13,12 +13,12 @@
       "type": "hero-banner",
       "settings": {
         "image": "shopify://shop_images/extend_this_photo_2K_20260913193703.jpg",
-        "eyebrow": "THE NEW COLLECTION",
-        "title": "Timeless Elegance, Handcrafted in Solid Gold",
-        "text": "Discover fine jewelry pieces designed to empower and endure for generations.",
-        "btn_1_text": "Shop New In",
         "btn_1_url": "/collections/new-arrival",
-        "btn_2_text": "Our Story",
+        "eyebrow": "",
+        "title": "",
+        "text": "",
+        "btn_1_text": "",
+        "btn_2_text": "",
         "btn_2_url": ""
       }
     },
@@ -40,15 +40,15 @@
         "collection_1": "",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
-        "link_1": "/collections/necklaces",
+        "link_1": "",
         "collection_2": "",
         "title_2": "RINGS",
         "cta_2": "Shop now",
-        "link_2": "/collections/rings",
+        "link_2": "",
         "collection_3": "",
         "title_3": "EARRING",
         "cta_3": "Shop now",
-        "link_3": "/collections/earrings"
+        "link_3": ""
       }
     },
     "signature_collections": {
@@ -57,19 +57,19 @@
         "heading": "FIND YOUR SIGNATURE",
         "collection_alignment": "",
         "title_alignment": "ALIGNMENT COLLECTION",
-        "link_alignment": "/pages/coming-soon",
-        "collection_1": "",
+        "link_alignment": "",
+        "collection_1": "the-rebirth-collection",
         "title_1": "REBIRTH COLLECTION",
-        "link_1": "/collections/the-rebirth-collection",
+        "link_1": "",
         "collection_2": "",
         "title_2": "BOUNDARIES COLLECTION",
-        "link_2": "/collections/boundaries-collection",
+        "link_2": "",
         "collection_3": "",
         "title_3": "VICTORIOUS COLLECTION",
-        "link_3": "/collections/victorious-collection",
+        "link_3": "",
         "collection_4": "",
         "title_4": "SELF ROMANCE COLLECTION",
-        "link_4": "/collections/the-self-romance-collection"
+        "link_4": ""
       }
     },
     "pieces_worth_keeping": {
