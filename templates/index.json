@@ -76,7 +76,10 @@
         "collection_4": "the-self-romance-collection",
         "image_4": "shopify://shop_images/Untitled_design_-_2026-06-01T175437.700.png",
         "title_4": "SELF ROMANCE COLLECTION",
-        "link_4": ""
+        "link_4": "",
+        "collection_men": "mens-signature-collection",
+        "title_men": "MEN'S SIGNATURE COLLECTION",
+        "link_men": "/collections/mens-signature-collection"
       }
     },
     "pieces_worth_keeping": {
