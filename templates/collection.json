@@ -1,19 +1,54 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-collection",
+      "blocks": {
+        "rebirth": {
+          "type": "collection_banner",
+          "settings": {
+            "collection": "the-rebirth-collection",
+            "heading": "THE REBIRTH COLLECTION",
+            "banner_desc": "Embrace transformation with sculpted solid gold and symbolic adornments.",
+            "show_banner": true
+          }
+        },
+        "boundaries": {
+          "type": "collection_banner",
+          "settings": {
+            "collection": "boundaries-collection",
+            "heading": "THE BOUNDARIES COLLECTION",
+            "banner_desc": "Celebrate sovereignty and unyielding strength with sculpted solid gold.",
+            "show_banner": true
+          }
+        },
+        "victorious": {
+          "type": "collection_banner",
+          "settings": {
+            "collection": "victorious-collection",
+            "heading": "THE VICTORIOUS COLLECTION",
+            "banner_desc": "Commanding silhouettes sculpted in solid gold and precious gemstones.",
+            "show_banner": true
+          }
+        },
+        "self_romance": {
+          "type": "collection_banner",
+          "settings": {
+            "collection": "the-self-romance-collection",
+            "heading": "THE SELF ROMANCE COLLECTION",
+            "banner_desc": "Intimate luxury and radiant self-love in 18k solid gold.",
+            "show_banner": true
+          }
+        }
+      },
+      "block_order": [
+        "rebirth",
+        "boundaries",
+        "victorious",
+        "self_romance"
+      ],
       "settings": {
         "show_banner": true,
-        "banner_image": "shopify://shop_images/IVA_6036.jpg",
+        "banner_image": "",
         "banner_title": "",
         "banner_desc": "",
         "products_per_page": 24
