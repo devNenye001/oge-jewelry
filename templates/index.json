@@ -38,15 +38,17 @@
       "settings": {
         "heading": "SHOP BY CATEGORY",
         "collection_1": "necklaces",
-        "image_1": "shopify://shop_images/necklace-category.jpg",
+        "image_1": "shopify://shop_images/IVA_6244_crop_enh.jpg",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
         "link_1": "",
         "collection_2": "rings",
+        "image_2": "shopify://shop_images/Untitled_design_-_2026-06-15T160900.393.png",
         "title_2": "RINGS",
         "cta_2": "Shop now",
         "link_2": "",
         "collection_3": "earrings",
+        "image_3": "shopify://shop_images/IVA_6110_crop.jpg",
         "title_3": "EARRING",
         "cta_3": "Shop now",
         "link_3": ""
