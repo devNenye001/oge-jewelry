@@ -245,9 +245,10 @@ body:not(.template-index) .site-header .site-logo__image--black {
 }
 
 .site-logo img {
-  width: 135px;
-  max-height: 48px;
-  height: auto;
+  width: auto;
+  height: 52px;
+  max-height: 58px;
+  max-width: 160px;
   object-fit: contain;
 }
 
@@ -324,9 +325,11 @@ body:not(.template-index) .site-header .site-logo__image--black {
   }
 
   .site-logo img {
-    width: 85px;
-    max-height: 32px;
-    height: auto;
+    width: auto;
+    height: 34px;
+    max-height: 36px;
+    max-width: 90px;
+    object-fit: contain;
   }
 }
 
