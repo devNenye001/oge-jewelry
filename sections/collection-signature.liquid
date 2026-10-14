@@ -60,8 +60,8 @@
       </button>
 
       <div class="signature-scroll-container" data-signature-scroll>
-        <!-- Collection 1: Alignment (First Card -> Links to Coming Soon) -->
-        <a href="{{ url_align }}" class="signature-card">
+        <!-- Collection 1: Alignment (Coming Soon - Normal Text, Not a Link) -->
+        <div class="signature-card signature-card--coming-soon" style="cursor: default;">
           {% if img_align != blank %}
             {{ img_align | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_alignment }}
           {% else %}
@@ -69,9 +69,9 @@
           {% endif %}
           <div class="signature-card__overlay">
             <h3 class="signature-card__title">{{ section.settings.title_alignment | default: coll_align.title | default: 'ALIGNMENT COLLECTION' }}</h3>
-            <span class="signature-card__link">Coming Soon</span>
+            <span class="signature-card__coming-soon" style="text-decoration: none; cursor: default;">Coming Soon</span>
           </div>
-        </a>
+        </div>
 
         <!-- Collection 2: Rebirth -->
         <a href="{{ url_1 }}" class="signature-card">

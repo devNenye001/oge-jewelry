@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-necklaces",
+      "settings": {
+        "heading": "NECKLACES",
+        "show_banner": false,
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,6 +1,9 @@
 {% comment %}
-Renders the multi-level sliding sidebar drawer navigation matching the approved OGÉ design.
+  OGÉ Fine Jewelry - Sidebar Drawer Component
+  Fully editable via Shopify Theme Customizer in sections/header.liquid.
 {% endcomment %}
+
+{% assign s_settings = section.settings %}
 
 <!-- Drawer Backdrop Overlay -->
 <div class="drawer-backdrop" data-drawer-backdrop></div>
@@ -10,16 +13,20 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
   <div class="sidebar-panels" data-sidebar-panels>
 
     <!-- ====================================================================
-         PANEL 1: MAIN NAVIGATION (LEVEL 1 - Exact Approved OGÉ Navigation)
+         PANEL 1: MAIN NAVIGATION (LEVEL 1)
          ==================================================================== -->
     <div class="sidebar-panel sidebar-panel--main">
-      <!-- Sidebar Header Bar: Close on Left, Centered Logo, Search & Profile on Far Right (Mobile) / Close on Right (Desktop) -->
+      <!-- Sidebar Header Bar: Close on Left, Centered Logo, Search & Profile on Far Right -->
       <div class="sidebar-header-bar">
         <button class="sidebar-close-btn" data-sidebar-close aria-label="Close" id="btn-sidebar-close">
           {% render 'icon-close' %}
         </button>
         <a href="{{ routes.root_url }}" class="sidebar-logo-center" aria-label="OGÉ Home">
-          <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name | default: '06é' }}" class="site-logo__image">
+          {% if s_settings.logo != blank %}
+            {{ s_settings.logo | image_url: width: 250 | image_tag: class: 'site-logo__image', alt: shop.name }}
+          {% else %}
+            <img src="{{ 'logo2.png' | asset_url }}" alt="{{ shop.name | default: '06é' }}" class="site-logo__image">
+          {% endif %}
         </a>
         <div class="sidebar-header-actions">
           <a href="{{ routes.search_url }}" class="header-icon-btn" data-search-open aria-label="Search">
@@ -31,68 +38,92 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
         </div>
       </div>
 
-      <!-- Main Navigation Menu Items: EXACT Approved OGÉ Hierarchy -->
+      <!-- Main Navigation Menu Items -->
       <nav class="sidebar-nav" aria-label="Main Navigation">
         <ul class="sidebar-nav__list">
-          <!-- 1. NEW IN -->
-          <li class="sidebar-nav__item">
-            {% assign new_in_url = collections['new-arrival'].url %}
-            {% if new_in_url == blank or new_in_url == '' %}{% assign new_in_url = collections['new-in'].url %}{% endif %}
-            {% if new_in_url == blank or new_in_url == '' %}{% assign new_in_url = routes.collections_url | append: '/new-in' %}{% endif %}
-            <a href="{{ new_in_url }}" class="sidebar-nav__link">
-              <span>New In</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </a>
-          </li>
+          {% if s_settings.sidebar_menu != blank and linklists[s_settings.sidebar_menu].links.size > 0 %}
+            {% for link in linklists[s_settings.sidebar_menu].links %}
+              {% assign link_title_down = link.title | downcase %}
+              <li class="sidebar-nav__item">
+                {% if link_title_down == 'jewelry' or link_title_down == 'jewelries' %}
+                  <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="{{ link.title }}">
+                    <span>{{ link.title }}</span>
+                    <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+                  </button>
+                {% elsif link_title_down == 'collections' or link_title_down == 'collection' %}
+                  <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-collections" data-submenu-title="{{ link.title }}">
+                    <span>{{ link.title }}</span>
+                    <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+                  </button>
+                {% else %}
+                  <a href="{{ link.url }}" class="sidebar-nav__link">
+                    <span>{{ link.title }}</span>
+                    <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          {% else %}
+            <!-- 1. NEW IN -->
+            <li class="sidebar-nav__item">
+              {% assign new_in_url = collections['new-arrival'].url %}
+              {% if new_in_url == blank or new_in_url == '' %}{% assign new_in_url = collections['new-in'].url %}{% endif %}
+              {% if new_in_url == blank or new_in_url == '' %}{% assign new_in_url = routes.collections_url | append: '/new-in' %}{% endif %}
+              <a href="{{ new_in_url }}" class="sidebar-nav__link">
+                <span>New In</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </a>
+            </li>
 
-          <!-- 2. JEWELRY (Sliding submenu trigger) -->
-          <li class="sidebar-nav__item">
-            <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="Jewelry" id="btn-menu-jewelry">
-              <span>Jewelry</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </button>
-          </li>
+            <!-- 2. JEWELRY (Sliding submenu trigger) -->
+            <li class="sidebar-nav__item">
+              <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="Jewelry" id="btn-menu-jewelry">
+                <span>Jewelry</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </button>
+            </li>
 
-          <!-- 3. MEN -->
-          <li class="sidebar-nav__item">
-            {% assign men_url = collections['men-s-signature-collection'].url %}
-            {% if men_url == blank or men_url == '' %}{% assign men_url = collections['men'].url %}{% endif %}
-            {% if men_url == blank or men_url == '' %}{% assign men_url = routes.collections_url | append: '/men' %}{% endif %}
-            <a href="{{ men_url }}" class="sidebar-nav__link">
-              <span>Men</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </a>
-          </li>
+            <!-- 3. MEN -->
+            <li class="sidebar-nav__item">
+              {% assign men_url = collections['men-s-signature-collection'].url %}
+              {% if men_url == blank or men_url == '' %}{% assign men_url = collections['men'].url %}{% endif %}
+              {% if men_url == blank or men_url == '' %}{% assign men_url = routes.collections_url | append: '/men' %}{% endif %}
+              <a href="{{ men_url }}" class="sidebar-nav__link">
+                <span>Men</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </a>
+            </li>
 
-          <!-- 4. FINE JEWELRY -->
-          <li class="sidebar-nav__item">
-            {% assign fine_url = collections['fine-jewelry'].url %}
-            {% if fine_url == blank or fine_url == '' %}{% assign fine_url = routes.collections_url | append: '/fine-jewelry' %}{% endif %}
-            <a href="{{ fine_url }}" class="sidebar-nav__link">
-              <span>Fine Jewelry</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </a>
-          </li>
+            <!-- 4. FINE JEWELRY -->
+            <li class="sidebar-nav__item">
+              {% assign fine_url = collections['fine-jewelry'].url %}
+              {% if fine_url == blank or fine_url == '' %}{% assign fine_url = routes.collections_url | append: '/fine-jewelry' %}{% endif %}
+              <a href="{{ fine_url }}" class="sidebar-nav__link">
+                <span>Fine Jewelry</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </a>
+            </li>
 
-          <!-- 5. COLLECTIONS -->
-          <li class="sidebar-nav__item">
-            <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-collections" data-submenu-title="Collections" id="btn-menu-collections">
-              <span>Collections</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </button>
-          </li>
+            <!-- 5. COLLECTIONS -->
+            <li class="sidebar-nav__item">
+              <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-collections" data-submenu-title="Collections" id="btn-menu-collections">
+                <span>Collections</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </button>
+            </li>
 
-          <!-- 6. OUR STORY -->
-          <li class="sidebar-nav__item">
-            {% assign story_url = pages['about-oge-jewelry'].url %}
-            {% if story_url == blank or story_url == '' %}{% assign story_url = pages['our-story'].url %}{% endif %}
-            {% if story_url == blank or story_url == '' %}{% assign story_url = pages['about'].url %}{% endif %}
-            {% if story_url == blank or story_url == '' %}{% assign story_url = routes.all_products_collection_url | append: '?view=about' %}{% endif %}
-            <a href="{{ story_url }}" class="sidebar-nav__link">
-              <span>Our Story</span>
-              <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
-            </a>
-          </li>
+            <!-- 6. OUR STORY -->
+            <li class="sidebar-nav__item">
+              {% assign story_url = pages['about-oge-jewelry'].url %}
+              {% if story_url == blank or story_url == '' %}{% assign story_url = pages['our-story'].url %}{% endif %}
+              {% if story_url == blank or story_url == '' %}{% assign story_url = pages['about'].url %}{% endif %}
+              {% if story_url == blank or story_url == '' %}{% assign story_url = routes.all_products_collection_url | append: '?view=about' %}{% endif %}
+              <a href="{{ story_url }}" class="sidebar-nav__link">
+                <span>Our Story</span>
+                <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
+              </a>
+            </li>
+          {% endif %}
         </ul>
       </nav>
 
@@ -100,34 +131,40 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
 
       <!-- Sidebar Footer (Secondary Links & Currency/Language) -->
       <div class="sidebar-footer">
-        <a href="{{ routes.all_products_collection_url }}?view=account" class="sidebar-footer__link">Account</a>
-        {% unless customer %}
-          <a href="{{ routes.all_products_collection_url }}?view=login" class="sidebar-footer__link">Login</a>
-          <a href="{{ routes.all_products_collection_url }}?view=signup" class="sidebar-footer__link">Sign Up</a>
-        {% endunless %}
+        {% if s_settings.sidebar_show_account != false %}
+          <a href="{{ routes.all_products_collection_url }}?view=account" class="sidebar-footer__link">Account</a>
+          {% unless customer %}
+            <a href="{{ routes.all_products_collection_url }}?view=login" class="sidebar-footer__link">Login</a>
+            <a href="{{ routes.all_products_collection_url }}?view=signup" class="sidebar-footer__link">Sign Up</a>
+          {% endunless %}
+        {% endif %}
 
-        {% assign sidebar_wishlist_url = pages['wishlist'].url %}
-        {% if sidebar_wishlist_url == blank or sidebar_wishlist_url == '' %}{% assign sidebar_wishlist_url = routes.all_products_collection_url | append: '?view=wishlist' %}{% endif %}
-        <a href="{{ sidebar_wishlist_url }}" class="sidebar-footer__link">WishList</a>
+        {% if s_settings.sidebar_show_wishlist != false %}
+          {% assign sidebar_wishlist_url = pages['wishlist'].url %}
+          {% if sidebar_wishlist_url == blank or sidebar_wishlist_url == '' %}{% assign sidebar_wishlist_url = routes.all_products_collection_url | append: '?view=wishlist' %}{% endif %}
+          <a href="{{ sidebar_wishlist_url }}" class="sidebar-footer__link">WishList</a>
+        {% endif %}
 
-        <!-- Localization Selector (US Flag + Country / Language) -->
-        <div class="sidebar-localization" data-country-trigger role="button" tabindex="0" aria-label="Select Country and Language" style="cursor: pointer;">
-          <span class="sidebar-localization__flag-wrap" data-country-display-flag>
-            <svg class="sidebar-localization__flag" viewBox="0 0 16 11" width="16" height="11" fill="none" style="border-radius: 1.5px; overflow: hidden; display: block; box-shadow: 0 0 1px rgba(0,0,0,0.25);">
-              <rect width="16" height="11" fill="#B22234"/>
-              <path d="M0 1.692h16M0 3.385h16M0 5.077h16M0 6.769h16M0 8.462h16M0 10.154h16" stroke="#FFFFFF" stroke-width="0.846"/>
-              <rect width="6.5" height="5.923" fill="#3C3B6E"/>
-            </svg>
-          </span>
-          <span class="sidebar-localization__text" data-sidebar-location-text>United States &nbsp;|&nbsp; English</span>
-          {% render 'icon-chevron', direction: 'down' %}
-        </div>
+        {% if s_settings.sidebar_show_localization != false %}
+          <!-- Localization Selector (US Flag + Country / Language) -->
+          <div class="sidebar-localization" data-country-trigger role="button" tabindex="0" aria-label="Select Country and Language" style="cursor: pointer;">
+            <span class="sidebar-localization__flag-wrap" data-country-display-flag>
+              <svg class="sidebar-localization__flag" viewBox="0 0 16 11" width="16" height="11" fill="none" style="border-radius: 1.5px; overflow: hidden; display: block; box-shadow: 0 0 1px rgba(0,0,0,0.25);">
+                <rect width="16" height="11" fill="#B22234"/>
+                <path d="M0 1.692h16M0 3.385h16M0 5.077h16M0 6.769h16M0 8.462h16M0 10.154h16" stroke="#FFFFFF" stroke-width="0.846"/>
+                <rect width="6.5" height="5.923" fill="#3C3B6E"/>
+              </svg>
+            </span>
+            <span class="sidebar-localization__text" data-sidebar-location-text>United States &nbsp;|&nbsp; English</span>
+            {% render 'icon-chevron', direction: 'down' %}
+          </div>
+        {% endif %}
       </div>
     </div>
 
 
     <!-- ====================================================================
-         PANEL 2: SUBMENU NAVIGATION (LEVEL 2 - Approved OGÉ Submenus)
+         PANEL 2: SUBMENU NAVIGATION (LEVEL 2)
          ==================================================================== -->
     <div class="sidebar-panel sidebar-panel--submenu">
       <!-- Submenu Header (Back Arrow + Title + Close Button) -->
@@ -151,55 +188,82 @@ Renders the multi-level sliding sidebar drawer navigation matching the approved 
       {% assign sidebar_bracelets_url = collections['bracelets'].url %}
       {% if sidebar_bracelets_url == blank or sidebar_bracelets_url == '' %}{% assign sidebar_bracelets_url = routes.collections_url | append: '/bracelets' %}{% endif %}
 
+      {% assign jewelry_featured_url = s_settings.sidebar_jewelry_link %}
+      {% if jewelry_featured_url == blank %}{% assign jewelry_featured_url = sidebar_necklaces_url %}{% endif %}
+      {% assign jewelry_featured_title = s_settings.sidebar_jewelry_title | default: 'Necklaces' %}
+
       <div class="submenu-content" data-submenu-content="submenu-jewelry">
         <div class="submenu-grid">
           <div class="submenu-links">
-            <a href="{{ routes.all_products_collection_url }}" class="submenu-link submenu-link--all">Shop All Jewelries</a>
-            <a href="{{ sidebar_rings_url }}" class="submenu-link">Rings</a>
-            <a href="{{ sidebar_earrings_url }}" class="submenu-link">Earrings</a>
-            <a href="{{ sidebar_necklaces_url }}" class="submenu-link">Necklaces</a>
-            <a href="{{ sidebar_bracelets_url }}" class="submenu-link">Bracelets</a>
+            {% if s_settings.sidebar_jewelry_menu != blank and linklists[s_settings.sidebar_jewelry_menu].links.size > 0 %}
+              {% for link in linklists[s_settings.sidebar_jewelry_menu].links %}
+                <a href="{{ link.url }}" class="submenu-link{% if forloop.first %} submenu-link--all{% endif %}">{{ link.title }}</a>
+              {% endfor %}
+            {% else %}
+              <a href="{{ routes.all_products_collection_url }}" class="submenu-link submenu-link--all">Shop All Jewelries</a>
+              <a href="{{ sidebar_rings_url }}" class="submenu-link">Rings</a>
+              <a href="{{ sidebar_earrings_url }}" class="submenu-link">Earrings</a>
+              <a href="{{ sidebar_necklaces_url }}" class="submenu-link">Necklaces</a>
+              <a href="{{ sidebar_bracelets_url }}" class="submenu-link">Bracelets</a>
+            {% endif %}
           </div>
-          <a href="{{ sidebar_necklaces_url }}" class="submenu-featured-card">
-            <img src="{{ 'sidebar-necklaces.jpg' | asset_url }}" alt="Necklaces Fine Jewelry" loading="lazy" width="400" height="533">
+          <a href="{{ jewelry_featured_url }}" class="submenu-featured-card">
+            {% if s_settings.sidebar_jewelry_img != blank %}
+              {{ s_settings.sidebar_jewelry_img | image_url: width: 400 | image_tag: alt: jewelry_featured_title, loading: 'lazy', width: 400, height: 533 }}
+            {% else %}
+              <img src="{{ 'sidebar-necklaces.jpg' | asset_url }}" alt="{{ jewelry_featured_title }}" loading="lazy" width="400" height="533">
+            {% endif %}
             <div class="submenu-featured-card__overlay">
-              <span class="submenu-featured-card__title">Necklaces</span>
+              <span class="submenu-featured-card__title">{{ jewelry_featured_title }}</span>
             </div>
           </a>
         </div>
       </div>
 
-      <!-- Submenu Content 2: COLLECTIONS (All Collections, Rebirth, Boundaries, Victorious, Self Romance, Alignment Coming Soon) -->
+      <!-- Submenu Content 2: COLLECTIONS (All Collections, Rebirth, Boundaries, Victorious, Self Romance - Alignment REMOVED) -->
+      {% assign rebirth_url = collections['the-rebirth-collection'].url %}
+      {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = collections['rebirth'].url %}{% endif %}
+      {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = routes.collections_url | append: '/the-rebirth-collection' %}{% endif %}
+
+      {% assign boundaries_url = collections['boundaries-collection'].url %}
+      {% if boundaries_url == blank or boundaries_url == '' %}{% assign boundaries_url = collections['boundaries'].url %}{% endif %}
+      {% if boundaries_url == blank or boundaries_url == '' %}{% assign boundaries_url = routes.collections_url | append: '/boundaries-collection' %}{% endif %}
+
+      {% assign victorious_url = collections['victorious-collection'].url %}
+      {% if victorious_url == blank or victorious_url == '' %}{% assign victorious_url = collections['victorious'].url %}{% endif %}
+      {% if victorious_url == blank or victorious_url == '' %}{% assign victorious_url = routes.collections_url | append: '/victorious-collection' %}{% endif %}
+
+      {% assign self_romance_url = collections['the-self-romance-collection'].url %}
+      {% if self_romance_url == blank or self_romance_url == '' %}{% assign self_romance_url = collections['self-romance'].url %}{% endif %}
+      {% if self_romance_url == blank or self_romance_url == '' %}{% assign self_romance_url = routes.collections_url | append: '/the-self-romance-collection' %}{% endif %}
+
+      {% assign collections_featured_url = s_settings.sidebar_collections_link %}
+      {% if collections_featured_url == blank %}{% assign collections_featured_url = self_romance_url %}{% endif %}
+      {% assign collections_featured_title = s_settings.sidebar_collections_title | default: 'Self Romance' %}
+
       <div class="submenu-content" data-submenu-content="submenu-collections" style="display: none;">
         <div class="submenu-grid">
           <div class="submenu-links">
-            <a href="{{ routes.collections_url }}" class="submenu-link submenu-link--all">All Collections</a>
-            {% assign rebirth_url = collections['the-rebirth-collection'].url %}
-            {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = collections['rebirth'].url %}{% endif %}
-            {% if rebirth_url == blank or rebirth_url == '' %}{% assign rebirth_url = routes.collections_url | append: '/the-rebirth-collection' %}{% endif %}
-            <a href="{{ rebirth_url }}" class="submenu-link">Rebirth</a>
-
-            {% assign boundaries_url = collections['boundaries-collection'].url %}
-            {% if boundaries_url == blank or boundaries_url == '' %}{% assign boundaries_url = collections['boundaries'].url %}{% endif %}
-            {% if boundaries_url == blank or boundaries_url == '' %}{% assign boundaries_url = routes.collections_url | append: '/boundaries-collection' %}{% endif %}
-            <a href="{{ boundaries_url }}" class="submenu-link">Boundaries</a>
-
-            {% assign victorious_url = collections['victorious-collection'].url %}
-            {% if victorious_url == blank or victorious_url == '' %}{% assign victorious_url = collections['victorious'].url %}{% endif %}
-            {% if victorious_url == blank or victorious_url == '' %}{% assign victorious_url = routes.collections_url | append: '/victorious-collection' %}{% endif %}
-            <a href="{{ victorious_url }}" class="submenu-link">Victorious</a>
-
-            {% assign self_romance_url = collections['the-self-romance-collection'].url %}
-            {% if self_romance_url == blank or self_romance_url == '' %}{% assign self_romance_url = collections['self-romance'].url %}{% endif %}
-            {% if self_romance_url == blank or self_romance_url == '' %}{% assign self_romance_url = routes.collections_url | append: '/the-self-romance-collection' %}{% endif %}
-            <a href="{{ self_romance_url }}" class="submenu-link">Self Romance</a>
-
-            <a href="/pages/coming-soon" class="submenu-link">Alignment <span style="font-size: 0.75rem; opacity: 0.6; margin-left: 4px;">(Coming Soon)</span></a>
+            {% if s_settings.sidebar_collections_menu != blank and linklists[s_settings.sidebar_collections_menu].links.size > 0 %}
+              {% for link in linklists[s_settings.sidebar_collections_menu].links %}
+                <a href="{{ link.url }}" class="submenu-link{% if forloop.first %} submenu-link--all{% endif %}">{{ link.title }}</a>
+              {% endfor %}
+            {% else %}
+              <a href="{{ routes.collections_url }}" class="submenu-link submenu-link--all">All Collections</a>
+              <a href="{{ rebirth_url }}" class="submenu-link">Rebirth</a>
+              <a href="{{ boundaries_url }}" class="submenu-link">Boundaries</a>
+              <a href="{{ victorious_url }}" class="submenu-link">Victorious</a>
+              <a href="{{ self_romance_url }}" class="submenu-link">Self Romance</a>
+            {% endif %}
           </div>
-          <a href="{{ self_romance_url }}" class="submenu-featured-card">
-            <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="Self Romance Collection" loading="lazy" width="400" height="533">
+          <a href="{{ collections_featured_url }}" class="submenu-featured-card">
+            {% if s_settings.sidebar_collections_img != blank %}
+              {{ s_settings.sidebar_collections_img | image_url: width: 400 | image_tag: alt: collections_featured_title, loading: 'lazy', width: 400, height: 533 }}
+            {% else %}
+              <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="{{ collections_featured_title }}" loading="lazy" width="400" height="533">
+            {% endif %}
             <div class="submenu-featured-card__overlay">
-              <span class="submenu-featured-card__title">Self Romance</span>
+              <span class="submenu-featured-card__title">{{ collections_featured_title }}</span>
             </div>
           </a>
         </div>

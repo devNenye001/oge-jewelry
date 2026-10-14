@@ -1528,6 +1528,25 @@ body:not(.template-index) .site-header .site-logo__image--black {
   color: #FFFFFF;
 }
 
+.signature-card__coming-soon {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-decoration: none !important;
+  color: #FFFFFF;
+  cursor: default;
+  opacity: 0.9;
+  display: inline-block;
+}
+
+.signature-card--coming-soon {
+  cursor: default !important;
+}
+
+.signature-card--coming-soon:hover img {
+  transform: none !important;
+}
+
 /* Signature Side Navigation Arrows on Container Edges */
 .signature-arrow-btn {
   position: absolute;

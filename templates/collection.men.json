@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-men",
+      "settings": {
+        "heading": "MEN",
+        "show_banner": false,
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

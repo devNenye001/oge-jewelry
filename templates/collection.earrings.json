@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-earrings",
+      "settings": {
+        "heading": "EARRINGS",
+        "show_banner": false,
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

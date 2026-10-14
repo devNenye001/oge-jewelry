@@ -110,7 +110,7 @@
 </header>
 
 <!-- Sidebar Drawer Component -->
-{% render 'sidebar-drawer', menu: section.settings.menu %}
+{% render 'sidebar-drawer', section: section, menu: section.settings.menu %}
 
 <!-- Cart Drawer Component -->
 {% render 'cart-drawer' %}
@@ -119,6 +119,10 @@
 {
   "name": "Header",
   "settings": [
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
     {
       "type": "image_picker",
       "id": "logo",
@@ -144,7 +148,92 @@
       "id": "enable_sticky",
       "label": "Enable Sticky Header",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Drawer Settings"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu",
+      "label": "Sidebar Custom Menu (Optional)",
+      "info": "Choose a custom menu from Navigation, or leave blank to use the standard OGÉ navigation."
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Jewelry Submenu"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_jewelry_menu",
+      "label": "Jewelry Submenu Links (Optional)",
+      "info": "Select a menu or leave empty for default category links (Rings, Earrings, Necklaces, Bracelets)."
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_jewelry_img",
+      "label": "Jewelry Featured Card Image"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_jewelry_title",
+      "label": "Jewelry Featured Card Title",
+      "default": "Necklaces"
+    },
+    {
+      "type": "url",
+      "id": "sidebar_jewelry_link",
+      "label": "Jewelry Featured Card Link"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Collections Submenu"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_collections_menu",
+      "label": "Collections Submenu Links (Optional)",
+      "info": "Select a menu or leave empty for default collection links (Rebirth, Boundaries, Victorious, Self Romance)."
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_collections_img",
+      "label": "Collections Featured Card Image"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_collections_title",
+      "label": "Collections Featured Card Title",
+      "default": "Self Romance"
+    },
+    {
+      "type": "url",
+      "id": "sidebar_collections_link",
+      "label": "Collections Featured Card Link"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Footer & Utility"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_show_account",
+      "label": "Show Account / Login Links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_show_wishlist",
+      "label": "Show Wishlist Link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_show_localization",
+      "label": "Show Country / Language Selector",
+      "default": true
     }
   ]
 }
 {% endschema %}
+
