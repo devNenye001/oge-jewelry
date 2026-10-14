@@ -32,11 +32,21 @@
 {% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = collections['self-romance'].url %}{% endif %}
 {% if url_4 == blank or url_4 == '' or url_4 == '#' %}{% assign url_4 = routes.collections_url | append: '/the-self-romance-collection' %}{% endif %}
 
+{% assign coll_men = section.settings.collection_men %}
+{% assign url_men = coll_men.url %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = section.settings.link_men %}{% endif %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = collections['mens-signature-collection'].url %}{% endif %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = collections['men-s-signature-collection'].url %}{% endif %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = collections['mens'].url %}{% endif %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = collections['men'].url %}{% endif %}
+{% if url_men == blank or url_men == '' or url_men == '#' %}{% assign url_men = routes.collections_url | append: '/mens-signature-collection' %}{% endif %}
+
 {% assign img_align = section.settings.image_alignment | default: coll_align.image | default: coll_align.featured_image %}
 {% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}
 {% assign img_2 = section.settings.image_2 | default: coll_2.image | default: coll_2.featured_image %}
 {% assign img_3 = section.settings.image_3 | default: coll_3.image | default: coll_3.featured_image %}
 {% assign img_4 = section.settings.image_4 | default: coll_4.image | default: coll_4.featured_image %}
+{% assign img_men = section.settings.image_men | default: coll_men.image | default: coll_men.featured_image %}
 
 <section class="signature-section" style="padding: 40px 0; background-color: #FFFFFF;" {{ section.shopify_attributes }}>
   <div class="page-container">
@@ -111,6 +121,19 @@
           {% endif %}
           <div class="signature-card__overlay">
             <h3 class="signature-card__title">{{ section.settings.title_4 | default: coll_4.title | default: 'SELF ROMANCE COLLECTION' }}</h3>
+            <span class="signature-card__link">Shop Now</span>
+          </div>
+        </a>
+
+        <!-- Collection 6: Men's Signature Collection -->
+        <a href="{{ url_men }}" class="signature-card">
+          {% if img_men != blank %}
+            {{ img_men | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_men }}
+          {% else %}
+            <img src="{{ 'sign-up-pic.jpg' | asset_url }}" alt="Men's Signature Collection" loading="lazy" width="800" height="450">
+          {% endif %}
+          <div class="signature-card__overlay">
+            <h3 class="signature-card__title">{{ section.settings.title_men | default: coll_men.title | default: "MEN'S SIGNATURE COLLECTION" }}</h3>
             <span class="signature-card__link">Shop Now</span>
           </div>
         </a>
@@ -257,6 +280,31 @@
       "type": "url",
       "id": "link_4",
       "label": "Link 4"
+    },
+    {
+      "type": "header",
+      "content": "Collection 6 (Men's Signature Collection)"
+    },
+    {
+      "type": "collection",
+      "id": "collection_men",
+      "label": "Men's Collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_men",
+      "label": "Men's Image"
+    },
+    {
+      "type": "text",
+      "id": "title_men",
+      "label": "Men's Title",
+      "default": "MEN'S SIGNATURE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "link_men",
+      "label": "Men's Link"
     }
   ],
   "presets": [

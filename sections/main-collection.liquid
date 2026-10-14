@@ -7,10 +7,15 @@
       Renders the Hero Banner, centered sub-filter tabs (All, Necklaces, Bracelets, Rings), utility bar, and product grid.
 {% endcomment %}
 
-{% assign coll_handle = collection.handle | default: '' %}
+{% assign coll_handle = collection.handle | default: page.handle | default: '' | downcase %}
 {% assign is_shop_all = false %}
 {% if coll_handle == 'all' or coll_handle == 'frontpage' or coll_handle == 'shop' or coll_handle == 'all-jewelries' or coll_handle == 'jewelries' or coll_handle == blank %}
   {% assign is_shop_all = true %}
+{% endif %}
+
+{% assign is_category = false %}
+{% if coll_handle contains 'earring' or coll_handle contains 'ring' or coll_handle contains 'necklace' or coll_handle contains 'bracelet' or coll_handle contains 'men' or coll_handle contains 'fine' or is_shop_all %}
+  {% assign is_category = true %}
 {% endif %}
 
 {% assign show_banner = section.settings.show_banner %}
@@ -53,8 +58,8 @@
   {% assign banner_desc = collection.description %}
 {% endif %}
 
-{% if show_banner %}
-  <!-- Collection Hero Banner (Fully Editable in Shopify Theme Customizer) -->
+{% if show_banner and is_category == false %}
+  <!-- Collection Hero Banner (For Signature Collections: Rebirth, Victorious, Boundaries, Self Romance, Alignment) -->
   <section class="collection-hero-banner" id="collection-hero-banner" {{ section.shopify_attributes }}>
     {% if banner_img != blank %}
       {{ banner_img | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
@@ -80,12 +85,50 @@
       </div>
     </div>
   </section>
+
+  <!-- Sub-filter tabs for signature collections -->
+  <nav class="collection-category-tabs" id="collection-category-tabs" aria-label="Collection Categories">
+    <button type="button" class="collection-tab-btn is-active" data-filter="all">All</button>
+    <button type="button" class="collection-tab-btn" data-filter="necklaces">Necklaces</button>
+    <button type="button" class="collection-tab-btn" data-filter="bracelets">Bracelets</button>
+    <button type="button" class="collection-tab-btn" data-filter="rings">Rings</button>
+    <button type="button" class="collection-tab-btn" data-filter="earrings">Earrings</button>
+  </nav>
 {% else %}
+  <!-- Minimalist Category Header (Matching Exact Figma Category Design for Rings, Earrings, Necklaces, Bracelets, Men) -->
   <header class="category-page-header">
-    <h1 class="category-page-title" id="category-page-heading">{{ banner_title }}</h1>
+    <h1 class="category-page-title" id="category-page-heading">{{ banner_title | upcase }}</h1>
   </header>
   <hr class="category-divider-line">
 {% endif %}
+
+<!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER - EXACT MATCH FOR FIGMA SCREENSHOT) -->
+<div class="collection-utility-bar">
+  <div class="collection-utility-left" style="position: relative;">
+    <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="collection-filter-dropdown">
+      Filter &amp; Sort
+    </button>
+    <div class="filter-dropdown-menu" id="collection-filter-dropdown" role="menu">
+      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
+      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
+      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
+      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
+    </div>
+  </div>
+  <div class="collection-utility-right">
+    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
+      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Product Catalog -->
 <main class="collection-catalog-wrap" id="MainContent">
@@ -134,6 +177,7 @@
       }
 
       const isShopAllMode = queryColl === 'all' || queryColl === 'shop' || (queryColl === '' && '{{ is_shop_all }}' === 'true');
+      const isCategoryMode = '{{ is_category }}' === 'true' || path.includes('earring') || path.includes('ring') || path.includes('necklace') || path.includes('bracelet') || path.includes('men');
 
       // Density switchers (1, 2, 4 columns)
       const densityBtns = document.querySelectorAll('.grid-density-btn');
@@ -171,11 +215,19 @@
       const placeholder = document.getElementById('collection-empty-placeholder');
       let baseItems = [];
       if (window.OGE_HELPERS && window.OGE_CATALOG) {
+        const handle = queryColl || queryType || '{{ collection.handle }}' || 'all';
         if (isShopAllMode) {
           baseItems = window.OGE_CATALOG;
+        } else if (isCategoryMode) {
+          baseItems = window.OGE_HELPERS.getProductsByCategory(handle);
+          if (!baseItems || baseItems.length === 0) {
+            baseItems = window.OGE_CATALOG;
+          }
         } else {
-          const handle = queryColl || '{{ collection.handle }}' || 'self-woman';
           baseItems = window.OGE_HELPERS.getProductsByCollection(handle);
+          if (!baseItems || baseItems.length === 0) {
+            baseItems = window.OGE_HELPERS.getProductsByCategory(handle);
+          }
           if (!baseItems || baseItems.length === 0) {
             baseItems = window.OGE_CATALOG;
           }

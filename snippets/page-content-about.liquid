@@ -1,128 +1,375 @@
 {% comment %}
   OGÉ Fine Jewelry - About / Our Story Page Content Snippet
+  Matches the new editorial luxury design with Perandory headings.
+  All texts and images are dynamic and editable in Shopify theme customizer.
 {% endcomment %}
 
-<main class="about-page-wrapper">
+<main class="about-page-wrapper" id="about-page-main">
 
-  <!-- 1. Top Hero Banner -->
-  <section class="about-hero" aria-label="More than jewelry, it's a feeling">
+  <!-- =========================================================================
+       1. HERO BANNER
+       ========================================================================= -->
+  <section class="about-hero" aria-label="About The Brand">
     {% if section.settings.hero_image != blank %}
-      <img src="{{ section.settings.hero_image | image_url: width: 1920 }}" alt="{{ section.settings.hero_title | escape }}" class="about-hero__image" loading="eager" width="1920" height="600">
+      {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'about-hero__image', loading: 'eager', fetchpriority: 'high', alt: section.settings.hero_title_prefix }}
     {% else %}
-      <img src="{{ 'sign-up-pic.jpg' | asset_url }}" alt="More than jewelry, it's a feeling — OGÉ Fine Jewelry" class="about-hero__image" loading="eager" width="1920" height="600">
+      <img src="{{ 'about-hero-brand.jpg' | asset_url }}" alt="About The Brand — OGÉ Fine Jewelry" class="about-hero__image" loading="eager" fetchpriority: 'high' width="1920" height="1080">
     {% endif %}
     <div class="about-hero__overlay"></div>
     <div class="about-hero__content">
-      <h1 class="about-hero__title">{{ section.settings.hero_title | default: "MORE THAN JEWELRY, IT'S A FEELING." }}</h1>
+      {% if section.settings.hero_eyebrow != blank %}
+        <span class="about-hero__eyebrow">{{ section.settings.hero_eyebrow }}</span>
+      {% else %}
+        <span class="about-hero__eyebrow">THE ESSENCE OF OGÉ</span>
+      {% endif %}
+
+      <h1 class="about-hero__title">
+        <span class="about-hero__title-main">{{ section.settings.hero_title_prefix | default: 'About The' }}</span>
+        <span class="about-hero__title-highlight">{{ section.settings.hero_title_highlight | default: 'Brand' }}</span>
+      </h1>
+
+      {% if section.settings.hero_subtitle != blank %}
+        <p class="about-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {% else %}
+        <p class="about-hero__subtitle">More than jewelry, it's a feeling.</p>
+      {% endif %}
     </div>
   </section>
 
-  <!-- 2. Philosophy Quote & Attribution -->
-  <section class="about-quote-section" aria-label="Founder Statement">
+  <!-- =========================================================================
+       2. PHILOSOPHY QUOTE & ATTRIBUTION
+       ========================================================================= -->
+  <section class="about-quote-section" aria-label="Philosophy Statement">
     <div class="about-quote-inner">
       <blockquote class="about-quote-text">
-        {{ section.settings.quote_text | default: '"I design from a place of <strong>self-trust, discipline, and emotional intelligence</strong>, where beauty is not <strong>ornamental, but intentional</strong>. OGÉ reflects my belief that luxury should meet a woman <strong>where she stands, not where she is told to aspire</strong>. These pieces are created for women <strong>who move with discernment, who honor their inner authority, and who understand</strong> that true elegance is <strong>self-recognition.</strong>"' }}
+        {{ section.settings.quote_text | default: "I design from a place of self-trust, discipline, and emotional intelligence, where beauty is not ornamental, but intentional. OGÉ reflects my belief that luxury should meet a woman where she stands, not where she is told to aspire. These pieces are created for women who move with discernment, who honor their inner authority, and who understand that true elegance is self-recognition." }}
       </blockquote>
       <p class="about-quote-author">{{ section.settings.quote_author | default: "-Oge Ikekwem" }}</p>
     </div>
   </section>
 
-  <!-- 3. Our Story Section (Text Left, Image Right) -->
-  <section class="about-story-section" aria-label="Our Story">
-    <div class="about-story-container">
-      <div class="about-story-grid">
-        <div class="about-story-content">
-          <h2 class="about-section-title">{{ section.settings.story_title | default: "OUR STORY" }}</h2>
-          {% if section.settings.story_text != blank %}
-            <div class="about-story-text">{{ section.settings.story_text }}</div>
+  <!-- =========================================================================
+       3. 2x2 STAGGERED MISSION & VISION GRID
+       ========================================================================= -->
+  <section class="about-grid-section" aria-label="Our Mission and Vision">
+    <div class="about-grid-container">
+      <div class="about-grid-2x2">
+        <!-- Row 1 / Cell 1: Mission Image -->
+        <div class="about-grid-cell about-grid-cell--media about-grid-cell--mission-img">
+          {% if section.settings.mission_image != blank %}
+            {{ section.settings.mission_image | image_url: width: 1000 | image_tag: class: 'about-grid-image', loading: 'lazy', alt: section.settings.mission_title }}
           {% else %}
-            <p class="about-story-text">
-              Ogé Jewelry began with a love for accessories and their power to <strong>transform</strong>. Ogé was always <strong>passionate</strong> about jewelry, after designing an upgrade to her wedding ring, <strong>she</strong> realized the profound impact of personal, <strong>meticulously crafted</strong> pieces. This sparked the <strong>creation</strong> of Ogé Jewelry, a <strong>brand</strong> dedicated to empowering women through unique designs that celebrate their self-worth <strong>and individuality</strong>.
-            </p>
-            <p class="about-story-text">
-              <strong>Though</strong> new to the jewelry business, Ogé's vision <strong>quickly</strong> set the brand <strong>apart</strong>. <strong>Today</strong>, Ogé continues to grow, creating high-quality, meaningful pieces that inspire <strong>confidence</strong> and inner strength. Each piece of Ogé Jewelry tells a story of <strong>empowerment</strong> and self-expression.
-            </p>
+            <img src="{{ 'our-mission.jpg' | asset_url }}" alt="Our Mission — OGÉ Fine Jewelry" class="about-grid-image" loading="lazy" width="800" height="600">
           {% endif %}
         </div>
-        <div class="about-story-media">
-          {% if section.settings.story_image != blank %}
-            {{ section.settings.story_image | image_url: width: 800 | image_tag: class: 'about-story-image', loading: 'lazy', alt: section.settings.story_title }}
+
+        <!-- Row 1 / Cell 2: Mission Card (Sage Green) -->
+        <div class="about-grid-cell about-grid-cell--card about-grid-cell--mission-text">
+          <div class="about-grid-card-inner">
+            <h2 class="about-grid-title">{{ section.settings.mission_title | default: "OUR MISSION" }}</h2>
+            <div class="about-grid-text">
+              {% if section.settings.mission_text != blank %}
+                {{ section.settings.mission_text }}
+              {% else %}
+                <p>At OGÉ Jewelry, our mission is to empower women to express their true selves and honor their unique journeys. Through our meticulously crafted jewelry, we aim to celebrate each woman's individuality, helping her recognize her inherent self-worth and project it confidently to the world. We believe that every piece of jewelry is not just an accessory, but a powerful symbol of self-actualization, personal growth, and inner strength.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2 / Cell 3: Vision Card (Sage Green) -->
+        <div class="about-grid-cell about-grid-cell--card about-grid-cell--vision-text">
+          <div class="about-grid-card-inner">
+            <h2 class="about-grid-title">{{ section.settings.vision_title | default: "OUR VISION" }}</h2>
+            <div class="about-grid-text">
+              {% if section.settings.vision_text != blank %}
+                {{ section.settings.vision_text }}
+              {% else %}
+                <p>To become a global leader in the jewelry industry by fostering a community of empowered women who embrace and celebrate their uniqueness. We strive to inspire and support women on their path to self-actualization by creating timeless, meaningful pieces that reflect their inner beauty and strength. Through our commitment to quality, innovation, and authenticity, we aim to redefine jewelry as a medium of self-expression and self-worth for women everywhere.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2 / Cell 4: Vision Image -->
+        <div class="about-grid-cell about-grid-cell--media about-grid-cell--vision-img">
+          {% if section.settings.vision_image != blank %}
+            {{ section.settings.vision_image | image_url: width: 1000 | image_tag: class: 'about-grid-image', loading: 'lazy', alt: section.settings.vision_title }}
           {% else %}
-            <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="Ogé Fine Jewelry - Victorious Collection Portrait" class="about-story-image" loading="lazy" width="800" height="1000">
+            <img src="{{ 'our-vision.JPG' | asset_url }}" alt="Our Vision — OGÉ Fine Jewelry" class="about-grid-image" loading="lazy" width="800" height="600">
           {% endif %}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Split Mission & Vision Blocks -->
-  <section class="about-split-blocks" aria-label="Our Mission and Vision">
-    
-    <!-- Row A: OUR MISSION -->
-    <div class="about-split-row">
-      <div class="about-split-media">
-        {% if section.settings.mission_image != blank %}
-          {{ section.settings.mission_image | image_url: width: 800 | image_tag: class: 'about-split-image', loading: 'lazy', alt: section.settings.mission_title }}
-        {% else %}
-          <img src="{{ 'our-mission.jpg' | asset_url }}" alt="Our Mission - Empowering Women through OGÉ Fine Jewelry" class="about-split-image" loading="lazy" width="800" height="600">
-        {% endif %}
-      </div>
-      <div class="about-sage-box">
-        <h2 class="about-sage-title">{{ section.settings.mission_title | default: "OUR MISSION" }}</h2>
-        {% if section.settings.mission_text != blank %}
-          <div class="about-sage-text">{{ section.settings.mission_text }}</div>
-        {% else %}
-          <p class="about-sage-text">
-            At OGÉ Jewelry, <strong>our mission is to empower</strong> women to express <strong>their true selves and</strong> honor their unique journeys. <strong>Through</strong> our meticulously <strong>crafted</strong> jewelry, we aim to celebrate each woman's individuality, <strong>helping her recognize her inherent self-worth</strong> and project it confidently to the world. We believe that every piece of jewelry is not just an accessory, <strong>but</strong> a <strong>powerful symbol</strong> of <strong>self-actualization, personal growth, and inner strength</strong>.
-          </p>
-        {% endif %}
-      </div>
+  <!-- =========================================================================
+       4. FULL-WIDTH EDITORIAL BANNER
+       ========================================================================= -->
+  <section class="about-editorial-section" aria-label="Editorial Showcase">
+    <div class="about-editorial-media">
+      {% if section.settings.editorial_image != blank %}
+        {{ section.settings.editorial_image | image_url: width: 2000 | image_tag: class: 'about-editorial-image', loading: 'lazy', alt: section.settings.editorial_image_alt | default: 'OGÉ Fine Jewelry Editorial' }}
+      {% else %}
+        <img src="{{ 'about-page-banner.jpg' | asset_url }}" alt="OGÉ Fine Jewelry Editorial — Luxury Craftsmanship" class="about-editorial-image" loading="lazy" width="1600" height="900">
+      {% endif %}
     </div>
-
-    <!-- Row B: OUR VISION -->
-    <div class="about-split-row about-split-row--reverse">
-      <div class="about-sage-box">
-        <h2 class="about-sage-title">{{ section.settings.vision_title | default: "OUR VISION" }}</h2>
-        {% if section.settings.vision_text != blank %}
-          <div class="about-sage-text">{{ section.settings.vision_text }}</div>
-        {% else %}
-          <p class="about-sage-text">
-            To become a global leader in the jewelry <strong>industry</strong> by <strong>fostering a community</strong> of <strong>empowered</strong> women who <strong>embrace and celebrate their uniqueness</strong>. We <strong>strive</strong> to inspire and support women <strong>on their path to</strong> self-actualization by <strong>creating timeless</strong>, meaningful pieces that reflect their inner <strong>beauty and strength</strong>. <strong>Through</strong> our commitment to quality, innovation, and <strong>authenticity, we aim</strong> to redefine jewelry as a medium of self-expression <strong>and</strong> self-worth for women everywhere.
-          </p>
-        {% endif %}
-      </div>
-      <div class="about-split-media">
-        {% if section.settings.vision_image != blank %}
-          {{ section.settings.vision_image | image_url: width: 800 | image_tag: class: 'about-split-image', loading: 'lazy', alt: section.settings.vision_title }}
-        {% else %}
-          <img src="{{ 'our-vision.JPG' | asset_url }}" alt="Our Vision - Timeless Luxury Fine Jewelry" class="about-split-image" loading="lazy" width="800" height="600">
-        {% endif %}
-      </div>
-    </div>
-
   </section>
 
-  <!-- 5. Last Section: Jewelry with Intention -->
-  <section class="about-intention-section" aria-label="Jewelry with Intention">
-    <div class="about-intention-header">
-      <h2 class="about-intention-title">{{ section.settings.intention_title | default: "JEWELRY WITH INTENTION" }}</h2>
-      {% if section.settings.intention_desc != blank %}
-        <div class="about-intention-desc">{{ section.settings.intention_desc }}</div>
+  <!-- =========================================================================
+       5. JEWELRY WITH INTENTION (SPLIT SECTION)
+       ========================================================================= -->
+  <section class="about-intention-section" aria-label="Jewelry With Intention">
+    <div class="about-intention-container">
+      <div class="about-intention-split">
+        <div class="about-intention-split__media">
+          {% if section.settings.intention_image != blank %}
+            {{ section.settings.intention_image | image_url: width: 900 | image_tag: class: 'about-intention-split__img', loading: 'lazy', alt: section.settings.intention_title }}
+          {% else %}
+            <img src="{{ 'about-intention-woman.jpg' | asset_url }}" alt="Jewelry With Intention — OGÉ Fine Jewelry" class="about-intention-split__img" loading="lazy" width="800" height="1067">
+          {% endif %}
+        </div>
+        <div class="about-intention-split__content">
+          <h2 class="about-intention-split__title">{{ section.settings.intention_title | default: "Jewelry With Intention" }}</h2>
+          <div class="about-intention-split__text">
+            {% if section.settings.intention_text != blank %}
+              {{ section.settings.intention_text }}
+            {% else %}
+              <p>OGÉ was created from the belief that adornment can hold meaning, reflecting identity, evolution, and the stories that shape us. Each collection is designed with symbolism and intention, honoring the journey of becoming more fully oneself.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. EMPOWERMENT MANIFESTO (HEADLINE + 2 COLUMNS)
+       ========================================================================= -->
+  <section class="about-manifesto-section" aria-label="Empowerment Statement">
+    <div class="about-manifesto-container">
+      <h2 class="about-manifesto__headline">
+        She did not become powerful. <span class="about-manifesto__italic">She remembered that she always was.</span>
+      </h2>
+      <div class="about-manifesto__columns">
+        <div class="about-manifesto__column">
+          {% if section.settings.manifesto_col1 != blank %}
+            {{ section.settings.manifesto_col1 }}
+          {% else %}
+            <p>OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves.</p>
+          {% endif %}
+        </div>
+        <div class="about-manifesto__column">
+          {% if section.settings.manifesto_col2 != blank %}
+            {{ section.settings.manifesto_col2 }}
+          {% else %}
+            <p>OGE is not just jewelry—it’s an anchor. A reminder of who you were, who you are, and who you are continuously becoming. Every piece is designed to hold space for the woman wearing it, reflecting not just her taste, but her truth.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       7. DUAL MACRO CRAFTSMANSHIP SHOWCASE
+       ========================================================================= -->
+  <section class="about-macro-gallery" aria-label="Craftsmanship Close-Ups">
+    <div class="about-macro-card">
+      {% if section.settings.gallery_image_1 != blank %}
+        {{ section.settings.gallery_image_1 | image_url: width: 1800 | image_tag: class: 'about-macro-image', loading: 'lazy', alt: 'OGÉ Emerald Leaves Gold Necklace Macro' }}
       {% else %}
-        <p class="about-intention-desc">
-          OGÉ was created from the <strong>belief</strong> that adornment can hold meaning, reflecting identity, evolution, and the stories that shape us. Each collection is designed with symbolism and intention, honoring the journey of becoming more fully oneself.
-        </p>
+        <img src="{{ 'about-necklace-green.jpg' | asset_url }}" alt="OGÉ Emerald Leaves Gold Necklace Macro Details" class="about-macro-image" loading="lazy" width="1200" height="1200">
       {% endif %}
     </div>
-    <div class="about-intention-media">
-      {% if section.settings.intention_image != blank %}
-        {{ section.settings.intention_image | image_url: width: 1600 | image_tag: class: 'about-intention-image', loading: 'lazy', alt: section.settings.intention_title }}
+    <div class="about-macro-card">
+      {% if section.settings.gallery_image_2 != blank %}
+        {{ section.settings.gallery_image_2 | image_url: width: 1800 | image_tag: class: 'about-macro-image', loading: 'lazy', alt: 'OGÉ Phoenix Gold Chain Necklace Macro' }}
       {% else %}
-        <img src="{{ 'sales2.jpg' | asset_url }}" alt="Jewelry with Intention - OGÉ Luxury Fine Adornments" class="about-intention-image" loading="lazy" width="1600" height="900">
+        <img src="{{ 'product7.jpg' | asset_url }}" alt="OGÉ Phoenix Gold Chain Necklace Close-Up" class="about-macro-image" loading="lazy" width="1200" height="1800">
       {% endif %}
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. FOUNDER PORTRAIT & QUOTE BANNER
+       ========================================================================= -->
+  <section class="about-quote-banner" aria-label="Founder Recognition Quote">
+    {% if section.settings.quote_banner_image != blank %}
+      {{ section.settings.quote_banner_image | image_url: width: 2000 | image_tag: class: 'about-quote-banner__bg', loading: 'lazy', alt: 'OGÉ Founder Portrait' }}
+    {% else %}
+      <img src="{{ 'about-founder-quote.jpg' | asset_url }}" alt="OGÉ Founder Portrait Quote Banner" class="about-quote-banner__bg" loading="lazy" width="1920" height="1080">
+    {% endif %}
+    <div class="about-quote-banner__overlay"></div>
+    <div class="about-quote-banner__container">
+      <div class="about-quote-banner__content">
+        <blockquote class="about-quote-banner__text">
+          {{ section.settings.quote_banner_text | default: "OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves." }}
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       9. DETAILS AND FAQS ACCORDION
+       ========================================================================= -->
+  <section class="about-faq-section" id="about-faqs" aria-label="Details and FAQs">
+    <div class="about-faq-container">
+      <h2 class="about-faq__title">{{ section.settings.faq_heading | default: "DETAILS AND FAQS" }}</h2>
+
+      <div class="about-faq-list" data-accordion-group>
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'faq_item' %}
+              <div class="about-faq-item {% if forloop.first %}is-active{% endif %}" data-faq-item {{ block.shopify_attributes }}>
+                <button type="button" class="about-faq-trigger" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+                  <span class="about-faq-question">{{ block.settings.question }}</span>
+                  <span class="about-faq-icon" aria-hidden="true">{% if forloop.first %}&mdash;{% else %}+{% endif %}</span>
+                </button>
+                <div class="about-faq-answer" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+                  <div class="about-faq-answer-inner">
+                    {{ block.settings.answer }}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <!-- Default Fallback FAQ Items Matching Design Mockup -->
+          <div class="about-faq-item is-active" data-faq-item>
+            <button type="button" class="about-faq-trigger" aria-expanded="true">
+              <span class="about-faq-question">Where is your jewelry made?</span>
+              <span class="about-faq-icon" aria-hidden="true">&mdash;</span>
+            </button>
+            <div class="about-faq-answer" style="display: block;">
+              <div class="about-faq-answer-inner">
+                <p>Our pieces are designed with intention and ethically handcrafted using the finest recycled metals and ethically sourced stones. We partner with master artisans who bring decades of craftsmanship to every single creation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-faq-item" data-faq-item>
+            <button type="button" class="about-faq-trigger" aria-expanded="false">
+              <span class="about-faq-question">What materials do you use?</span>
+              <span class="about-faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="about-faq-answer" style="display: none;">
+              <div class="about-faq-answer-inner">
+                <p>We craft our jewelry from solid 18k and 14k gold, thick gold vermeil over recycled 925 sterling silver, and ethically sourced, certified precious and semi-precious gemstones engineered for lasting radiance.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-faq-item" data-faq-item>
+            <button type="button" class="about-faq-trigger" aria-expanded="false">
+              <span class="about-faq-question">How do I care for my jewelry?</span>
+              <span class="about-faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="about-faq-answer" style="display: none;">
+              <div class="about-faq-answer-inner">
+                <p>Gently clean with a soft microfiber cloth and lukewarm water with mild soap. Store each piece individually in its signature OGÉ protective travel pouch away from direct moisture, perfumes, and harsh chemicals.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-faq-item" data-faq-item>
+            <button type="button" class="about-faq-trigger" aria-expanded="false">
+              <span class="about-faq-question">What is your return &amp; exchange policy?</span>
+              <span class="about-faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="about-faq-answer" style="display: none;">
+              <div class="about-faq-answer-inner">
+                <p>We offer complimentary 30-day returns and exchanges on all unworn items in original packaging with proof of purchase. Custom or engraved orders are final sale.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-faq-item" data-faq-item>
+            <button type="button" class="about-faq-trigger" aria-expanded="false">
+              <span class="about-faq-question">Do you ship internationally?</span>
+              <span class="about-faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="about-faq-answer" style="display: none;">
+              <div class="about-faq-answer-inner">
+                <p>Yes, we provide insured international express shipping worldwide. Delivery duties and taxes are calculated at checkout so there are no unexpected arrival fees.</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. READY TO EXPLORE? CTA BANNER
+       ========================================================================= -->
+  <section class="about-cta-banner" style="background-color: {{ section.settings.cta_bg_color | default: '#58634C' }};" aria-label="Explore The Collection">
+    <div class="about-cta-container">
+      <h2 class="about-cta__title">{{ section.settings.cta_heading | default: "Ready To Explore?" }}</h2>
+      <p class="about-cta__text">
+        {{ section.settings.cta_text | default: "Discover our collection of handcrafted luxury jewelry designed for modern women like you." }}
+      </p>
+      {% assign cta_url = section.settings.cta_button_link | default: routes.all_products_collection_url %}
+      {% if cta_url == blank or cta_url == '' %}
+        {% assign cta_url = '/collections/all' %}
+      {% endif %}
+      <a href="{{ cta_url }}" class="about-cta__btn" id="btn-about-cta">
+        {{ section.settings.cta_button_text | default: "Explore The Look" }}
+      </a>
     </div>
   </section>
 
 </main>
 
-<hr class="category-divider-line">
+<!-- Accordion Interactive Logic -->
+<script>
+  (function() {
+    function initAboutFaqs() {
+      var faqItems = document.querySelectorAll('.about-faq-item');
+      faqItems.forEach(function(item) {
+        var trigger = item.querySelector('.about-faq-trigger');
+        if (!trigger || trigger.dataset.bound) return;
+        trigger.dataset.bound = 'true';
+
+        trigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          var isActive = item.classList.contains('is-active');
+          
+          // Close other accordion items
+          faqItems.forEach(function(other) {
+            if (other !== item) {
+              other.classList.remove('is-active');
+              var otherAns = other.querySelector('.about-faq-answer');
+              var otherIcon = other.querySelector('.about-faq-icon');
+              var otherTrig = other.querySelector('.about-faq-trigger');
+              if (otherAns) otherAns.style.display = 'none';
+              if (otherIcon) otherIcon.innerHTML = '+';
+              if (otherTrig) otherTrig.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          // Toggle clicked item
+          var ans = item.querySelector('.about-faq-answer');
+          var icon = item.querySelector('.about-faq-icon');
+          if (isActive) {
+            item.classList.remove('is-active');
+            if (ans) ans.style.display = 'none';
+            if (icon) icon.innerHTML = '+';
+            trigger.setAttribute('aria-expanded', 'false');
+          } else {
+            item.classList.add('is-active');
+            if (ans) ans.style.display = 'block';
+            if (icon) icon.innerHTML = '&mdash;';
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAboutFaqs);
+    } else {
+      initAboutFaqs();
+    }
+    document.addEventListener('shopify:section:load', initAboutFaqs);
+  })();
+</script>

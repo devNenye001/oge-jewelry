@@ -37,18 +37,18 @@
       "type": "category-bento",
       "settings": {
         "heading": "SHOP BY CATEGORY",
-        "collection_1": "",
+        "collection_1": "necklaces",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
-        "link_1": "",
-        "collection_2": "",
+        "link_1": "/collections/necklaces",
+        "collection_2": "rings",
         "title_2": "RINGS",
         "cta_2": "Shop now",
-        "link_2": "",
-        "collection_3": "",
+        "link_2": "/collections/rings",
+        "collection_3": "earrings",
         "title_3": "EARRING",
         "cta_3": "Shop now",
-        "link_3": ""
+        "link_3": "/collections/earrings"
       }
     },
     "signature_collections": {
@@ -57,19 +57,22 @@
         "heading": "FIND YOUR SIGNATURE",
         "collection_alignment": "",
         "title_alignment": "ALIGNMENT COLLECTION",
-        "link_alignment": "",
+        "link_alignment": "/pages/coming-soon",
         "collection_1": "the-rebirth-collection",
         "title_1": "REBIRTH COLLECTION",
-        "link_1": "",
+        "link_1": "/collections/the-rebirth-collection",
         "collection_2": "",
         "title_2": "BOUNDARIES COLLECTION",
-        "link_2": "",
+        "link_2": "/collections/boundaries-collection",
         "collection_3": "",
         "title_3": "VICTORIOUS COLLECTION",
-        "link_3": "",
+        "link_3": "/collections/victorious-collection",
         "collection_4": "",
         "title_4": "SELF ROMANCE COLLECTION",
-        "link_4": ""
+        "link_4": "/collections/the-self-romance-collection",
+        "collection_men": "mens-signature-collection",
+        "title_men": "MEN'S SIGNATURE COLLECTION",
+        "link_men": "/collections/mens-signature-collection"
       }
     },
     "pieces_worth_keeping": {

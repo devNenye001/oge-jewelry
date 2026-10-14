@@ -1,21 +1,47 @@
 {% assign coll_1 = section.settings.collection_1 %}
+{% if coll_1 == blank %}
+  {% if collections['necklaces'] != blank %}
+    {% assign coll_1 = collections['necklaces'] %}
+  {% elsif collections['necklace'] != blank %}
+    {% assign coll_1 = collections['necklace'] %}
+  {% endif %}
+{% endif %}
+
 {% assign coll_2 = section.settings.collection_2 %}
+{% if coll_2 == blank %}
+  {% if collections['rings'] != blank %}
+    {% assign coll_2 = collections['rings'] %}
+  {% elsif collections['ring'] != blank %}
+    {% assign coll_2 = collections['ring'] %}
+  {% endif %}
+{% endif %}
+
 {% assign coll_3 = section.settings.collection_3 %}
+{% if coll_3 == blank %}
+  {% if collections['earrings'] != blank %}
+    {% assign coll_3 = collections['earrings'] %}
+  {% elsif collections['earring'] != blank %}
+    {% assign coll_3 = collections['earring'] %}
+  {% endif %}
+{% endif %}
 
 {% assign url_1 = coll_1.url %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = section.settings.link_1 %}{% endif %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = collections['necklaces'].url %}{% endif %}
+{% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = collections['necklace'].url %}{% endif %}
 {% if url_1 == blank or url_1 == '' or url_1 == '#' %}{% assign url_1 = routes.collections_url | append: '/necklaces' %}{% endif %}
 
 {% assign url_2 = coll_2.url %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = section.settings.link_2 %}{% endif %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = collections['rings'].url %}{% endif %}
+{% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = collections['ring'].url %}{% endif %}
 {% if url_2 == blank or url_2 == '' or url_2 == '#' %}{% assign url_2 = routes.collections_url | append: '/rings' %}{% endif %}
 
 {% assign url_3 = coll_3.url %}
 {% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = section.settings.link_3 %}{% endif %}
+{% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = collections['earring'].url %}{% endif %}
 {% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = collections['earrings'].url %}{% endif %}
-{% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = routes.collections_url | append: '/earrings' %}{% endif %}
+{% if url_3 == blank or url_3 == '' or url_3 == '#' %}{% assign url_3 = routes.collections_url | append: '/earring' %}{% endif %}
 
 {% assign img_1 = section.settings.image_1 | default: coll_1.image | default: coll_1.featured_image %}
 {% assign img_2 = section.settings.image_2 | default: coll_2.image | default: coll_2.featured_image %}

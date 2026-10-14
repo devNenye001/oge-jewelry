@@ -1,11 +1,16 @@
 {% comment %}
-  OGÉ Fine Jewelry - Main About / Our Story Section (Mockup Match)
-  Features:
-  - Hero banner with overlay text: "MORE THAN JEWELRY, IT'S A FEELING."
-  - Quote & Attribution statement
-  - Our Story section (Victorious-collection.jpg)
-  - Split Mission & Vision blocks (our-mission.jpg & our-vision.jpg)
-  - Jewelry With Intention section (sales2.jpg)
+  OGÉ Fine Jewelry - Main About / Our Story Section
+  Full Schema Controls for Shopify Theme Editor:
+  - Hero banner with customizable headline, highlight italic word, and subtitle
+  - Philosophy statement & attribution
+  - 2x2 Staggered Mission & Vision cards & images
+  - Full-width editorial banner
+  - Jewelry With Intention split section
+  - Empowerment manifesto statement with dual text columns
+  - Dual macro jewelry close-up gallery
+  - Founder portrait & recognition quote banner
+  - Dynamic FAQ accordion blocks
+  - Ready To Explore call-to-action banner
 {% endcomment %}
 
 {% render 'page-content-about', section: section %}
@@ -18,7 +23,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Hero Banner"
+      "content": "1. Hero Banner"
     },
     {
       "type": "image_picker",
@@ -27,18 +32,37 @@
     },
     {
       "type": "text",
-      "id": "hero_title",
-      "label": "Hero Headline",
-      "default": "MORE THAN JEWELRY, IT'S A FEELING."
+      "id": "hero_eyebrow",
+      "label": "Hero Eyebrow Label",
+      "default": "THE ESSENCE OF OGÉ"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_prefix",
+      "label": "Hero Headline Prefix",
+      "default": "About The"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_highlight",
+      "label": "Hero Headline Accent (Italic Gold)",
+      "default": "Brand"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "More than jewelry, it's a feeling."
     },
     {
       "type": "header",
-      "content": "Philosophy Statement"
+      "content": "2. Philosophy Statement"
     },
     {
       "type": "textarea",
       "id": "quote_text",
-      "label": "Founder Statement Quote"
+      "label": "Philosophy Quote Text",
+      "default": "I design from a place of self-trust, discipline, and emotional intelligence, where beauty is not ornamental, but intentional. OGÉ reflects my belief that luxury should meet a woman where she stands, not where she is told to aspire. These pieces are created for women who move with discernment, who honor their inner authority, and who understand that true elegance is self-recognition."
     },
     {
       "type": "text",
@@ -48,27 +72,12 @@
     },
     {
       "type": "header",
-      "content": "Our Story"
-    },
-    {
-      "type": "text",
-      "id": "story_title",
-      "label": "Story Title",
-      "default": "OUR STORY"
-    },
-    {
-      "type": "richtext",
-      "id": "story_text",
-      "label": "Story Content"
+      "content": "3. Mission & Vision Grid"
     },
     {
       "type": "image_picker",
-      "id": "story_image",
-      "label": "Story Image"
-    },
-    {
-      "type": "header",
-      "content": "Our Mission"
+      "id": "mission_image",
+      "label": "Mission Card Image (Top Left)"
     },
     {
       "type": "text",
@@ -77,18 +86,10 @@
       "default": "OUR MISSION"
     },
     {
-      "type": "richtext",
+      "type": "textarea",
       "id": "mission_text",
-      "label": "Mission Content"
-    },
-    {
-      "type": "image_picker",
-      "id": "mission_image",
-      "label": "Mission Image"
-    },
-    {
-      "type": "header",
-      "content": "Our Vision"
+      "label": "Mission Content",
+      "default": "At OGÉ Jewelry, our mission is to empower women to express their true selves and honor their unique journeys. Through our meticulously crafted jewelry, we aim to celebrate each woman's individuality, helping her recognize her inherent self-worth and project it confidently to the world. We believe that every piece of jewelry is not just an accessory, but a powerful symbol of self-actualization, personal growth, and inner strength."
     },
     {
       "type": "text",
@@ -97,34 +98,207 @@
       "default": "OUR VISION"
     },
     {
-      "type": "richtext",
+      "type": "textarea",
       "id": "vision_text",
-      "label": "Vision Content"
+      "label": "Vision Content",
+      "default": "To become a global leader in the jewelry industry by fostering a community of empowered women who embrace and celebrate their uniqueness. We strive to inspire and support women on their path to self-actualization by creating timeless, meaningful pieces that reflect their inner beauty and strength. Through our commitment to quality, innovation, and authenticity, we aim to redefine jewelry as a medium of self-expression and self-worth for women everywhere."
     },
     {
       "type": "image_picker",
       "id": "vision_image",
-      "label": "Vision Image"
+      "label": "Vision Card Image (Bottom Right)"
     },
     {
       "type": "header",
-      "content": "Jewelry with Intention"
+      "content": "4. Full-Width Editorial Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image",
+      "label": "Editorial Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "editorial_image_alt",
+      "label": "Editorial Banner Alt Text",
+      "default": "OGÉ Fine Jewelry Editorial — Luxury Craftsmanship"
+    },
+    {
+      "type": "header",
+      "content": "5. Jewelry With Intention"
+    },
+    {
+      "type": "image_picker",
+      "id": "intention_image",
+      "label": "Intention Portrait Image"
     },
     {
       "type": "text",
       "id": "intention_title",
       "label": "Intention Title",
-      "default": "JEWELRY WITH INTENTION"
+      "default": "Jewelry With Intention"
     },
     {
-      "type": "richtext",
-      "id": "intention_desc",
-      "label": "Intention Description"
+      "type": "textarea",
+      "id": "intention_text",
+      "label": "Intention Description",
+      "default": "OGÉ was created from the belief that adornment can hold meaning, reflecting identity, evolution, and the stories that shape us. Each collection is designed with symbolism and intention, honoring the journey of becoming more fully oneself."
+    },
+    {
+      "type": "header",
+      "content": "6. Empowerment Manifesto"
+    },
+    {
+      "type": "text",
+      "id": "manifesto_heading",
+      "label": "Manifesto Headline",
+      "default": "She did not become powerful. She remembered that she always was."
+    },
+    {
+      "type": "textarea",
+      "id": "manifesto_col1",
+      "label": "Manifesto Left Column",
+      "default": "OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves."
+    },
+    {
+      "type": "textarea",
+      "id": "manifesto_col2",
+      "label": "Manifesto Right Column",
+      "default": "OGE is not just jewelry—it’s an anchor. A reminder of who you were, who you are, and who you are continuously becoming. Every piece is designed to hold space for the woman wearing it, reflecting not just her taste, but her truth."
+    },
+    {
+      "type": "header",
+      "content": "7. Craftsmanship Macro Gallery"
     },
     {
       "type": "image_picker",
-      "id": "intention_image",
-      "label": "Intention Image"
+      "id": "gallery_image_1",
+      "label": "Macro Image 1 (Green Leaves Necklace)"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_2",
+      "label": "Macro Image 2 (Phoenix Pendant Necklace)"
+    },
+    {
+      "type": "header",
+      "content": "8. Founder Portrait & Quote Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "quote_banner_image",
+      "label": "Quote Banner Background Image"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_banner_text",
+      "label": "Quote Banner Text",
+      "default": "OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves."
+    },
+    {
+      "type": "header",
+      "content": "9. Details and FAQs"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ Section Heading",
+      "default": "DETAILS AND FAQS"
+    },
+    {
+      "type": "header",
+      "content": "10. Ready To Explore CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Heading",
+      "default": "Ready To Explore?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA Description",
+      "default": "Discover our collection of handcrafted luxury jewelry designed for modern women like you."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "CTA Button Text",
+      "default": "Explore The Look"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "CTA Background Color",
+      "default": "#58634C"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Question & Answer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Where is your jewelry made?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Our pieces are designed with intention and ethically handcrafted using the finest recycled metals and ethically sourced stones. We partner with master artisans who bring decades of craftsmanship to every single creation."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About / Our Story Page",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where is your jewelry made?",
+            "answer": "Our pieces are designed with intention and ethically handcrafted using the finest recycled metals and ethically sourced stones. We partner with master artisans who bring decades of craftsmanship to every single creation."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What materials do you use?",
+            "answer": "We craft our jewelry from solid 18k and 14k gold, thick gold vermeil over recycled 925 sterling silver, and ethically sourced, certified precious and semi-precious gemstones engineered for lasting radiance."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I care for my jewelry?",
+            "answer": "Gently clean with a soft microfiber cloth and lukewarm water with mild soap. Store each piece individually in its signature OGÉ protective travel pouch away from direct moisture, perfumes, and harsh chemicals."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return & exchange policy?",
+            "answer": "We offer complimentary 30-day returns and exchanges on all unworn items in original packaging with proof of purchase. Custom or engraved orders are final sale."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "Yes, we provide insured international express shipping worldwide. Delivery duties and taxes are calculated at checkout so there are no unexpected arrival fees."
+          }
+        }
+      ]
     }
   ]
 }
