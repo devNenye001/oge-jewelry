@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_bg": "#FFFFFF",
@@ -5,15 +14,48 @@
     "color_accent": "#D4AF37",
     "color_border": "#EFEFEF",
     "color_drawer_bg": "#FFFFFF",
-    "brand_name": "06é",
+    "font_heading": "assistant_n4",
+    "font_body": "assistant_n4",
     "logo_width": 110,
+    "brand_name": "06é",
     "cart_type": "drawer",
     "free_shipping_threshold": 150,
     "social_facebook": "https://facebook.com",
     "social_tiktok": "https://tiktok.com",
     "social_instagram": "https://instagram.com",
     "social_youtube": "https://youtube.com",
-    "font_heading": "assistant_n4",
-    "font_body": "assistant_n4"
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_width": 90,
+          "menu": "main-menu",
+          "enable_sticky": true
+        }
+      },
+      "newsletter-popup": {
+        "type": "newsletter-popup",
+        "settings": {
+          "enable_popup": true,
+          "delay_seconds": 2,
+          "eyebrow": "Signup Offer",
+          "heading": "GET 15% OFF YOUR FIRST ORDER",
+          "cta_text": "Sign up"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "col_1_title": "SHOP",
+          "col_1_menu": "",
+          "col_2_title": "DISCOVER",
+          "col_2_menu": "",
+          "newsletter_title": "STAY IN THE OGÉ CIRCLE",
+          "newsletter_subtext": "Be the first to know about new collections, exclusive offers, and private launches.",
+          "copyright": "&copy; 2026 Oge Jewlery. All Rights Reserved."
+        }
+      }
+    },
+    "content_for_index": []
   }
 }
