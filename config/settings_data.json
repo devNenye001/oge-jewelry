@@ -30,7 +30,19 @@
         "settings": {
           "logo_width": 90,
           "menu": "main-menu",
-          "enable_sticky": true
+          "enable_sticky": true,
+          "sidebar_menu": "",
+          "sidebar_jewelry_menu": "",
+          "sidebar_jewelry_img": "shopify://shop_images/Golden_Orb_Pendant_on_Dark_Skin.png",
+          "sidebar_jewelry_title": "Necklaces",
+          "sidebar_jewelry_link": "",
+          "sidebar_collections_menu": "",
+          "sidebar_collections_img": "shopify://shop_images/IVA_8101-2.jpg",
+          "sidebar_collections_title": "Self Romance",
+          "sidebar_collections_link": "",
+          "sidebar_show_account": true,
+          "sidebar_show_wishlist": true,
+          "sidebar_show_localization": true
         }
       },
       "newsletter-popup": {
