@@ -12,7 +12,7 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "image": "shopify://shop_images/extend_this_photo_2K_20260913193703.jpg",
+        "image": "shopify://shop_images/IVA_6105.jpg",
         "btn_1_url": "/collections/new-arrival",
         "eyebrow": "",
         "title": "",
@@ -56,18 +56,21 @@
       "settings": {
         "heading": "FIND YOUR SIGNATURE",
         "collection_alignment": "",
+        "image_alignment": "shopify://shop_images/RIJ_1345dup.jpg",
         "title_alignment": "ALIGNMENT COLLECTION",
         "link_alignment": "/pages/coming-soon",
         "collection_1": "the-rebirth-collection",
-        "title_1": "REBIRTH COLLECTION",
         "link_1": "/collections/the-rebirth-collection",
-        "collection_2": "",
+        "collection_2": "boundaries-collection",
+        "image_2": "shopify://shop_images/Untitled_design_-_2026-06-15T160900.393.png",
         "title_2": "BOUNDARIES COLLECTION",
         "link_2": "/collections/boundaries-collection",
-        "collection_3": "",
+        "collection_3": "victorious-collection",
+        "image_3": "shopify://shop_images/IVA_8352.jpg",
         "title_3": "VICTORIOUS COLLECTION",
         "link_3": "/collections/victorious-collection",
-        "collection_4": "",
+        "collection_4": "the-self-romance-collection",
+        "image_4": "shopify://shop_images/Untitled_design_-_2026-06-01T175437.700.png",
         "title_4": "SELF ROMANCE COLLECTION",
         "link_4": "/collections/the-self-romance-collection",
         "collection_men": "mens-signature-collection",
@@ -102,6 +105,7 @@
     "brand_story": {
       "type": "brand-story",
       "settings": {
+        "image": "shopify://shop_images/RIJ_0549.jpg",
         "eyebrow": "",
         "title": "MORE THAN JEWELRY, IT'S A FEELING.",
         "text_1": "<p>OGE was created for the woman who knows that jewelry is more than an accessory — it is an expression of who she is.</p><p>Each piece is thoughtfully designed to celebrate individuality, confidence, and the moments that make her story uniquely hers.</p><p>From everyday elegance to unforgettable occasions, OGE creates pieces made to be worn, loved, and remembered.</p>",
@@ -120,7 +124,7 @@
       "type": "video-reels",
       "settings": {
         "heading": "Stay Connected",
-        "video_1": "shopify://files/videos/OGE 1.mp4",
+        "video_1": "shopify://files/videos/oge-jewelry-reencoded.mp4",
         "video_url_1": "",
         "video_2": "shopify://files/videos/27b92990db28409baa09ddec9faff0cb.HD-1080p-2.5Mbps-51876667.mp4",
         "video_url_2": "",
