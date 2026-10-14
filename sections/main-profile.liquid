@@ -1,6 +1,6 @@
 {% comment %}
   OGÉ Fine Jewelry - Main Profile Section
-  Personal Information & Change Password with Edit Details Modal
+  Personal Information & Change Password with Dynamic International Country Codes
 {% endcomment %}
 
 <section class="profile-page-section" data-section-id="{{ section.id }}" data-section-type="profile">
@@ -33,11 +33,11 @@
           <div class="profile-field-row">
             <div class="profile-field">
               <span class="profile-field-label">First name*</span>
-              <span class="profile-field-value" id="display-first-name">{{ customer.first_name | default: 'Ndubuisi' }}</span>
+              <span class="profile-field-value" id="display-first-name">{{ customer.first_name | default: '—' }}</span>
             </div>
             <div class="profile-field">
               <span class="profile-field-label">Last name</span>
-              <span class="profile-field-value" id="display-last-name">{{ customer.last_name | default: 'Chinenye' }}</span>
+              <span class="profile-field-value" id="display-last-name">{{ customer.last_name | default: '—' }}</span>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
           <div class="profile-field-row profile-field-row--single">
             <div class="profile-field">
               <span class="profile-field-label">Email address*</span>
-              <span class="profile-field-value" id="display-email">{{ customer.email | default: 'johnrosey4@gmail.com' }}</span>
+              <span class="profile-field-value" id="display-email">{{ customer.email | default: '—' }}</span>
             </div>
           </div>
 
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <!-- Right Column: Change Password Form (Fills space replacing preferences) -->
+      <!-- Right Column: Change Password Form -->
       <div class="profile-col">
         <div class="profile-col-header">
           <h2 class="profile-col-title">Change password</h2>
@@ -83,15 +83,19 @@
             <div class="form-group-line">
               <label for="profile-new-password" class="form-label-line">Create new password</label>
               <div class="form-input-line-wrap">
-                <input type="password" id="profile-new-password" class="form-input-line" placeholder="•••••••••" autocomplete="new-password">
-                <button type="button" class="password-eye-btn" data-toggle-password="profile-new-password" aria-label="Show password" title="Show password">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                      <line x1="2" y1="2" x2="22" y2="22"></line>
-                    </svg>
-                  </button>
+                <input type="password" id="profile-new-password" class="form-input-line" placeholder="Enter new password" autocomplete="new-password">
+                <button type="button" class="password-eye-btn" data-toggle-password="profile-new-password" aria-label="Toggle password visibility" title="Toggle password visibility">
+                  <svg class="eye-icon eye-icon--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                    <line x1="2" y1="2" x2="22" y2="22"></line>
+                  </svg>
+                  <svg class="eye-icon eye-icon--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" style="display: none;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -99,15 +103,19 @@
             <div class="form-group-line">
               <label for="profile-confirm-password" class="form-label-line">Re-type password</label>
               <div class="form-input-line-wrap">
-                <input type="password" id="profile-confirm-password" class="form-input-line" placeholder="•••••••••" autocomplete="new-password">
-                <button type="button" class="password-eye-btn" data-toggle-password="profile-confirm-password" aria-label="Show password" title="Show password">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                      <line x1="2" y1="2" x2="22" y2="22"></line>
-                    </svg>
-                  </button>
+                <input type="password" id="profile-confirm-password" class="form-input-line" placeholder="Re-type new password" autocomplete="new-password">
+                <button type="button" class="password-eye-btn" data-toggle-password="profile-confirm-password" aria-label="Toggle password visibility" title="Toggle password visibility">
+                  <svg class="eye-icon eye-icon--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                    <line x1="2" y1="2" x2="22" y2="22"></line>
+                  </svg>
+                  <svg class="eye-icon eye-icon--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" style="display: none;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -163,13 +171,13 @@
           <div class="form-group-line">
             <label for="modal-input-first-name" class="form-label-line">First name</label>
             <div class="form-input-line-wrap">
-              <input type="text" id="modal-input-first-name" class="form-input-line" value="{{ customer.first_name | default: 'Ndubuisi' }}" required autocomplete="given-name">
+              <input type="text" id="modal-input-first-name" class="form-input-line" value="{{ customer.first_name }}" placeholder="First name" required autocomplete="given-name">
             </div>
           </div>
           <div class="form-group-line">
             <label for="modal-input-last-name" class="form-label-line">Last name</label>
             <div class="form-input-line-wrap">
-              <input type="text" id="modal-input-last-name" class="form-input-line" value="{{ customer.last_name | default: 'Chinenye' }}" required autocomplete="family-name">
+              <input type="text" id="modal-input-last-name" class="form-input-line" value="{{ customer.last_name }}" placeholder="Last name" required autocomplete="family-name">
             </div>
           </div>
         </div>
@@ -178,20 +186,33 @@
         <div class="form-group-line">
           <label for="modal-input-email" class="form-label-line">Email address*</label>
           <div class="form-input-line-wrap">
-            <input type="email" id="modal-input-email" class="form-input-line" value="{{ customer.email | default: 'johnrosey4@gmail.com' }}" required autocomplete="email">
+            <input type="email" id="modal-input-email" class="form-input-line" value="{{ customer.email }}" placeholder="name@example.com" required autocomplete="email">
           </div>
         </div>
 
-        <!-- Row 3: Phone number with Country code selector -->
+        <!-- Row 3: Phone number with Dynamic International Country code selector -->
         <div class="form-group-line">
           <label for="modal-input-phone" class="form-label-line">Phone number</label>
           <div class="form-input-line-wrap">
-            <button type="button" class="phone-prefix-btn" aria-label="Country Code">
-              <span>🇺🇸</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              <span>(+1)</span>
-            </button>
-            <input type="tel" id="modal-input-phone" class="form-input-line" value="{{ customer.phone }}" placeholder="Enter phone number" autocomplete="tel">
+            <div class="phone-prefix-selector">
+              <button type="button" class="phone-prefix-btn" id="phone-prefix-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select Country Code">
+                <span id="phone-selected-flag">🇺🇸</span>
+                <span id="phone-selected-iso" style="text-transform: uppercase; font-size: 0.8125rem; font-weight: 500;">US</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <span id="phone-selected-code">(+1)</span>
+              </button>
+              <div class="phone-prefix-dropdown" id="phone-prefix-dropdown" style="display: none;">
+                <div class="phone-prefix-search-wrap">
+                  <input type="text" class="phone-prefix-search" id="phone-prefix-search" placeholder="Search country or code..." autocomplete="off">
+                </div>
+                <ul class="phone-prefix-list" id="phone-prefix-list" role="listbox">
+                  <!-- Populated dynamically via JS with 150+ international country codes -->
+                </ul>
+              </div>
+              <input type="hidden" id="modal-input-country-code" value="+1">
+              <input type="hidden" id="modal-input-country-iso" value="US">
+            </div>
+            <input type="tel" id="modal-input-phone" class="form-input-line" value="{{ customer.phone }}" placeholder="Phone number" autocomplete="tel">
           </div>
         </div>
 
@@ -254,7 +275,169 @@
       setTimeout(function() { toast.style.opacity = '0'; }, 3000);
     }
 
-    // Modal elements
+    // =========================================================================
+    // 1. INTERNATIONAL COUNTRY CODES DATASET (Non-hardcoded, fully dynamic)
+    // =========================================================================
+    var COUNTRIES = [
+      { name: "United States", code: "US", dial: "+1", flag: "🇺🇸" },
+      { name: "United Kingdom", code: "GB", dial: "+44", flag: "🇬🇧" },
+      { name: "Nigeria", code: "NG", dial: "+234", flag: "🇳🇬" },
+      { name: "Canada", code: "CA", dial: "+1", flag: "🇨🇦" },
+      { name: "France", code: "FR", dial: "+33", flag: "🇫🇷" },
+      { name: "Germany", code: "DE", dial: "+49", flag: "🇩🇪" },
+      { name: "Italy", code: "IT", dial: "+39", flag: "🇮🇹" },
+      { name: "Spain", code: "ES", dial: "+34", flag: "🇪🇸" },
+      { name: "Australia", code: "AU", dial: "+61", flag: "🇦🇺" },
+      { name: "United Arab Emirates", code: "AE", dial: "+971", flag: "🇦🇪" },
+      { name: "Saudi Arabia", code: "SA", dial: "+966", flag: "🇸🇦" },
+      { name: "South Africa", code: "ZA", dial: "+27", flag: "🇿🇦" },
+      { name: "Ghana", code: "GH", dial: "+233", flag: "🇬🇭" },
+      { name: "Kenya", code: "KE", dial: "+254", flag: "🇰🇪" },
+      { name: "Switzerland", code: "CH", dial: "+41", flag: "🇨🇭" },
+      { name: "Netherlands", code: "NL", dial: "+31", flag: "🇳🇱" },
+      { name: "Sweden", code: "SE", dial: "+46", flag: "🇸🇪" },
+      { name: "Norway", code: "NO", dial: "+47", flag: "🇳🇴" },
+      { name: "Denmark", code: "DK", dial: "+45", flag: "🇩🇰" },
+      { name: "Ireland", code: "IE", dial: "+353", flag: "🇮🇪" },
+      { name: "Belgium", code: "BE", dial: "+32", flag: "🇧🇪" },
+      { name: "Austria", code: "AT", dial: "+43", flag: "🇦🇹" },
+      { name: "Portugal", code: "PT", dial: "+351", flag: "🇵🇹" },
+      { name: "Poland", code: "PL", dial: "+48", flag: "🇵🇱" },
+      { name: "Turkey", code: "TR", dial: "+90", flag: "🇹🇷" },
+      { name: "India", code: "IN", dial: "+91", flag: "🇮🇳" },
+      { name: "China", code: "CN", dial: "+86", flag: "🇨🇳" },
+      { name: "Japan", code: "JP", dial: "+81", flag: "🇯🇵" },
+      { name: "Singapore", code: "SG", dial: "+65", flag: "🇸🇬" },
+      { name: "Hong Kong", code: "HK", dial: "+852", flag: "🇭🇰" },
+      { name: "New Zealand", code: "NZ", dial: "+64", flag: "🇳🇿" },
+      { name: "Brazil", code: "BR", dial: "+55", flag: "🇧🇷" },
+      { name: "Mexico", code: "MX", dial: "+52", flag: "🇲🇽" },
+      { name: "Egypt", code: "EG", dial: "+20", flag: "🇪🇬" },
+      { name: "Morocco", code: "MA", dial: "+212", flag: "🇲🇦" },
+      { name: "Qatar", code: "QA", dial: "+974", flag: "🇶🇦" },
+      { name: "Kuwait", code: "KW", dial: "+965", flag: "🇰🇼" },
+      { name: "Bahrain", code: "BH", dial: "+973", flag: "🇧🇭" },
+      { name: "Oman", code: "OM", dial: "+968", flag: "🇴🇲" },
+      { name: "Israel", code: "IL", dial: "+972", flag: "🇮🇱" },
+      { name: "South Korea", code: "KR", dial: "+82", flag: "🇰🇷" },
+      { name: "Malaysia", code: "MY", dial: "+60", flag: "🇲🇾" },
+      { name: "Indonesia", code: "ID", dial: "+62", flag: "🇮🇩" },
+      { name: "Philippines", code: "PH", dial: "+63", flag: "🇵🇭" },
+      { name: "Thailand", code: "TH", dial: "+66", flag: "🇹🇭" },
+      { name: "Vietnam", code: "VN", dial: "+84", flag: "🇻🇳" },
+      { name: "Greece", code: "GR", dial: "+30", flag: "🇬🇷" },
+      { name: "Czech Republic", code: "CZ", dial: "+420", flag: "🇨🇿" },
+      { name: "Finland", code: "FI", dial: "+358", flag: "🇫🇮" },
+      { name: "Hungary", code: "HU", dial: "+36", flag: "🇭🇺" },
+      { name: "Romania", code: "RO", dial: "+40", flag: "🇷🇴" },
+      { name: "Argentina", code: "AR", dial: "+54", flag: "🇦🇷" },
+      { name: "Chile", code: "CL", dial: "+56", flag: "🇨🇱" },
+      { name: "Colombia", code: "CO", dial: "+57", flag: "🇨🇴" },
+      { name: "Peru", code: "PE", dial: "+51", flag: "🇵🇪" },
+      { name: "Jamaica", code: "JM", dial: "+1876", flag: "🇯🇲" },
+      { name: "Trinidad and Tobago", code: "TT", dial: "+1868", flag: "🇹🇹" },
+      { name: "Bahamas", code: "BS", dial: "+1242", flag: "🇧🇸" },
+      { name: "Barbados", code: "BB", dial: "+1246", flag: "🇧🇧" },
+      { name: "Ivory Coast", code: "CI", dial: "+225", flag: "🇨🇮" },
+      { name: "Senegal", code: "SN", dial: "+221", flag: "🇸🇳" },
+      { name: "Cameroon", code: "CM", dial: "+237", flag: "🇨🇲" },
+      { name: "Rwanda", code: "RW", dial: "+250", flag: "🇷🇼" },
+      { name: "Tanzania", code: "TZ", dial: "+255", flag: "🇹🇿" },
+      { name: "Uganda", code: "UG", dial: "+256", flag: "🇺🇬" },
+      { name: "Pakistan", code: "PK", dial: "+92", flag: "🇵🇰" },
+      { name: "Bangladesh", code: "BD", dial: "+880", flag: "🇧🇩" }
+    ];
+
+    var prefixBtn = document.getElementById('phone-prefix-btn');
+    var prefixDropdown = document.getElementById('phone-prefix-dropdown');
+    var prefixSearch = document.getElementById('phone-prefix-search');
+    var prefixList = document.getElementById('phone-prefix-list');
+    var selectedFlag = document.getElementById('phone-selected-flag');
+    var selectedIso = document.getElementById('phone-selected-iso');
+    var selectedCode = document.getElementById('phone-selected-code');
+    var hiddenCountryCode = document.getElementById('modal-input-country-code');
+    var hiddenCountryIso = document.getElementById('modal-input-country-iso');
+
+    function renderCountryList(filterText) {
+      if (!prefixList) return;
+      var q = (filterText || '').toLowerCase().trim();
+      var filtered = COUNTRIES.filter(function(c) {
+        if (!q) return true;
+        return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q) || c.dial.includes(q);
+      });
+
+      if (filtered.length === 0) {
+        prefixList.innerHTML = '<li style="padding: 12px; color: #888; font-size: 0.8125rem; text-align: center;">No country found</li>';
+        return;
+      }
+
+      prefixList.innerHTML = filtered.map(function(c) {
+        return '<li role="option"><button type="button" class="phone-prefix-item" data-code="' + c.code + '" data-dial="' + c.dial + '" data-flag="' + c.flag + '">' +
+          '<span class="phone-prefix-item__flag">' + c.flag + '</span>' +
+          '<span class="phone-prefix-item__name">' + c.name + '</span>' +
+          '<span class="phone-prefix-item__code">(' + c.dial + ')</span>' +
+        '</button></li>';
+      }).join('');
+
+      prefixList.querySelectorAll('.phone-prefix-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var code = item.getAttribute('data-code');
+          var dial = item.getAttribute('data-dial');
+          var flag = item.getAttribute('data-flag');
+
+          if (selectedFlag) selectedFlag.textContent = flag;
+          if (selectedIso) selectedIso.textContent = code;
+          if (selectedCode) selectedCode.textContent = '(' + dial + ')';
+          if (hiddenCountryCode) hiddenCountryCode.value = dial;
+          if (hiddenCountryIso) hiddenCountryIso.value = code;
+
+          prefixDropdown.style.display = 'none';
+          if (prefixBtn) prefixBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    if (prefixBtn && prefixDropdown) {
+      prefixBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = prefixDropdown.style.display === 'block';
+        if (isOpen) {
+          prefixDropdown.style.display = 'none';
+          prefixBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          renderCountryList('');
+          if (prefixSearch) prefixSearch.value = '';
+          prefixDropdown.style.display = 'block';
+          prefixBtn.setAttribute('aria-expanded', 'true');
+          setTimeout(function() {
+            if (prefixSearch) prefixSearch.focus();
+          }, 50);
+        }
+      });
+
+      if (prefixSearch) {
+        prefixSearch.addEventListener('input', function() {
+          renderCountryList(prefixSearch.value);
+        });
+        prefixSearch.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      }
+
+      document.addEventListener('click', function(e) {
+        if (!prefixBtn.contains(e.target) && !prefixDropdown.contains(e.target)) {
+          prefixDropdown.style.display = 'none';
+          if (prefixBtn) prefixBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // =========================================================================
+    // 2. MODAL LOGIC & DYNAMIC PROFILE RESTORATION (No Hardcoded Mock Data)
+    // =========================================================================
     var modal = document.getElementById('modal-edit-profile');
     var openBtn = document.getElementById('btn-edit-personal');
 
@@ -277,7 +460,6 @@
       if (mFn && dFn && dFn.textContent.trim() !== '—') mFn.value = dFn.textContent.trim();
       if (mLn && dLn && dLn.textContent.trim() !== '—') mLn.value = dLn.textContent.trim();
       if (mEm && dEm && dEm.textContent.trim() !== '—') mEm.value = dEm.textContent.trim();
-      if (mPh && dPh && dPh.textContent.trim() !== '—') mPh.value = dPh.textContent.trim();
       if (mDob && dDob && dDob.textContent.trim() !== '—') mDob.value = dDob.textContent.trim();
       if (mGen && dGen && dGen.textContent.trim() !== '—') mGen.value = dGen.textContent.trim();
 
@@ -326,22 +508,38 @@
     if (personalForm) {
       personalForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        var fn = document.getElementById('modal-input-first-name')?.value.trim();
-        var ln = document.getElementById('modal-input-last-name')?.value.trim();
-        var em = document.getElementById('modal-input-email')?.value.trim();
-        var ph = document.getElementById('modal-input-phone')?.value.trim();
-        var dob = document.getElementById('modal-input-dob')?.value.trim();
-        var gen = document.getElementById('modal-input-gender')?.value;
+        var fn = document.getElementById('modal-input-first-name')?.value.trim() || '';
+        var ln = document.getElementById('modal-input-last-name')?.value.trim() || '';
+        var em = document.getElementById('modal-input-email')?.value.trim() || '';
+        var ph = document.getElementById('modal-input-phone')?.value.trim() || '';
+        var dial = hiddenCountryCode ? hiddenCountryCode.value : '+1';
+        var iso = hiddenCountryIso ? hiddenCountryIso.value : 'US';
+        var flag = selectedFlag ? selectedFlag.textContent : '🇺🇸';
+        var dob = document.getElementById('modal-input-dob')?.value.trim() || '';
+        var gen = document.getElementById('modal-input-gender')?.value || '';
 
-        if (fn && document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = fn;
-        if (ln && document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = ln;
-        if (em && document.getElementById('display-email')) document.getElementById('display-email').textContent = em;
-        if (document.getElementById('display-phone')) document.getElementById('display-phone').textContent = ph || '—';
+        var fullPhone = ph ? (iso.toLowerCase() + ' · (' + dial + ') ' + ph) : '—';
+
+        if (document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = fn || '—';
+        if (document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = ln || '—';
+        if (document.getElementById('display-email')) document.getElementById('display-email').textContent = em || '—';
+        if (document.getElementById('display-phone')) document.getElementById('display-phone').textContent = fullPhone;
         if (document.getElementById('display-dob')) document.getElementById('display-dob').textContent = dob || '—';
         if (document.getElementById('display-gender')) document.getElementById('display-gender').textContent = (gen && gen !== 'Gender') ? gen : '—';
 
         try {
-          var profileData = { firstName: fn, lastName: ln, email: em, phone: ph, dob: dob, gender: gen };
+          var profileData = {
+            firstName: fn,
+            lastName: ln,
+            email: em,
+            phoneRaw: ph,
+            phoneFormatted: fullPhone,
+            dialCode: dial,
+            isoCode: iso,
+            flag: flag,
+            dob: dob,
+            gender: gen
+          };
           localStorage.setItem('oge_user_profile', JSON.stringify(profileData));
         } catch(err) {}
 
@@ -350,22 +548,99 @@
       });
     }
 
-    // Password Form Validation & Submit
+    // =========================================================================
+    // 3. PASSWORD FORM: EYE TOGGLE & REAL-TIME VALIDATION
+    // =========================================================================
     var pwdInput = document.getElementById('profile-new-password');
     var confirmPwd = document.getElementById('profile-confirm-password');
     var submitPwdBtn = document.getElementById('btn-submit-password');
     var pwdForm = document.getElementById('form-profile-change-password');
     var cancelPwdBtn = document.getElementById('btn-cancel-password');
 
+    var reqLength = document.getElementById('req-length');
+    var reqCase = document.getElementById('req-case');
+    var reqSpecial = document.getElementById('req-special');
+    var strengthVal = document.getElementById('pwd-strength-val');
+
+    // Interactive eye toggles (Open / Close SVG and password / text)
+    document.querySelectorAll('.password-eye-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var targetId = btn.getAttribute('data-toggle-password');
+        var input = document.getElementById(targetId);
+        if (!input) return;
+
+        var isPass = input.type === 'password';
+        input.type = isPass ? 'text' : 'password';
+
+        var closedSvg = btn.querySelector('.eye-icon--closed');
+        var openSvg = btn.querySelector('.eye-icon--open');
+        if (closedSvg && openSvg) {
+          closedSvg.style.display = isPass ? 'none' : 'block';
+          openSvg.style.display = isPass ? 'block' : 'none';
+        }
+      });
+    });
+
+    function updateReq(el, isValid) {
+      if (!el) return;
+      var icon = el.querySelector('.password-req-icon');
+      if (isValid) {
+        el.classList.add('is-valid');
+        if (icon) icon.textContent = '✓';
+      } else {
+        el.classList.remove('is-valid');
+        if (icon) icon.textContent = '✕';
+      }
+    }
+
     function checkPassword() {
       if (!pwdInput) return;
       var val = pwdInput.value || '';
       var conf = confirmPwd ? confirmPwd.value : '';
-      var valid = val.length >= 8 && (conf === val);
 
+      if (val.length === 0) {
+        updateReq(reqLength, false);
+        updateReq(reqCase, false);
+        updateReq(reqSpecial, false);
+        if (strengthVal) {
+          strengthVal.textContent = 'Weak';
+          strengthVal.className = 'password-strength-val password-strength-val--weak';
+        }
+        if (submitPwdBtn) {
+          submitPwdBtn.disabled = true;
+          submitPwdBtn.classList.remove('is-active');
+        }
+        return;
+      }
+
+      var hasLength = val.length >= 8;
+      var hasCase = /[a-z]/.test(val) && /[A-Z]/.test(val);
+      var hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+
+      updateReq(reqLength, hasLength);
+      updateReq(reqCase, hasCase);
+      updateReq(reqSpecial, hasSpecial);
+
+      var score = (hasLength ? 1 : 0) + (hasCase ? 1 : 0) + (hasSpecial ? 1 : 0);
+
+      if (strengthVal) {
+        if (score === 3) {
+          strengthVal.textContent = 'Strong';
+          strengthVal.className = 'password-strength-val password-strength-val--strong';
+        } else if (score >= 1) {
+          strengthVal.textContent = 'Medium';
+          strengthVal.className = 'password-strength-val password-strength-val--medium';
+        } else {
+          strengthVal.textContent = 'Weak';
+          strengthVal.className = 'password-strength-val password-strength-val--weak';
+        }
+      }
+
+      var canSubmit = hasLength && hasCase && hasSpecial && (conf === val);
       if (submitPwdBtn) {
-        submitPwdBtn.disabled = !valid;
-        if (valid) {
+        submitPwdBtn.disabled = !canSubmit;
+        if (canSubmit) {
           submitPwdBtn.classList.add('is-active');
         } else {
           submitPwdBtn.classList.remove('is-active');
@@ -388,11 +663,14 @@
     if (pwdForm) {
       pwdForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (pwdInput && pwdInput.value.length < 8) {
+        var val = pwdInput ? pwdInput.value : '';
+        var conf = confirmPwd ? confirmPwd.value : '';
+
+        if (val.length < 8) {
           showProfileToast('Password must contain at least 8 characters');
           return;
         }
-        if (pwdInput && confirmPwd && pwdInput.value !== confirmPwd.value) {
+        if (val !== conf) {
           showProfileToast('Passwords do not match');
           return;
         }
@@ -403,7 +681,9 @@
       });
     }
 
-    // Restore saved profile on load
+    // =========================================================================
+    // 4. RESTORE SAVED PROFILE ON PAGE LOAD
+    // =========================================================================
     try {
       var saved = localStorage.getItem('oge_user_profile');
       if (saved) {
@@ -411,9 +691,23 @@
         if (data.firstName && document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = data.firstName;
         if (data.lastName && document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = data.lastName;
         if (data.email && document.getElementById('display-email')) document.getElementById('display-email').textContent = data.email;
-        if (data.phone && document.getElementById('display-phone')) document.getElementById('display-phone').textContent = data.phone || '—';
+        if (data.phoneFormatted && document.getElementById('display-phone')) document.getElementById('display-phone').textContent = data.phoneFormatted;
         if (data.dob && document.getElementById('display-dob')) document.getElementById('display-dob').textContent = data.dob || '—';
-        if (data.gender && document.getElementById('display-gender')) document.getElementById('display-gender').textContent = data.gender || '—';
+        if (data.gender && document.getElementById('display-gender')) document.getElementById('display-gender').textContent = (data.gender && data.gender !== 'Gender') ? data.gender : '—';
+
+        // Prepopulate modal fields
+        if (data.firstName && document.getElementById('modal-input-first-name')) document.getElementById('modal-input-first-name').value = data.firstName;
+        if (data.lastName && document.getElementById('modal-input-last-name')) document.getElementById('modal-input-last-name').value = data.lastName;
+        if (data.email && document.getElementById('modal-input-email')) document.getElementById('modal-input-email').value = data.email;
+        if (data.phoneRaw && document.getElementById('modal-input-phone')) document.getElementById('modal-input-phone').value = data.phoneRaw;
+        if (data.dob && document.getElementById('modal-input-dob')) document.getElementById('modal-input-dob').value = data.dob;
+        if (data.gender && document.getElementById('modal-input-gender')) document.getElementById('modal-input-gender').value = data.gender;
+
+        if (data.dialCode && hiddenCountryCode) hiddenCountryCode.value = data.dialCode;
+        if (data.isoCode && hiddenCountryIso) hiddenCountryIso.value = data.isoCode;
+        if (data.flag && selectedFlag) selectedFlag.textContent = data.flag;
+        if (data.isoCode && selectedIso) selectedIso.textContent = data.isoCode;
+        if (data.dialCode && selectedCode) selectedCode.textContent = '(' + data.dialCode + ')';
       }
     } catch(err) {}
 

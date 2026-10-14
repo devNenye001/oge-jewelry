@@ -4434,17 +4434,48 @@ input[type="password"]::-ms-clear {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   z-index: 1100;
-  min-width: 170px;
-  max-height: 220px;
+  min-width: 260px;
+  max-height: 280px;
   overflow-y: auto;
-  padding: 6px 0;
+  padding: 0;
+}
+
+.phone-prefix-search-wrap {
+  padding: 8px 10px;
+  border-bottom: 1px solid #EEEEEE;
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  z-index: 2;
+}
+
+.phone-prefix-search {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #DDDDDD;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: #111111;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.phone-prefix-search:focus {
+  border-color: #111111;
+}
+
+.phone-prefix-list {
+  padding: 4px 0;
+  margin: 0;
+  list-style: none;
 }
 
 .phone-prefix-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   font-family: var(--font-body);
   font-size: 0.8125rem;
   color: #111111;
@@ -4454,10 +4485,31 @@ input[type="password"]::-ms-clear {
   width: 100%;
   text-align: left;
   transition: background 0.15s ease;
+  box-sizing: border-box;
 }
 
 .phone-prefix-item:hover {
   background: #F6F6F6;
+}
+
+.phone-prefix-item__flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.phone-prefix-item__name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone-prefix-item__code {
+  color: #777777;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .input-icon-right {
