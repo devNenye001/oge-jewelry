@@ -3,7 +3,10 @@
   Matches 404.html mockup
 {% endcomment %}
 
-<section class="not-found-section" {{ section.shopify_attributes }}>
+{% if request.path contains 'bundle' %}
+  {% section 'main-bundle-deals' %}
+{% else %}
+<section class="not-found-section" id="oge-404-default" {{ section.shopify_attributes }}>
   <div class="page-container">
     <div class="not-found-content">
       <h1 class="not-found-title">{{ section.settings.title | default: '404 page not found' }}</h1>
@@ -65,8 +68,24 @@
 
 <hr style="border: none; border-top: 1px solid #ECECEC; margin: 0;">
 
+<!-- Client-side bundle deals fallback if URL has bundle -->
+<div id="oge-404-bundle-fallback" style="display: none;">
+  {% render 'bundle-deals-card-grid' %}
+</div>
+
 <script>
   (function() {
+    var p = window.location.pathname.toLowerCase();
+    if (p.indexOf('bundle') !== -1) {
+      var default404 = document.getElementById('oge-404-default');
+      var fallback = document.getElementById('oge-404-bundle-fallback');
+      var bs = document.getElementById('best-sellers');
+      if (default404) default404.style.display = 'none';
+      if (bs) bs.style.display = 'none';
+      if (fallback) fallback.style.display = 'block';
+      return;
+    }
+
     function init404BestSellers() {
       const track = document.getElementById('not-found-bestsellers-track');
       if (track && track.children.length === 0 && window.OGE_HELPERS && window.OGE_CATALOG) {
@@ -82,6 +101,7 @@
     }
   })();
 </script>
+{% endif %}
 
 {% schema %}
 {
