@@ -1,7 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "main-blog"
+      "type": "main-blog",
+      "settings": {
+        "show_hero": true,
+        "hero_image": "shopify://shop_images/Untitled_design_-_2026-05-25T102401.987.png",
+        "show_tag_filter": true,
+        "show_date": true,
+        "show_author": false,
+        "show_tags": true,
+        "articles_per_page": 9
+      }
     }
   },
   "order": [
