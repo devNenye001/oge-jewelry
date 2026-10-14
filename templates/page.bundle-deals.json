@@ -1,7 +1,11 @@
 {
   "sections": {
     "main": {
-      "type": "main-bundle-deals"
+      "type": "main-bundle-deals",
+      "settings": {
+        "heading": "BUNDLE DEALS",
+        "collection": "bundle-deals"
+      }
     }
   },
   "order": [
