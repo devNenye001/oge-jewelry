@@ -38,17 +38,20 @@
       "settings": {
         "heading": "SHOP BY CATEGORY",
         "collection_1": "necklaces",
+        "image_1": "shopify://shop_images/IVA_6244_crop_enh.jpg",
         "title_1": "NECKLACE",
         "cta_1": "Shop now",
-        "link_1": "/collections/necklaces",
+        "link_1": "",
         "collection_2": "rings",
+        "image_2": "shopify://shop_images/Untitled_design_-_2026-06-15T160900.393.png",
         "title_2": "RINGS",
         "cta_2": "Shop now",
-        "link_2": "/collections/rings",
+        "link_2": "",
         "collection_3": "earrings",
+        "image_3": "shopify://shop_images/IVA_6110_crop.jpg",
         "title_3": "EARRING",
         "cta_3": "Shop now",
-        "link_3": "/collections/earrings"
+        "link_3": ""
       }
     },
     "signature_collections": {
@@ -58,24 +61,22 @@
         "collection_alignment": "",
         "image_alignment": "shopify://shop_images/RIJ_1345dup.jpg",
         "title_alignment": "ALIGNMENT COLLECTION",
-        "link_alignment": "/pages/coming-soon",
+        "link_alignment": "",
         "collection_1": "the-rebirth-collection",
-        "link_1": "/collections/the-rebirth-collection",
+        "title_1": "REBIRTH COLLECTION",
+        "link_1": "",
         "collection_2": "boundaries-collection",
         "image_2": "shopify://shop_images/Untitled_design_-_2026-06-15T160900.393.png",
         "title_2": "BOUNDARIES COLLECTION",
-        "link_2": "/collections/boundaries-collection",
+        "link_2": "",
         "collection_3": "victorious-collection",
         "image_3": "shopify://shop_images/IVA_8352.jpg",
         "title_3": "VICTORIOUS COLLECTION",
-        "link_3": "/collections/victorious-collection",
+        "link_3": "",
         "collection_4": "the-self-romance-collection",
         "image_4": "shopify://shop_images/Untitled_design_-_2026-06-01T175437.700.png",
         "title_4": "SELF ROMANCE COLLECTION",
-        "link_4": "/collections/the-self-romance-collection",
-        "collection_men": "mens-signature-collection",
-        "title_men": "MEN'S SIGNATURE COLLECTION",
-        "link_men": "/collections/mens-signature-collection"
+        "link_4": ""
       }
     },
     "pieces_worth_keeping": {
