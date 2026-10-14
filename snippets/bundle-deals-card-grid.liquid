@@ -1,6 +1,6 @@
 {% comment %}
   OGÉ Fine Jewelry - Bundle Deals Card Grid Snippet
-  Extracts and renders live Bundle Deals from Shopify
+  Displays ALL Bundle Deals directly as Big Cards
 {% endcomment %}
 
 {%- comment -%}
@@ -34,150 +34,156 @@
   {% endfor %}
 {% endif %}
 
-{%- comment -%}
-  2. EXTRACT HERO PRODUCTS FROM SHOPIFY BUNDLE COLLECTION
-{%- endcomment -%}
-{% assign card_1_prod = nil %}
-{% assign card_2_prod = nil %}
-
-{% if bundle_coll != blank and bundle_coll.products.size > 0 %}
-  {% assign card_1_prod = bundle_coll.products[0] %}
-  {% if bundle_coll.products.size > 1 %}
-    {% assign card_2_prod = bundle_coll.products[1] %}
-  {% else %}
-    {% assign card_2_prod = bundle_coll.products[0] %}
-  {% endif %}
-{% endif %}
-
 <div class="bundle-deals-wrapper" style="padding-top: 24px;">
   <h1 class="bundle-deals-heading">{{ heading | default: 'BUNDLE DEALS' }}</h1>
   <hr class="category-divider-line" style="margin: 0 auto 36px; max-width: 100%;">
 
-  <!-- 2-Card Hero Showcase Grid -->
-  <div class="bundle-deals-grid">
-    <!-- Card 1 -->
-    <div class="bundle-card" id="snippet-bundle-hero-card-1">
-      {% if card_1_image != blank %}
-        {{ card_1_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: 'Bundle Deal 1' }}
-      {% elsif card_1_prod != blank and card_1_prod.featured_image != blank %}
-        {{ card_1_prod.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: card_1_prod.title }}
-      {% else %}
-        <img src="{{ 'sales1.jpg' | asset_url }}" alt="Bundle deal" class="bundle-card__img" loading="eager" width="800" height="1000">
-      {% endif %}
-
-      <div class="bundle-card__overlay">
-        <span class="bundle-card__eyebrow">{{ card_1_eyebrow | default: 'Bundle deal' }}</span>
-
-        <h2 class="bundle-card__title">
-          {% if card_1_title != blank %}
-            {{ card_1_title }}
-          {% elsif card_1_prod != blank %}
-            {{ card_1_prod.title | upcase }}
-          {% else %}
-            2 ALA RINGS FOR $150
-          {% endif %}
-        </h2>
-
-        {% assign c1_price_str = card_1_price %}
-        {% if c1_price_str == blank and card_1_prod != blank %}
-          {% assign c1_price_str = card_1_prod.price | divided_by: 100.0 %}
+  <!-- ALL BUNDLE DEALS IN BIG CARDS -->
+  <div class="bundle-deals-grid" id="snippet-bundle-deals-cards-grid">
+    {% if bundle_coll != blank and bundle_coll.products.size > 0 %}
+      {% for product in bundle_coll.products %}
+        {% assign p_down = product.title | downcase %}
+        {% assign eyebrow = 'Bundle deal' %}
+        {% if p_down contains 'set' %}
+          {% assign eyebrow = 'Jewelry Set Offer' %}
         {% endif %}
-        {% if c1_price_str == blank %}{% assign c1_price_str = '150' %}{% endif %}
 
-        <button 
-          type="button" 
-          class="bundle-card__link bundle-card__add-btn" 
-          data-bundle-add="1" 
-          data-bundle-title="{% if card_1_title != blank %}{{ card_1_title | strip_html | escape }}{% elsif card_1_prod != blank %}{{ card_1_prod.title | strip_html | escape }}{% else %}2 ALA RINGS FOR $150{% endif %}"
-          data-bundle-price="{{ c1_price_str }}"
-          data-product-handle="{{ card_1_prod.handle | default: 'ala-ring' }}"
-          data-variant-id="{{ card_1_prod.selected_or_first_available_variant.id }}"
-          aria-label="Add bundle deal to Bag"
-        >
-          Shop Now
-        </button>
-      </div>
-    </div>
+        <div class="bundle-card" data-product-id="{{ product.id }}">
+          <a href="{{ product.url }}" class="bundle-card__media-link" aria-label="{{ product.title }}">
+            {% if product.featured_image != blank %}
+              {{ product.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: product.title }}
+            {% else %}
+              <img src="{{ 'sales1.jpg' | asset_url }}" alt="{{ product.title }}" class="bundle-card__img" loading="eager" width="800" height="1000">
+            {% endif %}
+          </a>
 
-    <!-- Card 2 -->
-    <div class="bundle-card" id="snippet-bundle-hero-card-2">
-      {% if card_2_image != blank %}
-        {{ card_2_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: 'Bundle Deal 2' }}
-      {% elsif card_2_prod != blank and card_2_prod.featured_image != blank %}
-        {{ card_2_prod.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: card_2_prod.title }}
-      {% else %}
-        <img src="{{ 'sales2.jpg' | asset_url }}" alt="Jewelry Set Offer" class="bundle-card__img" loading="eager" width="800" height="1000">
-      {% endif %}
+          <div class="bundle-card__overlay">
+            <span class="bundle-card__eyebrow">{{ eyebrow }}</span>
 
-      <div class="bundle-card__overlay">
-        <span class="bundle-card__eyebrow">{{ card_2_eyebrow | default: 'Jewelry Set Offer' }}</span>
+            <h2 class="bundle-card__title">
+              <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+                {{ product.title | upcase }}
+              </a>
+            </h2>
 
-        <h2 class="bundle-card__title">
-          {% if card_2_title != blank %}
-            {{ card_2_title }}
-          {% elsif card_2_prod != blank %}
-            {{ card_2_prod.title | upcase }}
-          {% else %}
-            VALOR EARRING +<br>NECKLACE FOR $200
-          {% endif %}
-        </h2>
+            <div class="bundle-card__price-badge" style="font-family: var(--font-body); font-size: 1.0625rem; font-weight: 500; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+              {{ product.price | money_without_trailing_zeros }}
+              {% if product.compare_at_price > product.price %}
+                <s style="opacity: 0.75; font-size: 0.875rem; margin-left: 6px;">{{ product.compare_at_price | money_without_trailing_zeros }}</s>
+              {% endif %}
+            </div>
 
-        {% assign c2_price_str = card_2_price %}
-        {% if c2_price_str == blank and card_2_prod != blank %}
-          {% assign c2_price_str = card_2_prod.price | divided_by: 100.0 %}
+            <button 
+              type="button" 
+              class="bundle-card__link bundle-card__add-btn" 
+              data-bundle-add="{{ forloop.index }}" 
+              data-bundle-title="{{ product.title | strip_html | escape }}"
+              data-bundle-price="{{ product.price | divided_by: 100.0 }}"
+              data-product-handle="{{ product.handle }}"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              aria-label="Add {{ product.title }} to Bag"
+            >
+              Shop Now
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      {% assign fallback_bundles_count = 0 %}
+      {% for product in collections.all.products %}
+        {% assign pt = product.title | downcase %}
+        {% assign ptype = product.type | downcase %}
+        {% if pt contains 'bundle' or pt contains 'deal' or pt contains 'set' or product.tags contains 'bundle' or product.tags contains 'bundles' or ptype contains 'bundle' %}
+          {% assign fallback_bundles_count = fallback_bundles_count | plus: 1 %}
+          <div class="bundle-card" data-product-id="{{ product.id }}">
+            <a href="{{ product.url }}" class="bundle-card__media-link" aria-label="{{ product.title }}">
+              {% if product.featured_image != blank %}
+                {{ product.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: product.title }}
+              {% else %}
+                <img src="{{ 'sales1.jpg' | asset_url }}" alt="{{ product.title }}" class="bundle-card__img" loading="eager" width="800" height="1000">
+              {% endif %}
+            </a>
+
+            <div class="bundle-card__overlay">
+              <span class="bundle-card__eyebrow">
+                {% if pt contains 'set' %}Jewelry Set Offer{% else %}Bundle deal{% endif %}
+              </span>
+
+              <h2 class="bundle-card__title">
+                <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+                  {{ product.title | upcase }}
+                </a>
+              </h2>
+
+              <div class="bundle-card__price-badge" style="font-family: var(--font-body); font-size: 1.0625rem; font-weight: 500; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+                {{ product.price | money_without_trailing_zeros }}
+                {% if product.compare_at_price > product.price %}
+                  <s style="opacity: 0.75; font-size: 0.875rem; margin-left: 6px;">{{ product.compare_at_price | money_without_trailing_zeros }}</s>
+                {% endif %}
+              </div>
+
+              <button 
+                type="button" 
+                class="bundle-card__link bundle-card__add-btn" 
+                data-bundle-add="{{ fallback_bundles_count }}" 
+                data-bundle-title="{{ product.title | strip_html | escape }}"
+                data-bundle-price="{{ product.price | divided_by: 100.0 }}"
+                data-product-handle="{{ product.handle }}"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                aria-label="Add {{ product.title }} to Bag"
+              >
+                Shop Now
+              </button>
+            </div>
+          </div>
         {% endif %}
-        {% if c2_price_str == blank %}{% assign c2_price_str = '200' %}{% endif %}
+      {% endfor %}
 
-        <button 
-          type="button" 
-          class="bundle-card__link bundle-card__add-btn" 
-          data-bundle-add="2" 
-          data-bundle-title="{% if card_2_title != blank %}{{ card_2_title | strip_html | escape }}{% elsif card_2_prod != blank %}{{ card_2_prod.title | strip_html | escape }}{% else %}VALOR EARRING + NECKLACE FOR $200{% endif %}"
-          data-bundle-price="{{ c2_price_str }}"
-          data-product-handle="{{ card_2_prod.handle | default: 'valor-necklace' }}"
-          data-variant-id="{{ card_2_prod.selected_or_first_available_variant.id }}"
-          aria-label="Add bundle deal to Bag"
-        >
-          Shop Now
-        </button>
-      </div>
-    </div>
-  </div>
+      {% if fallback_bundles_count == 0 %}
+        <!-- 3 Default Mock Big Cards matching Shopify bundle deals -->
+        <div class="bundle-card">
+          <div class="bundle-card__media-link">
+            <img src="{{ 'sales1.jpg' | asset_url }}" alt="The Self-Love Set" class="bundle-card__img" loading="eager" width="800" height="1000">
+          </div>
+          <div class="bundle-card__overlay">
+            <span class="bundle-card__eyebrow">Jewelry Set Offer</span>
+            <h2 class="bundle-card__title">THE SELF-LOVE SET</h2>
+            <div class="bundle-card__price-badge" style="font-family: var(--font-body); font-size: 1.0625rem; font-weight: 500; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">$180</div>
+            <button type="button" class="bundle-card__link bundle-card__add-btn" data-bundle-add="1" data-bundle-title="The Self-Love Set" data-bundle-price="180" data-product-handle="the-self-love-set">
+              Shop Now
+            </button>
+          </div>
+        </div>
 
-  <!-- 3. ALL PRODUCTS FROM SHOPIFY BUNDLE DEALS COLLECTION -->
-  <div class="bundle-products-section" style="margin-top: 64px;">
-    <div class="bundle-products-header" style="text-align: center; margin-bottom: 32px;">
-      <h2 style="font-family: var(--font-heading); font-size: clamp(1.35rem, 2.5vw, 1.875rem); letter-spacing: -0.02em; text-transform: uppercase; color: #111111; margin: 0 0 8px;">
-        Shop All Bundle Deals
-      </h2>
-      <p style="font-family: var(--font-body); font-size: 0.875rem; color: #666666; margin: 0;">
-        All curated sets and special bundle offers directly from our Shopify catalog.
-      </p>
-    </div>
+        <div class="bundle-card">
+          <div class="bundle-card__media-link">
+            <img src="{{ 'sales2.jpg' | asset_url }}" alt="Victorious Rise Set" class="bundle-card__img" loading="eager" width="800" height="1000">
+          </div>
+          <div class="bundle-card__overlay">
+            <span class="bundle-card__eyebrow">Jewelry Set Offer</span>
+            <h2 class="bundle-card__title">VICTORIOUS RISE SET</h2>
+            <div class="bundle-card__price-badge" style="font-family: var(--font-body); font-size: 1.0625rem; font-weight: 500; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">$200</div>
+            <button type="button" class="bundle-card__link bundle-card__add-btn" data-bundle-add="2" data-bundle-title="Victorious Rise Set" data-bundle-price="200" data-product-handle="victorious-rise-set">
+              Shop Now
+            </button>
+          </div>
+        </div>
 
-    <div class="collection-products-grid grid--4-col" id="snippet-bundle-products-grid">
-      {% if bundle_coll != blank and bundle_coll.products.size > 0 %}
-        {% for product in bundle_coll.products %}
-          {% render 'product-card', product: product %}
-        {% endfor %}
-      {% else %}
-        {% assign fallback_bundles_count = 0 %}
-        {% for product in collections.all.products %}
-          {% assign pt = product.title | downcase %}
-          {% assign ptype = product.type | downcase %}
-          {% if pt contains 'bundle' or pt contains 'deal' or pt contains 'set' or product.tags contains 'bundle' or product.tags contains 'bundles' or ptype contains 'bundle' %}
-            {% render 'product-card', product: product %}
-            {% assign fallback_bundles_count = fallback_bundles_count | plus: 1 %}
-          {% endif %}
-        {% endfor %}
-
-        {% if fallback_bundles_count == 0 %}
-          {% for product in collections.all.products limit: 4 %}
-            {% render 'product-card', product: product %}
-          {% endfor %}
-        {% endif %}
+        <div class="bundle-card">
+          <div class="bundle-card__media-link">
+            <img src="{{ 'sales1.jpg' | asset_url }}" alt="Victorious Rise Set (Silver)" class="bundle-card__img" loading="eager" width="800" height="1000">
+          </div>
+          <div class="bundle-card__overlay">
+            <span class="bundle-card__eyebrow">Jewelry Set Offer</span>
+            <h2 class="bundle-card__title">VICTORIOUS RISE SET (SILVER)</h2>
+            <div class="bundle-card__price-badge" style="font-family: var(--font-body); font-size: 1.0625rem; font-weight: 500; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">$190</div>
+            <button type="button" class="bundle-card__link bundle-card__add-btn" data-bundle-add="3" data-bundle-title="Victorious Rise Set (Silver)" data-bundle-price="190" data-product-handle="victorious-rise-set-silver">
+              Shop Now
+            </button>
+          </div>
+        </div>
       {% endif %}
-    </div>
+    {% endif %}
   </div>
 </div>
 
