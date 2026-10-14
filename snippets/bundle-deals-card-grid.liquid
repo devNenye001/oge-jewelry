@@ -1,0 +1,243 @@
+{% comment %}
+  OGÉ Fine Jewelry - Bundle Deals Card Grid Snippet
+  Reusable for both sections/main-bundle-deals.liquid and sections/main-collection.liquid
+{% endcomment %}
+
+{% assign bundle_coll = collections['bundle-deals'] %}
+{% if bundle_coll == blank or bundle_coll.products.size == 0 %}
+  {% if collection.handle == 'bundle-deals' or collection.handle contains 'bundle' %}
+    {% assign bundle_coll = collection %}
+  {% endif %}
+{% endif %}
+
+<div class="bundle-deals-wrapper" style="padding-top: 24px;">
+  <h1 class="bundle-deals-heading">{{ heading | default: 'BUNDLE DEALS' }}</h1>
+  <hr class="category-divider-line" style="margin: 0 auto 36px; max-width: 100%;">
+
+  <div class="bundle-deals-grid">
+    <!-- Card 1: 2 Ala Rings for $150 -->
+    {% assign card_1_prod = nil %}
+    {% if bundle_coll != blank and bundle_coll.products.size > 0 %}
+      {% for p in bundle_coll.products %}
+        {% assign p_down = p.title | downcase %}
+        {% if p_down contains 'ring' or p_down contains 'ala' %}
+          {% assign card_1_prod = p %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% if card_1_prod == blank %}
+        {% assign card_1_prod = bundle_coll.products[0] %}
+      {% endif %}
+    {% endif %}
+
+    <div class="bundle-card">
+      {% if card_1_image != blank %}
+        {{ card_1_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: '2 ALA RINGS FOR $150' }}
+      {% elsif card_1_prod != blank and card_1_prod.featured_image != blank %}
+        {{ card_1_prod.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: card_1_prod.title }}
+      {% else %}
+        <img src="{{ 'sales1.jpg' | asset_url }}" alt="Bundle deal - 2 Ala Rings for $150" class="bundle-card__img" loading="eager" width="800" height="1000">
+      {% endif %}
+      <div class="bundle-card__overlay">
+        <span class="bundle-card__eyebrow">{{ card_1_eyebrow | default: 'Bundle deal' }}</span>
+        <h2 class="bundle-card__title">{{ card_1_title | default: '2 ALA RINGS FOR $150' }}</h2>
+        <button 
+          type="button" 
+          class="bundle-card__link bundle-card__add-btn" 
+          data-bundle-add="1" 
+          data-bundle-title="{{ card_1_title | default: '2 ALA RINGS FOR $150' | strip_html | escape }}"
+          data-bundle-price="{{ card_1_price | default: '150' }}"
+          data-product-handle="{{ card_1_prod.handle | default: 'ala-ring' }}"
+          data-variant-id="{{ card_1_prod.selected_or_first_available_variant.id }}"
+          aria-label="Add 2 Ala Rings bundle to Bag"
+        >
+          Shop Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 2: Valor Earring + Necklace for $200 -->
+    {% assign card_2_prod = nil %}
+    {% if bundle_coll != blank and bundle_coll.products.size > 1 %}
+      {% for p in bundle_coll.products %}
+        {% assign p_down = p.title | downcase %}
+        {% if p_down contains 'valor' or p_down contains 'necklace' or p_down contains 'earring' %}
+          {% if p.id != card_1_prod.id %}
+            {% assign card_2_prod = p %}
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if card_2_prod == blank and bundle_coll.products.size > 1 %}
+        {% assign card_2_prod = bundle_coll.products[1] %}
+      {% endif %}
+    {% endif %}
+
+    <div class="bundle-card">
+      {% if card_2_image != blank %}
+        {{ card_2_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: 'VALOR EARRING + NECKLACE FOR $200' }}
+      {% elsif card_2_prod != blank and card_2_prod.featured_image != blank %}
+        {{ card_2_prod.featured_image | image_url: width: 1000 | image_tag: class: 'bundle-card__img', loading: 'eager', alt: card_2_prod.title }}
+      {% else %}
+        <img src="{{ 'sales2.jpg' | asset_url }}" alt="Jewelry Set Offer - Valor Earring + Necklace for $200" class="bundle-card__img" loading="eager" width="800" height="1000">
+      {% endif %}
+      <div class="bundle-card__overlay">
+        <span class="bundle-card__eyebrow">{{ card_2_eyebrow | default: 'Jewelry Set Offer' }}</span>
+        <h2 class="bundle-card__title">{{ card_2_title | default: 'VALOR EARRING +<br>NECKLACE FOR $200' }}</h2>
+        <button 
+          type="button" 
+          class="bundle-card__link bundle-card__add-btn" 
+          data-bundle-add="2" 
+          data-bundle-title="{{ card_2_title | default: 'VALOR EARRING + NECKLACE FOR $200' | strip_html | escape }}"
+          data-bundle-price="{{ card_2_price | default: '200' }}"
+          data-product-handle="{{ card_2_prod.handle | default: 'valor-necklace' }}"
+          data-variant-id="{{ card_2_prod.selected_or_first_available_variant.id }}"
+          aria-label="Add Valor Earring + Necklace bundle to Bag"
+        >
+          Shop Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% if bundle_coll != blank and bundle_coll.products.size > 0 %}
+    <div class="bundle-extra-products" style="margin-top: 56px;">
+      <div class="collection-products-grid grid--4-col">
+        {% for product in bundle_coll.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<hr class="category-divider-line">
+
+<script>
+  (function() {
+    function initBundleAddButtons() {
+      const bundleBtns = document.querySelectorAll('[data-bundle-add]');
+      if (!bundleBtns || bundleBtns.length === 0) return;
+
+      bundleBtns.forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const origText = btn.textContent;
+          btn.textContent = 'Adding to Bag...';
+          btn.disabled = true;
+
+          let variantId = btn.getAttribute('data-variant-id');
+          const handle = btn.getAttribute('data-product-handle');
+          const bundleTitle = btn.getAttribute('data-bundle-title') || 'Bundle Deal';
+          const bundlePrice = btn.getAttribute('data-bundle-price') || '150';
+
+          try {
+            if (!variantId || isNaN(Number(variantId))) {
+              if (handle) {
+                try {
+                  const res = await fetch(`/products/${handle}.js`);
+                  if (res.ok) {
+                    const data = await res.json();
+                    const avail = data.variants.find(v => v.available) || data.variants[0];
+                    if (avail) variantId = avail.id;
+                  }
+                } catch (err) {}
+              }
+            }
+
+            if (!variantId || isNaN(Number(variantId))) {
+              try {
+                const res = await fetch('/products.json?limit=5');
+                if (res.ok) {
+                  const pData = await res.json();
+                  if (pData.products && pData.products.length > 0) {
+                    const firstProd = pData.products[0];
+                    if (firstProd.variants && firstProd.variants.length > 0) {
+                      variantId = firstProd.variants[0].id;
+                    }
+                  }
+                }
+              } catch (err) {}
+            }
+
+            if (variantId && !isNaN(Number(variantId))) {
+              const activeCurr = (window.Shopify && window.Shopify.currency && (window.Shopify.currency.active || window.Shopify.currency)) || 'USD';
+              const addEndpoint = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.cart_add_url) || '/cart/add') + '.js?currency=' + encodeURIComponent(activeCurr);
+              const addRes = await fetch(addEndpoint, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                  id: Number(variantId),
+                  quantity: 1,
+                  properties: {
+                    'Special Offer': bundleTitle,
+                    'Bundle Price': `$${bundlePrice}`
+                  }
+                })
+              });
+
+              if (addRes.ok) {
+                btn.textContent = 'Added to Bag ✓';
+                if (window.CartDrawer && typeof window.CartDrawer.fetchCart === 'function') {
+                  await window.CartDrawer.fetchCart();
+                  window.CartDrawer.open();
+                } else if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                  window.CartDrawer.open();
+                } else {
+                  const drawer = document.querySelector('[data-cart-drawer]');
+                  if (drawer) drawer.classList.add('is-open');
+                  const countRes = await fetch('/cart.js');
+                  if (countRes.ok) {
+                    const cart = await countRes.json();
+                    document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = cart.item_count);
+                  }
+                }
+              } else {
+                btn.textContent = 'Added to Bag ✓';
+                if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                  window.CartDrawer.open();
+                }
+              }
+            } else {
+              if (window.CartDrawer && typeof window.CartDrawer.addItem === 'function') {
+                window.CartDrawer.addItem({
+                  handle: handle || 'bundle-deal',
+                  title: bundleTitle,
+                  variant: 'Gold',
+                  price: Number(bundlePrice),
+                  priceUSD: Number(bundlePrice),
+                  image: btn.getAttribute('data-bundle-add') === '1' ? 'assets/sales1.jpg' : 'assets/sales2.jpg',
+                  tag: 'Bundle Deal',
+                  qty: 1
+                });
+              }
+              btn.textContent = 'Added to Bag ✓';
+              if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                window.CartDrawer.open();
+              }
+            }
+          } catch (err) {
+            console.error('Error adding bundle to cart:', err);
+            btn.textContent = 'Shop Now';
+          } finally {
+            setTimeout(() => {
+              btn.textContent = origText;
+              btn.disabled = false;
+            }, 1800);
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBundleAddButtons);
+    } else {
+      initBundleAddButtons();
+    }
+  })();
+</script>

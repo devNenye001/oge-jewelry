@@ -1,0 +1,208 @@
+{% comment %}
+  OGÉ Fine Jewelry - Self Romance Collection Section
+  Features customizable banner image, header title, description, and product catalog.
+{% endcomment %}
+
+{% assign current_coll = section.settings.collection %}
+{% if current_coll == blank or current_coll.products.size == 0 %}
+  {% if collections['the-self-romance-collection'] != blank and collections['the-self-romance-collection'].products.size > 0 %}
+    {% assign current_coll = collections['the-self-romance-collection'] %}
+  {% elsif collections['self-romance'] != blank and collections['self-romance'].products.size > 0 %}
+    {% assign current_coll = collections['self-romance'] %}
+  {% else %}
+    {% assign current_coll = collection %}
+  {% endif %}
+{% endif %}
+
+{% assign banner_title = section.settings.heading %}
+{% if banner_title == blank %}
+  {% assign banner_title = current_coll.title | default: 'THE SELF ROMANCE COLLECTION' %}
+{% endif %}
+
+<!-- Collection Hero Banner -->
+<section class="collection-hero-banner" id="self-romance-hero-banner" {{ section.shopify_attributes }}>
+  {% if section.settings.banner_image != blank %}
+    {{ section.settings.banner_image | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
+  {% elsif current_coll.image != blank %}
+    {{ current_coll.image | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
+  {% else %}
+    <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="The Self Romance Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+  {% endif %}
+  <div class="collection-hero-banner__overlay">
+    <div class="collection-hero__content">
+      <h1 class="collection-hero-banner__title">{{ banner_title }}</h1>
+      {% if section.settings.banner_desc != blank %}
+        <p class="collection-hero-banner__desc">{{ section.settings.banner_desc }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Sub-filter tabs -->
+<nav class="collection-category-tabs" aria-label="Collection Categories">
+  <button type="button" class="collection-tab-btn is-active" data-filter="all">All</button>
+  <button type="button" class="collection-tab-btn" data-filter="necklaces">Necklaces</button>
+  <button type="button" class="collection-tab-btn" data-filter="bracelets">Bracelets</button>
+  <button type="button" class="collection-tab-btn" data-filter="rings">Rings</button>
+  <button type="button" class="collection-tab-btn" data-filter="earrings">Earrings</button>
+</nav>
+
+<!-- UTILITY BAR -->
+<div class="collection-utility-bar">
+  <div class="collection-utility-left" style="position: relative;">
+    <button type="button" class="filter-sort-btn" id="filter-sort-toggle-self-romance" aria-expanded="false" aria-controls="collection-filter-dropdown-self-romance">
+      Filter &amp; Sort
+    </button>
+    <div class="filter-dropdown-menu" id="collection-filter-dropdown-self-romance" role="menu">
+      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
+      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
+      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
+      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
+    </div>
+  </div>
+  <div class="collection-utility-right">
+    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
+      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
+      </button>
+      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Product Catalog -->
+<main class="collection-catalog-wrap" id="MainContent">
+  {% assign products_per_page = section.settings.products_per_page | default: 24 %}
+  {% paginate current_coll.products by products_per_page %}
+    <div class="collection-products-grid grid--4-col" id="self-romance-grid">
+      {% if current_coll.products.size > 0 %}
+        {% for product in current_coll.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        {% assign item_count = 0 %}
+        {% for product in collections.all.products %}
+          {% assign p_title = product.title | downcase %}
+          {% if p_title contains 'romance' or p_title contains 'self' or product.tags contains 'self-romance' %}
+            {% render 'product-card', product: product %}
+            {% assign item_count = item_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        {% if item_count == 0 %}
+          <div class="wishlist-empty-box collection-empty-state" id="self-romance-empty-placeholder" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+            <h2 class="wishlist-empty-title">Loading Self Romance Collection...</h2>
+            <p class="wishlist-empty-desc">Discovering handcrafted pieces from The Self Romance Collection.</p>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% if paginate.pages > 1 %}
+      <nav class="collection-pagination" aria-label="Pagination">
+        {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
+      </nav>
+    {% endif %}
+  {% endpaginate %}
+</main>
+
+<hr class="category-divider-line">
+
+<script>
+  (function() {
+    function initSelfRomancePage() {
+      const grid = document.getElementById('self-romance-grid');
+      if (!grid) return;
+
+      const densityBtns = document.querySelectorAll('.grid-density-btn');
+      densityBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          densityBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          const cols = btn.getAttribute('data-cols') || '4';
+          grid.classList.remove('grid--1-col', 'grid--2-col', 'grid--4-col');
+          grid.classList.add(`grid--${cols}-col`);
+        });
+      });
+
+      const filterToggle = document.getElementById('filter-sort-toggle-self-romance');
+      const filterDropdown = document.getElementById('collection-filter-dropdown-self-romance');
+      if (filterToggle && filterDropdown) {
+        filterToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = filterDropdown.classList.contains('is-open');
+          filterDropdown.classList.toggle('is-open', !isOpen);
+          filterToggle.setAttribute('aria-expanded', !isOpen);
+        });
+        document.addEventListener('click', (e) => {
+          if (!filterDropdown.contains(e.target) && e.target !== filterToggle) {
+            filterDropdown.classList.remove('is-open');
+            filterToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      // Catalog JS Fallback if grid has 0 cards
+      const placeholder = document.getElementById('self-romance-empty-placeholder');
+      if (placeholder && window.OGE_HELPERS && window.OGE_CATALOG) {
+        const items = window.OGE_CATALOG.filter(p => {
+          const col = (p.collection || '').toLowerCase();
+          const title = (p.title || '').toLowerCase();
+          return col.includes('romance') || col.includes('self') || title.includes('romance');
+        });
+        if (items.length > 0) {
+          grid.innerHTML = items.map(item => window.OGE_HELPERS.renderProductCard(item)).join('');
+        }
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSelfRomancePage);
+    } else {
+      initSelfRomancePage();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Self Romance Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Banner Title / Header",
+      "default": "THE SELF ROMANCE COLLECTION"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Hero Banner Image"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_desc",
+      "label": "Banner Description",
+      "default": "An intimate ode to honoring and falling in love with oneself."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection Source"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 4,
+      "max": 36,
+      "step": 4,
+      "default": 24
+    }
+  ]
+}
+{% endschema %}

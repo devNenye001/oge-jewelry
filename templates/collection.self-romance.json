@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-self-romance",
+      "settings": {
+        "heading": "THE SELF ROMANCE COLLECTION",
+        "banner_desc": "An intimate ode to honoring and falling in love with oneself.",
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

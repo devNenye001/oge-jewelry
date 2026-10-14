@@ -42,8 +42,9 @@
             {% if reb_url == blank or reb_url == '' or reb_url == '#' %}{% assign reb_url = routes.collections_url | append: '/the-rebirth-collection' %}{% endif %}
             <a href="{{ reb_url }}" class="footer-col__link">Rebirth Collection</a>
 
-            {% assign bundle_url = pages['bundle-deals'].url %}
-            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = '/pages/bundle-deals' %}{% endif %}
+            {% assign bundle_url = collections['bundle-deals'].url %}
+            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = pages['bundle-deals'].url %}{% endif %}
+            {% if bundle_url == blank or bundle_url == '' or bundle_url == '#' %}{% assign bundle_url = routes.collections_url | append: '/bundle-deals' %}{% endif %}
             <a href="{{ bundle_url }}" class="footer-col__link">Bundle Deals</a>
           {% endif %}
         </nav>

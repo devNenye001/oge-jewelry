@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-rebirth",
+      "settings": {
+        "heading": "THE REBIRTH COLLECTION",
+        "banner_desc": "Embrace transformation with sculpted solid gold and symbolic adornments.",
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

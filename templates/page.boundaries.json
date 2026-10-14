@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-boundaries",
+      "settings": {
+        "heading": "THE BOUNDARIES COLLECTION",
+        "banner_desc": "Bold silhouettes defining sacred personal space and sovereign elegance.",
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -58,103 +58,107 @@
   {% assign banner_desc = collection.description %}
 {% endif %}
 
-{% if show_banner and is_category == false %}
-  <!-- Collection Hero Banner (For Signature Collections: Rebirth, Victorious, Boundaries, Self Romance, Alignment) -->
-  <section class="collection-hero-banner" id="collection-hero-banner" {{ section.shopify_attributes }}>
-    {% if banner_img != blank %}
-      {{ banner_img | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
-    {% elsif collection.handle contains 'bound' %}
-      <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% elsif collection.handle contains 'victor' %}
-      <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% elsif collection.handle contains 'align' %}
-      <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% elsif collection.handle contains 'rebirth' %}
-      <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% elsif collection.handle contains 'romance' or collection.handle contains 'self' %}
-      <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="The Self Romance Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% else %}
-      <img src="{{ 'hero.jpg' | asset_url }}" alt="{{ banner_title }}" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
-    {% endif %}
-    <div class="collection-hero-banner__overlay">
-      <div class="collection-hero__content">
-        <h1 class="collection-hero-banner__title">{{ banner_title }}</h1>
-        {% if banner_desc != blank %}
-          <p class="collection-hero-banner__desc">{{ banner_desc }}</p>
-        {% endif %}
+{% if coll_handle == 'bundle-deals' or coll_handle contains 'bundle' %}
+  {% render 'bundle-deals-card-grid' %}
+{% else %}
+  {% if show_banner and is_category == false %}
+    <!-- Collection Hero Banner (For Signature Collections: Rebirth, Victorious, Boundaries, Self Romance, Alignment) -->
+    <section class="collection-hero-banner" id="collection-hero-banner" {{ section.shopify_attributes }}>
+      {% if banner_img != blank %}
+        {{ banner_img | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
+      {% elsif collection.handle contains 'bound' %}
+        <img src="{{ 'Boundaries-collection.jpg' | asset_url }}" alt="The Boundaries Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% elsif collection.handle contains 'victor' %}
+        <img src="{{ 'Victorious-collection.jpg' | asset_url }}" alt="The Victorious Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% elsif collection.handle contains 'align' %}
+        <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="The Alignment Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% elsif collection.handle contains 'rebirth' %}
+        <img src="{{ 'Rebirth-collection.jpg' | asset_url }}" alt="The Rebirth Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% elsif collection.handle contains 'romance' or collection.handle contains 'self' %}
+        <img src="{{ 'SelfRomance-collection.jpg' | asset_url }}" alt="The Self Romance Collection" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% else %}
+        <img src="{{ 'hero.jpg' | asset_url }}" alt="{{ banner_title }}" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+      {% endif %}
+      <div class="collection-hero-banner__overlay">
+        <div class="collection-hero__content">
+          <h1 class="collection-hero-banner__title">{{ banner_title }}</h1>
+          {% if banner_desc != blank %}
+            <p class="collection-hero-banner__desc">{{ banner_desc }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sub-filter tabs for signature collections -->
+    <nav class="collection-category-tabs" id="collection-category-tabs" aria-label="Collection Categories">
+      <button type="button" class="collection-tab-btn is-active" data-filter="all">All</button>
+      <button type="button" class="collection-tab-btn" data-filter="necklaces">Necklaces</button>
+      <button type="button" class="collection-tab-btn" data-filter="bracelets">Bracelets</button>
+      <button type="button" class="collection-tab-btn" data-filter="rings">Rings</button>
+      <button type="button" class="collection-tab-btn" data-filter="earrings">Earrings</button>
+    </nav>
+  {% else %}
+    <!-- Minimalist Category Header (Matching Exact Figma Category Design for Rings, Earrings, Necklaces, Bracelets, Men) -->
+    <header class="category-page-header">
+      <h1 class="category-page-title" id="category-page-heading">{{ banner_title | upcase }}</h1>
+    </header>
+    <hr class="category-divider-line">
+  {% endif %}
+
+  <!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER - EXACT MATCH FOR FIGMA SCREENSHOT) -->
+  <div class="collection-utility-bar">
+    <div class="collection-utility-left" style="position: relative;">
+      <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="collection-filter-dropdown">
+        Filter &amp; Sort
+      </button>
+      <div class="filter-dropdown-menu" id="collection-filter-dropdown" role="menu">
+        <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
+        <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
+        <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
+        <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
       </div>
     </div>
-  </section>
+    <div class="collection-utility-right">
+      <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
+        <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
+        </button>
+        <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
+        </button>
+        <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Sub-filter tabs for signature collections -->
-  <nav class="collection-category-tabs" id="collection-category-tabs" aria-label="Collection Categories">
-    <button type="button" class="collection-tab-btn is-active" data-filter="all">All</button>
-    <button type="button" class="collection-tab-btn" data-filter="necklaces">Necklaces</button>
-    <button type="button" class="collection-tab-btn" data-filter="bracelets">Bracelets</button>
-    <button type="button" class="collection-tab-btn" data-filter="rings">Rings</button>
-    <button type="button" class="collection-tab-btn" data-filter="earrings">Earrings</button>
-  </nav>
-{% else %}
-  <!-- Minimalist Category Header (Matching Exact Figma Category Design for Rings, Earrings, Necklaces, Bracelets, Men) -->
-  <header class="category-page-header">
-    <h1 class="category-page-title" id="category-page-heading">{{ banner_title | upcase }}</h1>
-  </header>
+  <!-- Product Catalog -->
+  <main class="collection-catalog-wrap" id="MainContent">
+    {% assign products_per_page = section.settings.products_per_page | default: 24 %}
+    {% paginate collection.products by products_per_page %}
+      <div class="collection-products-grid grid--4-col" id="collection-products-grid">
+        {% if collection.products.size > 0 %}
+          {% for product in collection.products %}
+            {% render 'product-card', product: product %}
+          {% endfor %}
+        {% else %}
+          <div class="wishlist-empty-box collection-empty-state" id="collection-empty-placeholder" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+            <h2 class="wishlist-empty-title">Loading Jewelry...</h2>
+            <p class="wishlist-empty-desc">Discovering handcrafted fine jewelry pieces.</p>
+          </div>
+        {% endif %}
+      </div>
+      {% if paginate.pages > 1 %}
+        <nav class="collection-pagination" aria-label="Pagination">
+          {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </main>
+
   <hr class="category-divider-line">
 {% endif %}
-
-<!-- UTILITY BAR (FILTER & SORT + DENSITY SWITCHER - EXACT MATCH FOR FIGMA SCREENSHOT) -->
-<div class="collection-utility-bar">
-  <div class="collection-utility-left" style="position: relative;">
-    <button type="button" class="filter-sort-btn" id="filter-sort-toggle" aria-expanded="false" aria-controls="collection-filter-dropdown">
-      Filter &amp; Sort
-    </button>
-    <div class="filter-dropdown-menu" id="collection-filter-dropdown" role="menu">
-      <button type="button" class="filter-option-btn is-active" data-sort="featured">Featured</button>
-      <button type="button" class="filter-option-btn" data-sort="price-low">Price: Low to High</button>
-      <button type="button" class="filter-option-btn" data-sort="price-high">Price: High to Low</button>
-      <button type="button" class="filter-option-btn" data-sort="newest">New Arrivals</button>
-    </div>
-  </div>
-  <div class="collection-utility-right">
-    <div class="grid-density-switcher" role="group" aria-label="Grid density switcher">
-      <button type="button" class="grid-density-btn" data-cols="1" aria-label="1 column view" title="1 Column">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="12" height="12"/></svg>
-      </button>
-      <button type="button" class="grid-density-btn" data-cols="2" aria-label="2 columns view" title="2 Columns">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="12"/><rect x="9" y="2" width="5" height="12"/></svg>
-      </button>
-      <button type="button" class="grid-density-btn is-active" data-cols="4" aria-label="4 columns view" title="4 Columns">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Product Catalog -->
-<main class="collection-catalog-wrap" id="MainContent">
-  {% assign products_per_page = section.settings.products_per_page | default: 24 %}
-  {% paginate collection.products by products_per_page %}
-    <div class="collection-products-grid grid--4-col" id="collection-products-grid">
-      {% if collection.products.size > 0 %}
-        {% for product in collection.products %}
-          {% render 'product-card', product: product %}
-        {% endfor %}
-      {% else %}
-        <div class="wishlist-empty-box collection-empty-state" id="collection-empty-placeholder" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
-          <h2 class="wishlist-empty-title">Loading Jewelry...</h2>
-          <p class="wishlist-empty-desc">Discovering handcrafted fine jewelry pieces.</p>
-        </div>
-      {% endif %}
-    </div>
-    {% if paginate.pages > 1 %}
-      <nav class="collection-pagination" aria-label="Pagination">
-        {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
-      </nav>
-    {% endif %}
-  {% endpaginate %}
-</main>
-
-<hr class="category-divider-line">
 
 <script>
   (function() {

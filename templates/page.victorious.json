@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-victorious",
+      "settings": {
+        "heading": "THE VICTORIOUS COLLECTION",
+        "banner_desc": "Triumphant gold armor and regal statement pieces celebrating inner triumph.",
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
