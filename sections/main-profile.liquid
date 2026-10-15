@@ -196,17 +196,16 @@
           <div class="form-input-line-wrap">
             <div class="phone-prefix-selector">
               <button type="button" class="phone-prefix-btn" id="phone-prefix-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select Country Code">
-                <span id="phone-selected-flag">🇺🇸</span>
-                <span id="phone-selected-iso" style="text-transform: uppercase; font-size: 0.8125rem; font-weight: 500;">US</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                <span id="phone-selected-code">(+1)</span>
+                <span id="phone-selected-iso" class="phone-selected-iso">US</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="10" height="10" class="phone-prefix-chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <span id="phone-selected-code" class="phone-selected-code">(+1)</span>
               </button>
               <div class="phone-prefix-dropdown" id="phone-prefix-dropdown" style="display: none;">
                 <div class="phone-prefix-search-wrap">
                   <input type="text" class="phone-prefix-search" id="phone-prefix-search" placeholder="Search country or code..." autocomplete="off">
                 </div>
                 <ul class="phone-prefix-list" id="phone-prefix-list" role="listbox">
-                  <!-- Populated dynamically via JS with 150+ international country codes -->
+                  <!-- Populated dynamically via JS with international country codes -->
                 </ul>
               </div>
               <input type="hidden" id="modal-input-country-code" value="+1">
@@ -221,15 +220,15 @@
           <div class="form-group-line">
             <label for="modal-input-dob" class="form-label-line">Date of birth</label>
             <div class="form-input-line-wrap">
-              <input type="text" id="modal-input-dob" class="form-input-line" placeholder="mm/dd/yyyy">
-              <span class="input-icon-right">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" width="16" height="16">
+              <input type="date" id="modal-input-dob" class="form-input-line form-input-date" autocomplete="bday">
+              <button type="button" class="input-icon-right-btn" id="btn-dob-calendar" aria-label="Open Calendar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>
                   <line x1="8" y1="2" x2="8" y2="6"></line>
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-              </span>
+              </button>
             </div>
           </div>
 
@@ -352,7 +351,6 @@
     var prefixDropdown = document.getElementById('phone-prefix-dropdown');
     var prefixSearch = document.getElementById('phone-prefix-search');
     var prefixList = document.getElementById('phone-prefix-list');
-    var selectedFlag = document.getElementById('phone-selected-flag');
     var selectedIso = document.getElementById('phone-selected-iso');
     var selectedCode = document.getElementById('phone-selected-code');
     var hiddenCountryCode = document.getElementById('modal-input-country-code');
@@ -372,8 +370,8 @@
       }
 
       prefixList.innerHTML = filtered.map(function(c) {
-        return '<li role="option"><button type="button" class="phone-prefix-item" data-code="' + c.code + '" data-dial="' + c.dial + '" data-flag="' + c.flag + '">' +
-          '<span class="phone-prefix-item__flag">' + c.flag + '</span>' +
+        return '<li role="option"><button type="button" class="phone-prefix-item" data-code="' + c.code + '" data-dial="' + c.dial + '">' +
+          '<span class="phone-prefix-item__iso">' + c.code + '</span>' +
           '<span class="phone-prefix-item__name">' + c.name + '</span>' +
           '<span class="phone-prefix-item__code">(' + c.dial + ')</span>' +
         '</button></li>';
@@ -385,9 +383,7 @@
           e.stopPropagation();
           var code = item.getAttribute('data-code');
           var dial = item.getAttribute('data-dial');
-          var flag = item.getAttribute('data-flag');
 
-          if (selectedFlag) selectedFlag.textContent = flag;
           if (selectedIso) selectedIso.textContent = code;
           if (selectedCode) selectedCode.textContent = '(' + dial + ')';
           if (hiddenCountryCode) hiddenCountryCode.value = dial;
@@ -435,6 +431,62 @@
       });
     }
 
+    // Date Helper Functions
+    function toIsoDate(str) {
+      if (!str) return '';
+      str = str.trim().replace(/\\/g, '/').replace(/-/g, '/');
+      var parts = str.split('/');
+      if (parts.length === 3) {
+        if (parts[0].length === 4) {
+          return parts[0] + '-' + parts[1].padStart(2, '0') + '-' + parts[2].padStart(2, '0');
+        } else if (parts[2].length === 4) {
+          return parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
+        }
+      }
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+      return '';
+    }
+
+    function toDisplayDate(val) {
+      if (!val) return '—';
+      val = val.trim().replace(/\\/g, '/');
+      if (/^\d{4}-\d{2}-\d{2}$/.test(val)) {
+        var p = val.split('-');
+        return p[1] + '/' + p[2] + '/' + p[0];
+      }
+      return val;
+    }
+
+    // Calendar Picker Event Binding
+    var dobInput = document.getElementById('modal-input-dob');
+    var dobCalendarBtn = document.getElementById('btn-dob-calendar');
+
+    function openCalendarPicker(e) {
+      if (e && e.target !== dobInput) e.preventDefault();
+      if (dobInput) {
+        if (typeof dobInput.showPicker === 'function') {
+          try {
+            dobInput.showPicker();
+          } catch (err) {
+            dobInput.focus();
+          }
+        } else {
+          dobInput.focus();
+        }
+      }
+    }
+
+    if (dobCalendarBtn) dobCalendarBtn.addEventListener('click', openCalendarPicker);
+    if (dobInput) {
+      dobInput.addEventListener('click', function(e) {
+        if (typeof dobInput.showPicker === 'function') {
+          try {
+            dobInput.showPicker();
+          } catch (err) {}
+        }
+      });
+    }
+
     // =========================================================================
     // 2. MODAL LOGIC & DYNAMIC PROFILE RESTORATION (No Hardcoded Mock Data)
     // =========================================================================
@@ -460,7 +512,9 @@
       if (mFn && dFn && dFn.textContent.trim() !== '—') mFn.value = dFn.textContent.trim();
       if (mLn && dLn && dLn.textContent.trim() !== '—') mLn.value = dLn.textContent.trim();
       if (mEm && dEm && dEm.textContent.trim() !== '—') mEm.value = dEm.textContent.trim();
-      if (mDob && dDob && dDob.textContent.trim() !== '—') mDob.value = dDob.textContent.trim();
+      if (mDob && dDob && dDob.textContent.trim() !== '—') {
+        mDob.value = toIsoDate(dDob.textContent.trim());
+      }
       if (mGen && dGen && dGen.textContent.trim() !== '—') mGen.value = dGen.textContent.trim();
 
       modal.style.display = 'flex';
@@ -514,17 +568,17 @@
         var ph = document.getElementById('modal-input-phone')?.value.trim() || '';
         var dial = hiddenCountryCode ? hiddenCountryCode.value : '+1';
         var iso = hiddenCountryIso ? hiddenCountryIso.value : 'US';
-        var flag = selectedFlag ? selectedFlag.textContent : '🇺🇸';
-        var dob = document.getElementById('modal-input-dob')?.value.trim() || '';
+        var dobRaw = document.getElementById('modal-input-dob')?.value.trim() || '';
+        var dobFormatted = toDisplayDate(dobRaw);
         var gen = document.getElementById('modal-input-gender')?.value || '';
 
-        var fullPhone = ph ? (iso.toLowerCase() + ' · (' + dial + ') ' + ph) : '—';
+        var fullPhone = ph ? (iso + ' (' + dial + ') ' + ph) : '—';
 
         if (document.getElementById('display-first-name')) document.getElementById('display-first-name').textContent = fn || '—';
         if (document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = ln || '—';
         if (document.getElementById('display-email')) document.getElementById('display-email').textContent = em || '—';
         if (document.getElementById('display-phone')) document.getElementById('display-phone').textContent = fullPhone;
-        if (document.getElementById('display-dob')) document.getElementById('display-dob').textContent = dob || '—';
+        if (document.getElementById('display-dob')) document.getElementById('display-dob').textContent = dobFormatted;
         if (document.getElementById('display-gender')) document.getElementById('display-gender').textContent = (gen && gen !== 'Gender') ? gen : '—';
 
         try {
@@ -536,8 +590,8 @@
             phoneFormatted: fullPhone,
             dialCode: dial,
             isoCode: iso,
-            flag: flag,
-            dob: dob,
+            dob: dobFormatted,
+            dobIso: dobRaw,
             gender: gen
           };
           localStorage.setItem('oge_user_profile', JSON.stringify(profileData));
@@ -692,7 +746,9 @@
         if (data.lastName && document.getElementById('display-last-name')) document.getElementById('display-last-name').textContent = data.lastName;
         if (data.email && document.getElementById('display-email')) document.getElementById('display-email').textContent = data.email;
         if (data.phoneFormatted && document.getElementById('display-phone')) document.getElementById('display-phone').textContent = data.phoneFormatted;
-        if (data.dob && document.getElementById('display-dob')) document.getElementById('display-dob').textContent = data.dob || '—';
+        
+        var displayDobVal = toDisplayDate(data.dob || data.dobIso);
+        if (displayDobVal && document.getElementById('display-dob')) document.getElementById('display-dob').textContent = displayDobVal;
         if (data.gender && document.getElementById('display-gender')) document.getElementById('display-gender').textContent = (data.gender && data.gender !== 'Gender') ? data.gender : '—';
 
         // Prepopulate modal fields
@@ -700,12 +756,13 @@
         if (data.lastName && document.getElementById('modal-input-last-name')) document.getElementById('modal-input-last-name').value = data.lastName;
         if (data.email && document.getElementById('modal-input-email')) document.getElementById('modal-input-email').value = data.email;
         if (data.phoneRaw && document.getElementById('modal-input-phone')) document.getElementById('modal-input-phone').value = data.phoneRaw;
-        if (data.dob && document.getElementById('modal-input-dob')) document.getElementById('modal-input-dob').value = data.dob;
+        
+        var isoDobVal = toIsoDate(data.dobIso || data.dob);
+        if (isoDobVal && document.getElementById('modal-input-dob')) document.getElementById('modal-input-dob').value = isoDobVal;
         if (data.gender && document.getElementById('modal-input-gender')) document.getElementById('modal-input-gender').value = data.gender;
 
         if (data.dialCode && hiddenCountryCode) hiddenCountryCode.value = data.dialCode;
         if (data.isoCode && hiddenCountryIso) hiddenCountryIso.value = data.isoCode;
-        if (data.flag && selectedFlag) selectedFlag.textContent = data.flag;
         if (data.isoCode && selectedIso) selectedIso.textContent = data.isoCode;
         if (data.dialCode && selectedCode) selectedCode.textContent = '(' + data.dialCode + ')';
       }
