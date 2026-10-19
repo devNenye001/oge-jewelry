@@ -12,7 +12,7 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "image": "shopify://shop_images/IVA_6105.jpg",
+        "image": "shopify://shop_images/Golden_Sunset_Braided_Portrait.png",
         "btn_1_url": "/collections/new-arrival",
         "eyebrow": "",
         "title": "",
@@ -96,12 +96,13 @@
     "promotional_sales": {
       "type": "promo-sales",
       "settings": {
+        "image_1": "shopify://shop_images/RIJ_0695dup_1.jpg",
         "eyebrow_1": "Exclusive Release",
-        "headline_1": "GOLD STATEMENT<br>EARRINGS",
+        "headline_1": "GOLD STATEMENTEARRINGS",
         "cta_1": "Shop now",
         "link_1": "",
         "eyebrow_2": "Artisan Masterpiece",
-        "headline_2": "HANDCRAFTED GOLD<br>NECKLACES",
+        "headline_2": "HANDCRAFTED GOLDNECKLACES",
         "cta_2": "Shop now",
         "link_2": ""
       }
