@@ -12,14 +12,18 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
+        "image_1": "shopify://shop_images/Golden_Sunset_Braided_Portrait.png",
         "image": "shopify://shop_images/Golden_Sunset_Braided_Portrait.png",
         "btn_1_url": "/collections/new-arrival",
+        "image_2": "shopify://shop_images/RIJ_0549.jpg",
+        "btn_2_url": "/collections/new-arrival",
+        "image_3": "shopify://shop_images/IVA_8352.jpg",
+        "btn_3_url": "/collections/new-arrival",
+        "autoplay_speed": 5,
         "eyebrow": "",
         "title": "",
         "text": "",
-        "btn_1_text": "",
-        "btn_2_text": "",
-        "btn_2_url": ""
+        "btn_1_text": ""
       }
     },
     "new_arrivals": {
@@ -121,6 +125,42 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The craftsmanship is unbelievable. Every detail on this necklace is stunning – I’ve never felt more elegant. I wore it for a dinner party and got compliments all night. It feels like wearing a piece of art.",
+            "author": "Alicia R."
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "This ring is everything I hoped for – edgy, sleek, and bold. It's now my go-to accessory to elevate even the simplest outfit. It fits perfectly and feels super high-end.",
+            "author": "Jasmine L."
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The moment I saw this green ring, I knew I needed it. The color is mesmerizing and it catches the light in the most beautiful way. It’s become my signature piece!",
+            "author": "Rhea C."
+          }
+        },
+        "testimonial_4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Delicate, modern, and meaningful. I bought this bracelet as a reminder to trust my instincts. The design is minimal, but powerful – I wear it every day.",
+            "author": "Leila S."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3",
+        "testimonial_4"
+      ],
       "settings": {
         "heading": "WORN. LOVED. REMEMBERED."
       }

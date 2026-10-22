@@ -1,84 +1,260 @@
-<section class="hero-banner" id="hero" {{ section.shopify_attributes }}>
-  {% if section.settings.title != blank or section.settings.eyebrow != blank or section.settings.text != blank or section.settings.btn_1_text != blank %}
-    <div class="hero-banner__image-wrap">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
-      {% else %}
-        <img 
-          src="{{ 'hero.jpg' | asset_url }}" 
-          alt="{{ section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}" 
-          class="hero-banner__image" 
-          loading="eager"
-          width="2000"
-          height="1200"
-        >
-      {% endif %}
-      <div class="hero-banner__overlay">
-        <div class="hero-banner__content">
-          {% if section.settings.eyebrow != blank %}
-            <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+<section class="hero-banner" id="hero" data-hero-slideshow data-autoplay-speed="{{ section.settings.autoplay_speed | default: 5 }}" {{ section.shopify_attributes }}>
+  <div class="hero-slideshow__container">
+    {%- comment -%} Slide 1 {%- endcomment -%}
+    <div class="hero-slideshow__slide is-active" data-slide-index="0">
+      <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 1">
+        <div class="hero-banner__image-wrap">
+          {% if section.settings.image_1 != blank %}
+            {{ section.settings.image_1 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: 'OGÉ Fine Jewelry Campaign 1' }}
+          {% elsif section.settings.image != blank %}
+            {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: 'OGÉ Fine Jewelry Campaign 1' }}
+          {% else %}
+            <img 
+              src="{{ 'hero.jpg' | asset_url }}" 
+              alt="OGÉ Fine Jewelry Campaign 1" 
+              class="hero-banner__image" 
+              loading="eager"
+              width="2000"
+              height="1200"
+            >
           {% endif %}
-          {% if section.settings.title != blank %}
-            <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
-          {% endif %}
-          {% if section.settings.text != blank %}
-            <p class="hero-banner__text">{{ section.settings.text }}</p>
-          {% endif %}
-          {% if section.settings.btn_1_text != blank or section.settings.btn_2_text != blank %}
-            <div class="hero-banner__actions">
-              {% if section.settings.btn_1_text != blank %}
+        </div>
+      </a>
+      {% if section.settings.title != blank or section.settings.eyebrow != blank or section.settings.text != blank or section.settings.btn_1_text != blank %}
+        <div class="hero-banner__overlay">
+          <div class="hero-banner__content">
+            {% if section.settings.eyebrow != blank %}
+              <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+            {% endif %}
+            {% if section.settings.title != blank %}
+              <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
+            {% endif %}
+            {% if section.settings.text != blank %}
+              <p class="hero-banner__text">{{ section.settings.text }}</p>
+            {% endif %}
+            {% if section.settings.btn_1_text != blank %}
+              <div class="hero-banner__actions">
                 <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="btn btn-primary hero-banner__btn">
                   {{ section.settings.btn_1_text }}
                 </a>
-              {% endif %}
-              {% if section.settings.btn_2_text != blank %}
-                <a href="{{ section.settings.btn_2_url | default: '/pages/about' }}" class="btn btn-outline hero-banner__btn">
-                  {{ section.settings.btn_2_text }}
-                </a>
-              {% endif %}
-            </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {%- comment -%} Slide 2 {%- endcomment -%}
+    <div class="hero-slideshow__slide" data-slide-index="1">
+      <a href="{{ section.settings.btn_2_url | default: section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 2">
+        <div class="hero-banner__image-wrap">
+          {% if section.settings.image_2 != blank %}
+            {{ section.settings.image_2 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'lazy', alt: 'OGÉ Fine Jewelry Campaign 2' }}
+          {% else %}
+            <img 
+              src="{{ 'hero-banner.jpg' | asset_url }}" 
+              alt="OGÉ Fine Jewelry Campaign 2" 
+              class="hero-banner__image" 
+              loading="lazy"
+              width="2000"
+              height="1200"
+            >
           {% endif %}
         </div>
-      </div>
+      </a>
     </div>
-  {% else %}
-    <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-banner__link" aria-label="{{ section.settings.title | default: 'Shop New Arrivals Campaign' }}">
-      <div class="hero-banner__image-wrap">
-        {% if section.settings.image != blank %}
-          {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}
-        {% else %}
-          <img 
-            src="{{ 'hero.jpg' | asset_url }}" 
-            alt="{{ section.settings.title | default: 'OGÉ Fine Jewelry Campaign' }}" 
-            class="hero-banner__image" 
-            loading="eager"
-            width="2000"
-            height="1200"
-          >
-        {% endif %}
-      </div>
-    </a>
-  {% endif %}
+
+    {%- comment -%} Slide 3 {%- endcomment -%}
+    <div class="hero-slideshow__slide" data-slide-index="2">
+      <a href="{{ section.settings.btn_3_url | default: section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 3">
+        <div class="hero-banner__image-wrap">
+          {% if section.settings.image_3 != blank %}
+            {{ section.settings.image_3 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'lazy', alt: 'OGÉ Fine Jewelry Campaign 3' }}
+          {% else %}
+            <img 
+              src="{{ 'about-hero-brand.jpg' | asset_url }}" 
+              alt="OGÉ Fine Jewelry Campaign 3" 
+              class="hero-banner__image" 
+              loading="lazy"
+              width="2000"
+              height="1200"
+            >
+          {% endif %}
+        </div>
+      </a>
+    </div>
+
+    {%- comment -%} 3 Navigation Dots (20px above the bottom of the hero section) {%- endcomment -%}
+    <div class="hero-slideshow__dots" aria-label="Hero Slideshow Navigation">
+      <button type="button" class="hero-slideshow__dot is-active" data-dot-index="0" aria-label="Slide 1" aria-current="true"></button>
+      <button type="button" class="hero-slideshow__dot" data-dot-index="1" aria-label="Slide 2" aria-current="false"></button>
+      <button type="button" class="hero-slideshow__dot" data-dot-index="2" aria-label="Slide 3" aria-current="false"></button>
+    </div>
+  </div>
 </section>
+
+<script>
+  (function() {
+    function initHeroSlideshow() {
+      var hero = document.getElementById('hero');
+      if (!hero) return;
+
+      var slides = hero.querySelectorAll('.hero-slideshow__slide');
+      var dots = hero.querySelectorAll('.hero-slideshow__dot');
+      if (slides.length <= 1) return;
+
+      var currentIndex = 0;
+      var speedSec = parseInt(hero.getAttribute('data-autoplay-speed'), 10) || 5;
+      var intervalTime = speedSec * 1000;
+      var timer = null;
+      var totalSlides = slides.length;
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+
+        slides.forEach(function(slide, i) {
+          if (i === currentIndex) {
+            slide.classList.add('is-active');
+          } else {
+            slide.classList.remove('is-active');
+          }
+        });
+
+        dots.forEach(function(dot, i) {
+          if (i === currentIndex) {
+            dot.classList.add('is-active');
+            dot.setAttribute('aria-current', 'true');
+          } else {
+            dot.classList.remove('is-active');
+            dot.setAttribute('aria-current', 'false');
+          }
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        timer = setInterval(nextSlide, intervalTime);
+      }
+
+      function stopAutoplay() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      // Dot click navigation
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function(e) {
+          e.preventDefault();
+          var idx = parseInt(dot.getAttribute('data-dot-index'), 10);
+          goToSlide(idx);
+          startAutoplay();
+        });
+      });
+
+      // Pause on hover, resume on leave
+      hero.addEventListener('mouseenter', stopAutoplay);
+      hero.addEventListener('mouseleave', startAutoplay);
+
+      // Touch swipe support for mobile
+      var touchStartX = 0;
+      var touchEndX = 0;
+
+      hero.addEventListener('touchstart', function(e) {
+        if (e.changedTouches && e.changedTouches[0]) {
+          touchStartX = e.changedTouches[0].screenX;
+        }
+      }, { passive: true });
+
+      hero.addEventListener('touchend', function(e) {
+        if (e.changedTouches && e.changedTouches[0]) {
+          touchEndX = e.changedTouches[0].screenX;
+          var diff = touchStartX - touchEndX;
+          if (Math.abs(diff) > 40) {
+            if (diff > 0) {
+              goToSlide(currentIndex + 1);
+            } else {
+              goToSlide(currentIndex - 1);
+            }
+            startAutoplay();
+          }
+        }
+      }, { passive: true });
+
+      // Start automatic switching
+      startAutoplay();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeroSlideshow);
+    } else {
+      initHeroSlideshow();
+    }
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "Hero Banner",
+  "name": "Hero Banner Slideshow",
   "settings": [
     {
       "type": "header",
-      "content": "Hero Image"
+      "content": "Slide 1"
     },
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Hero Image",
-      "info": "Upload an image to replace the homepage hero banner"
+      "id": "image_1",
+      "label": "Slide 1 Image"
     },
     {
       "type": "url",
       "id": "btn_1_url",
-      "label": "Hero Banner Link URL"
+      "label": "Slide 1 Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Slide 2 Image"
+    },
+    {
+      "type": "url",
+      "id": "btn_2_url",
+      "label": "Slide 2 Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Slide 3 Image"
+    },
+    {
+      "type": "url",
+      "id": "btn_3_url",
+      "label": "Slide 3 Link URL"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay Switch Speed",
+      "default": 5
     },
     {
       "type": "header",
@@ -87,46 +263,27 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text",
-      "default": "THE NEW COLLECTION"
+      "label": "Eyebrow Text"
     },
     {
       "type": "text",
       "id": "title",
-      "label": "Heading Title",
-      "default": "Timeless Elegance, Handcrafted in Solid Gold"
+      "label": "Heading Title"
     },
     {
       "type": "textarea",
       "id": "text",
-      "label": "Description / Subtitle",
-      "default": "Discover fine jewelry pieces designed to empower and endure for generations."
-    },
-    {
-      "type": "header",
-      "content": "Buttons (Optional)"
+      "label": "Description / Subtitle"
     },
     {
       "type": "text",
       "id": "btn_1_text",
-      "label": "Primary Button Text",
-      "default": "Shop New In"
-    },
-    {
-      "type": "text",
-      "id": "btn_2_text",
-      "label": "Secondary Button Text",
-      "default": "Our Story"
-    },
-    {
-      "type": "url",
-      "id": "btn_2_url",
-      "label": "Secondary Button URL"
+      "label": "Button Text"
     }
   ],
   "presets": [
     {
-      "name": "Hero Banner"
+      "name": "Hero Banner Slideshow"
     }
   ]
 }

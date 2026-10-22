@@ -878,7 +878,7 @@ body:not(.template-index) .site-header .site-logo__image--black {
 }
 
 /* --------------------------------------------------------------------------
-   4. HERO BANNER (hero.jpg - CLEAN PHOTO, NO TEXT, NO DARK OVERLAY)
+   4. HERO BANNER & SLIDESHOW (3 IMAGES, AUTO-SWITCH, 20PX BOTTOM DOTS)
    -------------------------------------------------------------------------- */
 .hero-banner {
   position: relative;
@@ -887,11 +887,44 @@ body:not(.template-index) .site-header .site-logo__image--black {
   background-color: #0E0E0E;
 }
 
-.hero-banner__image-wrap {
+.hero-slideshow__container {
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 700px;
+}
+
+.hero-slideshow__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: scale(1.02);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-slideshow__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.hero-slideshow__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-banner__image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-banner__image {
@@ -902,10 +935,63 @@ body:not(.template-index) .site-header .site-logo__image--black {
   display: block;
 }
 
+/* 3 Navigation Dots positioned exactly 20px above the bottom */
+.hero-slideshow__dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  pointer-events: auto;
+}
+
+.hero-slideshow__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.hero-slideshow__dot:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.15);
+}
+
+.hero-slideshow__dot.is-active {
+  width: 26px;
+  height: 9px;
+  border-radius: 6px;
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
 @media (max-width: 768px) {
+  .hero-slideshow__container,
   .hero-banner__image-wrap {
     height: 75vh;
     min-height: 480px;
+  }
+
+  .hero-slideshow__dots {
+    bottom: 20px;
+    padding: 5px 12px;
+    gap: 8px;
   }
 }
 
