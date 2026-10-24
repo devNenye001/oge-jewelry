@@ -57,14 +57,21 @@
           {% assign col2_links = section.settings.col_2_menu.links %}
           {% if col2_links != blank and col2_links.size > 0 %}
             {% for link in col2_links %}
-              <a href="{{ link.url }}" class="footer-col__link">{{ link.title }}</a>
+              {% assign f_title_down = link.title | downcase %}
+              {% assign f_display_title = link.title %}
+              {% if f_title_down == 'our story' or f_title_down == 'the story' or f_title_down == 'story' %}
+                {% assign f_display_title = 'The Philosophy' %}
+              {% endif %}
+              <a href="{{ link.url }}" class="footer-col__link">{{ f_display_title }}</a>
             {% endfor %}
           {% else %}
-            {% assign story_url = pages['about-oge-jewelry'].url %}
-            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = pages['our-story'].url %}{% endif %}
-            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = pages['about'].url %}{% endif %}
-            {% if story_url == blank or story_url == '' or story_url == '#' %}{% assign story_url = routes.all_products_collection_url | append: '?view=about' %}{% endif %}
-            <a href="{{ story_url }}" class="footer-col__link">The Philosophy</a>
+            {% assign philosophy_url = pages['the-philosophy'].url %}
+            {% if philosophy_url == blank or philosophy_url == '' or philosophy_url == '#' %}{% assign philosophy_url = pages['philosophy'].url %}{% endif %}
+            {% if philosophy_url == blank or philosophy_url == '' or philosophy_url == '#' %}{% assign philosophy_url = pages['our-story'].url %}{% endif %}
+            {% if philosophy_url == blank or philosophy_url == '' or philosophy_url == '#' %}{% assign philosophy_url = pages['about-oge-jewelry'].url %}{% endif %}
+            {% if philosophy_url == blank or philosophy_url == '' or philosophy_url == '#' %}{% assign philosophy_url = pages['about'].url %}{% endif %}
+            {% if philosophy_url == blank or philosophy_url == '' or philosophy_url == '#' %}{% assign philosophy_url = '/pages/the-philosophy' %}{% endif %}
+            <a href="{{ philosophy_url }}" class="footer-col__link">The Philosophy</a>
 
             {% assign contact_url = pages['contact'].url %}
             {% if contact_url == blank or contact_url == '' or contact_url == '#' %}{% assign contact_url = pages['contact-us'].url %}{% endif %}

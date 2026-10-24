@@ -5,6 +5,8 @@
 
 {% if request.path contains 'bundle' %}
   {% section 'main-bundle-deals' %}
+{% elsif request.path contains 'philosophy' %}
+  {% section 'main-about' %}
 {% else %}
 <section class="not-found-section" id="oge-404-default" {{ section.shopify_attributes }}>
   <div class="page-container">

@@ -44,6 +44,24 @@
           {% if s_settings.sidebar_menu != blank and linklists[s_settings.sidebar_menu].links.size > 0 %}
             {% for link in linklists[s_settings.sidebar_menu].links %}
               {% assign link_title_down = link.title | downcase %}
+              {% assign link_display_title = link.title %}
+              {% assign link_target_url = link.url %}
+              {% if link_title_down == 'our story' or link_title_down == 'the story' or link_title_down == 'story' or link_title_down == 'about' or link_title_down == 'about us' %}
+                {% assign link_display_title = 'The Philosophy' %}
+                {% if pages['the-philosophy'] != blank %}
+                  {% assign link_target_url = pages['the-philosophy'].url %}
+                {% elsif pages['philosophy'] != blank %}
+                  {% assign link_target_url = pages['philosophy'].url %}
+                {% elsif pages['our-story'] != blank %}
+                  {% assign link_target_url = pages['our-story'].url %}
+                {% elsif pages['about-oge-jewelry'] != blank %}
+                  {% assign link_target_url = pages['about-oge-jewelry'].url %}
+                {% elsif pages['about'] != blank %}
+                  {% assign link_target_url = pages['about'].url %}
+                {% else %}
+                  {% assign link_target_url = '/pages/the-philosophy' %}
+                {% endif %}
+              {% endif %}
               <li class="sidebar-nav__item">
                 {% if link_title_down == 'jewelry' or link_title_down == 'jewelries' %}
                   <button type="button" class="sidebar-nav__btn" data-submenu-trigger="submenu-jewelry" data-submenu-title="{{ link.title }}">
@@ -56,8 +74,8 @@
                     <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
                   </button>
                 {% else %}
-                  <a href="{{ link.url }}" class="sidebar-nav__link">
-                    <span>{{ link.title }}</span>
+                  <a href="{{ link_target_url }}" class="sidebar-nav__link">
+                    <span>{{ link_display_title }}</span>
                     <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
                   </a>
                 {% endif %}
@@ -112,14 +130,16 @@
               </button>
             </li>
 
-            <!-- 6. OUR STORY -->
+            <!-- 6. THE PHILOSOPHY -->
             <li class="sidebar-nav__item">
-              {% assign story_url = pages['about-oge-jewelry'].url %}
-              {% if story_url == blank or story_url == '' %}{% assign story_url = pages['our-story'].url %}{% endif %}
-              {% if story_url == blank or story_url == '' %}{% assign story_url = pages['about'].url %}{% endif %}
-              {% if story_url == blank or story_url == '' %}{% assign story_url = routes.all_products_collection_url | append: '?view=about' %}{% endif %}
-              <a href="{{ story_url }}" class="sidebar-nav__link">
-                <span>Our Story</span>
+              {% assign philosophy_url = pages['the-philosophy'].url %}
+              {% if philosophy_url == blank or philosophy_url == '' %}{% assign philosophy_url = pages['philosophy'].url %}{% endif %}
+              {% if philosophy_url == blank or philosophy_url == '' %}{% assign philosophy_url = pages['our-story'].url %}{% endif %}
+              {% if philosophy_url == blank or philosophy_url == '' %}{% assign philosophy_url = pages['about-oge-jewelry'].url %}{% endif %}
+              {% if philosophy_url == blank or philosophy_url == '' %}{% assign philosophy_url = pages['about'].url %}{% endif %}
+              {% if philosophy_url == blank or philosophy_url == '' %}{% assign philosophy_url = '/pages/the-philosophy' %}{% endif %}
+              <a href="{{ philosophy_url }}" class="sidebar-nav__link">
+                <span>The Philosophy</span>
                 <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>
               </a>
             </li>
