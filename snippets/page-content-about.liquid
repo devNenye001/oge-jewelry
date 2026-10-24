@@ -144,28 +144,28 @@
   </section>
 
   <!-- =========================================================================
-       6. EMPOWERMENT MANIFESTO (HEADLINE + 2 COLUMNS)
+       6. EMPOWERMENT MANIFESTO (HEADLINE + CENTERED TEXT)
        ========================================================================= -->
   <section class="about-manifesto-section" aria-label="Empowerment Statement">
     <div class="about-manifesto-container">
       <h2 class="about-manifesto__headline">
         She did not become powerful. <span class="about-manifesto__italic">She remembered that she always was.</span>
       </h2>
-      <div class="about-manifesto__columns">
-        <div class="about-manifesto__column">
-          {% if section.settings.manifesto_col1 != blank %}
+      <div class="about-manifesto__content">
+        {% if section.settings.manifesto_col1 != blank %}
+          <div class="about-manifesto__paragraph">
             {{ section.settings.manifesto_col1 }}
-          {% else %}
-            <p>OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves.</p>
-          {% endif %}
-        </div>
-        <div class="about-manifesto__column">
-          {% if section.settings.manifesto_col2 != blank %}
+          </div>
+        {% else %}
+          <p class="about-manifesto__paragraph">
+            OGÉ is not about becoming someone new; it is about returning to who you have always been. Every piece we create is a companion on that journey, a quiet, golden reminder that your worth was never something you had to earn; it was always yours.
+          </p>
+        {% endif %}
+        {% if section.settings.manifesto_col2 != blank %}
+          <div class="about-manifesto__paragraph">
             {{ section.settings.manifesto_col2 }}
-          {% else %}
-            <p>OGE is not just jewelry—it’s an anchor. A reminder of who you were, who you are, and who you are continuously becoming. Every piece is designed to hold space for the woman wearing it, reflecting not just her taste, but her truth.</p>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
       </div>
     </div>
   </section>
@@ -203,7 +203,7 @@
     <div class="about-quote-banner__container">
       <div class="about-quote-banner__content">
         <blockquote class="about-quote-banner__text">
-          {{ section.settings.quote_banner_text | default: "OGE is more than adornment—it is a moment of recognition. A quiet confidence to move through the world with self-respect, intention, and grace. This is jewelry for the women who have already chosen themselves." }}
+          {{ section.settings.quote_banner_text | default: "OGÉ is more than adornment. It is a moment of recognition. A quiet shift. A choice to move through the world with self-respect, intention, and grace. This is jewelry for women who have already chosen themselves." }}
         </blockquote>
       </div>
     </div>

@@ -85,7 +85,7 @@
           {% if img_3 != blank %}
             {{ img_3 | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.title_3 }}
           {% else %}
-            <img src="{{ 'earring-category.jpg' | asset_url }}" alt="Earrings Fine Jewelry" loading="lazy" width="800" height="450">
+            <img src="{{ 'sales1.jpg' | asset_url }}" alt="Earrings Fine Jewelry - The Lion Earring" loading="lazy" width="800" height="450">
           {% endif %}
           <div class="category-bento__overlay">
             <h3 class="category-bento__title">{{ section.settings.title_3 | default: coll_3.title | default: 'EARRING' }}</h3>

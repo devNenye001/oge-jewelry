@@ -13,6 +13,7 @@
       "type": "main-collection-fine-jewelry",
       "settings": {
         "heading": "FINE JEWELRY",
+        "show_banner": true,
         "products_per_page": 24
       }
     }

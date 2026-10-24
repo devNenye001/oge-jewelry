@@ -15,10 +15,12 @@
         "image_1": "shopify://shop_images/Golden_Sunset_Braided_Portrait.png",
         "btn_1_url": "/collections/new-arrival",
         "image_2": "shopify://shop_images/No_stubs_Gab.png",
-        "btn_2_url": "/collections/new-arrival",
+        "btn_2_url": "/pages/men",
         "image_3": "shopify://shop_images/IVA_8352.jpg",
         "btn_3_url": "/collections/new-arrival",
         "autoplay_speed": 5,
+        "heading": "",
+        "subheading": "",
         "eyebrow": "",
         "title": "",
         "text": "",
@@ -114,11 +116,11 @@
       "type": "brand-story",
       "settings": {
         "image": "shopify://shop_images/RIJ_0549.jpg",
-        "eyebrow": "",
+        "eyebrow": "OUR PHILOSOPHY",
         "title": "MORE THAN JEWELRY, IT'S A FEELING.",
         "text_1": "<p>OGE was created for the woman who knows that jewelry is more than an accessory — it is an expression of who she is.</p><p>Each piece is thoughtfully designed to celebrate individuality, confidence, and the moments that make her story uniquely hers.</p><p>From everyday elegance to unforgettable occasions, OGE creates pieces made to be worn, loved, and remembered.</p>",
         "text_2": "<p>Born from a devotion to timeless craftsmanship and contemporary silhouette, our creations transcend fleeting trends. Whether worn as a personal armor or passed on as a family heirloom, OGÉ is made to be treasured forever.</p>",
-        "btn_text": "Learn More",
+        "btn_text": "The Philosophy",
         "btn_url": "/collections/all?view=about"
       }
     },

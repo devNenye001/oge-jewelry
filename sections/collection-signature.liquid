@@ -68,7 +68,8 @@
             <img src="{{ 'alignment-collection.jpg' | asset_url }}" alt="Alignment Collection" loading="lazy" width="800" height="450">
           {% endif %}
           <div class="signature-card__overlay">
-            <h3 class="signature-card__title">{{ section.settings.title_alignment | default: coll_align.title | default: 'ALIGNMENT COLLECTION' }}</h3>
+            {% assign align_title = section.settings.title_alignment | default: coll_align.title | default: 'ALIGNMENT COLLECTION' | remove: 'Coming Summer 2026:' | remove: 'Coming Summer 2026' | remove: ': Coming Summer 2026' | remove: '- Coming Summer 2026' | remove: 'coming summer 2026:' | remove: 'coming summer 2026' | strip %}
+            <h3 class="signature-card__title">{{ align_title }}</h3>
             <span class="signature-card__coming-soon" style="text-decoration: none; cursor: default;">Coming Soon</span>
           </div>
         </div>

@@ -20,40 +20,30 @@
           {% endif %}
         </div>
       </a>
-      {% if section.settings.title != blank or section.settings.eyebrow != blank or section.settings.text != blank or section.settings.btn_1_text != blank %}
-        <div class="hero-banner__overlay">
-          <div class="hero-banner__content">
-            {% if section.settings.eyebrow != blank %}
-              <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
-            {% endif %}
-            {% if section.settings.title != blank %}
-              <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
-            {% endif %}
-            {% if section.settings.text != blank %}
-              <p class="hero-banner__text">{{ section.settings.text }}</p>
-            {% endif %}
-            {% if section.settings.btn_1_text != blank %}
-              <div class="hero-banner__actions">
-                <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="btn btn-primary hero-banner__btn">
-                  {{ section.settings.btn_1_text }}
-                </a>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
     </div>
 
     {%- comment -%} Slide 2 {%- endcomment -%}
+    {% assign slide_2_url = section.settings.btn_2_url %}
+    {% if slide_2_url == blank or slide_2_url == '' %}
+      {% if pages['men'] != blank %}
+        {% assign slide_2_url = pages['men'].url %}
+      {% elsif collections['men'] != blank %}
+        {% assign slide_2_url = collections['men'].url %}
+      {% elsif collections['mens-signature-collection'] != blank %}
+        {% assign slide_2_url = collections['mens-signature-collection'].url %}
+      {% else %}
+        {% assign slide_2_url = '/pages/men' %}
+      {% endif %}
+    {% endif %}
     <div class="hero-slideshow__slide" data-slide-index="1">
-      <a href="{{ section.settings.btn_2_url | default: section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 2">
+      <a href="{{ slide_2_url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 2 - Men's Collection">
         <div class="hero-banner__image-wrap">
           {% if section.settings.image_2 != blank %}
-            {{ section.settings.image_2 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'lazy', alt: 'OGÉ Fine Jewelry Campaign 2' }}
+            {{ section.settings.image_2 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'lazy', alt: "OGÉ Men's Fine Jewelry Campaign" }}
           {% else %}
             <img 
               src="{{ 'hero-banner.jpg' | asset_url }}" 
-              alt="OGÉ Fine Jewelry Campaign 2" 
+              alt="OGÉ Men's Fine Jewelry Campaign" 
               class="hero-banner__image" 
               loading="lazy"
               width="2000"
@@ -83,6 +73,32 @@
         </div>
       </a>
     </div>
+
+    {%- comment -%} Optional Editable Heading & Subheading (Positioned Bottom-Left) {%- endcomment -%}
+    {% assign hero_heading = section.settings.heading | default: section.settings.title %}
+    {% assign hero_subheading = section.settings.subheading | default: section.settings.text %}
+    {% if hero_heading != blank or hero_subheading != blank or section.settings.eyebrow != blank or section.settings.btn_1_text != blank %}
+      <div class="hero-banner__overlay hero-banner__overlay--bottom-left">
+        <div class="hero-banner__content hero-banner__content--bottom-left">
+          {% if section.settings.eyebrow != blank %}
+            <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+          {% endif %}
+          {% if hero_heading != blank %}
+            <h1 class="hero-banner__title">{{ hero_heading }}</h1>
+          {% endif %}
+          {% if hero_subheading != blank %}
+            <p class="hero-banner__subheading">{{ hero_subheading }}</p>
+          {% endif %}
+          {% if section.settings.btn_1_text != blank %}
+            <div class="hero-banner__actions">
+              <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="btn btn-primary hero-banner__btn">
+                {{ section.settings.btn_1_text }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
 
     {%- comment -%} 3 Navigation Dots (20px above the bottom of the hero section) {%- endcomment -%}
     <div class="hero-slideshow__dots" aria-label="Hero Slideshow Navigation">
@@ -230,7 +246,7 @@
     {
       "type": "url",
       "id": "btn_2_url",
-      "label": "Slide 2 Link URL"
+      "label": "Slide 2 Link URL (Defaults to Men's Page)"
     },
     {
       "type": "header",
@@ -258,7 +274,19 @@
     },
     {
       "type": "header",
-      "content": "Overlay Text (Optional)"
+      "content": "Overlay Text (Optional - Bottom Left)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (Bottom Left)",
+      "info": "Optional headline displayed at bottom-left of hero"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading (Bottom Left)",
+      "info": "Optional subtitle/description displayed below the headline"
     },
     {
       "type": "text",
@@ -268,12 +296,12 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Heading Title"
+      "label": "Heading Title (Legacy Fallback)"
     },
     {
       "type": "textarea",
       "id": "text",
-      "label": "Description / Subtitle"
+      "label": "Description / Subtitle (Legacy Fallback)"
     },
     {
       "type": "text",

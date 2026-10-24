@@ -17,11 +17,36 @@
   {% assign banner_title = current_coll.title | default: 'FINE JEWELRY' %}
 {% endif %}
 
-<!-- Minimalist Category Header -->
-<header class="category-page-header" {{ section.shopify_attributes }}>
-  <h1 class="category-page-title" id="fine-jewelry-page-heading">{{ banner_title | upcase }}</h1>
-</header>
-<hr class="category-divider-line">
+{% assign show_banner = section.settings.show_banner %}
+{% if show_banner == nil %}
+  {% assign show_banner = true %}
+{% endif %}
+
+{% if show_banner %}
+  <section class="collection-hero-banner" id="fine-jewelry-hero-banner" {{ section.shopify_attributes }}>
+    {% if section.settings.banner_image != blank %}
+      {{ section.settings.banner_image | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
+    {% elsif current_coll.image != blank %}
+      {{ current_coll.image | image_url: width: 2000 | image_tag: class: 'collection-hero-banner__img', loading: 'eager', alt: banner_title }}
+    {% else %}
+      <img src="{{ 'sales1.jpg' | asset_url }}" alt="Fine Jewelry - The Lion Earring" class="collection-hero-banner__img" loading="eager" width="1920" height="400">
+    {% endif %}
+    <div class="collection-hero-banner__overlay">
+      <div class="collection-hero__content">
+        <h1 class="collection-hero-banner__title">{{ banner_title }}</h1>
+        {% if section.settings.banner_desc != blank %}
+          <p class="collection-hero-banner__desc">{{ section.settings.banner_desc }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% else %}
+  <!-- Minimalist Category Header -->
+  <header class="category-page-header" {{ section.shopify_attributes }}>
+    <h1 class="category-page-title" id="fine-jewelry-page-heading">{{ banner_title | upcase }}</h1>
+  </header>
+  <hr class="category-divider-line">
+{% endif %}
 
 <!-- UTILITY BAR -->
 <div class="collection-utility-bar">
@@ -129,6 +154,22 @@
       "id": "heading",
       "label": "Heading",
       "default": "FINE JEWELRY"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show Banner Image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image (Defaults to Lion Earring)"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_desc",
+      "label": "Banner Description"
     },
     {
       "type": "collection",
