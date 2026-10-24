@@ -61,6 +61,14 @@
                 {% else %}
                   {% assign link_target_url = '/pages/the-philosophy' %}
                 {% endif %}
+              {% elsif link_title_down == 'fine jewelry' or link_title_down == 'fine-jewelry' %}
+                {% if pages['fine-jewelry'] != blank %}
+                  {% assign link_target_url = pages['fine-jewelry'].url %}
+                {% elsif collections['fine-jewelry'] != blank %}
+                  {% assign link_target_url = collections['fine-jewelry'].url %}
+                {% elsif link.url == blank or link.url == '#' or link.url contains 'fine-jewelry' %}
+                  {% assign link_target_url = '/pages/fine-jewelry' %}
+                {% endif %}
               {% endif %}
               <li class="sidebar-nav__item">
                 {% if link_title_down == 'jewelry' or link_title_down == 'jewelries' %}
@@ -114,8 +122,9 @@
 
             <!-- 4. FINE JEWELRY -->
             <li class="sidebar-nav__item">
-              {% assign fine_url = collections['fine-jewelry'].url %}
-              {% if fine_url == blank or fine_url == '' %}{% assign fine_url = routes.collections_url | append: '/fine-jewelry' %}{% endif %}
+              {% assign fine_url = pages['fine-jewelry'].url %}
+              {% if fine_url == blank or fine_url == '' %}{% assign fine_url = collections['fine-jewelry'].url %}{% endif %}
+              {% if fine_url == blank or fine_url == '' %}{% assign fine_url = '/pages/fine-jewelry' %}{% endif %}
               <a href="{{ fine_url }}" class="sidebar-nav__link">
                 <span>Fine Jewelry</span>
                 <span class="sidebar-nav__chevron">{% render 'icon-chevron', direction: 'right' %}</span>

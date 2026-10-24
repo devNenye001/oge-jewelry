@@ -5,6 +5,8 @@
 
 {% if request.path contains 'bundle' %}
   {% section 'main-bundle-deals' %}
+{% elsif request.path contains 'fine-jewel' %}
+  {% section 'main-collection-fine-jewelry' %}
 {% elsif request.path contains 'philosophy' %}
   {% section 'main-about' %}
 {% else %}

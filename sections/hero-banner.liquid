@@ -1,8 +1,13 @@
 <section class="hero-banner" id="hero" data-hero-slideshow data-autoplay-speed="{{ section.settings.autoplay_speed | default: 5 }}" {{ section.shopify_attributes }}>
   <div class="hero-slideshow__container">
     {%- comment -%} Slide 1 {%- endcomment -%}
+    {% assign s1_heading = section.settings.slide_1_heading | default: section.settings.heading | default: section.settings.title %}
+    {% assign s1_subheading = section.settings.slide_1_subheading | default: section.settings.subheading | default: section.settings.text %}
+    {% assign s1_eyebrow = section.settings.slide_1_eyebrow | default: section.settings.eyebrow %}
+    {% assign s1_btn_text = section.settings.slide_1_btn_text | default: section.settings.btn_1_text %}
+    {% assign s1_btn_url = section.settings.btn_1_url | default: collections['new-arrival'].url %}
     <div class="hero-slideshow__slide is-active" data-slide-index="0">
-      <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 1">
+      <a href="{{ s1_btn_url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 1">
         <div class="hero-banner__image-wrap">
           {% if section.settings.image_1 != blank %}
             {{ section.settings.image_1 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'eager', alt: 'OGÉ Fine Jewelry Campaign 1' }}
@@ -20,6 +25,28 @@
           {% endif %}
         </div>
       </a>
+      {% if s1_heading != blank or s1_subheading != blank or s1_eyebrow != blank or s1_btn_text != blank %}
+        <div class="hero-banner__overlay hero-banner__overlay--bottom-left">
+          <div class="hero-banner__content hero-banner__content--bottom-left">
+            {% if s1_eyebrow != blank %}
+              <p class="hero-banner__eyebrow">{{ s1_eyebrow }}</p>
+            {% endif %}
+            {% if s1_heading != blank %}
+              <h1 class="hero-banner__title">{{ s1_heading }}</h1>
+            {% endif %}
+            {% if s1_subheading != blank %}
+              <p class="hero-banner__subheading">{{ s1_subheading }}</p>
+            {% endif %}
+            {% if s1_btn_text != blank %}
+              <div class="hero-banner__actions">
+                <a href="{{ s1_btn_url }}" class="btn btn-primary hero-banner__btn">
+                  {{ s1_btn_text }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
     </div>
 
     {%- comment -%} Slide 2 {%- endcomment -%}
@@ -35,6 +62,10 @@
         {% assign slide_2_url = '/pages/men' %}
       {% endif %}
     {% endif %}
+    {% assign s2_heading = section.settings.slide_2_heading %}
+    {% assign s2_subheading = section.settings.slide_2_subheading %}
+    {% assign s2_eyebrow = section.settings.slide_2_eyebrow %}
+    {% assign s2_btn_text = section.settings.slide_2_btn_text %}
     <div class="hero-slideshow__slide" data-slide-index="1">
       <a href="{{ slide_2_url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 2 - Men's Collection">
         <div class="hero-banner__image-wrap">
@@ -52,11 +83,38 @@
           {% endif %}
         </div>
       </a>
+      {% if s2_heading != blank or s2_subheading != blank or s2_eyebrow != blank or s2_btn_text != blank %}
+        <div class="hero-banner__overlay hero-banner__overlay--bottom-left">
+          <div class="hero-banner__content hero-banner__content--bottom-left">
+            {% if s2_eyebrow != blank %}
+              <p class="hero-banner__eyebrow">{{ s2_eyebrow }}</p>
+            {% endif %}
+            {% if s2_heading != blank %}
+              <h2 class="hero-banner__title">{{ s2_heading }}</h2>
+            {% endif %}
+            {% if s2_subheading != blank %}
+              <p class="hero-banner__subheading">{{ s2_subheading }}</p>
+            {% endif %}
+            {% if s2_btn_text != blank %}
+              <div class="hero-banner__actions">
+                <a href="{{ slide_2_url }}" class="btn btn-primary hero-banner__btn">
+                  {{ s2_btn_text }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
     </div>
 
     {%- comment -%} Slide 3 {%- endcomment -%}
+    {% assign s3_btn_url = section.settings.btn_3_url | default: section.settings.btn_1_url | default: collections['new-arrival'].url %}
+    {% assign s3_heading = section.settings.slide_3_heading %}
+    {% assign s3_subheading = section.settings.slide_3_subheading %}
+    {% assign s3_eyebrow = section.settings.slide_3_eyebrow %}
+    {% assign s3_btn_text = section.settings.slide_3_btn_text %}
     <div class="hero-slideshow__slide" data-slide-index="2">
-      <a href="{{ section.settings.btn_3_url | default: section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 3">
+      <a href="{{ s3_btn_url }}" class="hero-slideshow__link" aria-label="OGÉ Fine Jewelry Campaign Slide 3">
         <div class="hero-banner__image-wrap">
           {% if section.settings.image_3 != blank %}
             {{ section.settings.image_3 | image_url: width: 2000 | image_tag: class: 'hero-banner__image', loading: 'lazy', alt: 'OGÉ Fine Jewelry Campaign 3' }}
@@ -72,33 +130,29 @@
           {% endif %}
         </div>
       </a>
-    </div>
-
-    {%- comment -%} Optional Editable Heading & Subheading (Positioned Bottom-Left) {%- endcomment -%}
-    {% assign hero_heading = section.settings.heading | default: section.settings.title %}
-    {% assign hero_subheading = section.settings.subheading | default: section.settings.text %}
-    {% if hero_heading != blank or hero_subheading != blank or section.settings.eyebrow != blank or section.settings.btn_1_text != blank %}
-      <div class="hero-banner__overlay hero-banner__overlay--bottom-left">
-        <div class="hero-banner__content hero-banner__content--bottom-left">
-          {% if section.settings.eyebrow != blank %}
-            <p class="hero-banner__eyebrow">{{ section.settings.eyebrow }}</p>
-          {% endif %}
-          {% if hero_heading != blank %}
-            <h1 class="hero-banner__title">{{ hero_heading }}</h1>
-          {% endif %}
-          {% if hero_subheading != blank %}
-            <p class="hero-banner__subheading">{{ hero_subheading }}</p>
-          {% endif %}
-          {% if section.settings.btn_1_text != blank %}
-            <div class="hero-banner__actions">
-              <a href="{{ section.settings.btn_1_url | default: collections['new-arrival'].url }}" class="btn btn-primary hero-banner__btn">
-                {{ section.settings.btn_1_text }}
-              </a>
-            </div>
-          {% endif %}
+      {% if s3_heading != blank or s3_subheading != blank or s3_eyebrow != blank or s3_btn_text != blank %}
+        <div class="hero-banner__overlay hero-banner__overlay--bottom-left">
+          <div class="hero-banner__content hero-banner__content--bottom-left">
+            {% if s3_eyebrow != blank %}
+              <p class="hero-banner__eyebrow">{{ s3_eyebrow }}</p>
+            {% endif %}
+            {% if s3_heading != blank %}
+              <h2 class="hero-banner__title">{{ s3_heading }}</h2>
+            {% endif %}
+            {% if s3_subheading != blank %}
+              <p class="hero-banner__subheading">{{ s3_subheading }}</p>
+            {% endif %}
+            {% if s3_btn_text != blank %}
+              <div class="hero-banner__actions">
+                <a href="{{ s3_btn_url }}" class="btn btn-primary hero-banner__btn">
+                  {{ s3_btn_text }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
 
     {%- comment -%} 3 Navigation Dots (20px above the bottom of the hero section) {%- endcomment -%}
     <div class="hero-slideshow__dots" aria-label="Hero Slideshow Navigation">
@@ -235,6 +289,28 @@
       "label": "Slide 1 Link URL"
     },
     {
+      "type": "text",
+      "id": "slide_1_heading",
+      "label": "Slide 1 Heading (Bottom Left)",
+      "info": "Optional headline displayed at bottom-left of Slide 1"
+    },
+    {
+      "type": "textarea",
+      "id": "slide_1_subheading",
+      "label": "Slide 1 Subheading (Bottom Left)",
+      "info": "Optional subtitle/description displayed below Slide 1 headline"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_eyebrow",
+      "label": "Slide 1 Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_btn_text",
+      "label": "Slide 1 Button Text"
+    },
+    {
       "type": "header",
       "content": "Slide 2"
     },
@@ -247,6 +323,28 @@
       "type": "url",
       "id": "btn_2_url",
       "label": "Slide 2 Link URL (Defaults to Men's Page)"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_heading",
+      "label": "Slide 2 Heading (Bottom Left)",
+      "info": "Optional headline displayed at bottom-left of Slide 2"
+    },
+    {
+      "type": "textarea",
+      "id": "slide_2_subheading",
+      "label": "Slide 2 Subheading (Bottom Left)",
+      "info": "Optional subtitle/description displayed below Slide 2 headline"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_eyebrow",
+      "label": "Slide 2 Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_btn_text",
+      "label": "Slide 2 Button Text"
     },
     {
       "type": "header",
@@ -263,6 +361,28 @@
       "label": "Slide 3 Link URL"
     },
     {
+      "type": "text",
+      "id": "slide_3_heading",
+      "label": "Slide 3 Heading (Bottom Left)",
+      "info": "Optional headline displayed at bottom-left of Slide 3"
+    },
+    {
+      "type": "textarea",
+      "id": "slide_3_subheading",
+      "label": "Slide 3 Subheading (Bottom Left)",
+      "info": "Optional subtitle/description displayed below Slide 3 headline"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_eyebrow",
+      "label": "Slide 3 Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_btn_text",
+      "label": "Slide 3 Button Text"
+    },
+    {
       "type": "range",
       "id": "autoplay_speed",
       "min": 3,
@@ -274,24 +394,22 @@
     },
     {
       "type": "header",
-      "content": "Overlay Text (Optional - Bottom Left)"
+      "content": "Legacy Fallback Settings"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading (Bottom Left)",
-      "info": "Optional headline displayed at bottom-left of hero"
+      "label": "Global Heading (Slide 1 Fallback)"
     },
     {
       "type": "textarea",
       "id": "subheading",
-      "label": "Subheading (Bottom Left)",
-      "info": "Optional subtitle/description displayed below the headline"
+      "label": "Global Subheading (Slide 1 Fallback)"
     },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text"
+      "label": "Global Eyebrow (Slide 1 Fallback)"
     },
     {
       "type": "text",
@@ -306,7 +424,7 @@
     {
       "type": "text",
       "id": "btn_1_text",
-      "label": "Button Text"
+      "label": "Button Text (Slide 1 Fallback)"
     }
   ],
   "presets": [

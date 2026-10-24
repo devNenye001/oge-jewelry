@@ -7,14 +7,22 @@
 {% if current_coll == blank or current_coll.products.size == 0 %}
   {% if collections['fine-jewelry'] != blank and collections['fine-jewelry'].products.size > 0 %}
     {% assign current_coll = collections['fine-jewelry'] %}
-  {% else %}
+  {% elsif collection != blank and collection.products != blank and collection.products.size > 0 %}
     {% assign current_coll = collection %}
+  {% elsif collections['all'] != blank %}
+    {% assign current_coll = collections['all'] %}
+  {% else %}
+    {% assign current_coll = collections.all %}
   {% endif %}
 {% endif %}
 
 {% assign banner_title = section.settings.heading %}
 {% if banner_title == blank %}
-  {% assign banner_title = current_coll.title | default: 'FINE JEWELRY' %}
+  {% if current_coll.handle == 'all' %}
+    {% assign banner_title = 'FINE JEWELRY' %}
+  {% else %}
+    {% assign banner_title = current_coll.title | default: 'FINE JEWELRY' %}
+  {% endif %}
 {% endif %}
 
 {% assign show_banner = section.settings.show_banner %}
