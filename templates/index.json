@@ -12,10 +12,10 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "image_1": "shopify://shop_images/Golden_Sunset_Braided_Portrait.png",
+        "image_1": "shopify://shop_images/Center_landscape_version_20261019110255.jpg",
         "btn_1_url": "/collections/new-arrival",
-        "slide_1_heading": "New Arrivals",
-        "slide_1_subheading": "Optional subtitle/description displayed below Slide 1 headline",
+        "slide_1_heading": "",
+        "slide_1_subheading": "",
         "slide_1_eyebrow": "",
         "slide_1_btn_text": "",
         "image_2": "shopify://shop_images/No_stubs_Gab.png",
